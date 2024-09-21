@@ -168,7 +168,7 @@ import Navbar from '@/components/Client_Navbar.vue'
                 </figure>
                 <summary>
                     <p>10 Simple steps to revolutionise work flows with our project</p>
-                    <small>₱400.00 PHP</small>
+                    <small>₱20.00 PHP</small>
                 </summary>
             </article>
             <article>
