@@ -1,3 +1,7 @@
+<script setup>
+
+</script>
+
 <template>
     <div id="login">
         <div class="login-body">

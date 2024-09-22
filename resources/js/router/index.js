@@ -7,9 +7,24 @@ const routes = [
         name: "home-dashboard",
     },
     {
+        path: '/login',
+        component: () => import('../auth/Login.vue'),
+        name: 'login'
+    },
+    {
+        path: '/signup',
+        component: () => import('../auth/Signup.vue'),
+        name: 'signup'
+    },
+    {
         path: '/products',
         component: () => import('../pages/client/Client_Products.vue'),
         name: 'client-products'
+    },
+    {
+        path: '/client-profile',
+        component: ()=> import('../pages/client/Client_Profile.vue'),
+        name: 'client-profile'
     }
 ];
 
