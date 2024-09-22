@@ -10,7 +10,7 @@
               <div class="login-content1">
                 <div class="row title">
                   <p>Login</p>
-                  <span>And enjoy life during the time you just saved!</span>
+                  <span>An enjoy life during the time you just saved!</span>
                 </div>
                 <div class="row mt-5 login-with">
                   <div class="col">
