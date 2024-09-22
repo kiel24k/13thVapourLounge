@@ -6,6 +6,11 @@ const routes = [
         component: () => import("../pages/client/Client_Home.vue"),
         name: "home-dashboard",
     },
+    {
+        path: '/products',
+        component: () => import('../pages/client/Client_Products.vue'),
+        name: 'client-products'
+    }
 ];
 
 const router = createRouter({
