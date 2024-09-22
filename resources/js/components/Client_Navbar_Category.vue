@@ -3,7 +3,7 @@
         <nav id="nav-category">
             <ul class="navbar nav">
                 <li class="nav-item">
-                    <a href="" class="nav-link">Home</a>
+                    <router-link :to="{name: 'home-dashboard'}" href="" class="nav-link">Home</router-link>
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link">Pod kits</a>
