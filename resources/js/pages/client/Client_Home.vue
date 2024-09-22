@@ -1,42 +1,13 @@
 <script setup>
 import Header from '@/components/Client_Header.vue'
 import Navbar from '@/components/Client_Navbar.vue'
+import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 </script>
 
 <template>
     <Header />
     <Navbar />
-    <section class="section-category">
-        <nav id="nav-category">
-            <ul class="navbar nav">
-                <li class="nav-item">
-                    <a href="" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Pod kits</a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Coil & Cartridge Replacement</a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">E-Juice</a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Disposable Vape</a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Accessories</a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Blogs</a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Contact Us</a>
-                </li>
-            </ul>
-        </nav>
-    </section>
-
+    <NavbarCategory/>
     <section class="section-one">
         <span>PROMO PRICE</span>
         <div class="section-one-item">
@@ -193,15 +164,7 @@ section {
     margin: auto;
 }
 
-.section-category nav a {
-    color: black;
-    font-size: 15px;
-    transition: all linear 0.5s;
-}
 
-.section-category nav a:hover {
-    text-decoration: underline;
-}
 
 .section-one span, .section-two span {
     font-size: 40px;
