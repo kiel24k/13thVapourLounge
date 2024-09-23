@@ -15,7 +15,7 @@ import Header from '@/components/Admin_Header.vue'
             <section>
                 <h1>dasds</h1>
                 <br>
-                <h2>dasd</h2>
+                <h2>dasds</h2>
             </section>
         </div>
     </section>
