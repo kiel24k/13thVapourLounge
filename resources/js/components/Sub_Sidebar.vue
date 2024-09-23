@@ -1,0 +1,3 @@
+<template>
+    Sub sidebar
+</template>

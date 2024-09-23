@@ -1,0 +1,4 @@
+<template>
+
+    Sub dashboard 
+</template>
