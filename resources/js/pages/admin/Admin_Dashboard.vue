@@ -16,6 +16,30 @@ import Header from '@/components/Admin_Header.vue'
                 <h1>dasds</h1>
                 <br>
                 <h2>dasds</h2>
+                <h1>dasds</h1>
+                <br>
+                <h2>dasds</h2>
+                <h1>dasds</h1>
+                <br>
+                <h2>dasds</h2>
+                <h1>dasds</h1>
+                <br>
+                <h2>dasds</h2>
+                <h1>dasds</h1>
+                <br>
+                <h2>dasds</h2>
+                <h1>dasds</h1>
+                <br>
+                <h2>dasds</h2>
+                <h1>dasds</h1>
+                <br>
+                <h2>dasds</h2>
+                <h1>dasds</h1>
+                <br>
+                <h2>dasds</h2>
+                <h1>dasds</h1>
+                <br>
+                <h2>dasds</h2>
             </section>
         </div>
     </section>
@@ -24,8 +48,13 @@ import Header from '@/components/Admin_Header.vue'
 #main {
     display: grid;
 }
+.header{
+    position: sticky;   
+    top:0;
+    z-index:999;
+}
 .sidebar{
-    transition: all linear 1s;
+    
 }
 
 .content {
