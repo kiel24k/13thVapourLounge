@@ -23,11 +23,17 @@
 </template>
 
 <style scoped>
+
 .nav-main{
     display: flex;
     justify-content:space-between;
-    box-shadow: 0px 0px 5px 0px gray;
+    box-shadow: 0px 0px 10px 0px gray;
     padding:10px;
     align-items: center;
+    background: rgb(255, 255, 255);
+}
+.nav-main img{
+    
+    
 }
 </style>
