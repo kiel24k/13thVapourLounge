@@ -7,7 +7,7 @@ const inputsValidation = ref({})
 const invalid = ref('')
 const loginBtn = async () => {
   try {
-    const response = await axios.post('api/login', {
+      await axios.post('api/login', {
       email: inputs.value.email,
       password: inputs.value.password
     });
@@ -21,7 +21,6 @@ const loginBtn = async () => {
       inputsValidation.value = ''
     }
   }
-
 }
 
 </script>
