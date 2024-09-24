@@ -11,7 +11,7 @@ const user = async () => {
             document.cookie = `username=${response.data.first_name};`
             router.push('/')
         } else if (response.data.role === 'admin') {
-           document.cookie = `username=${response.data.first_name};`
+            document.cookie = `username=${response.data.first_name};`
             router.push('/admin-dashboard')
         } else if (response.data.role === 'subadmin') {
             document.cookie = `username=${response.data.first_name};`

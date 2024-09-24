@@ -2,12 +2,16 @@
 import axios from 'axios';
 import { onMounted } from 'vue';
 import Cookies from 'js-cookie';
+import { useRouter } from 'vue-router';
 
 
+const router = useRouter()
 const logoutBtn = async () => {
     try {
         const response = await axios('api/logout')
-        console.log(response);
+        if(response.status === 200){
+            router.push('/login')
+        }
     } catch (error) {
         console.log(error);
     }
