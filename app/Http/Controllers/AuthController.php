@@ -23,6 +23,7 @@ class AuthController extends Controller
         $user->age = $request->age;
         $user->address = $request->address;
         $user->email = $request->email;
+        $user->role = 'client';
         $user->password = bcrypt($request->password);
         $user->save();
         return response()->json($user);
@@ -50,5 +51,9 @@ class AuthController extends Controller
             $request->session()->invalidate();
             $request->session()->regenerateToken();
         }
+    }
+    public function user()
+    {
+        return Auth::user();
     }
 }
