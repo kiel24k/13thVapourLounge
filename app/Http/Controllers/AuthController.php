@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class AuthController extends Controller
 {
@@ -55,5 +56,12 @@ class AuthController extends Controller
     public function user()
     {
         return Auth::user();
+    }
+    public function logout (Request $request) {
+        Cookie::queue(Cookie::forget('usr_tkn'));
+        Cookie::queue(Cookie::forget('username'));
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
     }
 }

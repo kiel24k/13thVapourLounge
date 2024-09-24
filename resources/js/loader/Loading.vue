@@ -1,11 +1,22 @@
 <script setup>
 import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 
 const user = async () => {
     try {
         const response = await axios.get('api/user')
-        console.log(response.data);
+        if (response.data.role === 'client') {
+            document.cookie = `username=${response.data.first_name};`
+            router.push('/')
+        } else if (response.data.role === 'admin') {
+           document.cookie = `username=${response.data.first_name};`
+            router.push('/admin-dashboard')
+        } else if (response.data.role === 'subadmin') {
+            document.cookie = `username=${response.data.first_name};`
+            router.push('sub-admin-dashboard')
+        }
     } catch (error) {
         console.log(error);
     }
