@@ -1,16 +1,21 @@
 <script setup>
 import { ref } from 'vue';
+import Loading from '../loader/Loading.vue'
 
-
+const loading = ref(false)
 const inputs = ref({})
 const inputsValidation = ref({})
 const invalid = ref('')
 const loginBtn = async () => {
   try {
-      await axios.post('api/login', {
+      const response = await axios.post('api/login', {
       email: inputs.value.email,
       password: inputs.value.password
     });
+    if(response.status === 200){
+      loading.value = true
+    }
+    
   } catch (error) {
     if(error.response.status === 422){
       inputsValidation.value = error.response.data.errors
@@ -26,6 +31,7 @@ const loginBtn = async () => {
 </script>
 
 <template>
+  <Loading v-if="loading"/>
   <div id="login">
     <div class="login-body">
       <div class="form">
