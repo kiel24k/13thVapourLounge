@@ -7,7 +7,7 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 <template>
     <Header />
     <Navbar />
-    <NavbarCategory/>
+    <NavbarCategory />
     <section class="section-one">
         <span>PROMO PRICE</span>
         <div class="section-one-item">
@@ -20,10 +20,10 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
                 <summary>
                     <p>Flava Oxbar Maze Pro Disposable Vape</p>
                     <small>₱400.00 PHP</small>
-                   <div class="text-start">
-                    <button class="btn btn-dark">Add to Cart</button>
-                   </div>
                 </summary>
+                <div class="text-start">
+                    <button class="btn btn-dark">Add to Cart</button>
+                </div>
             </article>
 
             <article>
@@ -36,6 +36,9 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
                     <p>10 Simple steps to revolutionise work flows with our project</p>
                     <small>₱400.00 PHP</small>
                 </summary>
+                <div class="text-start">
+                    <button class="btn btn-dark">Add to Cart</button>
+                </div>
             </article>
 
             <article>
@@ -157,7 +160,7 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
                 </summary>
             </article>
         </div>
-        
+
     </section>
 </template>
 
@@ -169,7 +172,8 @@ section {
 
 
 
-.section-one span, .section-two span {
+.section-one span,
+.section-two span {
     font-size: 40px;
     font-weight: 600;
 }
@@ -187,10 +191,11 @@ article {
     box-shadow: 0px 0px 5px 0px gray;
     padding: 15px;
     margin: 10px;
-    height: 21rem;
+    height: 23em;
 }
-article img{
-    margin:auto;
+
+article img {
+    margin: auto;
 }
 
 figure {
@@ -200,6 +205,7 @@ figure {
 
 summary {
     list-style: none;
+    height: 9rem;
 }
 
 .section-two-item {
