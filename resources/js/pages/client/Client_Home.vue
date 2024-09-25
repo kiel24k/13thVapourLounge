@@ -20,6 +20,9 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
                 <summary>
                     <p>Flava Oxbar Maze Pro Disposable Vape</p>
                     <small>₱400.00 PHP</small>
+                   <div class="text-start">
+                    <button class="btn btn-dark">Add to Cart</button>
+                   </div>
                 </summary>
             </article>
 
