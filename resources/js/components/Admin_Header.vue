@@ -43,7 +43,6 @@ onMounted(  () => {
                         <b>Logout</b>
                     </button>
                 </div>
-
             </div>
         </div>
     </nav>
@@ -58,6 +57,7 @@ onMounted(  () => {
     align-items: center;
     background: rgb(255, 255, 255);
 }
+
 
 .logoutBtn {
     background-color: rgb(204, 7, 7);
