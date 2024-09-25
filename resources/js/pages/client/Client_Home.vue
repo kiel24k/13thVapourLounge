@@ -51,6 +51,9 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
                     <p>10 Simple steps to revolutionise work flows with our project</p>
                     <small>₱400.00 PHP</small>
                 </summary>
+                <div class="text-start">
+                    <button class="btn btn-dark">Add to Cart</button>
+                </div>
             </article>
             <article>
                 <figure>
@@ -62,6 +65,9 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
                     <p>10 Simple steps to revolutionise work flows with our project</p>
                     <small>₱400.00 PHP</small>
                 </summary>
+                <div class="text-start">
+                    <button class="btn btn-dark">Add to Cart</button>
+                </div>
             </article>
             <article>
                 <figure>
@@ -73,6 +79,9 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
                     <p>10 Simple steps to revolutionise work flows with our project</p>
                     <small>₱400.00 PHP</small>
                 </summary>
+                <div class="text-start">
+                    <button class="btn btn-dark">Add to Cart</button>
+                </div>
             </article>
             <article>
                 <figure>
@@ -84,6 +93,9 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
                     <p>10 Simple steps to revolutionise work flows with our project</p>
                     <small>₱400.00 PHP</small>
                 </summary>
+                <div class="text-start">
+                    <button class="btn btn-dark">Add to Cart</button>
+                </div>
             </article>
         </div>
     </section>
