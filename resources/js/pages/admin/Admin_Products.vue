@@ -1,11 +1,25 @@
 <script setup>
 import Header from '@/components/Admin_Header.vue'
 import Sidebar from '@/components/Admin_Sidebar.vue'
+import AddProductModal from '@/components/Admin_Add_Product.vue'
+import { ref } from 'vue';
+
+const addProductModal = ref(false)
+
+const createProductBtn = () => {
+    addProductModal.value = true
+}
+const closeModal = () => {
+    addProductModal.value = false
+}
+
 </script>
 
 <template>
+  
     <div id="products">
         <div class="header">
+            <AddProductModal v-if="addProductModal" @closeModal="closeModal"/>
             <Header/>
         </div>
         <div class="content">
@@ -16,8 +30,10 @@ import Sidebar from '@/components/Admin_Sidebar.vue'
             <section id="section-one" class="mt-4">
                 <div class="row">
                     <div class="col">
-                        <span>Products</span>
-                        <span>Store</span>
+                        <button class="btn btn-primary" @click="createProductBtn">
+                            Create Product
+                        <img src="/public/image/add-icon.png" width="20" alt="">
+                        </button>
                     </div>
                     <div class="col">
                         <div class="table-action text-end">

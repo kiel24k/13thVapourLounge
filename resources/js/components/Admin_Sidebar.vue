@@ -136,7 +136,7 @@ ul{
     position: fixed;
     width: 16rem;
     overflow-y: scroll;
-    height: 100vh;
+    height: 100%;
 }
 .menu1::-webkit-scrollbar {
     width: 3px;

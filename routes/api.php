@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -13,4 +14,7 @@ Route::controller(AuthController::class)->group(function () {
     route::post('/login', 'login');
     route::get('/user', 'user');
     route::get('/logout','logout');
+});
+Route::controller(AdminController::class)->group(function () {
+    route::post('/create-category', 'createCategory');
 });
