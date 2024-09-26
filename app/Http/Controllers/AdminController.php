@@ -9,12 +9,14 @@ class AdminController extends Controller
 {
     public function createCategory (Request $request) {
         $request->validate([
-            'category_type' => 'required|unique:product_categories,category_type',
-            'category_name' => 'required|unique:product_categories,category_name'
+            'product_type' => 'required|unique:product_categories,product_type',
+            'product_name' => 'required|unique:product_categories,product_name',
+            'product_label' => 'required|unique:product_categories,product_label',
         ]);
         $category = new ProductCategory();
-        $category->category_type = $request->category_type;
-        $category->category_name = $request->category_name;
+        $category->product_type = $request->product_type;
+        $category->product_name = $request->product_name;
+        $category->product_label = $request->product_label;
         $category->save();
         return response()->json($category);
     } 

@@ -2,32 +2,9 @@
 import axios from 'axios';
 import { ref } from 'vue';
 
-const emit = defineEmits(['closeModal'])
-const inputs = ref({})
-const categoryInput = ref({})
-const categoryValidation = ref('')
 
-const saveCategory = async () => {
-    try {
-        const response = await axios.post('api/create-category',{
-            category_type: categoryInput.value.category_type, 
-            category_name: categoryInput.value.category_name
-        })
-        if(response.status === 200){
-            categoryValidation.value = false
-            categoryInput.value = ''
-        }
-        
-    } catch (error) {
-        if(error.response.status === 422){
-            categoryValidation.value = error.response.data.errors
-        }
-    }
 
-}
-const cancelBtn = () => {
-    emit('closeModal')
-}
+
 
 </script>
 <template>
@@ -39,7 +16,6 @@ const cancelBtn = () => {
                     <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque incidunt soluta doloribus
                         aliquam quae, maiores quam autem veritatis! Laboriosam, placeat quam reprehenderit cumque
                         eligendi incidunt repellat nisi magnam atque modi.</small>
-
                 </div>
                 <div class="col text-end help-action">
                     <button class="help-btn">
@@ -53,27 +29,8 @@ const cancelBtn = () => {
                 </div>
             </div>
             <hr>
-          <div class="text-center" v-for="(data, index) in categoryValidation" :key="index">
-            {{ data[0] }}
-          </div>
-            <div class="row">
-                <div class="col select">
-                    <select name="" value="dasdsa" id="">
-                        <option value="" disabled selected>Create or select a name of our project</option>
-                    </select>
-                    <div class="add-category-field">
-                        <img src="/public/image/exit_icon.png" width="15" height="15" alt="">
-                        <input type="text" placeholder="Category Name" v-model="categoryInput.category_type">
-                        <input type="text" placeholder="Category Type" v-model="categoryInput.category_name">
-                        <button>
-                           <div class="save">
-                            <button class="btn btn-success" @click="saveCategory">Save!</button>
-                           </div>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
+
+          
 
             <fieldset>
                 <form action="">
@@ -162,14 +119,9 @@ const cancelBtn = () => {
 
 }
 
-.add-category-field input {
-    width: 30%;
-    transition: all linear 1s;
 
-}
 
-.select select,
-.add-category-field input:focus {
+.select select:focus {
     outline: 0;
     padding: 5px;
 }

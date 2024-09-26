@@ -2,6 +2,7 @@
 import Header from '@/components/Admin_Header.vue'
 import Sidebar from '@/components/Admin_Sidebar.vue'
 import AddProductModal from '@/components/Admin_Add_Product.vue'
+import AddCategoryModal from '@/components/Admin_Add_Category.vue'
 import { ref } from 'vue';
 
 const addProductModal = ref(false)
@@ -19,7 +20,8 @@ const closeModal = () => {
   
     <div id="products">
         <div class="header">
-            <AddProductModal v-if="addProductModal" @closeModal="closeModal"/>
+            <!-- <AddProductModal v-if="addProductModal" @closeModal="closeModal"/> -->
+            <AddCategoryModal/>
             <Header/>
         </div>
         <div class="content">
@@ -29,9 +31,13 @@ const closeModal = () => {
            <div class="main m-2">
             <section id="section-one" class="mt-4">
                 <div class="row">
-                    <div class="col">
+                    <div class="col category-action">
                         <button class="btn btn-primary" @click="createProductBtn">
                             Create Product
+                        <img src="/public/image/add-icon.png" width="20" alt="">
+                        </button>
+                        <button class="btn btn-primary" @click="createProductBtn">
+                            New Category
                         <img src="/public/image/add-icon.png" width="20" alt="">
                         </button>
                     </div>
@@ -122,6 +128,16 @@ const closeModal = () => {
 }
 .content{
     display: flex;
+}
+.category-action{
+    display: flex;
+    gap:10px;
+}
+.category-input{
+    display: flex;
+}
+.category-input input{
+    height: 50px;
 }
 
 
