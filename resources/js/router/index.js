@@ -8,36 +8,41 @@ const routes = [
         name: "home-dashboard",
     },
     {
-        path: '/login',
-        component: () => import('../auth/Login.vue'),
-        name: 'login'
+        path: "/login",
+        component: () => import("../auth/Login.vue"),
+        name: "login",
     },
     {
-        path: '/signup',
-        component: () => import('../auth/Signup.vue'),
-        name: 'signup'
+        path: "/signup",
+        component: () => import("../auth/Signup.vue"),
+        name: "signup",
     },
     {
-        path: '/products',
-        component: () => import('../pages/client/Client_Products.vue'),
-        name: 'client-products'
+        path: "/products",
+        component: () => import("../pages/client/Client_Products.vue"),
+        name: "client-products",
     },
     {
-        path: '/client-profile',
-        component: ()=> import('../pages/client/Client_Profile.vue'),
-        name: 'client-profile'
+        path: "/client-profile",
+        component: () => import("../pages/client/Client_Profile.vue"),
+        name: "client-profile",
     },
-      //======================Admin routes=============================//
+    //======================Admin routes=============================//
     {
-        path: '/admin-dashboard',
-        component: () => import('../pages/admin/Admin_Dashboard.vue'),
-        name: 'admin-dashboard'
+        path: "/admin-dashboard",
+        component: () => import("../pages/admin/Admin_Dashboard.vue"),
+        name: "admin-dashboard",
     },
-      //======================Sub-Admin routes=============================//
     {
-        path: '/sub-admin-dashboard',
-        component: () => import('../pages/sub-admin/Sub_Dashboard.vue'),
-        name: 'sub-admin-dashboard'
+        path: "/admin-products",
+        component: () => import("../pages/admin/Admin_Products.vue"),
+        name: "admin-products",
+    },
+    //======================Sub-Admin routes=============================//
+    {
+        path: "/sub-admin-dashboard",
+        component: () => import("../pages/sub-admin/Sub_Dashboard.vue"),
+        name: "sub-admin-dashboard",
     },
 ];
 

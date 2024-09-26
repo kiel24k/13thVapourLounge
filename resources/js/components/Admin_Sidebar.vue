@@ -4,7 +4,7 @@
 
 <template>
     <aside>
-        <div id="sidebar">
+        <div id="sidebar" class="bg-danger">
             <div class="menu1">
                 <ul class="navbar nav mt-1">
                     <!-- <small class="p-4">Favorites</small> -->
@@ -103,14 +103,18 @@ aside {
     width: 16rem;
     position: relative;
     border-width: 0px 2px 0px 0px;
-  
+    
 }
 
+ul{
+    background: rgb(255, 255, 255);
+}
 
 .item1 {
     width: 100%;
     padding: 15px;
     transition: all linear 0.2s;
+    background: rgb(255, 255, 255);
 }
 
 .item1:hover {

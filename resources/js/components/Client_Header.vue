@@ -21,5 +21,6 @@
         backdrop-filter: blur(10px);
         color:white;
         padding:10px;
+        z-index: 999;
     }
 </style>
