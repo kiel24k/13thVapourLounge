@@ -1,41 +1,76 @@
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+
+const router = useRouter()
+const emit = defineEmits(['closeModal', 'notification'])
+const categoryInputs = ref({})
+const categoryValidation = ref({})
+
+const saveBtn = async () => {
+    try {
+        const response = await axios.post('api/create-category', {
+            product_type: categoryInputs.value.product_type,
+            product_name: categoryInputs.value.product_name,
+            product_label: categoryInputs.value.product_label
+        })
+        if(response.status === 200){
+            emit('closeModal')
+            emit('notification')
+        }
+    } catch (error) {
+        if (error.status === 422) { 
+            categoryValidation.value = error.response.data.errors
+        }
+    }
+}
+const closeModal = () => {
+    emit('closeModal')
+}
+</script>
+
 <template>
     <div id="form-modal">
         <div class="form-modal-main">
             <div class="form-modal-action">
-                <img src="/public/image/back.png" width="20" alt="">
-                <img src="/public/image/exit_icon.png" width="35" alt="">
+                <img src="/public/image/exit_icon.png" width="35" alt="" @click="closeModal">
             </div>
             <div class="form-modal-title">
                 <span>New Category</span>
             </div>
             <fieldset>
-                <form action="">
+                <form action="" @submit.prevent>
                     <div class="row">
                         <div class="col form-input">
                             <label for="">Product Type</label>
-                            <input type="text" placeholder="">
+                            <input type="text" placeholder="" v-model="categoryInputs.product_type">
+                            <span v-if="categoryValidation.product_type">{{ categoryValidation.product_type[0] }}</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col form-input">
                             <label for="">Product Name</label>
-                            <input type="text" placeholder="">
+                            <input type="text" placeholder="" v-model="categoryInputs.product_name">
+                            <span v-if="categoryValidation.product_name">{{ categoryValidation.product_name[0] }}</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col form-input">
                             <label for="">Product Label</label>
-                            <input type="text" placeholder="">
+                            <input type="text" placeholder="" v-model="categoryInputs.product_label">
+                            <span v-if="categoryValidation.product_label">{{ categoryValidation.product_label[0] }}</span>
                         </div>
                     </div>
                     <div class="warning-change-message">
                         <small>
-                            If you change your name, you can't change it again for 60 days. Don't add any unusual
+                            If you add your Category, you can't change it again for 60 days. Don't add any unusual
                             capitalization, punctuation, characters or random words. <a href="">Learn More</a>
                         </small>
                     </div>
                     <div class="submit-btn">
-                        <button>Review Change</button>
+                        <button @click="saveBtn">Save</button>
+                        <button class="bg-danger mt-2" @click="closeModal">Cancel</button>
                     </div>
                 </form>
             </fieldset>
@@ -44,152 +79,153 @@
 </template>
 
 <style scoped>
-        @media screen and (min-width: 365px) {
-            #form-modal {
-                position: fixed;
-                height: 100%;
-                width: 100%;
-                z-index: 999;
-                display: grid;
-                justify-content: center;
-                align-items: center;
-                background-color: rgb(199, 199, 199,0.5);
-            }
+@media screen and (min-width: 365px) {
+    #form-modal {
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        z-index: 999;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(199, 199, 199, 0.5);
+    }
 
-            .form-modal-main {
-                max-width: 35rem;
-                background: rgb(255, 255, 255);
-                border-radius: 10px;
-                display: grid;
-                padding: 10px;
-                margin: 10px;
-                box-shadow: 0px 0px 3px 0px gray;
-            }
+    .form-modal-main {
+        max-width: 35rem;
+        background: rgb(255, 255, 255);
+        border-radius: 10px;
+        display: grid;
+        padding: 10px;
+        margin: 10px;
+        box-shadow: 0px 0px 3px 0px gray;
+    }
 
-            .form-modal-action {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
+    .form-modal-action {
+        text-align: end;
+    }
 
-            .form-modal-title span {
-                font-weight: 550;
-                font-size: 30px;
-            }
+    .form-modal-title span {
+        font-weight: 550;
+        font-size: 30px;
+    }
 
-            fieldset {
-                background: rgb(248, 248, 248);
-                padding: 15px;
-                border-radius: 10px;
-                margin: 10px;
+    fieldset {
+        background: rgb(248, 248, 248);
+        padding: 15px;
+        border-radius: 10px;
+        margin: 10px;
 
-            }
+    }
 
-            fieldset form {
-                display: grid;
-                gap: 10px;
-            }
+    fieldset form {
+        display: grid;
+        gap: 10px;
+    }
 
-            .form-input {
-                display: grid;
-            }
+    .form-input {
+        display: grid;
+    }
+    .form-input span{
+        color:red;
+    }
 
-            fieldset input {
-                padding: 10px;
-                border: solid 1px rgb(197, 195, 195);
-                border-radius: 10px;
+    fieldset input {
+        padding: 10px;
+        border: solid 1px rgb(197, 195, 195);
+        border-radius: 10px;
 
-            }
+    }
 
-            fieldset input:focus {
-                outline: 0;
-                color: gray;
-            }
+    fieldset input:focus {
+        outline: 0;
+        color: gray;
+    }
 
-            .submit-btn button {
-                width: 100%;
-                padding: 10px;
-                border: none;
-                border-radius: 25px;
-                background-color: rgb(0, 100, 224);
-                font-size: 15px;
-                font-weight: bold;
-                color: white;
-            }
-        }
+    .submit-btn button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 25px;
+        background-color: rgb(0, 100, 224);
+        font-size: 15px;
+        font-weight: bold;
+        color: white;
+    }
+}
 
-        @media screen and (max-width: 365px) {
-            #form-modal {
-                position: fixed;
-                height: 100%;
-                width: 100%;
-                z-index: 999;
-                display: grid;
-                justify-content: center;
-                align-items: center;
-            }
+@media screen and (max-width: 365px) {
+    #form-modal {
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        z-index: 999;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+    }
 
-            .form-modal-main {
-                max-width: 35rem;
-                background: rgb(255, 255, 255);
-                border-radius: 10px;
-                display: grid;
-                padding: 10px;
-                margin: 10px;
-                box-shadow: 0px 0px 3px 0px gray;
-            }
+    .form-modal-main {
+        max-width: 35rem;
+        background: rgb(255, 255, 255);
+        border-radius: 10px;
+        display: grid;
+        padding: 10px;
+        margin: 10px;
+        box-shadow: 0px 0px 3px 0px gray;
+    }
 
-            .form-modal-action {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
+    .form-modal-action {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+    }
 
-            .form-modal-title span {
-                font-weight: 550;
-                font-size: 30px;
-            }
+    .form-modal-title span {
+        font-weight: 550;
+        font-size: 30px;
+    }
 
-            fieldset {
-                background: rgb(248, 248, 248);
-                padding: 15px;
-                border-radius: 10px;
-                margin: 10px;
+    fieldset {
+        background: rgb(248, 248, 248);
+        padding: 15px;
+        border-radius: 10px;
+        margin: 10px;
 
-            }
+    }
 
-            fieldset form {
-                display: grid;
-                gap: 10px;
-            }
+    fieldset form {
+        display: grid;
+        gap: 10px;
+    }
 
-            .form-input {
-                display: grid;
-            }
+    .form-input {
+        display: grid;
+    }
 
-            fieldset input {
-                padding: 10px;
-                border: solid 1px rgb(197, 195, 195);
-                border-radius: 10px;
-                min-width: 1rem;
+    fieldset input {
+        padding: 10px;
+        border: solid 1px rgb(197, 195, 195);
+        border-radius: 10px;
+        min-width: 1rem;
 
-            }
+    }
 
-            fieldset input:focus {
-                outline: 0;
-                color: gray;
-            }
+    fieldset input:focus {
+        outline: 0;
+        color: gray;
+    }
 
-            .submit-btn button {
-                width: 100%;
-                padding: 10px;
-                border: none;
-                border-radius: 25px;
-                background-color: rgb(0, 100, 224);
-                font-size: 15px;
-                font-weight: bold;
-                color: white;
-            }
+    .submit-btn button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 25px;
+        background-color: rgb(0, 100, 224);
+        font-size: 15px;
+        font-weight: bold;
+        color: white;
+    }
 
-        }
-    </style>
+}
+</style>

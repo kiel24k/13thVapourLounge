@@ -4,7 +4,7 @@ import { onMounted } from 'vue';
 import Cookies from 'js-cookie';
 import { useRouter } from 'vue-router';
 
-
+const emit = defineEmits(['closeSidebar'])
 const router = useRouter()
 const logoutBtn = async () => {
     try {
@@ -15,7 +15,10 @@ const logoutBtn = async () => {
     } catch (error) {
         console.log(error);
     }
+}
 
+const closeSidebar = () => {
+    emit('closeSidebar')
 }
 
 onMounted(  () => {
@@ -30,7 +33,7 @@ onMounted(  () => {
         <div id="nav">
             <div class="nav-main">
                 <div class="">
-                    <img src="/public/image/burder-menu1.png" alt="" width="40px" height="40px" />
+                    <img src="/public/image/burder-menu1.png" alt="" width="40px" height="40px" @click="closeSidebar"/>
                 </div>
                 <div class="">
                     <img src="/public/image/1920525_gogle_google_logo_network_icon.png" alt="" width="40">

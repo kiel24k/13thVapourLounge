@@ -3,7 +3,11 @@ import axios from 'axios';
 import { ref } from 'vue';
 
 
+const emit = defineEmits(['closeModal'])
 
+const cancelBtn = () => {
+    emit('closeModal')
+}
 
 
 </script>

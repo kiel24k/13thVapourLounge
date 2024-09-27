@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import Loading from '../loader/Loading.vue'
+import Loading from '../widgets/checking_auth.vue'
 
 const loading = ref(false)
 const inputs = ref({})
