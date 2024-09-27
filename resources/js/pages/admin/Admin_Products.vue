@@ -34,7 +34,7 @@ const closeSidebar = () => {
     if (showSidebar.value == true) {
         showSidebar.value = false
     }else if(showSidebar.value === false){
-        showSidebar.value = true
+        showSidebar.value = true //dsad
         
     }
 }
