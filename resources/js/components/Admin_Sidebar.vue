@@ -20,12 +20,12 @@
                             Orders
                         </li>
                     </div>
-                    <div class="item1">
+                    <router-link :to="{name: 'admin-products'}" class="item1">
                         <li class="nav-link text-dark">
                             <img src="/public/image/products-icon.png" width="20px" alt="" />
                             Products
                         </li>
-                    </div>
+                    </router-link>
                     <div class="item1">
                         <li class="nav-link text-dark category-item">
                            <span>Category</span>
@@ -104,6 +104,9 @@ aside {
     position: relative;
     border-width: 0px 2px 0px 0px;
     
+}
+a{
+    text-decoration: none;
 }
 
 ul{
