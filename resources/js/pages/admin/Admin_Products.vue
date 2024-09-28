@@ -4,12 +4,27 @@ import Sidebar from '@/components/Admin_Sidebar.vue'
 import AddProductModal from '@/components/Admin_Add_Product.vue'
 import AddCategoryModal from '@/components/Admin_Add_Category.vue'
 import NewCategoryNotification from '@/widgets/new_category_added.vue'
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import axios from 'axios'
 
 const addProductModal = ref(false)
 const addCategoryModal = ref(false)
 const newCategoryNotification = ref(false)
 const showSidebar = ref(true)
+
+const productList = async () => {
+    try{
+        const response = await axios.get('api/product-list')
+        console.log(response);
+        
+
+    }catch(error) {
+        console.log(error);
+        
+
+    }
+    
+}
 
 const createProductBtn = () => {
     addProductModal.value = true
@@ -38,7 +53,9 @@ const closeSidebar = () => {
 }
 
 
-
+onMounted(() => {
+    productList()
+})
 
 </script>
 
