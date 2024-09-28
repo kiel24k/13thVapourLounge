@@ -19,4 +19,5 @@ Route::controller(AdminController::class)->group(function () {
     route::post('/create-category', 'createCategory');
     route::get('/category-list', 'categoryList');
     route::post('/create-product', 'createProduct');
+    route::get('/product-list', 'productList');
 });
