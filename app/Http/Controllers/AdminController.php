@@ -52,4 +52,11 @@ class AdminController extends Controller
         $product = Product::find($request->id)->delete();
         return response()->json($product);
     }
+
+    public function displayOnlyCategory () {
+        $uniqueCategory = Product::select('product_name')
+        ->distinct()
+        ->get();
+        return response()->json($uniqueCategory);
+    }
 }

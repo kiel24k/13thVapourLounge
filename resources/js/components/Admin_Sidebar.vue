@@ -1,10 +1,38 @@
+<script setup>
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
 
+const productName = ref({})
+const isShowItem = ref(false)
+const isCategoryImg = ref(false)
+const categoryProductName = async () => {
+    try {
+        const response = await axios.get('api/display-only-category')
+        productName.value = response.data
+    } catch (error) {
 
+    }
+}
 
+const categorySidebar = () => {
+    if (isShowItem.value === false) {
+        isShowItem.value = true
+        isCategoryImg.value = true
+    } else if (isShowItem.value === true) {
+        isShowItem.value = false
+        isCategoryImg.value = false
+    }
+
+}
+
+onMounted(() => {
+    categoryProductName()
+})
+</script>
 
 <template>
     <aside>
-        <div id="sidebar" class="bg-danger">
+        <div id="sidebar" class="">
             <div class="menu1">
                 <ul class="navbar nav mt-1">
                     <!-- <small class="p-4">Favorites</small> -->
@@ -20,18 +48,25 @@
                             Orders
                         </li>
                     </div>
-                    <router-link :to="{name: 'admin-products'}" class="item1">
+                    <router-link :to="{ name: 'admin-products' }" class="item1">
                         <li class="nav-link text-dark">
                             <img src="/public/image/products-icon.png" width="20px" alt="" />
                             Products
                         </li>
                     </router-link>
-                    <div class="item1">
+                    <div class="item1" @click="categorySidebar">
                         <li class="nav-link text-dark category-item">
-                           <span>Category</span>
-                            <img src="/public/image/prev-icon.png" width="20px" alt=""/>
+                            <span>Category</span>
+                            <img src="/public/image/prev-icon.png" width="20px" alt="" class="category-i" :class="{categoryImg: isCategoryImg}" />
                         </li>
                     </div>
+                    <!-- category list -->
+                    <div class="product-name-list" :class="{ showItem: isShowItem }" v-if="isShowItem">
+                        <li class="nav-link category-item1 p-3 text-dark" v-for="(data, index) in productName" :key="index">
+                            <b>{{ data.product_name }}</b>
+                        </li>
+                    </div>
+                    <!-- end of category list -->
                     <div class="item1">
                         <li class="nav-link text-dark">
                             <img src="/public/image/report-icon.png" width="20px" alt="" />
@@ -88,12 +123,13 @@
                     </div>
                     <div class="item1">
                         <li class="nav-link text-dark">
-                            <img src="/public/image/370076_account_avatar_client_male_person_icon.png" width="20px" alt="" />
+                            <img src="/public/image/370076_account_avatar_client_male_person_icon.png" width="20px"
+                                alt="" />
                             FAQs
                         </li>
                     </div>
                 </ul>
-                
+
             </div>
         </div>
     </aside>
@@ -103,13 +139,14 @@ aside {
     width: 16rem;
     position: relative;
     border-width: 0px 2px 0px 0px;
-    
+
 }
-a{
+
+a {
     text-decoration: none;
 }
 
-ul{
+ul {
     background: rgb(255, 255, 255);
 }
 
@@ -131,9 +168,8 @@ ul{
     gap: 10px;
     color: red;
 }
-.navbar{
-    
-}
+
+.navbar {}
 
 .menu1 {
     position: fixed;
@@ -141,6 +177,7 @@ ul{
     overflow-y: scroll;
     height: 100%;
 }
+
 .menu1::-webkit-scrollbar {
     width: 3px;
     height: 50px;
@@ -156,14 +193,45 @@ ul{
 }
 
 
-.category-item{
+.category-item {
     display: flex;
-    gap:5rem;
+    gap: 5rem;
 }
-.category-item img{
-    rotate:180deg;
+
+
+
+.menu1 h3 {
+    background-color: rgb(110, 66, 192)
 }
-.menu1 h3{
-    background-color:rgb(110,66,192)
+
+.category-list {
+    display: grid;
+}
+.category-item1{
+  
+}
+.category-item1:hover{
+   background:#beb4b4;
+   cursor: pointer;
+
+}
+
+.product-name-list {
+    width: 100%;
+    transition: all linear 1s;
+    background: rgb(238, 237, 237);
+    height: 0;
+    overflow: hidden;
+}
+
+.showItem {
+    height: auto;
+}
+.category-i{
+    rotate: 180deg;
+    transition: all linear 0.2s;
+}
+.categoryImg{
+  rotate: 270deg;
 }
 </style>
