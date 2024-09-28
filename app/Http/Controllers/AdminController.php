@@ -23,16 +23,15 @@ class AdminController extends Controller
         $productType = ProductCategory::get();
         return response()->json($productType);
     }
-    public function addProduct (Request $request){
+    public function createProduct (Request $request){
         $product = new Product();
-        $product->product_type = $request->product_type;
         $product->product_name = $request->product_name;
         $product->product_label = $request->product_label;
-        $product->price = $request->product_price;
+        $product->product_price = $request->product_price;
         $product->product_image = "Rhonalyn";
         $product->quantity = $request->quantity;
         $product->description = $request->description;
-        $product->save;
+        $product->save();
         return response()->json($product);
     }
 }

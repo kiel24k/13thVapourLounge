@@ -6,7 +6,7 @@ import { onMounted, ref } from 'vue';
 const emit = defineEmits(['closeModal'])
 const categoryList = ref({})
 const input = ref({})
-const value = ref({})
+
 
 const cancelBtn = () => {
     emit('closeModal')
@@ -16,14 +16,23 @@ const category = async () => {
         const response = await axios.get('api/category-list')
         categoryList.value = response.data
     } catch (error) {
-
     }
 }
 
 const saveBtn = async () => {
+   try{
     const response = await axios.post('api/create-product', {
-
+        product_name: input.value.category,
+        product_label: input.value.label,
+        product_price: input.value.price,
+        quantity: input.value.quantity,
+        description: input.value.description
     })
+    console.log(response);
+   }catch(error){
+    console.log(error);
+    
+   }
 }
 onMounted(() => {
     category()
@@ -69,15 +78,15 @@ onMounted(() => {
                     <div class="row mt-2">
                         <div class="col">
                             <label for="">Product Label</label>
-                            <input type="text">
+                            <input type="text" v-model="input.label">
                         </div>
                         <div class="col">
                             <label for="">Product Price</label>
-                            <input type="number">
+                            <input type="number" v-model="input.price">
                         </div>
                         <div class="col">
                             <label for="">Quantity</label>
-                            <input type="number" placeholder="1x">
+                            <input type="number" placeholder="1x" v-model="input.quantity">
                         </div>
                     </div>
 
@@ -87,7 +96,7 @@ onMounted(() => {
                     </div>
                     <div class="row">
                         <label for="">Description</label>
-                        <textarea name="" rows="10" id=""></textarea>
+                        <textarea name="" rows="10" id="" v-model="input.description"></textarea>
                     </div>
                 </form>
             </fieldset>
