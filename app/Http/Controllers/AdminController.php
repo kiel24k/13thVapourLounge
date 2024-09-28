@@ -24,6 +24,14 @@ class AdminController extends Controller
         return response()->json($productType);
     }
     public function createProduct (Request $request){
+        $request->validate([
+            'product_name' => 'required',
+            'product_label' => 'required',
+            'product_price' => 'required',
+            'product_image' => 'mimes,png,jpg',
+            'quantity' => 'required|number',
+            'description' => 'required'
+        ]);
         $product = new Product();
         $product->product_name = $request->product_name;
         $product->product_label = $request->product_label;
