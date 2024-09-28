@@ -6,6 +6,7 @@ import { onMounted, ref } from 'vue';
 const emit = defineEmits(['closeModal'])
 const categoryList = ref({})
 const input = ref({})
+const productValidation = ref({})
 
 
 const cancelBtn = () => {
@@ -20,19 +21,21 @@ const category = async () => {
 }
 
 const saveBtn = async () => {
-   try{
-    const response = await axios.post('api/create-product', {
-        product_name: input.value.category,
-        product_label: input.value.label,
-        product_price: input.value.price,
-        quantity: input.value.quantity,
-        description: input.value.description
-    })
-    console.log(response);
-   }catch(error){
-    console.log(error);
-    
-   }
+    try {
+        const response = await axios.post('api/create-product', {
+            product_name: input.value.category,
+            product_label: input.value.label,
+            product_price: input.value.price,
+            quantity: input.value.quantity,
+            description: input.value.description
+        })
+        console.log(response);
+    } catch (error) {
+        if (error.response.status === 422) {
+            productValidation.value = error.response.data.errors
+        }
+
+    }
 }
 onMounted(() => {
     category()
@@ -66,27 +69,29 @@ onMounted(() => {
                     <div class="row">
                         <div class="col">
                             <label for="">Product Type</label>
-                            {{ input.category }}
                             <select name="" id="" v-model="input.category">
                                 <option :value="data.product_name" v-for="(data, index) in categoryList" :key="index">
-                                  {{ data.product_type }} / {{ data.product_name }}
+                                    {{ data.product_type }} / {{ data.product_name }}
                                 </option>
-                                
                             </select>
+                            <span v-if="productValidation.product_name">{{ productValidation.product_name[0] }}</span>
                         </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col">
                             <label for="">Product Label</label>
                             <input type="text" v-model="input.label">
+                            <span v-if="productValidation.product_label">{{ productValidation.product_label[0] }}</span>
                         </div>
                         <div class="col">
                             <label for="">Product Price</label>
                             <input type="number" v-model="input.price">
+                            <span v-if="productValidation.product_price">{{ productValidation.product_price[0] }}</span>
                         </div>
                         <div class="col">
                             <label for="">Quantity</label>
-                            <input type="number" placeholder="1x" v-model="input.quantity">
+                            <input type="number" placeholder="x1" v-model="input.quantity">
+                            <span v-if="productValidation.quantity">{{ productValidation.quantity[0] }}</span>
                         </div>
                     </div>
 
@@ -97,6 +102,7 @@ onMounted(() => {
                     <div class="row">
                         <label for="">Description</label>
                         <textarea name="" rows="10" id="" v-model="input.description"></textarea>
+                        <span v-if="productValidation.description">{{ productValidation.description[0] }}</span>
                     </div>
                 </form>
             </fieldset>
@@ -211,6 +217,9 @@ fieldset input,
 textarea:focus {
     outline: 0;
     color: rgb(83, 82, 82);
+}
+fieldset span{
+    color:red;
 }
 
 .help-action button {
