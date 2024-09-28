@@ -42,12 +42,21 @@ class AdminController extends Controller
         $product->save();
         return response()->json($product);
     }
-    public function productList () {
-        $product = Product::orderBy('id', 'asc')->paginate();
+    public function productList (Request $request) {
+        $sortOrder = $request->query('sortOrder', 'asc');
+        $sortBy = $request->query('sortBy', 'product_name');
+        $product = Product::orderBy($sortBy, $sortOrder)->paginate(3);
         return response()->json($product);
     }
     public function deleteProduct (Request $request){
         $product = Product::find($request->id)->delete();
         return response()->json($product);
+    }
+
+    public function displayOnlyCategory () {
+        $uniqueCategory = Product::select('product_name')
+        ->distinct()
+        ->get();
+        return response()->json($uniqueCategory);
     }
 }
