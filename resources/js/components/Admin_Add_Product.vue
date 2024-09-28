@@ -30,7 +30,12 @@ const saveBtn = async () => {
             description: input.value.description
         })
         console.log(response);
+        if(response.status === 200){
+            emit('closeModal')
+        }
     } catch (error) {
+        console.log(error);
+        
         if (error.response.status === 422) {
             productValidation.value = error.response.data.errors
         }

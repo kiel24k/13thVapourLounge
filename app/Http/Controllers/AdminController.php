@@ -29,7 +29,7 @@ class AdminController extends Controller
             'product_label' => 'required',
             'product_price' => 'required',
             'product_image' => 'mimes,png,jpg',
-            'quantity' => 'required|number',
+            'quantity' => 'required|integer',
             'description' => 'required'
         ]);
         $product = new Product();
