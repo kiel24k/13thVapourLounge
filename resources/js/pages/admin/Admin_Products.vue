@@ -11,13 +11,12 @@ const addProductModal = ref(false)
 const addCategoryModal = ref(false)
 const newCategoryNotification = ref(false)
 const showSidebar = ref(true)
+const productData = ref({})
 
 const productList = async () => {
     try{
         const response = await axios.get('api/product-list')
-        console.log(response);
-        
-
+        productData.value = response.data
     }catch(error) {
         console.log(error);
         
@@ -116,20 +115,24 @@ onMounted(() => {
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>name</th>
-                                <th>city</th>
-                                <th>area</th>
-                                <th>state</th>
-                                <th>action</th>
+                                <th>Name</th>
+                                <th>Label</th>
+                                <th>Price</th>
+                                <th>Image</th>
+                                <th>Quantity</th>
+                                <th>Description</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Kiel Bermudez</td>
-                                <td>Cavite</td>
-                                <td>Manila</td>
-                                <td>Phillippines</td>
+                            <tr v-for="(data, index) in productData.data" :key="index">
+                                <td>{{index + 1}}</td>
+                                <td>{{ data.product_name }}</td>
+                                <td>{{ data.product_label }}</td>
+                                <td>{{ data.product_price }}</td>
+                                <td>{{ data.product_image }}</td>
+                                <td> {{ data.quantity }} </td>
+                                <td> {{ data.description }} </td>
                                 <td class="action">
                                     <span>
                                         <button>
