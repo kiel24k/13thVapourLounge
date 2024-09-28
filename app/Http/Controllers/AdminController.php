@@ -46,4 +46,8 @@ class AdminController extends Controller
         $product = Product::orderBy('id', 'asc')->paginate();
         return response()->json($product);
     }
+    public function deleteProduct (Request $request){
+        $product = Product::find($request->id)->delete();
+        return response()->json($product);
+    }
 }

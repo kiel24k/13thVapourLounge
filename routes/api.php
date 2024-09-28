@@ -20,4 +20,5 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/category-list', 'categoryList');
     route::post('/create-product', 'createProduct');
     route::get('/product-list', 'productList');
+    route::get('/delete-product', 'deleteProduct');
 });

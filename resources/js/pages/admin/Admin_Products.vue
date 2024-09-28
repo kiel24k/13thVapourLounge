@@ -19,8 +19,16 @@ const productList = async () => {
         productData.value = response.data
     }catch(error) {
         console.log(error);
-        
-
+    }
+}
+const deleteProductBtn =  async(id) => {
+    const response = await axios.get('api/delete-product',{
+        params: {
+            id: id
+        }
+    })
+    if(response.status === 200){
+        productList()
     }
     
 }
@@ -34,6 +42,7 @@ const createCategoryBtn = () => {
 const closeModal = () => {
     addProductModal.value = false
     addCategoryModal.value = false
+    productList()
 }
 const notification = () => {
     newCategoryNotification.value = true
@@ -138,7 +147,7 @@ onMounted(() => {
                                         <button>
                                             <img src="/public/image/update-pencil-icon.svg" width="20px" alt="">
                                         </button>
-                                        <button>
+                                        <button @click="deleteProductBtn(data.id)">
                                             <img src="/public/image/delete-icon.png" width="20px" alt="">
                                         </button>
                                     </span>
