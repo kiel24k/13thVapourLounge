@@ -42,4 +42,7 @@ class AdminController extends Controller
         $product->save();
         return response()->json($product);
     }
+    public function productList () {
+        $product = Product::get();
+    }
 }
