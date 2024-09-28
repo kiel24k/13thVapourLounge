@@ -43,6 +43,7 @@ class AdminController extends Controller
         return response()->json($product);
     }
     public function productList () {
-        $product = Product::get();
+        $product = Product::orderBy('id', 'asc')->paginate();
+        return response()->json($product);
     }
 }
