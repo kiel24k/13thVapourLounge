@@ -42,8 +42,10 @@ class AdminController extends Controller
         $product->save();
         return response()->json($product);
     }
-    public function productList () {
-        $product = Product::orderBy('id', 'asc')->paginate();
+    public function productList (Request $request) {
+        $sortOrder = $request->query('sortOrder', 'asc');
+        $sortBy = $request->query('sortBy', 'product_name');
+        $product = Product::orderBy($sortBy, $sortOrder)->paginate(3);
         return response()->json($product);
     }
     public function deleteProduct (Request $request){

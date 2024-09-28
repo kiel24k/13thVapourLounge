@@ -12,25 +12,43 @@ const addCategoryModal = ref(false)
 const newCategoryNotification = ref(false)
 const showSidebar = ref(true)
 const productData = ref({})
+const sortOrder = ref('asc')
+const sortBy = ref('product_name')
+
 
 const productList = async () => {
-    try{
-        const response = await axios.get('api/product-list')
+    try {
+        const response = await axios.get('api/product-list', {
+            params: {
+                sortOrder: sortOrder.value,
+                sortBy: sortBy.value
+            }
+        })
         productData.value = response.data
-    }catch(error) {
+    } catch (error) {
         console.log(error);
     }
 }
-const deleteProductBtn =  async(id) => {
-    const response = await axios.get('api/delete-product',{
+
+const sort = (column) => {
+    if (sortBy.value === column) {
+        sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
+    } else {
+        sortOrder.value = 'asc'
+        sortBy.value = column
+    }
+    productList()
+}
+
+const deleteProductBtn = async (id) => {
+    const response = await axios.get('api/delete-product', {
         params: {
             id: id
         }
     })
-    if(response.status === 200){
+    if (response.status === 200) {
         productList()
     }
-    
 }
 
 const createProductBtn = () => {
@@ -54,9 +72,8 @@ const notification = () => {
 const closeSidebar = () => {
     if (showSidebar.value == true) {
         showSidebar.value = false
-    }else if(showSidebar.value === false){
-        showSidebar.value = true //kiel
-        
+    } else if (showSidebar.value === false) {
+        showSidebar.value = true
     }
 }
 
@@ -123,25 +140,41 @@ onMounted(() => {
                     <table class="table table-hover ">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Label</th>
-                                <th>Price</th>
+                                <th @click="sort('id')">#
+                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                </th>
+                                <th @click="sort('product_name')">Name
+                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                </th>
+                                <th @click="sort('product_label')">Label
+                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                </th>
+                                <th @click="sort('product_price')">Price
+                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                </th>
                                 <th>Image</th>
-                                <th>Quantity</th>
-                                <th>Description</th>
+                                <th @click="sort('quantity')">Quantity
+                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                </th>
+                                <th @click="sort('description')">Description
+                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                </th>
+                                <th @click="sort('created_at')">Date
+                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                </th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(data, index) in productData.data" :key="index">
-                                <td>{{index + 1}}</td>
+                                <td>{{ index + 1 }}</td>
                                 <td>{{ data.product_name }}</td>
                                 <td>{{ data.product_label }}</td>
                                 <td>{{ data.product_price }}</td>
                                 <td>{{ data.product_image }}</td>
                                 <td> {{ data.quantity }} </td>
                                 <td> {{ data.description }} </td>
+                                <td>{{data.created_at}}</td>
                                 <td class="action">
                                     <span>
                                         <button>
@@ -178,7 +211,6 @@ onMounted(() => {
 .main {
     width: 100%;
 }
-
 .header {
     position: sticky;
     top: 0;
@@ -202,11 +234,16 @@ onMounted(() => {
     height: 50px;
 }
 
+#section-two table th {
+    cursor: pointer;
+}
+
 
 @media screen and (min-width: 769px) {
     section {
         margin: auto;
     }
+
 
     #section-two {
         overflow-x: auto;
@@ -232,6 +269,7 @@ onMounted(() => {
         border: 0;
 
     }
+
 
 }
 
