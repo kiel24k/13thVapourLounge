@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 
@@ -9,15 +10,29 @@ class AdminController extends Controller
 {
     public function createCategory (Request $request) {
         $request->validate([
-            'product_type' => 'required|unique:product_categories,product_type',
             'product_name' => 'required|unique:product_categories,product_name',
-            'product_label' => 'required|unique:product_categories,product_label',
         ]);
         $category = new ProductCategory();
         $category->product_type = $request->product_type;
         $category->product_name = $request->product_name;
-        $category->product_label = $request->product_label;
         $category->save();
         return response()->json($category);
     } 
+
+    public function categoryList(){
+        $productType = ProductCategory::get();
+        return response()->json($productType);
+    }
+    public function addProduct (Request $request){
+        $product = new Product();
+        $product->product_type = $request->product_type;
+        $product->product_name = $request->product_name;
+        $product->product_label = $request->product_label;
+        $product->price = $request->product_price;
+        $product->product_image = "Rhonalyn";
+        $product->quantity = $request->quantity;
+        $product->description = $request->description;
+        $product->save;
+        return response()->json($product);
+    }
 }

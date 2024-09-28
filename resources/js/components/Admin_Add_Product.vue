@@ -1,14 +1,33 @@
 <script setup>
 import axios from 'axios';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 
 const emit = defineEmits(['closeModal'])
+const categoryList = ref({})
+const input = ref({})
+const value = ref({})
 
 const cancelBtn = () => {
     emit('closeModal')
 }
+const category = async () => {
+    try {
+        const response = await axios.get('api/category-list')
+        categoryList.value = response.data
+    } catch (error) {
 
+    }
+}
+
+const saveBtn = async () => {
+    const response = await axios.post('api/create-product', {
+
+    })
+}
+onMounted(() => {
+    category()
+})
 
 </script>
 <template>
@@ -33,26 +52,42 @@ const cancelBtn = () => {
                 </div>
             </div>
             <hr>
-
-          
-
             <fieldset>
                 <form action="">
                     <div class="row">
                         <div class="col">
-                            <label for="">Budget Name</label>
-                            <input type="text" placeholder="Standard Aspiring Artist" v-model="inputs">
-                        </div>
-                        <div class="col">
-                            <label for="">Amount</label>
-                            <input type="text" placeholder="Standard Aspiring Artist">
+                            <label for="">Product Type</label>
+                            {{ input.category }}
+                            <select name="" id="" v-model="input.category">
+                                <option :value="data.product_name" v-for="(data, index) in categoryList" :key="index">
+                                  {{ data.product_type }} / {{ data.product_name }}
+                                </option>
+                                
+                            </select>
                         </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col">
-                            <label for="">Description</label>
-                            <textarea name="" rows="15" id=""></textarea>
+                            <label for="">Product Label</label>
+                            <input type="text">
                         </div>
+                        <div class="col">
+                            <label for="">Product Price</label>
+                            <input type="number">
+                        </div>
+                        <div class="col">
+                            <label for="">Quantity</label>
+                            <input type="number" placeholder="1x">
+                        </div>
+                    </div>
+
+                    <div class="row field-img">
+                        <img src="/public/image/add-icon.png" width="10" alt="">
+                        <input type="file">
+                    </div>
+                    <div class="row">
+                        <label for="">Description</label>
+                        <textarea name="" rows="10" id=""></textarea>
                     </div>
                 </form>
             </fieldset>
@@ -107,7 +142,8 @@ const cancelBtn = () => {
 }
 
 .select select,
-.add-category-field input {
+.add-category-field input,
+fieldset select {
     width: 100%;
     border-radius: 5px;
     border: solid 1px rgb(214, 214, 214);
@@ -190,5 +226,9 @@ textarea:focus {
 .form-action-save button:nth-child(2) {
     background: rgb(90, 182, 235);
     color: white;
+}
+
+.field-img img {
+    width: 100px;
 }
 </style>

@@ -17,8 +17,6 @@ const createProductBtn = () => {
 const createCategoryBtn = () => {
     addCategoryModal.value = true
 }
-
-
 const closeModal = () => {
     addProductModal.value = false
     addCategoryModal.value = false
@@ -45,9 +43,7 @@ const closeSidebar = () => {
 </script>
 
 <template>
-
     <div id="products">
-
         <div class="header">
             <NewCategoryNotification v-if="newCategoryNotification" />
             <AddProductModal v-if="addProductModal" @closeModal="closeModal" />
