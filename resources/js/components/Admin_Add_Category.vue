@@ -13,7 +13,6 @@ const saveBtn = async () => {
         const response = await axios.post('api/create-category', {
             product_type: categoryInputs.value.product_type,
             product_name: categoryInputs.value.product_name,
-            product_label: categoryInputs.value.product_label
         })
         if(response.status === 200){
             emit('closeModal')
@@ -53,13 +52,6 @@ const closeModal = () => {
                             <label for="">Product Name</label>
                             <input type="text" placeholder="" v-model="categoryInputs.product_name">
                             <span v-if="categoryValidation.product_name">{{ categoryValidation.product_name[0] }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col form-input">
-                            <label for="">Product Label</label>
-                            <input type="text" placeholder="" v-model="categoryInputs.product_label">
-                            <span v-if="categoryValidation.product_label">{{ categoryValidation.product_label[0] }}</span>
                         </div>
                     </div>
                     <div class="warning-change-message">
