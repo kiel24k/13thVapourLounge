@@ -15,10 +15,14 @@ const productData = ref({})
 const sortOrder = ref('asc')
 const sortBy = ref('product_name')
 
+const pagination = ref({
 
-const productList = async () => {
+})
+
+
+const productList = async (page) => {
     try {
-        const response = await axios.get('api/product-list', {
+        const response = await axios.get(`api/product-list?page=${page}`, {
             params: {
                 sortOrder: sortOrder.value,
                 sortBy: sortBy.value
@@ -49,6 +53,15 @@ const deleteProductBtn = async (id) => {
     if (response.status === 200) {
         productList()
     }
+}
+
+const prevBtn = () => {
+    page()
+   
+}
+const nextBtn = () => {
+    page(page)
+
 }
 
 const createProductBtn = () => {
@@ -188,9 +201,9 @@ onMounted(() => {
                     </table>
                     <div class="row">
                         <div class="col text-center ">
-                            <button>prev</button>
+                            <button @click="prevBtn">prev</button>
                             <span>1 2 3 4 5 6 7 8 9</span>
-                            <button>next</button>
+                            <button @click="nextBtn">next</button>
                         </div>
                     </div>
                 </section>
