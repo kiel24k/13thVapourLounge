@@ -7,6 +7,20 @@ const emit = defineEmits(['closeModal'])
 const categoryList = ref({})
 const input = ref({})
 const productValidation = ref({})
+const fileName = ref('')
+const imageUrl = ref('')
+const image = (event) => {
+    const selectedFile = event.target.files[0]
+    if(selectedFile){
+        input.value.file = selectedFile
+        fileName.value = selectedFile.name
+        imageUrl.value = URL.createObjectURL(selectedFile)
+    }
+
+
+    
+}
+
 
 
 const cancelBtn = () => {
@@ -27,7 +41,8 @@ const saveBtn = async () => {
             product_label: input.value.label,
             product_price: input.value.price,
             quantity: input.value.quantity,
-            description: input.value.description
+            description: input.value.description,
+            product_image:  input.value.file
         })
         console.log(response);
         if(response.status === 200){
@@ -101,8 +116,8 @@ onMounted(() => {
                     </div>
 
                     <div class="row field-img">
-                        <img src="/public/image/add-icon.png" width="10" alt="">
-                        <input type="file">
+                        <img :src="imageUrl" width="10" alt="">
+                        <input type="file" @change="image">
                     </div>
                     <div class="row">
                         <label for="">Description</label>
