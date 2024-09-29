@@ -9,6 +9,7 @@ const categoryProductName = async () => {
     try {
         const response = await axios.get('api/display-only-category')
         productName.value = response.data
+        console.log(response);
     } catch (error) {
 
     }
