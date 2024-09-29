@@ -195,9 +195,9 @@ onMounted(() => {
                                 <td>{{ index + 1 }}</td>
                                 <td>{{ data.product_name }}</td>
                                 <td>{{ data.product_label }}</td>
-                                <td>{{ data.product_price }}</td>
+                                <td>₱{{ data.product_price }}</td>
                                 <td>{{ data.product_image }}</td>
-                                <td> {{ data.quantity }} </td>
+                                <td> x{{ data.quantity }} </td>
                                 <td> {{ data.description }} </td>
                                 <td>{{ data.created_at }}</td>
                                 <td class="action">
