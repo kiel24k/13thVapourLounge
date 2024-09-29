@@ -16,9 +16,11 @@ const sortOrder = ref('asc')
 const sortBy = ref('product_name')
 
 const pagination = ref({
-
-})
-
+    current_page: 1,
+    last_page: 1,
+    next_page_url: null,
+    prev_page_url: null,
+});
 
 const productList = async (page) => {
     try {
@@ -28,6 +30,14 @@ const productList = async (page) => {
                 sortBy: sortBy.value
             }
         })
+        pagination.value = {
+            current_page: response.data.current_page,
+            last_page: response.data.last_page,
+            next_page_url: response.data.next_page_url,
+            prev_page_url: response.data.prev_page_url,
+        }
+        console.log(pagination.value);
+        
         productData.value = response.data
     } catch (error) {
         console.log(error);
@@ -56,11 +66,15 @@ const deleteProductBtn = async (id) => {
 }
 
 const prevBtn = () => {
-    page()
-   
+    if(pagination.value.prev_page_url){
+    productList(pagination.value.current_page - 1)
+  }
+
 }
 const nextBtn = () => {
-    page(page)
+    if(pagination.value.next_page_url){
+    productList(pagination.value.current_page + 1)
+  }
 
 }
 
@@ -185,7 +199,7 @@ onMounted(() => {
                                 <td>{{ data.product_image }}</td>
                                 <td> {{ data.quantity }} </td>
                                 <td> {{ data.description }} </td>
-                                <td>{{data.created_at}}</td>
+                                <td>{{ data.created_at }}</td>
                                 <td class="action">
                                     <span>
                                         <button>
@@ -201,9 +215,9 @@ onMounted(() => {
                     </table>
                     <div class="row">
                         <div class="col text-center ">
-                            <button @click="prevBtn">prev</button>
-                            <span>1 2 3 4 5 6 7 8 9</span>
-                            <button @click="nextBtn">next</button>
+                            <button @click="prevBtn" :disabled="!pagination.prev_page_url">prev</button>
+                            <span>{{ pagination.current_page }} of {{ pagination.last_page }}</span>
+                            <button @click="nextBtn" :disabled="!pagination.next_page_url">next</button>
                         </div>
                     </div>
                 </section>
@@ -222,6 +236,7 @@ onMounted(() => {
 .main {
     width: 100%;
 }
+
 .header {
     position: sticky;
     top: 0;
