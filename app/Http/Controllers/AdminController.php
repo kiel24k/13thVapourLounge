@@ -54,7 +54,7 @@ class AdminController extends Controller
     }
 
     public function displayOnlyCategory () {
-        $uniqueCategory = Product::select('product_name')
+        $uniqueCategory = ProductCategory::select('product_name')
         ->distinct()
         ->get();
         return response()->json($uniqueCategory);

@@ -140,9 +140,7 @@ onMounted(() => {
                     <table class="table table-hover ">
                         <thead>
                             <tr>
-                                <th @click="sort('id')">#
-                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                </th>
+                                <th>#</th>
                                 <th @click="sort('product_name')">Name
                                     <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
                                 </th>
