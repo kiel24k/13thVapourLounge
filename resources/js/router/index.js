@@ -39,9 +39,9 @@ const routes = [
         name: "admin-products",
     },
     {
-        path: "/admin-category-list",
-        component: () => import("../pages/admin/Admin_Category_List.vue"),
-        name: "admin-category-list",
+        path: "/admin-user-list",
+        component: () => import("../pages/admin/Admin_User_List.vue"),
+        name: "admin-user-list",
     },
     //======================Sub-Admin routes=============================//
     {
