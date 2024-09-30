@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -74,5 +75,10 @@ class AdminController extends Controller
             ->distinct()
             ->get();
         return response()->json($uniqueCategory);
+    }
+
+    public function userList () {
+        $user = User::orderBy('id', 'asc')->paginate(3);
+        return response()->json($user);
     }
 }
