@@ -193,7 +193,10 @@ onMounted(() => {
                                 <td>{{ data.product_name }}</td>
                                 <td>{{ data.product_label }}</td>
                                 <td>₱{{ data.product_price }}</td>
-                                <td>{{ data.product_image }}</td>
+                                <td>
+                                    <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`" width="30" height="40" alt="">
+                                    {{ data.image }}
+                                </td>
                                 <td> x{{ data.quantity }} </td>
                                 <td> {{ data.description }} </td>
                                 <td>{{ data.created_at }}</td>
