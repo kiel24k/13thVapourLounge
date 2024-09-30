@@ -122,7 +122,6 @@ onMounted(() => {
             </div>
             <div class="main m-2">
                 <section id="section-one" class="mt-4">
-
                     <div class="row">
                         <div class="col category-action">
                             <button class="btn btn-primary" @click="createProductBtn">

@@ -48,7 +48,7 @@ class AdminController extends Controller
         // $product->image = $fileName;
         $image = $request->file('image');
         $fileName = $image->hashName();
-        $request->image->store('product_image', 'public');
+        $image->store('product_image', 'public');
         $product->image = $fileName;
         $product->save();
         return response()->json([
