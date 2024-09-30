@@ -104,7 +104,6 @@ import Sidebar from '@/components/Admin_Sidebar.vue'
 
 @media screen and (min-width: 769px) {
     section {
-        width: 90%;
         margin: auto;
     }
 
