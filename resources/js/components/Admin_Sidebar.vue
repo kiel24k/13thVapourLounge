@@ -1,33 +1,5 @@
 <script setup>
-import axios from 'axios';
-import { onMounted, ref } from 'vue';
 
-const productName = ref({})
-const isShowItem = ref(false)
-const isCategoryImg = ref(false)
-const categoryProductName = async () => {
-    try {
-        const response = await axios.get('api/display-only-category')
-        productName.value = response.data
-    } catch (error) {
-
-    }
-}
-
-const categorySidebar = () => {
-    if (isShowItem.value === false) {
-        isShowItem.value = true
-        isCategoryImg.value = true
-    } else if (isShowItem.value === true) {
-        isShowItem.value = false
-        isCategoryImg.value = false
-    }
-
-}
-
-onMounted(() => {
-    categoryProductName()
-})
 </script>
 
 <template>
@@ -54,19 +26,6 @@ onMounted(() => {
                             Products
                         </li>
                     </router-link>
-                    <div class="item1" @click="categorySidebar">
-                        <li class="nav-link text-dark category-item">
-                            <span>Category</span>
-                            <img src="/public/image/prev-icon.png" width="20px" alt="" class="category-i" :class="{categoryImg: isCategoryImg}" />
-                        </li>
-                    </div>
-                    <!-- category list -->
-                    <div class="product-name-list" :class="{ showItem: isShowItem }" v-if="isShowItem">
-                        <li class="nav-link category-item1 p-3 text-dark" v-for="(data, index) in productName" :key="index">
-                            <b>{{ data.product_name }}</b>
-                        </li>
-                    </div>
-                    <!-- end of category list -->
                     <div class="item1">
                         <li class="nav-link text-dark">
                             <img src="/public/image/report-icon.png" width="20px" alt="" />
@@ -233,5 +192,9 @@ ul {
 }
 .categoryImg{
   rotate: 270deg;
+}
+
+.router-link-active, .router-link-exact-active{
+    background: rgb(216, 214, 214);
 }
 </style>
