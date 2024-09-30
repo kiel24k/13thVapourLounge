@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function createCategory (Request $request) {
+    public function createCategory(Request $request)
+    {
         $request->validate([
             'product_name' => 'required|unique:product_categories,product_name',
         ]);
@@ -17,46 +18,61 @@ class AdminController extends Controller
         $category->product_name = $request->product_name;
         $category->save();
         return response()->json($category);
-    } 
+    }
 
-    public function categoryList(){
+    public function categoryList()
+    {
         $productType = ProductCategory::get();
         return response()->json($productType);
     }
-    public function createProduct (Request $request){
+    public function createProduct(Request $request)
+    {
         $request->validate([
             'product_name' => 'required',
             'product_label' => 'required',
             'product_price' => 'required',
-            'product_image' => 'mimes,png,jpg',
+            'product_image' => 'mimes:png,jpg',
             'quantity' => 'required|integer',
             'description' => 'required'
         ]);
-        $product = new Product();
-        $product->product_name = $request->product_name;
-        $product->product_label = $request->product_label;
-        $product->product_price = $request->product_price;
-        $product->product_image = "Rhonalyn";
-        $product->quantity = $request->quantity;
-        $product->description = $request->description;
+        $product = Product::create([
+            'product_name' => $request->product_name,
+            'product_label' => $request->product_label,
+            'product_price' => $request->product_price,
+            'quantity' => $request->product_price,
+            'description' => $request->description
+        ]);
+        // $image = $request->file('image');
+        // $fileName = $image->hashName();
+        // $request->$image->move(public_path('image'), $fileName); // Move the image
+        // $product->image = $fileName;
+        $image = $request->file('image');
+        $fileName = $image->hashName();
+        $request->image->store('product_image');
+        $product->image = $fileName;
         $product->save();
-        return response()->json($product);
+        return response()->json([
+            $product
+        ]);
     }
-    public function productList (Request $request) {
+    public function productList(Request $request)
+    {
         $sortOrder = $request->query('sortOrder', 'asc');
         $sortBy = $request->query('sortBy', 'product_name');
         $product = Product::orderBy($sortBy, $sortOrder)->paginate(3);
         return response()->json($product);
     }
-    public function deleteProduct (Request $request){
+    public function deleteProduct(Request $request)
+    {
         $product = Product::find($request->id)->delete();
         return response()->json($product);
     }
 
-    public function displayOnlyCategory () {
+    public function displayOnlyCategory()
+    {
         $uniqueCategory = ProductCategory::select('product_name')
-        ->distinct()
-        ->get();
+            ->distinct()
+            ->get();
         return response()->json($uniqueCategory);
     }
 }

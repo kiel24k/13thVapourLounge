@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('product_name');
             $table->string('product_label');
             $table->string('product_price');
-            $table->string('product_image');
+            $table->string('image')->nullable();
             $table->string('quantity');
             $table->string('description');
             $table->timestamps();
