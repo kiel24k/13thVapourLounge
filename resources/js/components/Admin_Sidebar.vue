@@ -47,12 +47,12 @@
                             Profile
                         </li>
                     </router-link>
-                    <div class="item1">
+                    <router-link :to="{name: 'admin-account-settings'}" class="item1">
                         <li class="nav-link text-dark">
                             <img src="/public/image/settings-icon.png" width="20px" alt="" />
                             Account Setting
                         </li>
-                    </div>
+                    </router-link>
                     <div class="item1">
                         <li class="nav-link text-dark">
                             <img src="/public/image/payment-method-icon.png" width="20px" alt="" />

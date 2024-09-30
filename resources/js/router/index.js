@@ -53,6 +53,11 @@ const routes = [
         component: () => import("../pages/admin/Admin_Profile_List.vue"),
         name: "admin-profile-list"
     },
+    {
+        path: '/admin-account-settings',
+        component: () => import("../pages/admin/Admin_Account_Settings.vue"),
+        name: 'admin-account-settings'
+    },
     //======================Sub-Admin routes=============================//
     {
         path: "/sub-admin-dashboard",
