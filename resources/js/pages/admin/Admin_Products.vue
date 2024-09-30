@@ -36,11 +36,8 @@ const productList = async (page) => {
             next_page_url: response.data.next_page_url,
             prev_page_url: response.data.prev_page_url,
         }
-        console.log(pagination.value);
-        
         productData.value = response.data
     } catch (error) {
-        console.log(error);
     }
 }
 

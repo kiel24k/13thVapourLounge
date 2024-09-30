@@ -23,7 +23,7 @@ const closeSidebar = () => {
 
 onMounted(  () => {
     const cookie =  Cookies.get('username')    
-    console.log(cookie);
+    // console.log(cookie);
     
 })
 </script>

@@ -5,22 +5,20 @@ import { onMounted, ref } from 'vue';
 
 const emit = defineEmits(['closeModal'])
 const categoryList = ref({})
-const input = ref({})
+const input = ref({
+    file: ''
+})
 const productValidation = ref({})
 const fileName = ref('')
 const imageUrl = ref('')
 const image = (event) => {
     const selectedFile = event.target.files[0]
-    if(selectedFile){
+    if (selectedFile) {
         input.value.file = selectedFile
         fileName.value = selectedFile.name
         imageUrl.value = URL.createObjectURL(selectedFile)
     }
-
-
-    
 }
-
 
 
 const cancelBtn = () => {
@@ -42,15 +40,19 @@ const saveBtn = async () => {
             product_price: input.value.price,
             quantity: input.value.quantity,
             description: input.value.description,
-            product_image:  input.value.file
+            image: input.value.file,
+        }, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
         })
         console.log(response);
-        if(response.status === 200){
+        if (response.status === 200) {
             emit('closeModal')
         }
     } catch (error) {
         console.log(error);
-        
+
         if (error.response.status === 422) {
             productValidation.value = error.response.data.errors
         }
@@ -85,7 +87,7 @@ onMounted(() => {
             </div>
             <hr>
             <fieldset>
-                <form action="">
+                <form  enctype="multipart/form-data">
                     <div class="row">
                         <div class="col">
                             <label for="">Product Type</label>
@@ -238,8 +240,9 @@ textarea:focus {
     outline: 0;
     color: rgb(83, 82, 82);
 }
-fieldset span{
-    color:red;
+
+fieldset span {
+    color: red;
 }
 
 .help-action button {
