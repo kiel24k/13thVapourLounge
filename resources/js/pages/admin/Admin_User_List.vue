@@ -1,16 +1,33 @@
 <script setup>
 import Header from '@/components/Admin_Header.vue'
 import Sidebar from '@/components/Admin_Sidebar.vue'
+import { onMounted, ref } from 'vue';
+
+const users = ref({})
+const userList = async (page) => {
+    try {
+        const response = await axios.get(`api/user-list?page=${page}`)
+        users.value = response.data
+    } catch (error) {
+        console.log(response);
+
+    }
+
+}
+
+onMounted(() => {
+    userList()  
+})
 </script>
 
 <template>
     <div id="section-one">
         <div class="header">
-            <Header/>
+            <Header />
         </div>
         <div class="content">
             <div class="sidebar">
-                <Sidebar/>
+                <Sidebar />
             </div>
             <div class="main m-2">
                 <section id="section-one" class="mt-4">
@@ -50,20 +67,22 @@ import Sidebar from '@/components/Admin_Sidebar.vue'
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>name</th>
-                                <th>city</th>
-                                <th>area</th>
-                                <th>state</th>
-                                <th>action</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Age</th>
+                                <th>Address</th>
+                                <th>Email</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Kiel Bermudez</td>
-                                <td>Cavite</td>
-                                <td>Manila</td>
-                                <td>Phillippines</td>
+                            <tr v-for="(data,index) in users.data" :key="index">
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ data.first_name }}</td>
+                                <td>{{data.last_name}}</td>
+                                <td> {{ data.age }} </td>
+                                <td>{{ data.address }}</td>
+                                <td>{{ data.email }}</td>
                                 <td class="action">
                                     <span>
                                         <button>
@@ -91,14 +110,16 @@ import Sidebar from '@/components/Admin_Sidebar.vue'
 </template>
 
 <style scoped>
-#section-one{
+#section-one {
     display: grid;
-    
+
 }
-.content{
+
+.content {
     display: flex;
 }
-.main{
+
+.main {
     width: 100%;
 }
 
@@ -126,18 +147,20 @@ import Sidebar from '@/components/Admin_Sidebar.vue'
         padding: 4px;
         background: transparent;
     }
+
     .action button {
         background: transparent;
         border: 0;
     }
 }
+
 @media screen and (max-width: 1116px) {
     section {
         width: 90%;
         margin: auto;
     }
 
-    #section-two  {
+    #section-two {
         overflow: auto;
     }
 

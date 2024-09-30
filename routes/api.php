@@ -22,4 +22,5 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/product-list', 'productList');
     route::get('/delete-product', 'deleteProduct');
     route::get('/display-only-category', 'displayOnlyCategory');
+    route::get('/user-list', 'userList');
 });
