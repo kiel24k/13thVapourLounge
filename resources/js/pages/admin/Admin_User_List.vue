@@ -4,19 +4,50 @@ import Sidebar from '@/components/Admin_Sidebar.vue'
 import { onMounted, ref } from 'vue';
 
 const users = ref({})
+const sortByOrder = ref('asc')
+const sortByName = ref('first_name')
 const userList = async (page) => {
     try {
-        const response = await axios.get(`api/user-list?page=${page}`)
+        const response = await axios.get(`api/user-list?page=${page}`, {
+            params: {
+                sortByOrder: sortByOrder.value,
+                sortByName: sortByName.value
+            }
+        })
         users.value = response.data
     } catch (error) {
         console.log(response);
-
     }
+}
+
+const sort = (column) => {
+    if (sortByName.value === column) {
+        sortByOrder.value = sortByOrder.value === 'asc' ? 'desc' : 'asc'
+    } else {
+        sortByOrder.value = 'asc'
+        sortByName.value = column
+    }
+    userList()
 
 }
 
+const deleteBtn = async (id) => {
+    try {
+        const response = await axios.post('api/delete-user', {
+            id: id
+        })
+        console.log(response);
+        userList()
+
+    } catch (error) {
+        console.log(error);
+
+
+    }
+}
+
 onMounted(() => {
-    userList()  
+    userList()
 })
 </script>
 
@@ -62,34 +93,34 @@ onMounted(() => {
                         </div>
                     </div>
                 </section>
-                <section id="section-two" class="mt-2">
+                <section id="section-two" class="">
                     <table class="table table-hover ">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th @click="sort('first_name')">First Name
-                                    <span>{{ sortOrder === '▲' ? 'asc' : '▼' }}</span>
+                                    <span>{{ sortByOrder === 'asc' ? '▲' : '▼' }}</span>
                                 </th>
                                 <th @click="sort('last_name')">Last Name
-                                    <span>{{ sortOrder === '▲' ? 'asc' : '▼' }}</span>
+                                    <span>{{ sortByOrder === 'asc' ? '▲' : '▼' }}</span>
                                 </th>
                                 <th @click="sort('age')">Age
-                                    <span>{{ sortOrder === '▲' ? 'asc' : '▼' }}</span>
+                                    <span>{{ sortByOrder === 'asc' ? '▲' : '▼' }}</span>
                                 </th>
                                 <th @click="sort('address')">Address
-                                    <span>{{ sortOrder === '▲' ? 'asc' : '▼' }}</span>
+                                    <span>{{ sortByOrder === 'asc' ? '▲' : '▼' }}</span>
                                 </th>
                                 <th @click="sort('email')">Email
-                                    <span>{{ sortOrder === '▲' ? 'asc' : '▼' }}</span>
+                                    <span>{{ sortByOrder === 'asc' ? '▲' : '▼' }}</span>
                                 </th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(data,index) in users.data" :key="index">
+                            <tr v-for="(data, index) in users.data" :key="index">
                                 <td>{{ index + 1 }}</td>
                                 <td>{{ data.first_name }}</td>
-                                <td>{{data.last_name}}</td>
+                                <td>{{ data.last_name }}</td>
                                 <td> {{ data.age }} </td>
                                 <td>{{ data.address }}</td>
                                 <td>{{ data.email }}</td>
@@ -98,7 +129,7 @@ onMounted(() => {
                                         <button>
                                             <img src="/public/image/update-pencil-icon.svg" width="20px" alt="">
                                         </button>
-                                        <button>
+                                        <button @click="deleteBtn(data.id)">
                                             <img src="/public/image/delete-icon.png" width="20px" alt="">
                                         </button>
                                     </span>
@@ -132,10 +163,13 @@ onMounted(() => {
 .main {
     width: 100%;
 }
+table th{
+    cursor: pointer;
+}
 
 @media screen and (min-width: 769px) {
     section {
-        width: 90%;
+        
         margin: auto;
     }
 

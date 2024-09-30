@@ -77,8 +77,17 @@ class AdminController extends Controller
         return response()->json($uniqueCategory);
     }
 
-    public function userList () {
-        $user = User::orderBy('id', 'asc')->paginate(3);
+    public function userList(Request $request)
+    {
+        $sortName = $request->query('sortByName', 'first_name');
+        $sortOrder = $request->query('sortByOrder', 'asc');
+        $user = User::orderBy($sortName, $sortOrder)->paginate(3);
         return response()->json($user);
+    }
+    public function deleteUser(Request $request)
+    {
+        $user = User::find($request->id)->delete();
+        return response()->json($user);
+
     }
 }
