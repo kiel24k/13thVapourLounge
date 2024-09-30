@@ -32,12 +32,12 @@
                             Reports
                         </li>
                     </div>
-                    <div class="item1">
+                    <router-link :to="{name: 'admin-user-list'}" class="item1">
                         <li class="nav-link text-dark">
                             <img src="/public/image/users-icon.png" width="20px" alt="" />
                             Users
                         </li>
-                    </div>
+                    </router-link>
                 </ul>
                 <h3 class="text-center text-white p-2">Settings</h3>
                 <ul class="navbar nav mt-1">
