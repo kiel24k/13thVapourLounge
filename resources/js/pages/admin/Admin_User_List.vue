@@ -67,11 +67,21 @@ onMounted(() => {
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Age</th>
-                                <th>Address</th>
-                                <th>Email</th>
+                                <th @click="sort('first_name')">First Name
+                                    <span>{{ sortOrder === '▲' ? 'asc' : '▼' }}</span>
+                                </th>
+                                <th @click="sort('last_name')">Last Name
+                                    <span>{{ sortOrder === '▲' ? 'asc' : '▼' }}</span>
+                                </th>
+                                <th @click="sort('age')">Age
+                                    <span>{{ sortOrder === '▲' ? 'asc' : '▼' }}</span>
+                                </th>
+                                <th @click="sort('address')">Address
+                                    <span>{{ sortOrder === '▲' ? 'asc' : '▼' }}</span>
+                                </th>
+                                <th @click="sort('email')">Email
+                                    <span>{{ sortOrder === '▲' ? 'asc' : '▼' }}</span>
+                                </th>
                                 <th>Action</th>
                             </tr>
                         </thead>
