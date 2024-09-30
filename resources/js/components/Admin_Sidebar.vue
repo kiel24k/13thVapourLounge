@@ -14,12 +14,12 @@
                             Dashboard
                         </li>
                     </div>
-                    <div class="item1">
+                    <router-link :to="{name: 'admin-orders'}" class="item1">
                         <li class="nav-link text-dark">
                             <img src="/public/image/order-icon.png" width="20px" alt="" />
                             Orders
                         </li>
-                    </div>
+                    </router-link>
                     <router-link :to="{ name: 'admin-products' }" class="item1">
                         <li class="nav-link text-dark">
                             <img src="/public/image/products-icon.png" width="20px" alt="" />
