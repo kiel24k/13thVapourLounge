@@ -104,7 +104,7 @@ onMounted(() => {
                                 <th @click="sort('last_name')">Last Name
                                     <span>{{ sortByOrder === 'asc' ? '▲' : '▼' }}</span>
                                 </th>
-                                <th @click="sort('age')">Agess
+                                <th @click="sort('age')">Age
                                     <span>{{ sortByOrder === 'asc' ? '▲' : '▼' }}</span>
                                 </th>
                                 <th @click="sort('address')">Address
