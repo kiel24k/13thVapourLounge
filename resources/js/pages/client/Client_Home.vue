@@ -6,7 +6,11 @@ import { onMounted, ref } from 'vue';
 
 const newArrivalListItem = ref({})
 const bestSellerListItem = ref({})
+
 const cart = ref([])
+
+const isButtonDisabled = ref(new Array(cart.value.length).fill(false));    
+
 const newArrivalList = async () => {
     try {
     const response = await axios.get('api/new-arrival-list')
@@ -20,10 +24,15 @@ const bestSellerList = async () => {
         const response = await axios.get('api/best-seller')
         bestSellerListItem.value = response.data
     }catch(error){
-
     }
 }
 
+const addToCart = (key,index)=>{ 
+    cart.value.push(key)
+    isButtonDisabled.value[index] = true
+   
+    
+}
 onMounted(() => {
 newArrivalList()
 bestSellerList()
@@ -32,8 +41,8 @@ bestSellerList()
 </script>
 
 <template>
-    <Header />
-    <Navbar />
+    <Header  />
+    <Navbar :cart="cart" />
     <NavbarCategory />
     <section class="section-one">
         <span>New arrivals</span>
@@ -50,7 +59,7 @@ bestSellerList()
                     <b>₱{{ data.product_price }}</b>
                 </summary>
                 <div class="text-start">
-                    <button class="btn btn-dark mt-2">Add to Cart</button>
+                    <button class="btn btn-dark mt-2" :disabled="isButtonDisabled[index]" @click="addToCart(data.id, index)">Add to Cart</button>
                 </div>
             </article>
         </div>
