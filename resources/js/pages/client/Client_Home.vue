@@ -6,6 +6,7 @@ import { onMounted, ref } from 'vue';
 
 const newArrivalListItem = ref({})
 const bestSellerListItem = ref({})
+const cart = ref([])
 const newArrivalList = async () => {
     try {
     const response = await axios.get('api/new-arrival-list')
