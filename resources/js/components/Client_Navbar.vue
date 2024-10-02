@@ -17,8 +17,8 @@ const cartStorage = localStorage.getItem('cart_value')
                     <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="" width="30">
                     <span>Cart / P280.00</span>
                     <img src="/public/image/cart1-icon.png" alt="" width="30">
-                    <b v-if="cart.length > 0">{{ cart.length }}</b>
-                    <b v-else-if="cart.length <= 0">{{ cartStorage }}</b>
+                    <!-- <b v-if="cart.length > 0">{{ cart.length }}</b>
+                    <b v-else-if="cart.length <= 0">{{ cartStorage }}</b> -->
                 </div>
             </div>
         </div>
