@@ -2,6 +2,32 @@
 import Header from '@/components/Client_Header.vue'
 import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
+import { onMounted, ref } from 'vue';
+
+const newArrivalListItem = ref({})
+const bestSellerListItem = ref({})
+const newArrivalList = async () => {
+    try {
+    const response = await axios.get('api/new-arrival-list')
+    newArrivalListItem.value = response.data
+    } catch (error) {
+    }
+}
+
+const bestSellerList = async () => {
+    try{
+        const response = await axios.get('api/best-seller')
+        bestSellerListItem.value = response.data
+    }catch(error){
+
+    }
+}
+
+onMounted(() => {
+newArrivalList()
+bestSellerList()
+})
+
 </script>
 
 <template>
@@ -11,90 +37,19 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
     <section class="section-one">
         <span>New arrivals</span>
         <div class="section-one-item">
-            <article>
+            <article v-for="(data,index) in newArrivalListItem.data" :key="index">
                 <figure>
                     <div class="image-one-content">
-                        <img src="/public/image/sample-vape-image.png" width="150" alt="" />
+                        <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`" height="130" width="150" alt="" />
                     </div>
                 </figure>
                 <summary>
-                    <p>Flava Oxbar Maze Pro Disposable Vape</p>
-                    <small>₱400.00 PHP</small>
+                    <p class="label">{{ data.product_label }}</p>
+                    <small>{{data.description}}</small>
+                    <b>₱{{ data.product_price }}</b>
                 </summary>
                 <div class="text-start">
-                    <button class="btn btn-dark">Add to Cart</button>
-                </div>
-            </article>
-
-            <article>
-                <figure>
-                    <div class="image-one-content">
-                        <img src="/public/image/sample-vape-image.png" width="150" alt="" />
-                    </div>
-                </figure>
-                <summary>
-                    <p>10 Simple steps to revolutionise work flows with our project</p>
-                    <small>₱400.00 PHP</small>
-                </summary>
-                <div class="text-start">
-                    <button class="btn btn-dark">Add to Cart</button>
-                </div>
-            </article>
-
-            <article>
-                <figure>
-                    <div class="image-one-content">
-                        <img src="/public/image/sample-vape-image.png" width="150" alt="" />
-                    </div>
-                </figure>
-                <summary>
-                    <p>10 Simple steps to revolutionise work flows with our project</p>
-                    <small>₱400.00 PHP</small>
-                </summary>
-                <div class="text-start">
-                    <button class="btn btn-dark">Add to Cart</button>
-                </div>
-            </article>
-            <article>
-                <figure>
-                    <div class="image-one-content">
-                        <img src="/public/image/sample-vape-image.png" width="150" alt="" />
-                    </div>
-                </figure>
-                <summary>
-                    <p>10 Simple steps to revolutionise work flows with our project</p>
-                    <small>₱400.00 PHP</small>
-                </summary>
-                <div class="text-start">
-                    <button class="btn btn-dark">Add to Cart</button>
-                </div>
-            </article>
-            <article>
-                <figure>
-                    <div class="image-one-content">
-                        <img src="/public/image/sample-vape-image.png" width="150" alt="" />
-                    </div>
-                </figure>
-                <summary>
-                    <p>10 Simple steps to revolutionise work flows with our project</p>
-                    <small>₱400.00 PHP</small>
-                </summary>
-                <div class="text-start">
-                    <button class="btn btn-dark">Add to Cart</button>
-                </div>
-            </article>
-            <article>
-                <figure>
-                    <div class="image-one-content">
-                        <img src="/public/image/sample-vape-image.png" width="150" alt="" />
-                    </div>
-                </figure>
-                <summary>
-                    <p>10 Simple steps to revolutionise work flows with our project</p>
-                    <small>₱400.00 PHP</small>
-                </summary>
-                <div class="text-start">
-                    <button class="btn btn-dark">Add to Cart</button>
+                    <button class="btn btn-dark mt-2">Add to Cart</button>
                 </div>
             </article>
         </div>
@@ -103,94 +58,21 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
     <section class="section-two">
         <span>Best Sellers</span>
         <div class="section-one-item">
-            <article>
+            <article v-for="(data,index) in bestSellerListItem.data" :key="index">
                 <figure>
                     <div class="image-one-content">
-                        <img src="/public/image/sample-vape-image.png" width="150" alt="" />
+                        <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`" height="130" width="150" alt="" />
                     </div>
                 </figure>
                 <summary>
-                    <p>Flava Oxbar Maze Pro Disposable Vape</p>
-                    <small>₱400.00 PHP</small>
-                </summary>
-                <div class="text-start">
-                    <button class="btn btn-dark">Add to Cart</button>
-                </div>
-            </article>
-
-            <article>
-                <figure>
-                    <div class="image-one-content">
-                        <img src="/public/image/sample-vape-image.png" width="150" alt="" />
-                    </div>
-                </figure>
-                <summary>
-                    <p>10 Simple steps to revolutionise work flows with our project</p>
-                    <small>₱400.00 PHP</small>
-                </summary>
-                <div class="text-start">
-                    <button class="btn btn-dark">Add to Cart</button>
-                </div>
-            </article>
-
-            <article>
-                <figure>
-                    <div class="image-one-content">
-                        <img src="/public/image/sample-vape-image.png" width="150" alt="" />
-                    </div>
-                </figure>
-                <summary>
-                    <p>10 Simple steps to revolutionise work flows with our project</p>
-                    <small>₱400.00 PHP</small>
-                </summary>
-                <div class="text-start">
-                    <button class="btn btn-dark">Add to Cart</button>
-                </div>
-            </article>
-            <article>
-                <figure>
-                    <div class="image-one-content">
-                        <img src="/public/image/sample-vape-image.png" width="150" alt="" />
-                    </div>
-                </figure>
-                <summary>
-                    <p>10 Simple steps to revolutionise work flows with our project</p>
-                    <small>₱400.00 PHP</small>
-                </summary>
-                <div class="text-start">
-                    <button class="btn btn-dark">Add to Cart</button>
-                </div>
-            </article>
-            <article>
-                <figure>
-                    <div class="image-one-content">
-                        <img src="/public/image/sample-vape-image.png" width="150" alt="" />
-                    </div>
-                </figure>
-                <summary>
-                    <p>10 Simple steps to revolutionise work flows with our project</p>
-                    <small>₱20.00 PHP</small>
-                </summary>
-                <div class="text-start">
-                    <button class="btn btn-dark">Add to Cart</button>
-                </div>
-            </article>
-            <article>
-                <figure>
-                    <div class="image-one-content">
-                        <img src="/public/image/sample-vape-image.png" width="150" alt="" />
-                    </div>
-                </figure>
-                <summary>
-                    <p>10 Simple steps to revolutionise work flows with our project</p>
-                    <small>₱401.00 PHP</small>
+                    <p>{{ data.product_label }}</p>
+                    <small>₱{{data.product_price}}</small>
                 </summary>
                 <div class="text-start">
                     <button class="btn btn-dark">Add to Cart</button>
                 </div>
             </article>
         </div>
-
     </section>
 </template>
 
@@ -234,8 +116,12 @@ figure {
 }
 
 summary {
+    display: grid;
+    align-items: center;
+    align-content: center;
     list-style: none;
     height: 9rem;
+   
 }
 
 .section-two-item {
@@ -243,5 +129,7 @@ summary {
     flex-wrap: wrap;
     justify-content: center;
 
+    
 }
+
 </style>

@@ -103,7 +103,7 @@ onMounted(() => {
                     <div class="row mt-2">
                         <div class="col">
                             <label for="">Product Label</label>
-                            <input type="text" v-model="input.label">
+                            <textarea cols="10" rows="1" type="text" v-model="input.label"></textarea>
                             <span v-if="productValidation.product_label">{{ productValidation.product_label[0] }}</span>
                         </div>
                         <div class="col">
@@ -126,6 +126,7 @@ onMounted(() => {
                        <div class="col">
                         <label for="">Mark as</label>
                         <select name="" id="" v-model="input.label_category">
+                            <option value="none">None</option>
                             <option value="new-arrival">New Arrival</option>
                             <option value="best-seller">Best Seller</option>
                         </select>

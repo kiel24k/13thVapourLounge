@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClientController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,4 +25,9 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/display-only-category', 'displayOnlyCategory');
     route::get('/user-list', 'userList');
     route::post('/delete-user','deleteUser');
+});
+
+Route::controller(ClientController::class)->group(function () {
+    route::get('/new-arrival-list', 'newArrivalList');
+    route::get('/best-seller', 'bestSeller');
 });
