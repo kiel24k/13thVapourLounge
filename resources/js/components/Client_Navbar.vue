@@ -1,3 +1,7 @@
+<script setup>
+const props = defineProps(['cart'])
+</script>
+
 <template>
     <nav>
         <div class="row">
@@ -12,6 +16,7 @@
                     <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="" width="30">
                     <span>Cart / P280.00</span>
                     <img src="/public/image/cart1-icon.png" alt="" width="30">
+                    <b>{{ cart.length }}</b>
                 </div>
             </div>
         </div>
