@@ -41,7 +41,8 @@ class AdminController extends Controller
             'product_label' => $request->product_label,
             'product_price' => $request->product_price,
             'quantity' => $request->product_price,
-            'description' => $request->description
+            'description' => $request->description,
+            'label_category' => $request->label_category,
         ]);
         // $image = $request->file('image');
         // $fileName = $image->hashName();
