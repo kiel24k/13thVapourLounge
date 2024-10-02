@@ -9,7 +9,7 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
     <Navbar />
     <NavbarCategory />
     <section class="section-one">
-        <span>PROMO PRICE</span>
+        <span>New arrivals</span>
         <div class="section-one-item">
             <article>
                 <figure>
@@ -101,7 +101,7 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
     </section>
 
     <section class="section-two">
-        <span>NEW ARIVAL</span>
+        <span>Best Sellers</span>
         <div class="section-one-item">
             <article>
                 <figure>

@@ -41,6 +41,7 @@ const saveBtn = async () => {
             quantity: input.value.quantity,
             description: input.value.description,
             image: input.value.file,
+            label_category: input.value.label_category
         }, {
             headers: {
                 'content-type': 'multipart/form-data'
@@ -117,14 +118,28 @@ onMounted(() => {
                         </div>
                     </div>
 
-                    <div class="row field-img">
-                        <img :src="imageUrl" width="10" alt="">
+                    <div class="row mt-2 field-img">
+                       <div class="col">
+                        <label for="">Image</label>
                         <input type="file" @change="image">
+                       </div>
+                       <div class="col">
+                        <label for="">Mark as</label>
+                        <select name="" id="" v-model="input.label_category">
+                            <option value="new-arrival">New Arrival</option>
+                            <option value="best-seller">Best Seller</option>
+                        </select>
+                       </div>
+                    </div>
+                    <div class="row mt-2">
+                            <img :src="imageUrl" width="10" alt="">
                     </div>
                     <div class="row">
-                        <label for="">Description</label>
+                        <div class="col">
+                            <label for="">Description</label>
                         <textarea name="" rows="10" id="" v-model="input.description"></textarea>
                         <span v-if="productValidation.description">{{ productValidation.description[0] }}</span>
+                        </div>
                     </div>
                 </form>
             </fieldset>
