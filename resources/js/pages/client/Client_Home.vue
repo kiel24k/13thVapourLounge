@@ -29,9 +29,7 @@ const bestSellerList = async () => {
 
 const addToCart = (key,index)=>{ 
     cart.value.push(key)
-    localStorage.setItem("cart_value", cart.value.length )
-   
-    
+    localStorage.setItem("cart_value", cart.value )
 }
 onMounted(() => {
 newArrivalList()
