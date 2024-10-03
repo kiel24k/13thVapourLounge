@@ -8,7 +8,7 @@
   
   <script setup>
   import { defineProps } from 'vue';
-  //d
+  //ddsds
   const props = defineProps({
     product: Object
   });
