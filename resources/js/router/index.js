@@ -64,6 +64,10 @@ const routes = [
         component: () => import("../pages/sub-admin/Sub_Dashboard.vue"),
         name: "sub-admin-dashboard",
     },
+    {
+        path: '/test',
+        component: () => import("../pages/test.vue")
+    }
 ];
 
 const router = createRouter({
