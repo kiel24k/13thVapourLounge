@@ -2,11 +2,9 @@
 import { onMounted } from 'vue';
 
 const props = defineProps(['cartVal'])
-const cartSavedQuantity = JSON.parse(localStorage.getItem('cart') || [])
+const cartSavedQuantity = JSON.parse(localStorage.getItem('cart'))
 
-onMounted(() => {
-    console.log(cartSavedQuantity.length);
-})
+onMounted(() => {})
 </script>
 
 <template>
@@ -24,7 +22,7 @@ onMounted(() => {
                     <span>Cart / P280.00</span>
                     <img src="/public/image/cart1-icon.png" alt="" width="30">
                    <b v-if="cartVal">{{cartVal.length}}</b>
-                   <b v-else>{{ cartSavedQuantity.length }}</b>
+                   <b v-if="cartSavedQuantity">{{ cartSavedQuantity.length }}</b>
                 </div>
             </div>
         </div>
