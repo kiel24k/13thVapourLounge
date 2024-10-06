@@ -16,12 +16,12 @@
   const addToCart = () => {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     const existingProduct = cart.find(item => item.id === props.product.id);
+    console.log(props.product);
     
     if (existingProduct) {
       existingProduct.quantity += 1; // Increment quantity if item already exists
     } else {
       cart.push({ ...props.product, quantity: 1 }); // Add new product with quantity
-     
     }
   
     localStorage.setItem('cart', JSON.stringify(cart));

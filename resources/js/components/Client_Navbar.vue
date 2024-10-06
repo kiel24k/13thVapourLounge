@@ -1,6 +1,12 @@
 <script setup>
-const props = defineProps(['cart'])
-const cartStorage = localStorage.getItem('cart_value')
+import { onMounted } from 'vue';
+
+const props = defineProps(['cartVal'])
+const cartSavedQuantity = JSON.parse(localStorage.getItem('cart') || [])
+
+onMounted(() => {
+    console.log(cartSavedQuantity.length);
+})
 </script>
 
 <template>
@@ -17,8 +23,8 @@ const cartStorage = localStorage.getItem('cart_value')
                     <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="" width="30">
                     <span>Cart / P280.00</span>
                     <img src="/public/image/cart1-icon.png" alt="" width="30">
-                    <b v-if="cart.length > 0">{{ cart.length }}</b>
-                    <b v-else-if="cart.length <= 0">{{ cartStorage.length }}</b>
+                   <b v-if="cartVal">{{cartVal.length}}</b>
+                   <b v-else>{{ cartSavedQuantity.length }}</b>
                 </div>
             </div>
         </div>
