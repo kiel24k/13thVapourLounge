@@ -31,4 +31,5 @@ Route::controller(ClientController::class)->group(function () {
     route::get('/new-arrival-list', 'newArrivalList');
     route::get('/best-seller', 'bestSeller');
     route::get('/all-products', 'allProduct');
+    route::get('/category-list','categoryList');
 });

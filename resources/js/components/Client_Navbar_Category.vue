@@ -1,30 +1,35 @@
+<script setup>
+import axios from 'axios';
+import { handleError, onMounted, ref } from 'vue';
+
+const categoryData = ref({})
+
+const categoryList = async () => {
+    try {
+        const response = await axios.get('api/category-list')
+       categoryData.value = response.data
+    } catch (error) {
+        console.log(error);
+
+    }
+
+}
+
+onMounted(() => {
+    categoryList()
+})
+
+</script>
+
 <template>
     <section class="section-category">
         <nav id="nav-category">
             <ul class="navbar nav">
                 <li class="nav-item">
-                    <router-link :to="{name: 'home-dashboard'}" href="" class="nav-link">Home</router-link>
+                    <router-link :to="{ name: 'home-dashboard' }" href="" class="nav-link">Home</router-link>
                 </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Pod kits</a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Coil & Cartridge Replacement</a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">E-Juice</a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Disposable Vape</a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Accessories</a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Blogs</a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Contact Us</a>
+                <li class="nav-item" v-for="(data,index) in categoryData" :key="index">
+                    <a href="" class="nav-link">{{ data.product_type }}</a>
                 </li>
             </ul>
         </nav>
@@ -32,7 +37,6 @@
 </template>
 
 <style scoped>
-
 section {
     width: 70%;
     margin: auto;
