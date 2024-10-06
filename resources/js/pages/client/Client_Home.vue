@@ -34,6 +34,10 @@ onMounted(() => {
     bestSellerList()
 })
 
+const test = () => {
+
+}
+
 </script>
 
 <template>
@@ -44,6 +48,7 @@ onMounted(() => {
         <span>New arrivals</span>
         <div class="section-one-item">
             <article v-for="(data, index) in newArrivalListItem.data" :key="index">
+                <router-link :to="{name: 'client-products'}">
                 <figure>
                     <div class="image-one-content">
                         <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`" height="130" width="150"
@@ -55,9 +60,11 @@ onMounted(() => {
                     <small>{{ data.description }}</small>
                     <b>₱{{ data.product_price }}</b>
                 </summary>
+                </router-link>
                 <div class="text-start">
                     <button class="btn btn-dark mt-2" @click="addToCartNewArrival(data.id)">Add to Cart</button>
                 </div>
+              
             </article>
         </div>
     </section>
@@ -88,6 +95,11 @@ onMounted(() => {
 section {
     width: 70%;
     margin: auto;
+}
+a{
+    text-decoration: none;
+    color:black;
+    cursor:pointer;
 }
 
 

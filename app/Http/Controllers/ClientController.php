@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -18,5 +19,8 @@ class ClientController extends Controller
     }
     public function allProduct () {
         return response()->json(Product::latest());
+    }
+    public function categoryList () {
+      return response()->json(ProductCategory::latest()->get());
     }
 }
