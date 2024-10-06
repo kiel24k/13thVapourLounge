@@ -16,4 +16,7 @@ class ClientController extends Controller
         $product = Product::where('label_category', 'best-seller')->paginate(5);
         return response()->json($product);
     }
+    public function allProduct () {
+        return response()->json(Product::latest());
+    }
 }

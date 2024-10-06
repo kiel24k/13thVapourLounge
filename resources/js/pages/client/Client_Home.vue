@@ -6,58 +6,57 @@ import { onMounted, ref } from 'vue';
 
 const newArrivalListItem = ref({})
 const bestSellerListItem = ref({})
-
-const cart = ref([])
-
-  
-
+const cartVal = ref()
 const newArrivalList = async () => {
     try {
-    const response = await axios.get('api/new-arrival-list')
-    newArrivalListItem.value = response.data
+        const response = await axios.get('api/new-arrival-list')
+        newArrivalListItem.value = response.data
     } catch (error) {
     }
 }
 
 const bestSellerList = async () => {
-    try{
+    try {
         const response = await axios.get('api/best-seller')
         bestSellerListItem.value = response.data
-    }catch(error){
+    } catch (error) {
     }
 }
 
-const addToCart = (key,index)=>{ 
-    cart.value.push(key)
-    localStorage.setItem("cart_value", cart.value )
+const addToCartNewArrival = (id) => {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push({prod_id: id})
+    localStorage.setItem('cart', JSON.stringify(cart));
+    cartVal.value = cart
 }
 onMounted(() => {
-newArrivalList()
-bestSellerList()
+    newArrivalList()
+    bestSellerList()
 })
 
 </script>
 
 <template>
-    <Header  />
-    <Navbar :cart="cart" />
+    <Header />
+    <Navbar :cartVal="cartVal" />
     <NavbarCategory />
     <section class="section-one">
         <span>New arrivals</span>
         <div class="section-one-item">
-            <article v-for="(data,index) in newArrivalListItem.data" :key="index">
+            <article v-for="(data, index) in newArrivalListItem.data" :key="index">
                 <figure>
                     <div class="image-one-content">
-                        <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`" height="130" width="150" alt="" />
+                        <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`" height="130" width="150"
+                            alt="" />
                     </div>
                 </figure>
                 <summary>
                     <p class="label">{{ data.product_label }}</p>
-                    <small>{{data.description}}</small>
+                    <small>{{ data.description }}</small>
                     <b>₱{{ data.product_price }}</b>
                 </summary>
                 <div class="text-start">
-                    <button class="btn btn-dark mt-2"  @click="addToCart(data.id, index)">Add to Cart</button>
+                    <button class="btn btn-dark mt-2" @click="addToCartNewArrival(data.id)">Add to Cart</button>
                 </div>
             </article>
         </div>
@@ -66,15 +65,16 @@ bestSellerList()
     <section class="section-two">
         <span>Best Sellers</span>
         <div class="section-one-item">
-            <article v-for="(data,index) in bestSellerListItem.data" :key="index">
+            <article v-for="(data, index) in bestSellerListItem.data" :key="index">
                 <figure>
                     <div class="image-one-content">
-                        <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`" height="130" width="150" alt="" />
+                        <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`" height="130" width="150"
+                            alt="" />
                     </div>
                 </figure>
                 <summary>
                     <p>{{ data.product_label }}</p>
-                    <small>₱{{data.product_price}}</small>
+                    <small>₱{{ data.product_price }}</small>
                 </summary>
                 <div class="text-start">
                     <button class="btn btn-dark">Add to Cart</button>
@@ -129,7 +129,7 @@ summary {
     align-content: center;
     list-style: none;
     height: 9rem;
-   
+
 }
 
 .section-two-item {
@@ -137,7 +137,6 @@ summary {
     flex-wrap: wrap;
     justify-content: center;
 
-    
-}
 
+}
 </style>
