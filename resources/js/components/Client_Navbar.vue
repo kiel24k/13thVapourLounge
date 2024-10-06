@@ -1,10 +1,25 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const props = defineProps(['cartVal'])
-const cartSavedQuantity = JSON.parse(localStorage.getItem('cart'))
 
-onMounted(() => {})
+const cartHistoryData = ref()
+const cartData = ref()
+const cartHistory = () => {
+    const cartNum = JSON.parse(localStorage.getItem('cart'))
+    cartHistoryData.value = cartNum
+    if (cartHistoryData.value === null) {
+       props.cartVal = 0
+    }else{
+        cartData.value = cartNum.length
+    }
+
+
+}
+
+onMounted(() => {
+    cartHistory()
+})
 </script>
 
 <template>
@@ -21,8 +36,8 @@ onMounted(() => {})
                     <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="" width="30">
                     <span>Cart / P280.00</span>
                     <img src="/public/image/cart1-icon.png" alt="" width="30">
-                   <b v-if="cartVal">{{cartVal.length}}</b>
-                   <b v-if="cartSavedQuantity">{{ cartSavedQuantity.length }}</b>
+                    <b v-if="cartVal">{{ cartVal.length }}</b>
+                    <b v-else>{{ cartData }}</b>
                 </div>
             </div>
         </div>
@@ -37,8 +52,9 @@ onMounted(() => {})
     padding: 10px;
     align-items: center;
 }
-.header-action{
+
+.header-action {
     display: flex;
-    gap:10px;
+    gap: 10px;
 }
 </style>
