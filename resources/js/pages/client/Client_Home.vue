@@ -6,7 +6,7 @@ import { onMounted, ref } from 'vue';
 
 const newArrivalListItem = ref({})
 const bestSellerListItem = ref({})
-const cartVal = ref()
+const cartTotal = ref()
 const newArrivalList = async () => {
     try {
         const response = await axios.get('api/new-arrival-list')
@@ -23,11 +23,16 @@ const bestSellerList = async () => {
     }
 }
 
-const addToCartNewArrival = (id) => {
+const addToCartNewArrival = (data) => {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.push({prod_id: id})
-    localStorage.setItem('cart', JSON.stringify(cart));
-    cartVal.value = cart
+    const existingProduct = cart.find((el) => el.id === data.id)
+    if (existingProduct) {
+        existingProduct.quantity += 1
+    } else {
+        cart.push({ id: data.id, quantity: 1 })
+    }
+    localStorage.setItem('cart', JSON.stringify(cart))
+    cartTotal.value = cart.reduce((total, el) => total + el.quantity, 0 )
 }
 onMounted(() => {
     newArrivalList()
@@ -42,29 +47,29 @@ const test = () => {
 
 <template>
     <Header />
-    <Navbar :cartVal="cartVal" />
+    <Navbar :cartTotal="cartTotal"/>
     <NavbarCategory />
     <section class="section-one">
         <span>New arrivals</span>
-        <div class="section-one-item">
+        <div class="section-one-item"> =
             <article v-for="(data, index) in newArrivalListItem.data" :key="index">
-                <router-link :to="{name: 'client-products'}">
-                <figure>
-                    <div class="image-one-content">
-                        <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`" height="130" width="150"
-                            alt="" />
-                    </div>
-                </figure>
-                <summary>
-                    <p class="label">{{ data.product_label }}</p>
-                    <small>{{ data.description }}</small>
-                    <b>₱{{ data.product_price }}</b>
-                </summary>
+                <router-link :to="{ name: 'client-products' }">
+                    <figure>
+                        <div class="image-one-content">
+                            <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`" height="130"
+                                width="150" alt="" />
+                        </div>
+                    </figure>
+                    <summary>
+                        <p class="label">{{ data.product_label }}</p>
+                        <small>{{ data.description }}</small>
+                        <b>₱{{ data.product_price }}</b>
+                    </summary>
                 </router-link>
                 <div class="text-start">
-                    <button class="btn btn-dark mt-2" @click="addToCartNewArrival(data.id)">Add to Cart</button>
+                    <button class="btn btn-dark mt-2" @click="addToCartNewArrival(data)">Add to Cart</button>
                 </div>
-              
+
             </article>
         </div>
     </section>
@@ -96,10 +101,11 @@ section {
     width: 70%;
     margin: auto;
 }
-a{
+
+a {
     text-decoration: none;
-    color:black;
-    cursor:pointer;
+    color: black;
+    cursor: pointer;
 }
 
 
