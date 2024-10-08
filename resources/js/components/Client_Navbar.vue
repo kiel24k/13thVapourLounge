@@ -1,24 +1,21 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 
-const props = defineProps(['cartVal'])
+const props = defineProps(['cartTotal'])
 
-const cartHistoryData = ref()
-const cartData = ref()
-const cartHistory = () => {
-    const cartNum = JSON.parse(localStorage.getItem('cart'))
-    cartHistoryData.value = cartNum
-    if (cartHistoryData.value === null) {
-       props.cartVal = 0
-    }else{
-        cartData.value = cartNum.length
+
+const cartMountedValue = ref()
+const cartMounted = () => {
+    const cart = JSON.parse(localStorage.getItem('cart'))
+  
+    if(cart){
+        cartMountedValue.value = cart.reduce((total, el) => total + el.quantity,0)
     }
-
-
 }
 
+
 onMounted(() => {
-    cartHistory()
+   cartMounted()
 })
 </script>
 
@@ -36,8 +33,8 @@ onMounted(() => {
                     <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="" width="30">
                     <span>Cart / P280.00</span>
                     <img src="/public/image/cart1-icon.png" alt="" width="30">
-                    <b v-if="cartVal">{{ cartVal.length }}</b>
-                    <b v-else>{{ cartData }}</b>
+                 <b v-if="cartTotal">{{ cartTotal }}</b>
+                 <b v-else>{{ cartMountedValue }}</b>
                 </div>
             </div>
         </div>
