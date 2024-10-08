@@ -23,6 +23,11 @@ const routes = [
         name: "client-products",
     },
     {
+        path: '/cart',
+        component: () => import("../pages/client/Client_Cart.vue"),
+        name: 'client-cart'
+    },
+    {
         path: "/client-profile",
         component: () => import("../pages/client/Client_Profile.vue"),
         name: "client-profile",
