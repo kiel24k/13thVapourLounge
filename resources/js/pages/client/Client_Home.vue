@@ -39,9 +39,7 @@ onMounted(() => {
     bestSellerList()
 })
 
-const test = () => {
 
-}
 
 </script>
 
@@ -51,7 +49,7 @@ const test = () => {
     <NavbarCategory />
     <section class="section-one">
         <span>New arrivals</span>
-        <div class="section-one-item"> =
+        <div class="section-one-item">
             <article v-for="(data, index) in newArrivalListItem.data" :key="index">
                 <router-link :to="{ name: 'client-products' }">
                     <figure>

@@ -50,7 +50,7 @@ const decrement = () => {
                     <button @click="increment"><b>+</b></button>
                 </div>
                 <div class="buy-now mt-3">
-                    <button class="btn btn-dark">Buy Now</button>
+                    <button class="btn btn-dark">Check Out</button>
                 </div>
             </div>
         </div>
