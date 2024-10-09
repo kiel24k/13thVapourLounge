@@ -33,7 +33,7 @@ const addToCartNewArrival = (data) => {
             id: data.id,
             image: data.image,
             product_label: data.product_label,
-            price: data.price,
+            price: data.product_price,
             quantity: 1
         })
     }
