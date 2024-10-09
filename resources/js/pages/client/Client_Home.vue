@@ -29,10 +29,16 @@ const addToCartNewArrival = (data) => {
     if (existingProduct) {
         existingProduct.quantity += 1
     } else {
-        cart.push({ id: data.id, quantity: 1 })
+        cart.push({
+            id: data.id,
+            image: data.image,
+            product_label: data.product_label,
+            price: data.price,
+            quantity: 1
+        })
     }
     localStorage.setItem('cart', JSON.stringify(cart))
-    cartTotal.value = cart.reduce((total, el) => total + el.quantity, 0 )
+    cartTotal.value = cart.reduce((total, el) => total + el.quantity, 0)
 }
 onMounted(() => {
     newArrivalList()
@@ -45,7 +51,7 @@ onMounted(() => {
 
 <template>
     <Header />
-    <Navbar :cartTotal="cartTotal"/>
+    <Navbar :cartTotal="cartTotal" />
     <NavbarCategory />
     <section class="section-one">
         <span>New arrivals</span>
