@@ -35,6 +35,7 @@ const addToCartNewArrival = (data) => {
             product_label: data.product_label,
             price: data.product_price,
             quantity: 1,
+            max_quantity:data.quantity
         })
     }
     localStorage.setItem('cart', JSON.stringify(cart))

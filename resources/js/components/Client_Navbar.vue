@@ -1,17 +1,20 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
-const props = defineProps(['cartTotal'])
+const props = defineProps(['cartTotal','QUANTITY_TOTAL_VALUE'])
+
+
 
 
 const cartMountedValue = ref()
 const cartMounted = () => {
     const cart = JSON.parse(localStorage.getItem('cart'))
-
     if (cart) {
         cartMountedValue.value = cart.reduce((total, el) => total + el.quantity, 0)
     }
 }
+
+
 
 
 onMounted(() => {
@@ -35,6 +38,7 @@ onMounted(() => {
                    <router-link :to="{name: 'client-cart'}">
                     <img src="/public/image/cart1-icon.png" alt="" width="30">
                    </router-link>
+                   
                     <b v-if="cartTotal">{{ cartTotal }}</b>
                     <b v-else>{{ cartMountedValue }}</b>
                 </div>
