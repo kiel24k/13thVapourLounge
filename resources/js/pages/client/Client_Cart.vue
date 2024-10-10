@@ -7,13 +7,14 @@ import { onMounted, ref, watch } from 'vue';
 
 let products = JSON.parse(localStorage.getItem("cart") || [])
 const SUB_TOTAL_VALUE = ref()
+const incrementDisabled = ref(false)
 
 const fetchProductsValue = ref({})
 const fetchProducts = () => {
     fetchProductsValue.value = products
-    const total = products.reduce((total,el) => total + parseInt(el.price) * parseInt(el.quantity), 0)
+    const total = products.reduce((total, el) => total + parseInt(el.price) * parseInt(el.quantity), 0)
     SUB_TOTAL_VALUE.value = total
-
+    
 }
 
 const incrementBtn = (id, price) => {
@@ -26,7 +27,7 @@ const incrementBtn = (id, price) => {
     SUB_TOTAL()
 }
 
-const decrementBtn = (id,price) => {
+const decrementBtn = (id, price) => {
     const test = products.find((el) => el.id === id)
     if (test) {
         test.quantity -= 1
@@ -37,13 +38,9 @@ const decrementBtn = (id,price) => {
 }
 
 const SUB_TOTAL = () => {
-    const total = products.reduce((total,el) => total + parseInt(el.price) * parseInt(el.quantity), 0)
+    const total = products.reduce((total, el) => total + parseInt(el.price) * parseInt(el.quantity), 0)
     SUB_TOTAL_VALUE.value = total
 }
-
-
-
-
 onMounted(() => {
     fetchProducts()
 })
@@ -84,13 +81,13 @@ onMounted(() => {
                                     </div>
                                 </td>
 
-                                <td>₱{{ data.price }}</td>
+                                <td class="price">₱{{ data.price }}</td>
                                 <td class="quan">
-                                    <button @click="incrementBtn(data.id, data.price)">+</button>
-                                    <input type="number" max="15" min="0" :value="data.quantity">
+                                    <button :disabled="incrementDisabled" @click="incrementBtn(data.id, data.price)">+</button>
+                                    <input type="number" :value="data.quantity">
                                     <button @click="decrementBtn(data.id, data.price)">-</button>
                                 </td>
-                               
+
                             </tr>
                         </tbody>
                     </table>
@@ -133,6 +130,14 @@ section {
     color: rgb(118, 118, 119);
 }
 
+.quan{
+    display: flex;
+}
+.quan input{
+    width: 30px;
+}
+
+
 .proceed-btn {
     background: rgb(103, 103, 102);
     border: 0;
@@ -146,8 +151,5 @@ section {
 
 .product-label img {
     border-radius: 5px;
-}
-.quan{
-    display: flex   ;
 }
 </style>
