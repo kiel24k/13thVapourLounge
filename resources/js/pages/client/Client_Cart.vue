@@ -120,7 +120,7 @@ onMounted(() => {
                             </tr>
                         </tbody>
                     </table>
-                    <button class="btn btn-dark proceed-btn">PROCEED TO CHECKOUT</button>
+                    <button class="btn btn-dark proceed-btn">PROCEED TO CHECKOUTs</button>
                 </div>
             </div>
         </div>
