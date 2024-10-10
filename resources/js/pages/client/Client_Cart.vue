@@ -7,14 +7,16 @@ import { onMounted, ref, watch } from 'vue';
 
 let products = JSON.parse(localStorage.getItem("cart") || [])
 const SUB_TOTAL_VALUE = ref()
+const QUANTITY_TOTAL_VALUE = ref()
 
 const fetchProductsValue = ref({})
 const fetchProducts = () => {
     fetchProductsValue.value = products
-    const total = products.reduce((total,el) => total + parseInt(el.price) * parseInt(el.quantity), 0)
+    const total = products.reduce((total, el) => total + parseInt(el.price) * parseInt(el.quantity), 0)
     SUB_TOTAL_VALUE.value = total
-
 }
+
+
 
 const incrementBtn = (id, price) => {
     const test = products.find((el) => el.id === id)
@@ -24,9 +26,11 @@ const incrementBtn = (id, price) => {
     }
     localStorage.setItem('cart', JSON.stringify(products))
     SUB_TOTAL()
+ 
+
 }
 
-const decrementBtn = (id,price) => {
+const decrementBtn = (id, price) => {
     const test = products.find((el) => el.id === id)
     if (test) {
         test.quantity -= 1
@@ -34,16 +38,15 @@ const decrementBtn = (id,price) => {
     }
     localStorage.setItem('cart', JSON.stringify(products))
     SUB_TOTAL()
+    
 }
 
 const SUB_TOTAL = () => {
-    const total = products.reduce((total,el) => total + parseInt(el.price) * parseInt(el.quantity), 0)
+    const total = products.reduce((total, el) => total + parseInt(el.price) * parseInt(el.quantity), 0)
+    const quantityTotal = products.reduce((total, el) => total + el, 0)
     SUB_TOTAL_VALUE.value = total
+    QUANTITY_TOTAL_VALUE.value = quantityTotal
 }
-
-
-
-
 onMounted(() => {
     fetchProducts()
 })
@@ -54,7 +57,7 @@ onMounted(() => {
 
 <template>
     <Header />
-    <Navbar />
+    <Navbar :QUANTITY_TOTAL_VALUE="QUANTITY_TOTAL_VALUE" />
     <NavbarCategory />
     <section class="section-one">
         <div id="cart">
@@ -84,13 +87,13 @@ onMounted(() => {
                                     </div>
                                 </td>
 
-                                <td>₱{{ data.price }}</td>
+                                <td class="price">₱{{ data.price }}</td>
                                 <td class="quan">
-                                    <button @click="incrementBtn(data.id, data.price)">+</button>
-                                    <input type="number" max="15" min="0" :value="data.quantity">
-                                    <button @click="decrementBtn(data.id, data.price)">-</button>
+                                    <button  @click="incrementBtn(data.id, data.price)">+</button>
+                                    <span class="p-1" v-if="data.quantity >= 0">{{ data.quantity }}</span>
+                                    <span v-else>{{ data.quantity = 0 }}</span>
+                                    <button  @click="decrementBtn(data.id, data.price)">-</button>
                                 </td>
-                               
                             </tr>
                         </tbody>
                     </table>
@@ -109,11 +112,11 @@ onMounted(() => {
                         <tbody>
                             <tr>
                                 <td>Subtotal</td>
-                                <td>{{ SUB_TOTAL_VALUE }}</td>
+                                <td>₱{{ SUB_TOTAL_VALUE }}.00</td>
                             </tr>
                             <tr>
                                 <td>Total</td>
-                                <td>{{ SUB_TOTAL_VALUE }}</td>
+                                <td>₱{{ SUB_TOTAL_VALUE }}.00</td>
                             </tr>
                         </tbody>
                     </table>
@@ -133,6 +136,13 @@ section {
     color: rgb(118, 118, 119);
 }
 
+.quan button {
+    border:0;
+
+}
+
+
+
 .proceed-btn {
     background: rgb(103, 103, 102);
     border: 0;
@@ -146,8 +156,5 @@ section {
 
 .product-label img {
     border-radius: 5px;
-}
-.quan{
-    display: flex   ;
 }
 </style>
