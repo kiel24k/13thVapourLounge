@@ -2,16 +2,53 @@
 import Header from '@/components/Client_Header.vue'
 import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 
-const products = ref({ Object })
-const productOnCart = () => {
-    products.value = JSON.parse(localStorage.getItem("cart") || [])
+let products = JSON.parse(localStorage.getItem("cart") || [])
+const SUB_TOTAL_VALUE = ref()
+
+const fetchProductsValue = ref({})
+const fetchProducts = () => {
+    fetchProductsValue.value = products
+    const total = products.reduce((total,el) => total + parseInt(el.price) * parseInt(el.quantity), 0)
+    SUB_TOTAL_VALUE.value = total
+
 }
+
+const incrementBtn = (id, price) => {
+    const test = products.find((el) => el.id === id)
+    if (test) {
+        test.quantity += 1
+        fetchProductsValue.value = [...products]
+    }
+    localStorage.setItem('cart', JSON.stringify(products))
+    SUB_TOTAL()
+}
+
+const decrementBtn = (id,price) => {
+    const test = products.find((el) => el.id === id)
+    if (test) {
+        test.quantity -= 1
+        fetchProductsValue.value = [...products]
+    }
+    localStorage.setItem('cart', JSON.stringify(products))
+    SUB_TOTAL()
+}
+
+const SUB_TOTAL = () => {
+    const total = products.reduce((total,el) => total + parseInt(el.price) * parseInt(el.quantity), 0)
+    SUB_TOTAL_VALUE.value = total
+}
+
+
+
+
 onMounted(() => {
-    productOnCart()
+    fetchProducts()
 })
+
+
 
 </script>
 
@@ -34,30 +71,32 @@ onMounted(() => {
                                 <th>Product</th>
                                 <th>Price</th>
                                 <th>Quantity</th>
-                                <th>Subtotal</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(data, index) in products" :key="index">
-                                <td>
-                                    <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`" width="70"
-                                        height="70" alt="">
+                            <tr v-for="(data, index) in fetchProductsValue" :key="index">
+                                <td class="product-label">
+                                    <div class="product-image">
+                                        <img :src="`storage/product_image/${data.image}`" width="70" height="70" alt="">
+                                    </div>
+                                    <div class="label">
+                                        <span>{{ data.product_label }}</span>
+                                    </div>
                                 </td>
 
                                 <td>₱{{ data.price }}</td>
-                                <td>
-                                    <button>+</button>
-                                    <span>{{ data.quantity }}</span>
-                                    <button>-</button>
+                                <td class="quan">
+                                    <button @click="incrementBtn(data.id, data.price)">+</button>
+                                    <input type="number" max="15" min="0" :value="data.quantity">
+                                    <button @click="decrementBtn(data.id, data.price)">-</button>
                                 </td>
-                                <td>Subtotal</td>
+                               
                             </tr>
                         </tbody>
                     </table>
-                   <router-link :to="{name: 'home-dashboard'}">
-                    <button class="btn btn-white">CONTINUE SHIPPING</button>
-                   </router-link>
-                    <button class="btn btn-dark">UPDATE CART</button>
+                    <router-link :to="{ name: 'home-dashboard' }">
+                        <button class="btn btn-white">CONTINUE SHIPPING</button>
+                    </router-link>
                 </div>
                 <div class="col">
                     <table class="table">
@@ -70,11 +109,11 @@ onMounted(() => {
                         <tbody>
                             <tr>
                                 <td>Subtotal</td>
-                                <td>₱1,170.00</td>
+                                <td>{{ SUB_TOTAL_VALUE }}</td>
                             </tr>
                             <tr>
                                 <td>Total</td>
-                                <td>₱1,170.00</td>
+                                <td>{{ SUB_TOTAL_VALUE }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -97,5 +136,18 @@ section {
 .proceed-btn {
     background: rgb(103, 103, 102);
     border: 0;
+}
+
+.product-label {
+    display: flex;
+    gap: 10px;
+    justify-content: start;
+}
+
+.product-label img {
+    border-radius: 5px;
+}
+.quan{
+    display: flex   ;
 }
 </style>
