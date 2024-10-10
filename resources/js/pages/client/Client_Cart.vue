@@ -116,7 +116,7 @@ onMounted(() => {
                             </tr>
                             <tr>
                                 <td>Total</td>
-                                <td>₱{{ SUB_TOTAL_VALUE }}.0</td>
+                                <td>₱{{ SUB_TOTAL_VALUE }}.00</td>
                             </tr>
                         </tbody>
                     </table>
