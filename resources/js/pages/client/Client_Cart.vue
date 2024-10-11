@@ -5,51 +5,75 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import { onMounted, ref, watch } from 'vue';
 
 
-let products = JSON.parse(localStorage.getItem("cart") || [])
-const SUB_TOTAL_VALUE = ref()
+const productTotal = ref()
+const FIXED_TOTAL = ref()
+let SUB_TOTAL_VALUE = ref()
 const QUANTITY_TOTAL_VALUE = ref()
-
 const fetchProductsValue = ref({})
+const decrementDisabledBtn = ref(false)
+
+
 const fetchProducts = () => {
-    fetchProductsValue.value = products
-    const total = products.reduce((total, el) => total + parseInt(el.price) * parseInt(el.quantity), 0)
-    SUB_TOTAL_VALUE.value = total
+    let products  = JSON.parse(localStorage.getItem("cart") || [])
+    productTotal.value = products
+    let total = products.reduce((total, el) => total + parseInt(el.price) * parseInt(el.quantity), 0)
+    FIXED_TOTAL.value = total
+   
 }
 
-
-
 const incrementBtn = (id, price) => {
-    const test = products.find((el) => el.id === id)
+    const test = productTotal.value.find((el) => el.id === id)
     if (test) {
         test.quantity += 1
-        fetchProductsValue.value = [...products]
+        fetchProductsValue.value = [...productTotal.value]
     }
-    localStorage.setItem('cart', JSON.stringify(products))
+    localStorage.setItem('cart', JSON.stringify(productTotal.value))
+    fetchProducts()
     SUB_TOTAL()
- 
-
 }
 
 const decrementBtn = (id, price) => {
-    const test = products.find((el) => el.id === id)
+    const test = productTotal.value.find((el) => el.id === id)
     if (test) {
         test.quantity -= 1
-        fetchProductsValue.value = [...products]
+        fetchProductsValue.value = [...productTotal.value]
     }
-    localStorage.setItem('cart', JSON.stringify(products))
+    if(test.quantity <= 0){
+        test.quantity = 0
+        
+    }else{
+        SUB_TOTAL()
+    }
+    localStorage.setItem('cart', JSON.stringify(productTotal.value))
+    fetchProducts()
     SUB_TOTAL()
-    
 }
 
 const SUB_TOTAL = () => {
-    const total = products.reduce((total, el) => total + parseInt(el.price) * parseInt(el.quantity), 0)
+    let products = JSON.parse(localStorage.getItem("cart") || [])
+    let total = products.reduce((total, el) => total + parseInt(el.price) * parseInt(el.quantity) , 0)
     const quantityTotal = products.reduce((total, el) => total + el, 0)
     SUB_TOTAL_VALUE.value = total
     QUANTITY_TOTAL_VALUE.value = quantityTotal
+   
 }
+
+const removeItemBtn = (id) => {
+    let products = JSON.parse(localStorage.getItem("cart") || [])
+    const currentProducts = products.filter((el) => el.id !== id)
+    if(currentProducts.length !== products.length){
+        localStorage.setItem('cart', JSON.stringify(currentProducts))
+    }
+    fetchProducts()
+    SUB_TOTAL()
+}
+
+
 onMounted(() => {
+    SUB_TOTAL()
     fetchProducts()
 })
+
 
 
 
@@ -71,13 +95,20 @@ onMounted(() => {
                     <table class="table">
                         <thead>
                             <tr>
+                                <th>
+                                    /
+                                </th>
                                 <th>Product</th>
                                 <th>Price</th>
                                 <th>Quantity</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(data, index) in fetchProductsValue" :key="index">
+                            <tr v-for="(data, index) in productTotal" :key="index">
+                                <td>
+                                    <img src="/public/image/delete-icon.png" alt="" width="20px"
+                                        @click="removeItemBtn(data.id)">
+                                </td>
                                 <td class="product-label">
                                     <div class="product-image">
                                         <img :src="`storage/product_image/${data.image}`" width="70" height="70" alt="">
@@ -89,10 +120,10 @@ onMounted(() => {
 
                                 <td class="price">₱{{ data.price }}</td>
                                 <td class="quan">
-                                    <button  @click="incrementBtn(data.id, data.price)">+</button>
-                                    <span class="p-1" v-if="data.quantity >= 0">{{ data.quantity }}</span>
+                                    <button @click="incrementBtn(data.id, data.price)">+</button>
+                                    <span class="p-1" v-if="data.quantity >= 1">{{ data.quantity }}</span>
                                     <span v-else>{{ data.quantity = 0 }}</span>
-                                    <button  @click="decrementBtn(data.id, data.price)">-</button>
+                                    <button :disabled="decrementDisabledBtn" @click="decrementBtn(data.id, data.price)">-</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -111,16 +142,23 @@ onMounted(() => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Subtotal</td>
-                                <td>₱{{ SUB_TOTAL_VALUE }}.00</td>
+                                <td>
+                                    SUBTOTAL
+                                </td>
+                                <td>
+                                   
+                                    <span>₱{{ SUB_TOTAL_VALUE }}.00</span>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Total</td>
-                                <td>₱{{ SUB_TOTAL_VALUE }}.00</td>
+                                <td>
+                                    <span>₱{{ SUB_TOTAL_VALUE }}.00</span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
-                    <button class="btn btn-dark proceed-btn">PROCEED TO CHECKOUT</button>
+                    <button class="btn btn-dark proceed-btn" @click="test">PROCEED TO CHECKOUT</button>
                 </div>
             </div>
         </div>
@@ -137,7 +175,7 @@ section {
 }
 
 .quan button {
-    border:0;
+    border: 0;
 
 }
 
