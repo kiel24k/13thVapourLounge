@@ -55,9 +55,7 @@ onMounted(() => {
                <router-link v-for="(data,index) in itemHoverCategory" :key="index">
                 {{ data.product_name }}
                </router-link>
-                   
             </div>
-
         </nav>
 
     </section>
