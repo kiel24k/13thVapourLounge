@@ -33,5 +33,6 @@ Route::controller(ClientController::class)->group(function () {
     route::get('/all-products', 'allProduct');
     route::get('/client-category-list','categoryList');
     route::get('/check-product', 'checkProduct');
+    route::get('/item-on-category', 'itemOnCategory');
 
 });

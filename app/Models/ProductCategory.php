@@ -13,4 +13,6 @@ class ProductCategory extends Model
         'product_type',
         'product_name',
     ];
+
+    
 }
