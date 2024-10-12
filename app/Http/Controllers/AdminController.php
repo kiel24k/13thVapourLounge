@@ -12,6 +12,7 @@ class AdminController extends Controller
     public function createCategory(Request $request)
     {
         $request->validate([
+            'product_type' => 'required|unique:product_categories,product_name',
             'product_name' => 'required|unique:product_categories,product_name',
         ]);
         $category = new ProductCategory();
@@ -34,7 +35,7 @@ class AdminController extends Controller
             'product_price' => 'required',
             'product_image' => 'mimes:png,jpg',
             'quantity' => 'required|integer',
-            'description' => 'required'
+            'description' => 'required| string'
         ]);
         $product = Product::create([
             'product_name' => $request->product_name,
@@ -61,7 +62,7 @@ class AdminController extends Controller
     {
         $sortOrder = $request->query('sortOrder', 'asc');
         $sortBy = $request->query('sortBy', 'product_name');
-        $product = Product::orderBy($sortBy, $sortOrder)->paginate(3);
+        $product = Product::orderBy($sortBy, $sortOrder)->paginate(10);
         return response()->json($product);
     }
     public function deleteProduct(Request $request)

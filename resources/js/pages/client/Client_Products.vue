@@ -2,44 +2,65 @@
 import Header from '@/components/Client_Header.vue'
 import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
+
+const route = useRoute()
 const quantity = ref(1)
+const product = ref({})
+
 const increment = () => {
-  quantity.value++
+    quantity.value++
 }
 
 const decrement = () => {
- quantity.value--
+    quantity.value--
 
- if(quantity.value <= 0){
-    quantity.value = 0
- }
+    if (quantity.value <= 0) {
+        quantity.value = 0
+    }
 }
+
+const checkProduct = async () => {
+    try {
+        const response = await axios.get('/api/check-product', {
+            params: {
+                id: route.params.id
+            }
+
+        }
+        )
+        product.value = response.data
+    } catch (error) {
+
+    }
+    console.log("your id is", route.params.id);
+
+}
+onMounted(() => {
+    checkProduct()
+})
 
 </script>
 
 <template>
-    <Header/>
-    <Navbar/>
-    <NavbarCategory/>
+    <Header />
+    <Navbar />
+    <NavbarCategory />
     <section class="section-one">
-        <div class="section-main">
+        <div class="section-main" v-if="product[0]">
             <div class="">
-                <img src="/public/image/vape-product-sample.png"  alt="">
+                <img :src="`/storage/product_image/${product[0].image}`" width="500" height="500" alt="">
             </div>
             <div class="item">
-                <h4 class="title">
-                    Shift Level bar 1000 puffs
-                </h4>
-                <b>flavor</b>
+                <div class="title">
+                    <small>{{ product[0].product_name }}</small>
+                    <span>{{ product[0].product_label }}</span>
+                </div>
+                <b>Description</b>
                 <div class="category">
-                    <span>Eruption (LYCHEE)</span>
-                <span>Tsunami (ICY GUMMY BEARS)</span>
-                <span>Eruption (LYCHEE)</span>
-                <span>Tsunami (ICY GUMMY BEARS)</span>
-                <span>Eruption (LYCHEE)</span>
-                <span>Tsunami (ICY GUMMY BEARS)</span>
+                    <span>{{ product[0].description }}</span>
                 </div>
                 <div class="price">
                     <b>₱400.00</b>
@@ -55,47 +76,62 @@ const decrement = () => {
             </div>
         </div>
     </section>
+
 </template>
 
 <style scoped>
-section{
+section {
     width: 70%;
-    margin:auto;
+    margin: auto;
 }
-.section-main{
+
+.section-main {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap:25px;
+    gap: 25px;
+
+}
+
+.title {
+    display: grid;
+}
+
+.title small {
+    color: gray;
+}
+
+.title span {
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.item .category {
+
+    width: 21rem;
     
 }
-.item .category{
-    display: grid;
-    align-items: start;
-    align-content: start;
-    gap:10px;
+
+.item .category span {
+    color:gray;
+    line-height: 2;
+   
 }
-.item .category span{
-    background: rgb(255, 255, 255);
-    width:max-content;
-    padding:15px;
-    box-shadow: 0px 0px 2px 0px rgb(167, 166, 166);
-    border-radius: 50px;
-}
-.quantity{
-    border:1px solid gray;
+
+.quantity {
+    border: 1px solid gray;
     width: 7rem;
     justify-content: space-between;
     display: flex;
     align-items: center;
     height: 3rem;
 }
-.quantity button{
-    border:0;
+
+.quantity button {
+    border: 0;
     width: 25px;
     font-size: 25px;
     background: none;
     cursor: pointer;
 }
-
 </style>

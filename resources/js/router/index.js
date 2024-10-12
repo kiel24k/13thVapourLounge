@@ -18,7 +18,7 @@ const routes = [
         name: "signup",
     },
     {
-        path: "/products",
+        path: "/products/:id",
         component: () => import("../pages/client/Client_Products.vue"),
         name: "client-products",
     },
