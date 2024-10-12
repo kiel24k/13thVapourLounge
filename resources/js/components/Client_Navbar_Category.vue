@@ -4,20 +4,32 @@ import { handleError, onMounted, ref } from 'vue';
 
 const categoryData = ref({})
 const itemHover = ref(false)
+const itemHoverCategory = ref(Object)
 
 
 const categoryList = async () => {
     try {
         const response = await axios.get('/api/client-category-list')
-       categoryData.value = response.data
-       
+        categoryData.value = response.data
+
     } catch (error) {
         console.log(error);
     }
 }
 
-const mouseHover = (id) => {
+const mouseHover = async (product_type) => {
     itemHover.value = true
+    try {
+        const response = await axios.get('/api/item-on-category', {
+            params: {
+                product_type: product_type
+            }
+        })
+        console.log(response);
+        itemHoverCategory.value = response.data
+    } catch (error) {
+
+    }
 }
 
 const mouseOut = () => {
@@ -32,21 +44,22 @@ onMounted(() => {
 
 <template>
     <section class="section-category" @mouseleave="mouseOut">
-        <nav id="nav-category" >
+        <nav id="nav-category">
             <ul class="navbar nav">
-                <li class="nav-item" v-for="(data,index) in categoryData" :key="index"  >
-                    <span href="" class="nav-link" @mouseenter="mouseHover(data.product_type)">{{ data.product_type }}</span>
-                    
+                <li class="nav-item" v-for="(data, index) in categoryData" :key="index">
+                    <span href="" class="nav-link" @mouseenter="mouseHover(data.product_type)">{{ data.product_type
+                        }}</span>
                 </li>
             </ul>
             <div class="item-hover" v-if="itemHover" @mouseleave="mouseOut">
-                <span>Rhonalyn Sales Mapagmahal</span>
-                <span>Si Love ko ay takot saakin</span>
-                <span><3</span>
+               <router-link v-for="(data,index) in itemHoverCategory" :key="index">
+                {{ data.product_name }}
+               </router-link>
+                   
             </div>
-            
+
         </nav>
-       
+
     </section>
 </template>
 
@@ -65,15 +78,17 @@ section {
 .section-category nav a:hover {
     text-decoration: underline;
 }
-.item-hover{
-    position:absolute;
+
+.item-hover {
+    position: absolute;
     display: grid;
     background: rgb(255, 255, 255);
     max-height: auto;
     box-shadow: 0px 0px 5px 0px gray;
     border-radius: 5px;
-    padding:10px;
+    padding: 10px;
     overflow: hidden;
     width: 70%;
+    gap:10px;
 }
 </style>
