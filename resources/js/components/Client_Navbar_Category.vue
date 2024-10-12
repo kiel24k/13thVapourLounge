@@ -10,14 +10,13 @@ const categoryList = async () => {
     try {
         const response = await axios.get('/api/client-category-list')
        categoryData.value = response.data
-       console.log(categoryData.value);
        
     } catch (error) {
         console.log(error);
     }
 }
 
-const mouseHover = () => {
+const mouseHover = (id) => {
     itemHover.value = true
 }
 
@@ -33,10 +32,11 @@ onMounted(() => {
 
 <template>
     <section class="section-category" @mouseleave="mouseOut">
-        <nav id="nav-category" @mouseenter="mouseHover">
+        <nav id="nav-category" >
             <ul class="navbar nav">
-                <li class="nav-item" v-for="(data,index) in categoryData" :key="index" >
-                    <a href="" class="nav-link">{{ data.product_type }}</a>
+                <li class="nav-item" v-for="(data,index) in categoryData" :key="index"  >
+                    <span href="" class="nav-link" @mouseenter="mouseHover(data.product_type)">{{ data.product_type }}</span>
+                    
                 </li>
             </ul>
             <div class="item-hover" v-if="itemHover" @mouseleave="mouseOut">

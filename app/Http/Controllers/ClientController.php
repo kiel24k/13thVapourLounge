@@ -26,4 +26,8 @@ class ClientController extends Controller
     public function checkProduct(Request $request){
         return response()->json(Product::where('id', $request->id)->get());
     }
+    public function itemOnCategory (Request $request) {
+        $product = Product::where('product_type', 'RELX');
+        return response()->json($product);
+    }
 }
