@@ -25,7 +25,7 @@ const mouseHover = async (product_type) => {
                 product_type: product_type
             }
         })
-        console.log(response);
+        console.log(response. "dsd");
         itemHoverCategory.value = response.data
     } catch (error) {
 
