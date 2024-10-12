@@ -6,12 +6,14 @@ const categoryData = ref({})
 
 const categoryList = async () => {
     try {
-        const response = await axios.get('api/category-list')
+        const response = await axios.get('/api/client-category-list')
        categoryData.value = response.data
+       console.log(categoryData.value);
+       
     } catch (error) {
         console.log(error);
-
     }
+    
 
 }
 

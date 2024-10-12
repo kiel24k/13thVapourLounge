@@ -194,7 +194,6 @@ onMounted(() => {
                                 <td>₱{{ data.product_price }}</td>
                                 <td>
                                     <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`" width="30" height="40" alt="">
-                                    {{ data.image }}
                                 </td>
                                 <td> x{{ data.quantity }} </td>
                                 <td> {{ data.description }} </td>
@@ -258,6 +257,9 @@ onMounted(() => {
 .category-input input {
     height: 50px;
 }
+.action {
+
+}
 
 #section-two table th {
     cursor: pointer;
@@ -292,6 +294,7 @@ onMounted(() => {
     .action button {
         background: transparent;
         border: 0;
+        
 
     }
 
