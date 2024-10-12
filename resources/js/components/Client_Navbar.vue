@@ -30,7 +30,11 @@ onMounted(() => {
                     <img src="/public/image/search-glassess copy.png" alt="" width="30">
                 </div>
                 <div class="">
-                    <img src="/public/image/1920525_gogle_google_logo_network_icon.png" alt="" width="40">
+                   
+                        <router-link :to="{ name: 'home-dashboard' }" href="" class="nav-link">
+                            <img src="/public/image/1920525_gogle_google_logo_network_icon.png" alt="" width="40">
+                        </router-link>
+                    
                 </div>
                 <div class="header-action">
                     <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="" width="30">
