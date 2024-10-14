@@ -4,8 +4,10 @@ import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import Loader from '@/widgets/Loader.vue'
+import Footer from '@/components/Client_Footer.vue'
 
-
+const loader = ref(false)
 const route = useRoute()
 const quantity = ref(1)
 const product = ref({})
@@ -24,14 +26,15 @@ const decrement = () => {
 
 const checkProduct = async () => {
     try {
+        loader.value = true
         const response = await axios.get('/api/check-product', {
             params: {
                 id: route.params.id
             }
-
         }
         )
         product.value = response.data
+        loader.value = false
     } catch (error) {
 
     }
@@ -47,6 +50,7 @@ onMounted(() => {
 <template>
     <Header />
     <Navbar />
+    <Loader v-if="loader"/>
     <NavbarCategory />
     <section class="section-one">
         <div class="section-main" v-if="product[0]">
@@ -76,6 +80,7 @@ onMounted(() => {
             </div>
         </div>
     </section>
+    <Footer/>
 
 </template>
 

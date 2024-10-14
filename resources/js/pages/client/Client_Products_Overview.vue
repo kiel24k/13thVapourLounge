@@ -5,19 +5,29 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import axios from 'axios';
 import { onMounted, ref, watch  } from 'vue';
 import { useRoute } from 'vue-router';
+import Footer from '@/components/Client_Footer.vue'
 
+
+
+const loader = ref(false)
 const route = useRoute()
 const productOverviewItem = ref(Object)
 
 
 
 const product_overview_api = async () => {
+   try{
+    loader.value = true
     const response = await axios.get('/api/products-overview', {
         params: {
             product_name: route.params.products_name
         }
     })
     productOverviewItem.value = response.data
+    loader.value = false
+   }catch(error){
+
+   }
 }
 
 watch(route, (oldVal, newVal) => {
@@ -32,6 +42,7 @@ onMounted(() => {
 <template>
     <Header />
     <Navbar />
+    <Loader v-if="loader"/>
     <NavbarCategory />
     <section class="section-one">
         <div class="section-main">
@@ -51,6 +62,7 @@ onMounted(() => {
             </article>
         </div>
     </section>
+    <Footer/>
 </template>
 <style scoped>
 section {

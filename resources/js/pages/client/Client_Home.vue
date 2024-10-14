@@ -2,23 +2,33 @@
 import Header from '@/components/Client_Header.vue'
 import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
+import Footer from '@/components/Client_Footer.vue'
 import { onMounted, ref } from 'vue';
+import Loader from '@/widgets/Loader.vue'
 
+
+const loader = ref(false)
 const newArrivalListItem = ref({})
 const bestSellerListItem = ref({})
 const cartTotal = ref()
+
+
 const newArrivalList = async () => {
     try {
+        loader.value = true
         const response = await axios.get('api/new-arrival-list')
         newArrivalListItem.value = response.data
+        loader.value = false
     } catch (error) {
     }
 }
 
 const bestSellerList = async () => {
     try {
+        loader.value = true
         const response = await axios.get('api/best-seller')
         bestSellerListItem.value = response.data
+        loader.value = false
     } catch (error) {
     }
 }
@@ -35,7 +45,7 @@ const addToCartNewArrival = (data) => {
             product_label: data.product_label,
             price: data.product_price,
             quantity: 1,
-            max_quantity:data.quantity
+            max_quantity: data.quantity
         })
     }
     localStorage.setItem('cart', JSON.stringify(cart))
@@ -51,14 +61,17 @@ onMounted(() => {
 </script>
 
 <template>
+
     <Header />
     <Navbar :cartTotal="cartTotal" />
+    <Loader v-if="loader" />
     <NavbarCategory />
+
     <section class="section-one">
         <span>New arrivals</span>
         <div class="section-one-item">
             <article v-for="(data, index) in newArrivalListItem.data" :key="index">
-                <router-link :to="{ name: 'client-products', params: {id: data.id} }">
+                <router-link :to="{ name: 'client-products', params: { id: data.id } }">
                     <figure>
                         <div class="image-one-content">
                             <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`" height="130"
@@ -97,6 +110,7 @@ onMounted(() => {
             </article>
         </div>
     </section>
+    <Footer />
 </template>
 
 <style scoped>
@@ -134,7 +148,7 @@ article {
     padding: 5px;
     margin: 10px;
     height: 24em;
-    padding:20px;
+    padding: 20px;
 }
 
 article img {
