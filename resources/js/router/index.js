@@ -23,14 +23,19 @@ const routes = [
         name: "client-products",
     },
     {
-        path: '/cart',
+        path: "/cart",
         component: () => import("../pages/client/Client_Cart.vue"),
-        name: 'client-cart'
+        name: "client-cart",
     },
     {
         path: "/client-profile",
         component: () => import("../pages/client/Client_Profile.vue"),
         name: "client-profile",
+    },
+    {
+        path: "/products-overview/:products_name",
+        component: () => import("../pages/client/Client_Products_Overview.vue"),
+        name: "products-overview",
     },
     //======================Admin routes=============================//
     {
@@ -41,7 +46,7 @@ const routes = [
     {
         path: "/admin-orders-list",
         component: () => import("../pages/admin/Admin_Orders.vue"),
-        name: 'admin-orders'
+        name: "admin-orders",
     },
     {
         path: "/admin-products",
@@ -54,14 +59,14 @@ const routes = [
         name: "admin-user-list",
     },
     {
-        path: '/admin-profile',
+        path: "/admin-profile",
         component: () => import("../pages/admin/Admin_Profile_List.vue"),
-        name: "admin-profile-list"
+        name: "admin-profile-list",
     },
     {
-        path: '/admin-account-settings',
+        path: "/admin-account-settings",
         component: () => import("../pages/admin/Admin_Account_Settings.vue"),
-        name: 'admin-account-settings'
+        name: "admin-account-settings",
     },
     //======================Sub-Admin routes=============================//
     {
@@ -70,9 +75,9 @@ const routes = [
         name: "sub-admin-dashboard",
     },
     {
-        path: '/test',
-        component: () => import("../pages/test.vue")
-    }
+        path: "/test",
+        component: () => import("../pages/test.vue"),
+    },
 ];
 
 const router = createRouter({
