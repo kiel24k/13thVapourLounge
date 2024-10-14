@@ -24,11 +24,11 @@ footer {
     margin-top: 5rem;
     width: 100%;
     height: 20rem;
-    background: rgb(58, 58, 58);
+    background: rgb(52, 58, 58);
     display: grid;
     justify-content: center;
     align-items: center;
-   
+    
 }
 
 .footer-links .social-media-img img {
