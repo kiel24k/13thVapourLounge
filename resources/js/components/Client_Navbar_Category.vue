@@ -25,7 +25,6 @@ const mouseHover = async (product_type) => {
                 product_type: product_type
             }
         })
-        console.log(response, "dsd");
         itemHoverCategory.value = response.data
     } catch (error) {
 
@@ -52,12 +51,11 @@ onMounted(() => {
                 </li>
             </ul>
             <div class="item-hover" v-if="itemHover" @mouseleave="mouseOut">
-               <router-link v-for="(data,index) in itemHoverCategory" :key="index">
+               <router-link :to="{name: 'products-overview', params: { products_name: data.product_name}}" v-for="(data,index) in itemHoverCategory" :key="index">
                 {{ data.product_name }}
                </router-link>
             </div>
         </nav>
-
     </section>
 </template>
 
@@ -88,5 +86,8 @@ section {
     overflow: hidden;
     width: 70%;
     gap:10px;
+}
+.nav-item{
+    cursor: pointer;
 }
 </style>

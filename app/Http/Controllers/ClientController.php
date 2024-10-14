@@ -30,4 +30,9 @@ class ClientController extends Controller
         $product = ProductCategory::where('product_type', $request->product_type)->get();
         return response()->json($product);
     }
+    public function productsOverview (Request $request) {
+        $product = Product::where('product_name', $request->product_name)->get();
+        return response()->json($product);
+
+    }
 }
