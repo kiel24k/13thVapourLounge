@@ -35,16 +35,19 @@ onMounted(() => {
     <NavbarCategory />
     <section class="section-one">
         <div class="section-main">
-            <article v-for="(data, index) in productOverviewItem" :key="index">
-                <figure>
+            <article  v-for="(data, index) in productOverviewItem" :key="index">
+                <router-link :to="{name: 'client-products', params: {id: data.id} }">
                     <div class="image-one-content">
                         <img :src="`/storage/product_image/${data.image}`" height="130" width="150" alt="" />
                     </div>
-                </figure>
+                </router-link>
                 <summary>
                     <p>₱{{ data.product_label }}</p>
                     <b>₱{{ data.product_price }}</b>
                 </summary>
+                <div class="text-start">
+                    <button class="btn btn-dark">Add to Cart</button>
+                </div>
             </article>
         </div>
     </section>
