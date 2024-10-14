@@ -24,7 +24,7 @@ footer {
     margin-top: 5rem;
     width: 100%;
     height: 20rem;
-    background: rgb(55, 58, 58);
+    background: rgb(59, 58, 58);
     display: grid;
     justify-content: center;
     align-items: center;
