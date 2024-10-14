@@ -46,12 +46,11 @@ onMounted(() => {
         <nav id="nav-category">
             <ul class="navbar nav">
                 <li class="nav-item" v-for="(data, index) in categoryData" :key="index">
-                    <span href="" class="nav-link" @mouseenter="mouseHover(data.product_type)">{{ data.product_type
-                        }}</span>
+                    <span href="" class="nav-link" @mouseenter="mouseHover(data.product_type)">{{ data.product_type}} | </span>
                 </li>
             </ul>
             <div class="item-hover" v-if="itemHover" @mouseleave="mouseOut">
-               <router-link :to="{name: 'products-overview', params: { products_name: data.product_name}}" v-for="(data,index) in itemHoverCategory" :key="index">
+               <router-link class="nav-link" :to="{name: 'products-overview', params: { products_name: data.product_name}}" v-for="(data,index) in itemHoverCategory" :key="index">
                 {{ data.product_name }}
                </router-link>
             </div>
@@ -66,13 +65,16 @@ section {
 }
 
 .section-category nav a {
-    color: black;
+    color: rgb(10, 10, 10);
     font-size: 15px;
     transition: all linear 0.5s;
+    font-size: larger;
+    text-decoration:none ;
+    transition: all linear 0.2s;
 }
 
 .section-category nav a:hover {
-    text-decoration: underline;
+    color:gray;
 }
 
 .item-hover {
@@ -86,8 +88,16 @@ section {
     overflow: hidden;
     width: 70%;
     gap:10px;
+    height: 10rem;
 }
+
 .nav-item{
     cursor: pointer;
 }
+.nav-item span{
+    color:black;
+    font-weight: 600;
+}
+
+
 </style>

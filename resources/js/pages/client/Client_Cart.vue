@@ -3,6 +3,7 @@ import Header from '@/components/Client_Header.vue'
 import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import { onMounted, ref, watch } from 'vue';
+import Footer from '@/components/Client_Footer.vue'
 
 
 const productTotal = ref()
@@ -163,6 +164,7 @@ onMounted(() => {
             </div>
         </div>
     </section>
+    <Footer/>
 </template>
 <style scoped>
 section {

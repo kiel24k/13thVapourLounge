@@ -8,10 +8,12 @@
         </ul>
         <p>Total items: {{ totalItems }}</p>
     </div>
+   
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
+
 
 const cart = ref([]);
 const totalItems = ref(0);
