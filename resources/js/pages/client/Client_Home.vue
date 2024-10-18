@@ -7,6 +7,7 @@ import { onMounted, ref } from 'vue';
 import Loader from '@/widgets/Loader.vue'
 
 
+
 const loader = ref(false)
 const newArrivalListItem = ref({})
 const bestSellerListItem = ref({})
@@ -51,9 +52,31 @@ const addToCartNewArrival = (data) => {
     localStorage.setItem('cart', JSON.stringify(cart))
     cartTotal.value = cart.reduce((total, el) => total + el.quantity, 0)
 }
+
+const addToCartBestSeller = (data) => {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const existingProduct = cart.find((el) => el.id === data.id)
+    if (existingProduct) {
+        existingProduct.quantity += 1
+    } else {
+        cart.push({
+            id: data.id,
+            image: data.image,
+            product_label: data.product_label,
+            price: data.product_price,
+            quantity: 1,
+            max_quantity: data.quantity
+        })
+    }
+    localStorage.setItem('cart', JSON.stringify(cart))
+    cartTotal.value = cart.reduce((total, el) => total + el.quantity, 0)
+}
 onMounted(() => {
     newArrivalList()
     bestSellerList()
+   
+   
+    
 })
 
 
@@ -94,18 +117,18 @@ onMounted(() => {
         <span>Best Sellers</span>
         <div class="section-one-item">
             <article v-for="(data, index) in bestSellerListItem.data" :key="index">
-                <figure>
+                <router-link :to="{ name: 'client-products', params: { id: data.id } }">
                     <div class="image-one-content">
                         <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`" height="130" width="150"
                             alt="" />
                     </div>
-                </figure>
+                </router-link>
                 <summary>
                     <p>{{ data.product_label }}</p>
-                    <small>₱{{ data.product_price }}</small>
+                    <b>₱{{ data.product_price }}</b>
                 </summary>
                 <div class="text-start">
-                    <button class="btn btn-dark">Add to Cart</button>
+                    <button class="btn btn-dark" @click="addToCartBestSeller(data)">Add to Cart</button>
                 </div>
             </article>
         </div>

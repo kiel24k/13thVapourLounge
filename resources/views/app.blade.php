@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>13th Vapour Lounge</title>
+	<title>Client title</title>
 
 	@vite('resources/css/app.css')
 </head>

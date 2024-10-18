@@ -2,7 +2,7 @@
     <footer>
         <div class="footer-content">
             <div class="footer-title text-center text-white">
-                <h1>13th Vapour Lounge</h1>
+                <h1>My Client Title</h1>
             </div>
             <div class="footer-links">
                 <div class="row">
