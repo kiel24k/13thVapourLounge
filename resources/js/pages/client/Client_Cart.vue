@@ -4,14 +4,19 @@ import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import { onMounted, ref, watch } from 'vue';
 import Footer from '@/components/Client_Footer.vue'
+import Cookies from 'js-cookie';
+import { useRouter } from 'vue-router';
+import Loader from '@/widgets/Loader.vue'
 
 
+const router = useRouter()
 const productTotal = ref()
 const FIXED_TOTAL = ref()
 let SUB_TOTAL_VALUE = ref()
 const QUANTITY_TOTAL_VALUE = ref()
 const fetchProductsValue = ref({})
 const decrementDisabledBtn = ref(false)
+const loader = ref(false)
 
 
 const fetchProducts = () => {
@@ -69,6 +74,16 @@ const removeItemBtn = (id) => {
     SUB_TOTAL()
 }
 
+const submitCart = () => {
+    let cookieUsername = JSON.stringify(Cookies.get('username'))
+   if(cookieUsername){
+    alert("dsd")
+   }else{
+    loader.value = true
+    router.push('/login')
+   }
+}
+
 
 onMounted(() => {
     SUB_TOTAL()
@@ -83,6 +98,7 @@ onMounted(() => {
 <template>
     <Header />
     <Navbar :QUANTITY_TOTAL_VALUE="QUANTITY_TOTAL_VALUE" />
+    <loader v-if="loader"/>
     <NavbarCategory />
     <section class="section-one">
         <div id="cart">
@@ -159,7 +175,7 @@ onMounted(() => {
                             </tr>
                         </tbody>
                     </table>
-                    <button class="btn btn-dark proceed-btn" @click="test">PROCEED TO CHECKOUT</button>
+                    <button class="btn btn-dark proceed-btn" @click="submitCart">PROCEED TO CHECKOUT</button>
                 </div>
             </div>
         </div>

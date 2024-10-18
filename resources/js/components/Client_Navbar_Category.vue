@@ -1,16 +1,21 @@
 <script setup>
 import axios from 'axios';
 import { handleError, onMounted, ref } from 'vue';
+import Loader from '@/widgets/Loader.vue'
 
 const categoryData = ref({})
 const itemHover = ref(false)
 const itemHoverCategory = ref(Object)
+const loader = ref(false)
 
 
 const categoryList = async () => {
+    loader.value = true
     try {
         const response = await axios.get('/api/client-category-list')
+        loader.value = false
         categoryData.value = response.data
+        
 
     } catch (error) {
         console.log(error);
@@ -42,6 +47,7 @@ onMounted(() => {
 </script>
 
 <template>
+    <Loader v-if="loader"/>
     <section class="section-category" @mouseleave="mouseOut">
         <nav id="nav-category">
             <ul class="navbar nav">

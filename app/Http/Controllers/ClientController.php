@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
+    public function clientAuth () {
+        return response()->json(Auth::user());
+    }
     public function newArrivalList()
     {
         $product = Product::where('label_category', 'new-arrival')->paginate(12);

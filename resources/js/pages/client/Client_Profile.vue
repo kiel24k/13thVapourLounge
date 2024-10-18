@@ -13,7 +13,7 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
             <figure>
                 <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="">
                 <figcaption class="profile-figcaption text-dark">
-                    <span>KIEL ALARCON BERMUDEZ</span>
+                    <span>Full name sample</span>
                 </figcaption>
             </figure>
 
@@ -34,7 +34,7 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
                 <figure class="figure-info">
                       <img src="/public/image/5296499_fb_facebook_facebook logo_icon.png" width="50" alt="">
                       <figcaption class="figure-figcaption">
-                        keilbermudez@gmail.com
+                        emailsample@gmail.com
                       </figcaption>
                 </figure>
             </div>
@@ -42,7 +42,7 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
                 <figure class="figure-info">
                       <img src="/public/image/5296499_fb_facebook_facebook logo_icon.png" width="50" alt="">
                       <figcaption class="figure-figcaption">
-                        keilbermudez@gmail.com
+                        emailsample@gmail.com
                       </figcaption>
                 </figure>
             </div>
@@ -50,7 +50,7 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
                 <figure class="figure-info">
                       <img src="/public/image/5296499_fb_facebook_facebook logo_icon.png" width="50" alt="">
                       <figcaption class="figure-figcaption">
-                        keilbermudez@gmail.com
+                        emailsample@gmail.com
                       </figcaption>
                 </figure>
             </div>
@@ -58,7 +58,7 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
                 <figure class="figure-info">
                       <img src="/public/image/5296499_fb_facebook_facebook logo_icon.png" width="50" alt="">
                       <figcaption class="figure-figcaption">
-                        keilbermudez@gmail.com
+                        emailsample@gmail.com
                       </figcaption>
                 </figure>
             </div>
