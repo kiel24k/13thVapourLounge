@@ -31,7 +31,7 @@ onMounted(() => {
                     <span>Total</span>
                     <div class="amount-action p-4">
                         <div class="balance">
-                            <span>{{ userOrderProduct[userOrderProduct.length - 1].total }}</span>
+                           
                         </div>
                         <div class="">
                             <button class="btn btn-danger">Print</button>
@@ -42,11 +42,12 @@ onMounted(() => {
                 <div class="details">
                     <div class="">
                         <span>Order From</span>
-                        <p>:Kiel Bermudez</p>
+                       {{props.userOrderProduct.fname}}  {{props.userOrderProduct.lname}}
                     </div>
                     <div class="">
-                        <span>DATE</span>
-                        <p>:Kiel Bermudez</p>
+                        <span>Date</span>
+                        {{props.userOrderProduct.date}}
+                        
                     </div>
                 </div>
                <div class="row">
@@ -60,7 +61,7 @@ onMounted(() => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(data, index) in props.userOrderProduct" :key="index">
+                            <tr v-for="(data, index) in props.userOrderProduct.data" :key="index">
                                 <td class="productData">
                                     <div class="">
                                         <img :src="`/storage/product_image/${data.image}`" width="50" alt="">

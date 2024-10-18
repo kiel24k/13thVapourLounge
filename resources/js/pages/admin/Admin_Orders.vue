@@ -22,9 +22,14 @@ const ORDER_lIST_API = async () => {
 
 }
 
-const viewUserProductBtn = (data) => {
+const viewUserProductBtn = (data,first_name,last_name,date) => {
     viewUserOrder.value = true
-    userOrderProduct.value =  data
+    userOrderProduct.value =  {
+        data: data,
+        fname: first_name,
+        lname: last_name,
+        date: date
+    }
     
 }
 const closeModal = () => {
@@ -98,7 +103,7 @@ onMounted(() => {
                                 <td class="action">
                                     <span>
                                         <button>
-                                            <img src="/public/image/view-eye.png" width="20px" alt="" @click="viewUserProductBtn(JSON.parse(data.order_data))">
+                                            <img src="/public/image/view-eye.png" width="20px" alt="" @click="viewUserProductBtn(JSON.parse(data.order_data), data.first_name, data.last_name, data.created_at)">
                                         </button>
                                         <button>
                                             <img src="/public/image/delete-icon.png" width="20px" alt="">
