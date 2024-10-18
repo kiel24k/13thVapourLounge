@@ -96,8 +96,9 @@ class AdminController extends Controller
     }
 
     public function orderList (Request $request) {
-        $order = DB::table('user_orders')->where('user_id', 2)->get();
-        return response()->json($order);
-
+        $user = UserOrder::select('*')->paginate(4);
+        return response()->json([
+            $user,
+        ]);
     }
 }

@@ -90,6 +90,8 @@ const submitCart = async () => {
             const orderData = order.filter((el) => el.quantity > 0)
             const response = await axios.post('/api/client-order', {
                 user_id: userData.value.id,
+                first_name: userData.value.first_name,
+                last_name: userData.value.last_name,
                 order_data:JSON.stringify(orderData.concat({total: FIXED_TOTAL.value}) ),
         })
         localStorage.setItem('cart', JSON.stringify(order.filter((el) => el.quantity === 0)))
