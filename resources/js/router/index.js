@@ -28,9 +28,9 @@ const routes = [
         name: "client-cart",
     },
     {
-        path: "/client-profile",
+        path: "/my-profile",
         component: () => import("../pages/client/Client_Profile.vue"),
-        name: "client-profile",
+        name: "my-profile",
     },
     {
         path: "/products-overview/:products_name",

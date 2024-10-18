@@ -1,7 +1,12 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue';
+import Cookies from 'js-cookie';
+import Loader from '@/widgets/Loader.vue'
 
 const props = defineProps(['cartTotal','QUANTITY_TOTAL_VALUE'])
+const user = ref(Object)
+const loader = ref(false)
+
 
 
 
@@ -14,15 +19,26 @@ const cartMounted = () => {
     }
 }
 
+const CLIENT_AUTH_API = async () => {
+    loader.value = true
+    try{
+        const response = await axios.get('/api/client-auth')
+       user.value = response.data
+       loader.value = false
+        
+    }catch(error){
 
-
+    }
+}
 
 onMounted(() => {
     cartMounted()
+    CLIENT_AUTH_API()
 })
 </script>
 
 <template>
+    <Loader v-if="loader"/>
     <nav>
         <div class="row">
             <div class="col nav-main">
@@ -30,15 +46,15 @@ onMounted(() => {
                     <img src="/public/image/search-glassess copy.png" alt="" width="30">
                 </div>
                 <div class="">
-                   
                         <router-link :to="{ name: 'home-dashboard' }" href="" class="nav-link">
                             <img src="/public/image/1920525_gogle_google_logo_network_icon.png" alt="" width="40">
                         </router-link>
-                    
                 </div>
                 <div class="header-action">
-                    <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="" width="30">
-                    <span>Cart / P280.00</span>
+                    <router-link :to="{name: 'my-profile'}">
+                        <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="" width="30">
+                    </router-link>
+                    {{ user.first_name }}
                    <router-link :to="{name: 'client-cart'}">
                     <img src="/public/image/cart1-icon.png" alt="" width="30">
                    </router-link>
@@ -63,5 +79,8 @@ onMounted(() => {
 .header-action {
     display: flex;
     gap: 10px;
+}
+.header-action img{
+    cursor: pointer;
 }
 </style>

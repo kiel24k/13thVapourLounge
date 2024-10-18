@@ -80,7 +80,7 @@ const submitCart = () => {
     alert("dsd")
    }else{
     loader.value = true
-    router.push('/signup')
+    router.push('/login')
    }
 }
 

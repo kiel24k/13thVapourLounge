@@ -34,7 +34,7 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
                 <figure class="figure-info">
                       <img src="/public/image/5296499_fb_facebook_facebook logo_icon.png" width="50" alt="">
                       <figcaption class="figure-figcaption">
-                        keilbermudez@gmail.com
+                        emailsample@gmail.com
                       </figcaption>
                 </figure>
             </div>
