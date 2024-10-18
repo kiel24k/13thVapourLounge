@@ -42,6 +42,8 @@ class ClientController extends Controller
     public function ClientOrder (Request $request){
         $user = new UserOrder();
         $user->user_ID = $request->user_id;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
         $user->order_data = $request->order_data;
         $user->save();
         return response()->json($user);

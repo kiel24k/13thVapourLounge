@@ -1,23 +1,58 @@
 <script setup>
 import Header from '@/components/Admin_Header.vue'
 import Sidebar from '@/components/Admin_Sidebar.vue'
+import { onMounted, ref } from 'vue';
+import ViewUserOrder from '@/components/Admin_View_User_Order.vue'
+
+const orderList = ref(Object)
+const viewUserOrder = ref(false)
+const userOrderProduct = ref(Object)
+
+
+
+const ORDER_lIST_API = async () => {
+    try {
+        const response = await axios.get('/api/order-list')
+        orderList.value = response.data[0]
+        console.log(typeof orderList.value.data[0].order_data);
+        //  console.log(JSON.parse(orderList.value.data[1].order_data));
+    } catch (error) {
+
+    }
+
+}
+
+const viewUserProductBtn = (data) => {
+    viewUserOrder.value = true
+    userOrderProduct.value =  data
+    
+}
+const closeModal = () => {
+    viewUserOrder.value =false
+}
+
+onMounted(() => {
+    ORDER_lIST_API()
+})
+
 </script>
 
 <template>
+    <ViewUserOrder v-if="viewUserOrder" :userOrderProduct="userOrderProduct" @closeModal="closeModal"/>
     <div id="section-one">
         <div class="header">
-            <Header/>
+            <Header />
         </div>
         <div class="content">
             <div class="sidebar">
-                <Sidebar/>
+                <Sidebar />
             </div>
             <div class="main m-2">
                 <section id="section-one" class="mt-4">
                     <div class="row">
                         <div class="col">
-                            <span>Products</span>
-                            <span>Store</span>
+                            <span>Users</span>
+                            <span>Orders</span>
                         </div>
                         <div class="col">
                             <div class="table-action text-end">
@@ -50,24 +85,20 @@ import Sidebar from '@/components/Admin_Sidebar.vue'
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>name</th>
-                                <th>city</th>
-                                <th>area</th>
-                                <th>state</th>
-                                <th>action</th>
+                                <th>user</th>
+                                <th>Date Order</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Kiel Bermudez</td>
-                                <td>Cavite</td>
-                                <td>Manila</td>
-                                <td>Phillippines</td>
+                            <tr v-for="(data, index) in orderList.data" :key="index">
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ data.first_name }} {{ data.last_name }}</td>
+                                <td>{{ data.created_at }}</td>
                                 <td class="action">
                                     <span>
                                         <button>
-                                            <img src="/public/image/update-pencil-icon.svg" width="20px" alt="">
+                                            <img src="/public/image/view-eye.png" width="20px" alt="" @click="viewUserProductBtn(JSON.parse(data.order_data))">
                                         </button>
                                         <button>
                                             <img src="/public/image/delete-icon.png" width="20px" alt="">
@@ -91,14 +122,16 @@ import Sidebar from '@/components/Admin_Sidebar.vue'
 </template>
 
 <style scoped>
-#section-one{
+#section-one {
     display: grid;
-    
+
 }
-.content{
+
+.content {
     display: flex;
 }
-.main{
+
+.main {
     width: 100%;
 }
 
@@ -125,18 +158,20 @@ import Sidebar from '@/components/Admin_Sidebar.vue'
         padding: 4px;
         background: transparent;
     }
+
     .action button {
         background: transparent;
         border: 0;
     }
 }
+
 @media screen and (max-width: 1116px) {
     section {
         width: 90%;
         margin: auto;
     }
 
-    #section-two  {
+    #section-two {
         overflow: auto;
     }
 

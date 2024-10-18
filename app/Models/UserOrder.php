@@ -11,6 +11,12 @@ class UserOrder extends Model
     protected $table = 'user_orders';
     protected $fillable = [
      'user_ID',
+     'first_name',
+     'last_name',
      'order_data'
     ];
+
+    public function userInfo () {
+        return $this->hasMany(User::class, 'id');
+    }
 }
