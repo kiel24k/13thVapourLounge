@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\UserOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,6 +38,12 @@ class ClientController extends Controller
     public function productsOverview (Request $request) {
         $product = Product::where('product_name', $request->product_name)->get();
         return response()->json($product);
-
     }
+    public function ClientOrder (Request $request){
+        $user = new UserOrder();
+        $user->user_ID = $request->user_id;
+        $user->order_data = $request->order_data;
+        $user->save();
+        return response()->json($user);
+    } 
 }

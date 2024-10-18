@@ -8,7 +8,6 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'vue-router';
 import Loader from '@/widgets/Loader.vue'
 
-
 const router = useRouter()
 const productTotal = ref()
 const FIXED_TOTAL = ref()
@@ -17,14 +16,18 @@ const QUANTITY_TOTAL_VALUE = ref()
 const fetchProductsValue = ref({})
 const decrementDisabledBtn = ref(false)
 const loader = ref(false)
+const userData = ref(Object)
 
+
+const user = (data) => {
+    userData.value = data
+}
 
 const fetchProducts = () => {
-    let products  = JSON.parse(localStorage.getItem("cart") || [])
+    let products = JSON.parse(localStorage.getItem("cart") || [])
     productTotal.value = products
     let total = products.reduce((total, el) => total + parseInt(el.price) * parseInt(el.quantity), 0)
     FIXED_TOTAL.value = total
-   
 }
 
 const incrementBtn = (id, price) => {
@@ -44,10 +47,10 @@ const decrementBtn = (id, price) => {
         test.quantity -= 1
         fetchProductsValue.value = [...productTotal.value]
     }
-    if(test.quantity <= 0){
+    if (test.quantity <= 0) {
         test.quantity = 0
-        
-    }else{
+
+    } else {
         SUB_TOTAL()
     }
     localStorage.setItem('cart', JSON.stringify(productTotal.value))
@@ -57,37 +60,56 @@ const decrementBtn = (id, price) => {
 
 const SUB_TOTAL = () => {
     let products = JSON.parse(localStorage.getItem("cart") || [])
-    let total = products.reduce((total, el) => total + parseInt(el.price) * parseInt(el.quantity) , 0)
+    let total = products.reduce((total, el) => total + parseInt(el.price) * parseInt(el.quantity), 0)
     const quantityTotal = products.reduce((total, el) => total + el, 0)
     SUB_TOTAL_VALUE.value = total
     QUANTITY_TOTAL_VALUE.value = quantityTotal
-   
+
 }
 
 const removeItemBtn = (id) => {
     let products = JSON.parse(localStorage.getItem("cart") || [])
     const currentProducts = products.filter((el) => el.id !== id)
-    if(currentProducts.length !== products.length){
+    if (currentProducts.length !== products.length) {
         localStorage.setItem('cart', JSON.stringify(currentProducts))
     }
     fetchProducts()
     SUB_TOTAL()
 }
 
-const submitCart = () => {
+const submitCart = async () => {
+    let order = JSON.parse(localStorage.getItem('cart'))
     let cookieUsername = JSON.stringify(Cookies.get('username'))
-   if(cookieUsername){
-    alert("dsd")
-   }else{
-    loader.value = true
-    router.push('/login')
-   }
+  
+
+    
+    if (cookieUsername) {
+        if(FIXED_TOTAL.value === 0){
+            alert("No Product ")
+        }else{
+            const orderData = order.filter((el) => el.quantity > 0)
+            const response = await axios.post('/api/client-order', {
+                user_id: userData.value.id,
+                order_data:JSON.stringify(orderData.concat({total: FIXED_TOTAL.value}) ),
+        })
+        localStorage.setItem('cart', JSON.stringify(order.filter((el) => el.quantity === 0)))
+        }
+       
+    } else {
+        loader.value = true
+        router.push('/login')
+    }
+    fetchProducts()
+    SUB_TOTAL()
 }
+
 
 
 onMounted(() => {
     SUB_TOTAL()
     fetchProducts()
+
+
 })
 
 
@@ -97,8 +119,8 @@ onMounted(() => {
 
 <template>
     <Header />
-    <Navbar :QUANTITY_TOTAL_VALUE="QUANTITY_TOTAL_VALUE" />
-    <loader v-if="loader"/>
+    <Navbar :QUANTITY_TOTAL_VALUE="QUANTITY_TOTAL_VALUE" @user="user" />
+    <loader v-if="loader" />
     <NavbarCategory />
     <section class="section-one">
         <div id="cart">
@@ -140,7 +162,8 @@ onMounted(() => {
                                     <button @click="incrementBtn(data.id, data.price)">+</button>
                                     <span class="p-1" v-if="data.quantity >= 1">{{ data.quantity }}</span>
                                     <span v-else>{{ data.quantity = 0 }}</span>
-                                    <button :disabled="decrementDisabledBtn" @click="decrementBtn(data.id, data.price)">-</button>
+                                    <button :disabled="decrementDisabledBtn"
+                                        @click="decrementBtn(data.id, data.price)">-</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -163,7 +186,7 @@ onMounted(() => {
                                     SUBTOTAL
                                 </td>
                                 <td>
-                                   
+
                                     <span>₱{{ SUB_TOTAL_VALUE }}.00</span>
                                 </td>
                             </tr>
@@ -180,7 +203,7 @@ onMounted(() => {
             </div>
         </div>
     </section>
-    <Footer/>
+    <Footer />
 </template>
 <style scoped>
 section {

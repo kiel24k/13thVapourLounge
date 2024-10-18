@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import Loader from '@/widgets/Loader.vue'
 
 const props = defineProps(['cartTotal','QUANTITY_TOTAL_VALUE'])
+const emit = defineEmits(['user'])
 const user = ref(Object)
 const loader = ref(false)
 
@@ -24,10 +25,12 @@ const CLIENT_AUTH_API = async () => {
     try{
         const response = await axios.get('/api/client-auth')
        user.value = response.data
+       emit('user',response.data)
        loader.value = false
+       
         
     }catch(error){
-
+      
     }
 }
 

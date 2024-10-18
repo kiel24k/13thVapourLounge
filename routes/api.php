@@ -25,6 +25,7 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/display-only-category', 'displayOnlyCategory');
     route::get('/user-list', 'userList');
     route::post('/delete-user','deleteUser');
+    route::get('/order-list', 'orderList');
 });
 
 Route::controller(ClientController::class)->group(function () {
@@ -36,5 +37,5 @@ Route::controller(ClientController::class)->group(function () {
     route::get('/check-product', 'checkProduct');
     route::get('/item-on-category', 'itemOnCategory');
     route::get('/products-overview', 'productsOverview');
-
+    route::post('/client-order', 'ClientOrder');
 });
