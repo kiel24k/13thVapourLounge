@@ -38,9 +38,9 @@ const routes = [
         name: "products-overview",
     },
     {
-        path: '/my-address-book',
-        component:() => import('../pages/client/Client_Address_Book.vue'),
-        name: "my-address-book"
+        path: "/my-address-book",
+        component: () => import("../pages/client/Client_Address_Book.vue"),
+        name: "my-address-book",
     },
     //======================Admin routes=============================//
     {
@@ -73,6 +73,16 @@ const routes = [
         component: () => import("../pages/admin/Admin_Account_Settings.vue"),
         name: "admin-account-settings",
     },
+    {
+        path: "/client-cancelation",
+        component: () => import("../pages/client/Client_Cancelation.vue"),
+        name: "client-cancelation",
+    },
+    {
+        path: "/client-wishlist",
+        component: () => import("../pages/client/Client_Wishlist.vue"),
+        name: "client-wishlist",
+    },
     //======================Sub-Admin routes=============================//
     {
         path: "/sub-admin-dashboard",
@@ -83,7 +93,6 @@ const routes = [
         path: "/test",
         component: () => import("../pages/test.vue"),
     },
-    
 ];
 
 const router = createRouter({
