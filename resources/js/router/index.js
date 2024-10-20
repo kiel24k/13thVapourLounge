@@ -37,6 +37,11 @@ const routes = [
         component: () => import("../pages/client/Client_Products_Overview.vue"),
         name: "products-overview",
     },
+    {
+        path: '/my-address-book',
+        component:() => import('../pages/client/Client_Address_Book.vue'),
+        name: "my-address-book"
+    },
     //======================Admin routes=============================//
     {
         path: "/admin-dashboard",
@@ -78,6 +83,7 @@ const routes = [
         path: "/test",
         component: () => import("../pages/test.vue"),
     },
+    
 ];
 
 const router = createRouter({
