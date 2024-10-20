@@ -96,7 +96,7 @@ const submitCart = async () => {
         })
         localStorage.setItem('cart', JSON.stringify(order.filter((el) => el.quantity === 0)))
         }
-        //as
+        //ass
        
     } else {
         loader.value = true
