@@ -33,39 +33,32 @@ import NavbarAccount from '@/components/Client_Navbar_Account.vue'
 
     <section id="info">
         <article>
-            <h2>Info</h2>
-            <div class="content">
-                <figure class="figure-info">
-                      <img src="/public/image/5296499_fb_facebook_facebook logo_icon.png" width="50" alt="">
-                      <figcaption class="figure-figcaption">
-                        emailsample@gmail.com
-                      </figcaption>
-                </figure>
-            </div>
-            <div class="content">
-                <figure class="figure-info">
-                      <img src="/public/image/5296499_fb_facebook_facebook logo_icon.png" width="50" alt="">
-                      <figcaption class="figure-figcaption">
-                        emailsample@gmail.com
-                      </figcaption>
-                </figure>
-            </div>
-            <div class="content">
-                <figure class="figure-info">
-                      <img src="/public/image/5296499_fb_facebook_facebook logo_icon.png" width="50" alt="">
-                      <figcaption class="figure-figcaption">
-                        emailsample@gmail.com
-                      </figcaption>
-                </figure>
-            </div>
-            <div class="content">
-                <figure class="figure-info">
-                      <img src="/public/image/5296499_fb_facebook_facebook logo_icon.png" width="50" alt="">
-                      <figcaption class="figure-figcaption">
-                        emailsample@gmail.com
-                      </figcaption>
-                </figure>
-            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Address</th>
+                        <th>Postcode</th>
+                        <th>Phone Number</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Kiel Alarcon Bermudez</td>
+                        <td>Paradahan 1</td>
+                        <td>Cavite</td>
+                        <td>09193471522</td>
+                        <td>
+                            <span class="text-primary">Edit</span>
+                        </td>
+                    </tr>
+                </tbody>
+             
+            </table>
+           <div class="text-end">
+            <button class="btn btn-primary">Add new address</button>
+           </div>
         </article>
     </section>
 </template>
@@ -95,18 +88,25 @@ import NavbarAccount from '@/components/Client_Navbar_Account.vue'
     }
 
     #info{
-        max-width: 70%;
-        margin:auto;
-        box-shadow: 0px 0px 2px 0px gray;    
-        border-radius: 10px;
+        max-width:70%;
+        margin: auto;
         padding:10px;
-        
+        background: white;
     }
 
-    .figure-info {
-        display: flex;
+    #info table th{
+        background: rgb(236, 235, 235);
+        color:gray;
+        font-weight: 500;
+        font-size: 12px;
     }
-    .figure-figcaption{
-        font-weight: 600;
+
+    #info table td {
+        color:black;
+        font-size: 15px;
+        background: #ffffff;
     }
+
+
+    
 </style>
