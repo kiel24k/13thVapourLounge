@@ -8,10 +8,10 @@
                 <router-link :to="{name: 'my-address-book'}" class="nav-link">Address Book</router-link>
             </li>
             <li class="nav-item">
-                <a href="" class="nav-link">My Cancellations</a>
+                <router-link :to="{name: 'client-cancelation'}" class="nav-link">My Cancellations</router-link>
             </li>
             <li class="nav-item">
-                <a href="" class="nav-link">My Wishlist</a>
+                <router-link :to="{name: 'client-wishlist'}" class="nav-link">My Wishlist</router-link>
             </li>
 
         </ul>
