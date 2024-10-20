@@ -73,7 +73,7 @@ section {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    background: rgb(255, 255, 255);
+    background: rgb(241, 239, 239);
 }
 
 article {
@@ -84,6 +84,7 @@ article {
     margin: 10px;
     height: 24em;
     padding:20px;
+    background: white;
 }
 
 figure {

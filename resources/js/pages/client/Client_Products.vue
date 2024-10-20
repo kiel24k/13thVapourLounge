@@ -88,6 +88,7 @@ onMounted(() => {
 section {
     width: 70%;
     margin: auto;
+    
 }
 
 .section-main {
@@ -95,6 +96,7 @@ section {
     justify-content: center;
     align-items: center;
     gap: 25px;
+    
 
 }
 

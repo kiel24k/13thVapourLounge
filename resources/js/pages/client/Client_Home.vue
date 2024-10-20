@@ -172,6 +172,7 @@ article {
     margin: 10px;
     height: 24em;
     padding: 20px;
+    background: white;
 }
 
 article img {
