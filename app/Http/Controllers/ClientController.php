@@ -48,4 +48,6 @@ class ClientController extends Controller
         $user->save();
         return response()->json($user);
     } 
+
+ 
 }

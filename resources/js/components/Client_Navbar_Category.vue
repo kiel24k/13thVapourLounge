@@ -55,19 +55,29 @@ onMounted(() => {
                     <span href="" class="nav-link" @mouseenter="mouseHover(data.product_type)">{{ data.product_type}} | </span>
                 </li>
             </ul>
-            <div class="item-hover" v-if="itemHover" @mouseleave="mouseOut">
-               <router-link class="nav-link" :to="{name: 'products-overview', params: { products_name: data.product_name}}" v-for="(data,index) in itemHoverCategory" :key="index">
-                {{ data.product_name }}
-               </router-link>
-            </div>
+            
         </nav>
+        <div class="item-hover" v-if="itemHover" @mouseleave="mouseOut">
+            <router-link class="nav-link" :to="{name: 'products-overview', params: { products_name: data.product_name}}" v-for="(data,index) in itemHoverCategory" :key="index">
+             {{ data.product_name }}
+            </router-link>
+         </div>
     </section>
 </template>
 
 <style scoped>
 section {
-    width: 70%;
+    width: 100%;
     margin: auto;
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    top:0;
+    z-index: 999;
+    background: rgb(255, 255, 255,0.6);
+    backdrop-filter: blur(25px);
+    border:solid 1px gray;
+    border-width: 0px 0px 1px 0px;
 }
 
 .section-category nav a {
@@ -95,6 +105,7 @@ section {
     width: 70%;
     gap:10px;
     height: 10rem;
+    margin: auto;
 }
 
 .nav-item{

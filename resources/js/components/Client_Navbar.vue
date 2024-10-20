@@ -2,7 +2,10 @@
 import { onMounted, ref, watch } from 'vue';
 import Cookies from 'js-cookie';
 import Loader from '@/widgets/Loader.vue'
+import { useRouter } from 'vue-router';
 
+
+const router = useRouter()
 const props = defineProps(['cartTotal','QUANTITY_TOTAL_VALUE'])
 const emit = defineEmits(['user'])
 const user = ref(Object)
@@ -34,6 +37,18 @@ const CLIENT_AUTH_API = async () => {
     }
 }
 
+const logout =  async () => {
+    try{
+        const response = await axios.get('/api/logout')
+        if(response.status === 200){
+            router.push('/login')
+        }
+        
+    }catch(error){
+
+    }
+}
+
 onMounted(() => {
     cartMounted()
     CLIENT_AUTH_API()
@@ -55,28 +70,37 @@ onMounted(() => {
                 </div>
                 <div class="header-action">
                     <router-link :to="{name: 'my-profile'}">
-                        <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="" width="30">
+                            <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="" width="30">
+                            {{ user.first_name }} {{ user.last_name }}
                     </router-link>
-                    {{ user.first_name }}
                    <router-link :to="{name: 'client-cart'}">
                     <img src="/public/image/cart1-icon.png" alt="" width="30">
+                    cart
                    </router-link>
-                   
                     <b v-if="cartTotal">{{ cartTotal }}</b>
                     <b v-else>{{ cartMountedValue }}</b>
+                    <button class="btn btn-danger" @click="logout">Logout</button>
                 </div>
+                
             </div>
         </div>
     </nav>
 </template>
 
 <style scoped>
+nav{
+    position: relative;
+    top:0;
+    z-index: 999;
+    background: white;
+}
 .nav-main {
     display: flex;
     justify-content: space-around;
     box-shadow: 0px 0px 5px 0px gray;
     padding: 10px;
     align-items: center;
+   
 }
 
 .header-action {
@@ -85,5 +109,14 @@ onMounted(() => {
 }
 .header-action img{
     cursor: pointer;
+    margin: auto;
+}
+.header-action a{
+    display: grid;
+    font-size: 12px;
+    text-align: center;
+    text-decoration: none;
+    color:rgb(102, 76, 76);
+    text-transform: capitalize;
 }
 </style>

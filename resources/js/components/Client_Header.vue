@@ -15,7 +15,7 @@
         justify-content:space-around;
         align-items: center;
         width: 100%;
-        position: sticky;
+        position:relative;
         top:0;
         background-color: rgb(0, 0, 0,0.5);
         backdrop-filter: blur(10px);

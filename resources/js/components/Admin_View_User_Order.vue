@@ -29,8 +29,10 @@ onMounted(() => {
             <div class="row ">
                 <div class="col amount">
                     <span>Total</span>
+                    
                     <div class="amount-action p-4">
                         <div class="balance">
+                            <span>P{{ props.userOrderProduct.data[props.userOrderProduct.data.length - 1].total }}.00</span>
                            
                         </div>
                         <div class="">
