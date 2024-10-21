@@ -3,6 +3,22 @@ import Header from '@/components/Client_Header.vue'
 import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import NavbarAccount from '@/components/Client_Navbar_Account.vue'
+import { onMounted, ref } from 'vue';
+
+const user = ref(Object)
+const USER_API = async () => {
+    try {
+        const response = await axios.get('/api/user')
+        user.value = response.data
+    } catch (error) {
+
+    }
+}
+
+onMounted(() => {
+    USER_API()
+
+})
 </script>
 
 <template>
@@ -14,7 +30,9 @@ import NavbarAccount from '@/components/Client_Navbar_Account.vue'
             <figure>
                 <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="">
                 <figcaption class="profile-figcaption text-dark">
-                    <span>Full name sample</span>
+                    <span>{{ user.first_name }} {{ user.last_name }}</span>
+                    <br>
+                    <small>{{ user.email }}</small>
                 </figcaption>
             </figure>
         </div>

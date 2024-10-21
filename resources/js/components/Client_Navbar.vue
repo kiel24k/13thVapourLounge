@@ -73,6 +73,10 @@ onMounted(() => {
                             <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="" width="30">
                             {{ user.first_name }} {{ user.last_name }}
                     </router-link>
+                   <router-link>
+                    <img src="/public/image/order-icon2.png" width="30" alt="">
+                    Order
+                   </router-link>
                    <router-link :to="{name: 'client-cart'}">
                     <img src="/public/image/cart1-icon.png" alt="" width="30">
                     cart
