@@ -120,6 +120,7 @@ onMounted(() => {
     background: rgb(255, 255, 255, 0.5);
     backdrop-filter: blur(10px);
     overflow: scroll;
+   
 }
 
 .form-modal-action {
