@@ -75,7 +75,7 @@ onMounted(() => {
                     <span v-if="user.mobile_no === null">
                         <img src="/public/image/alert-blue-icon.png" width="15" alt="">
                     </span>
-                    <span v-else>{{ user.mobile_no }}</span>
+                    <span v-else>+63{{ user.mobile_no }}</span>
                 </div>
             </div>
             <div class="row">

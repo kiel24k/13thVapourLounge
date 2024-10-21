@@ -22,7 +22,6 @@ onMounted(() => {
 </script>
 
 <template>
-    <Header/>
     <Navbar/>
     <NavbarCategory/>
     <section class="row" id="profile">
@@ -38,8 +37,7 @@ onMounted(() => {
         </div>
         <div class="col profile-action">
             <div class="">
-                <button class="btn btn-dark">Edit Profile</button>
-                <button class="btn btn-dark">Add story</button>
+                <button class="btn btn-dark">Edit Profile Picture</button>
             </div>
         </div>
         <hr>
