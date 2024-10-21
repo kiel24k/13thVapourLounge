@@ -3,8 +3,10 @@ import Header from '@/components/Client_Header.vue'
 import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import NavbarAccount from '@/components/Client_Navbar_Account.vue'
+import ClientProfileModal from '@/components/Client_Edit_Profile_Modal.vue'
 import { onMounted, ref } from 'vue';
 const user = ref(Object)
+const clientProfileModal = ref(false)
 const USER_API = async () => {
     try {
         const response = await axios.get('/api/user')
@@ -14,6 +16,15 @@ const USER_API = async () => {
     }
 }
 
+const editProfileBtn = () => {
+    clientProfileModal.value = true
+}
+
+const closeModal = () => {
+    clientProfileModal.value = false
+    USER_API()
+}
+
 onMounted(() => {
     USER_API()
 
@@ -21,9 +32,9 @@ onMounted(() => {
 </script>
 
 <template>
-    <Header />
     <Navbar />
     <NavbarCategory />
+    <ClientProfileModal v-if="clientProfileModal" @closeModal="closeModal" />
     <section class="row" id="profile">
         <div class="col">
             <figure>
@@ -37,8 +48,8 @@ onMounted(() => {
         </div>
         <div class="col profile-action">
             <div class="">
-                <button class="btn btn-dark">Edit Profile</button>
-                <button class="btn btn-dark">Add story</button>
+                <button class="btn btn-dark">Edit Profile Picture</button>
+               
             </div>
         </div>
         <hr>
@@ -61,24 +72,31 @@ onMounted(() => {
                 </div>
                 <div class="col">
                     <label for="">Mobile</label>
-                    <span>{{ user.phone }}</span>
+                    <span v-if="user.mobile_no === null">
+                        <img src="/public/image/alert-blue-icon.png" width="15" alt="">
+                    </span>
+                    <span v-else>{{ user.mobile_no }}</span>
                 </div>
             </div>
             <div class="row">
                 <div class="col col-4">
                     <label for="">Birthday</label>
-                    <span>2001-12-04</span>
+                    <span v-if="user.birthday === null">
+                        <img src="/public/image/alert-blue-icon.png" width="15" alt="">
+                    </span>
+                    <span v-else>{{ user.birthday }}</span>
                 </div>
                 <div class="col">
                     <label for="">Gender</label>
-                    <span>Male</span>
+                    <span v-if="user.gender === null">
+                        <img src="/public/image/alert-blue-icon.png" width="15" alt="">
+                    </span>
+                    <span v-else>{{ user.gender }}</span>
                 </div>
             </div>
-
-
         </article>
         <div class="action">
-            <button class="btn btn-primary">Edit</button>
+            <button class="btn btn-primary" @click="editProfileBtn">Edit</button>
             <button class="btn btn-danger">Change Password</button>
         </div>
     </section>
