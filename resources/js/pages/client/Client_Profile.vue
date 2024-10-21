@@ -29,7 +29,9 @@ onMounted(() => {
             <figure>
                 <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="">
                 <figcaption class="profile-figcaption text-dark">
-                    <span>Full name sample</span>
+                    <span>{{ user.first_name }} {{ user.last_name }}</span>
+                    <br>
+                    <small>{{ user.email }}</small>
                 </figcaption>
             </figure>
         </div>
