@@ -22,6 +22,8 @@ const select = ref({
     baranggay: ''
 })
 
+const inputs = ref({})
+
 const selectedProvinceName = computed(() => {
     const provinceItem = sortProvince.value.find(p => p.code === select.value.region_code)
     return provinceItem.name
@@ -69,12 +71,36 @@ watch(select.value, (oldVal, newVal) => {
     console.log(selectedBaranggayName.value);
 })
 
-
+const submit = async () => {
+    try {
+        const response = await axios.post('/api/add-new-address',{
+            first_name: inputs.value.first_name,
+            last_name: inputs.value.last_name,
+            mobile_no: inputs.value.mobile_no,
+            floor_unit_no: inputs.value.floor_unit_no,
+            province: selectedProvinceName.value,
+            municipality: selectedMunicipalityName.value,
+            baranggay:selectedBaranggayName.value
+        })
+        if(response.status === 200){
+            emit('closeModal')
+        }
+        
+        
+    } catch (error) {
+        console.log(error);
+        
+        
+    }
+ 
+    
+}
 
 
 
 onMounted(() => {
     PROVINCE_API()
+    submit()
 })
 
 </script>
@@ -92,27 +118,27 @@ onMounted(() => {
             </div>
             {{ selected }}
             <fieldset>
-                <form action="">
+                <form action="" @submit.prevent>
                     <div class="row">
                         <div class="col form-input">
                             <label for="">First Name</label>
-                            <input type="text" placeholder="Ex: John">
+                            <input type="text" placeholder="Ex: John" v-model="inputs.first_name">
                         </div>
                         <div class="col form-input">
                             <label for="">Last Name</label>
-                            <input type="text" placeholder="Ex: Doe">
+                            <input type="text" placeholder="Ex: Doe" v-model="inputs.last_name">
                     </div>
                     </div>
                     <div class="row">
                         <div class="col form-input">
                             <label for="">Mobile No</label>
-                            <input type="number" placeholder="Ex: +63123456789">
+                            <input type="number" placeholder="Ex: +63123456789" v-model="inputs.mobile_no">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col form-input">
                             <label for="">Floor Unit</label>
-                            <input type="text" placeholder="Ex: Blk 1 lot 1 Phase 1">
+                            <input type="text" placeholder="Ex: Blk 1 lot 1 Phase 1" v-model="inputs.floor_unit_no">
                         </div>
                     </div>
                     <div class="row ">
@@ -155,7 +181,7 @@ onMounted(() => {
                         </small>
                     </div>
                     <div class="submit-btn">
-                        <button class="btn" disabled >Add</button>
+                        <button class="btn" @click="submit" >Add</button>
                     </div>
                 </form>
             </fieldset>

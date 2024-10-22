@@ -8,6 +8,7 @@ import { onMounted, ref } from 'vue';
 
 
 const clientAddAddressBookModal = ref(false)
+const addressList = ref(Object)
 const user = ref(Object)
 const USER_API = async () => {
     try {
@@ -18,23 +19,29 @@ const USER_API = async () => {
     }
 }
 
+const ADDRESS_LIST_API = async () => {
+    try {
+        const response = await axios.get('api/address-list')
+        addressList.value = response.data
+    } catch (error) {
+        
+    }
+}
+
 const addNewAddressBtn = () => {
     clientAddAddressBookModal.value =true
 }
 
 const closeModal = () => {
     clientAddAddressBookModal.value = false
+   
 }
 
 
 
 onMounted(() => {
     USER_API()
-    
-
-  
-    
-
+    ADDRESS_LIST_API()
 })
 </script>
 
@@ -79,11 +86,12 @@ onMounted(() => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Kiel Alarcon Bermudez</td>
-                        <td>Paradahan 1</td>
-                        <td>Cavite</td>
-                        <td>09193471522</td>
+                    <tr v-for="(data,index) in addressList.data" :key="index">
+                        <td>{{data.first_name}} {{ data.last_name }}</td>
+                        <td>{{ data.floor_unit_no }}</td>
+                        <td>{{ data.province }} - {{ data.municipality }} - {{ data.baranggay }}</td>
+                        <td>+63{{data.mobile_no}}</td>
+                       
                         <td>
                             <span class="text-primary">Edit</span>
                         </td>

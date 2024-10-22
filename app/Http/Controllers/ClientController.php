@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\UserOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
@@ -61,7 +62,6 @@ class ClientController extends Controller
 
     public function editProfile(Request $request)
     {
-
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -79,18 +79,27 @@ class ClientController extends Controller
 
     public function addNewAddress(Request $request)
     {
-        //  'user_id',
-        // 'first_name',
-        // 'last_name',
-        // 'mobile_no',
-        // 'floor_unit_no',
-        // 'province',
-        // 'municipality',
-        // 'baranggay'
+        try {
+            $address = new Address_Book();
+            $address->user_id = Auth::user()->id;
+            $address->first_name = $request->first_name;
+            $address->last_name = $request->last_name;
+            $address->mobile_no = $request->mobile_no;
+            $address->floor_unit_no = $request->floor_unit_no;
+            $address->province = $request->province;
+            $address->municipality = $request->municipality;
+            $address->baranggay = $request->baranggay;
+            $address->save();
+            return response()->json(['success' => 'success'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Failed to submit'], 500);
+        }
+    }
 
-        // $address = new Address_Book();
-        // $address->user_id = Auth::user()->id;
-        
-        return response()->json(Auth::user());
+    public function addressList () {
+        $addressList = DB::table('address__books')
+        ->select('user_id','first_name','last_name','mobile_no','floor_unit_no','province','municipality','baranggay')
+        ->paginate(2);
+        return response()->json($addressList);
     }
 }
