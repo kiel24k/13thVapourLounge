@@ -1,25 +1,77 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 
 const emit = defineEmits(['closeModal'])
 const province = ref(Object)
-const provinceValue = ref()
+const municipalities = ref(Object)
+const barangay = ref(Object)
+
+const sortProvince = ref()
+const sortMunicipalities = ref(Object)
+const sortBarangay = ref(Object)
+
+const isMunicipality = ref(true)
+const isBaranggay = ref(true)
+
+const selected = ref()
+
 const select = ref({
-    province: '',
-    district: '',
-    ward: ''
+    region_code: '',
+    municipality_code: '',
+    baranggay: ''
+})
+
+const selectedProvinceName = computed(() => {
+    const provinceItem = sortProvince.value.find(p => p.code === select.value.region_code)
+    return provinceItem.name
+})
+
+const selectedMunicipalityName = computed(() => {
+    const municipaltityItem = sortMunicipalities.value.find(m => m.code === select.value.municipality_code)
+    return municipaltityItem.name
+})
+
+const selectedBaranggayName = computed(() => {
+    const barrangayItem = sortBarangay.value.find(b => b.code === select.value.baranggay)
+    return barrangayItem.name
 })
 
 const PROVINCE_API = async () => {
     const response = await axios.get('https://psgc.gitlab.io/api/provinces/')
     province.value = response.data
-    provinceValue.value = province.value.sort((a,b) => a.name.localeCompare(b.name)) 
-    console.log(provinceValue.value);
+    sortProvince.value = province.value.sort((a,b) => a.name.localeCompare(b.name)) 
+    // console.log(provinceValue.value);   
 }
+
+const MUNICIPALITIES_API = async () => {
+    const response = await axios.get(`https://psgc.gitlab.io/api/provinces/${select.value.region_code}/municipalities/`)
+    municipalities.value = response.data
+    sortMunicipalities.value = municipalities.value.sort((a,b) => a.name.localeCompare(b.name))
+    isMunicipality.value = false
+}
+
+const BARANGAY_API = async () => {
+    const response = await axios.get(`https://psgc.gitlab.io/api/municipalities/${select.value.municipality_code}/barangays/`)
+    barangay.value = response.data
+    sortBarangay.value = barangay.value.sort((a,b) => a.name.localeCompare(b))
+    isBaranggay.value = false
+}
+
 const closeModal = () => {
   emit('closeModal')
 }
+
+watch(select.value, (oldVal, newVal) => {
+    PROVINCE_API()
+    MUNICIPALITIES_API()
+    BARANGAY_API()
+    console.log(selectedBaranggayName.value);
+})
+
+
+
+
 
 onMounted(() => {
     PROVINCE_API()
@@ -38,45 +90,60 @@ onMounted(() => {
             <div class="form-modal-title">
                 <span>Add New Address</span>
             </div>
+            {{ selected }}
             <fieldset>
                 <form action="">
                     <div class="row">
                         <div class="col form-input">
                             <label for="">First Name</label>
-                            <input type="text" placeholder="">
+                            <input type="text" placeholder="Ex: John">
                         </div>
                         <div class="col form-input">
                             <label for="">Last Name</label>
-                            <input type="text" placeholder="">
+                            <input type="text" placeholder="Ex: Doe">
                     </div>
                     </div>
                     <div class="row">
                         <div class="col form-input">
+                            <label for="">Mobile No</label>
+                            <input type="number" placeholder="Ex: +63123456789">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col form-input">
                             <label for="">Floor Unit</label>
-                            <input type="text" placeholder="">
+                            <input type="text" placeholder="Ex: Blk 1 lot 1 Phase 1">
                         </div>
                     </div>
                     <div class="row ">
                         <div class="col form-input select">
                             <label for="">Province</label>
-                            <select name="" id="" class="form-select" v-model="select.province">
-                                <option value="" selected></option>
-                                <option :value="data.name" v-for="(data,index) in provinceValue" :key="index" >
-                                    {{ data }} {{ data.regionCode }}
+                            <select name="" id="" class="form-select" v-model="select.region_code">
+                                <option :value="data.code" :selected="data.name" v-for="(data,index) in sortProvince" :key="index" >
+                                    {{ data.name }}  
+                                    
                                 </option>
-                                
                             </select>
+                           
                         </div>
                         <div class="col form-input select">
-                            <label for="">District</label>
-                             <select name="" id="" class="form-select">
+                            <label for="">Municipality</label>
+                             <select name="" id="" class="form-select" :disabled="isMunicipality" v-model="select.municipality_code">
+                                <option :value="data.code" :selected="data.name"  v-for="(data,index) in sortMunicipalities" :key="index">
+                                    {{ data.name }}
+                                  
+                                </option>
                             </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col form-input select">
-                            <label for="">Ward</label>
-                            <select name="" id="" class="form-select">
+                            <label for="">Baranggay</label>
+                            <select name="" id="" class="form-select" :disabled="isBaranggay" v-model="select.baranggay">
+                                <option :value="data.code" :selected="data.name"  v-for="(data,index) in sortBarangay" :key="index">
+                                    {{ data.name }}
+                                   
+                                </option>
                                 
                             </select>
                         </div>
@@ -88,7 +155,7 @@ onMounted(() => {
                         </small>
                     </div>
                     <div class="submit-btn">
-                        <button>Review Change</button>
+                        <button class="btn" disabled >Add</button>
                     </div>
                 </form>
             </fieldset>
@@ -108,7 +175,6 @@ onMounted(() => {
         }
         fieldset select:focus{
             box-shadow: none;
-            border:none;
         }
         #form-modal{
             overflow: scroll;

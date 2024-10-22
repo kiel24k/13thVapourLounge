@@ -11,7 +11,6 @@ const signupBtn = async () => {
     const response = await axios.post('api/signup', {
       first_name: inputs.value.first_name,
       last_name: inputs.value.last_name,
-      age: inputs.value.age,
       email: inputs.value.email,
       password: inputs.value.password
     });
@@ -21,14 +20,11 @@ const signupBtn = async () => {
    }
     
   } catch (error) {
+   console.log(error);
    
     if (error.response.status) {
       inputsValidation.value = error.response.data.errors
     }
- 
-   
-     
-
   }
 }
 </script>
@@ -56,7 +52,7 @@ const signupBtn = async () => {
                 <button class="btn">
                   <span>
                     <img src="/public/image/1920525_gogle_google_logo_network_icon.png" width="30px" alt="" />
-                    SIgnup with Goodle
+                    Signup with Google
                   </span>
                 </button>
               </div>
@@ -85,11 +81,6 @@ const signupBtn = async () => {
                     </div>
                   </div>
                   <div class="row mt-3">
-                    <div class="col">
-                      <label for="">Age</label>
-                      <input type="number" min="0" class="form-control" v-model="inputs.age" />
-                      <small v-if="inputsValidation.age">{{ inputsValidation.age[0] }}</small>
-                    </div>
                     <div class="col">
                       <label for="">Password</label>
                       <input type="password" class="form-control" v-model="inputs.password" />

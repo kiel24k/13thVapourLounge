@@ -12,9 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('mobile_no')->nullable();
+            $table->string('mobile_no')->nullable();
             $table->enum('gender', ['male','female','other'])->nullable();
-            $table->string('birthday')->nullable();
         });
     }
 

@@ -78,12 +78,6 @@ onMounted(() => {
                     </div>
                     <div class="row">
                         <div class="col form-input">
-                            <label for="">Birthday <img  src="/public/image/alert-blue-icon.png" width="15" alt=""></label>
-                            <input type="date" v-model="user.birthday">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col form-input">
                             <label for="">Mobile Number <img  src="/public/image/alert-blue-icon.png" width="15" alt=""></label>
                             <input type="number" min="10"  v-model="user.mobile_no" >
                         </div>
