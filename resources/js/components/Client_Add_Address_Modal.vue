@@ -1,13 +1,42 @@
+<script setup>
+import { onMounted, ref } from 'vue';
+
+
+const emit = defineEmits(['closeModal'])
+const province = ref(Object)
+const provinceValue = ref()
+const select = ref({
+    province: '',
+    district: '',
+    ward: ''
+})
+
+const PROVINCE_API = async () => {
+    const response = await axios.get('https://psgc.gitlab.io/api/provinces/')
+    province.value = response.data
+    provinceValue.value = province.value.sort((a,b) => a.name.localeCompare(b.name)) 
+    console.log(provinceValue.value);
+}
+const closeModal = () => {
+  emit('closeModal')
+}
+
+onMounted(() => {
+    PROVINCE_API()
+})
+
+</script>
+
 <template>
     <div id="form-modal">
         <div class="form-modal-main">
             <div class="form-modal-action">
                 <div class="">
-                    <img src="/public/image/exit_icon.png" width="35" alt="">
+                    <img src="/public/image/exit_icon.png" width="35" alt="" @click="closeModal">
                 </div>
             </div>
             <div class="form-modal-title">
-                <span>Name</span>
+                <span>Add New Address</span>
             </div>
             <fieldset>
                 <form action="">
@@ -16,17 +45,40 @@
                             <label for="">First Name</label>
                             <input type="text" placeholder="">
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col form-input">
-                            <label for="">Middle Name</label>
-                            <input type="text" placeholder="">
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col form-input">
                             <label for="">Last Name</label>
                             <input type="text" placeholder="">
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="col form-input">
+                            <label for="">Floor Unit</label>
+                            <input type="text" placeholder="">
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col form-input select">
+                            <label for="">Province</label>
+                            <select name="" id="" class="form-select" v-model="select.province">
+                                <option value="" selected></option>
+                                <option :value="data.name" v-for="(data,index) in provinceValue" :key="index" >
+                                    {{ data }} {{ data.regionCode }}
+                                </option>
+                                
+                            </select>
+                        </div>
+                        <div class="col form-input select">
+                            <label for="">District</label>
+                             <select name="" id="" class="form-select">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col form-input select">
+                            <label for="">Ward</label>
+                            <select name="" id="" class="form-select">
+                                
+                            </select>
                         </div>
                     </div>
                     <div class="warning-change-message">
@@ -50,19 +102,33 @@
             justify-content: end;
             
         }
+        fieldset option{
+            font-size: 10px;
+            height: 10px;
+        }
+        fieldset select:focus{
+            box-shadow: none;
+            border:none;
+        }
+        #form-modal{
+            overflow: scroll;
+        }
         @media screen and (min-width: 365px) {
             #form-modal {
                 position: fixed;
+                top:0;
                 height: 100%;
                 width: 100%;
                 z-index: 999;
                 display: grid;
                 justify-content: center;
                 align-items: center;
+                background: rgb(255, 255, 255,0.5);
+                backdrop-filter: blur(25px);
             }
 
             .form-modal-main {
-                max-width: 35rem;
+                max-width: 50rem;
                 background: rgb(255, 255, 255);
                 border-radius: 10px;
                 display: grid;

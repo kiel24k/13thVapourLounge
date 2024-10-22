@@ -3,8 +3,11 @@ import Header from '@/components/Client_Header.vue'
 import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import NavbarAccount from '@/components/Client_Navbar_Account.vue'
+import ClientAddAddressBookModal from '@/components/Client_Add_Address_Modal.vue'
 import { onMounted, ref } from 'vue';
 
+
+const clientAddAddressBookModal = ref(false)
 const user = ref(Object)
 const USER_API = async () => {
     try {
@@ -15,15 +18,31 @@ const USER_API = async () => {
     }
 }
 
+const addNewAddressBtn = () => {
+    clientAddAddressBookModal.value =true
+}
+
+const closeModal = () => {
+    clientAddAddressBookModal.value = false
+}
+
+
+
 onMounted(() => {
     USER_API()
+    
+
+  
+    
 
 })
 </script>
 
 <template>
+    
     <Navbar/>
     <NavbarCategory/>
+    <ClientAddAddressBookModal v-if="clientAddAddressBookModal" @closeModal="closeModal"/>
     <section class="row" id="profile">
         <div class="col">
             <figure>
@@ -73,7 +92,7 @@ onMounted(() => {
              
             </table>
            <div class="text-end">
-            <button class="btn btn-primary">Add new address</button>
+            <button class="btn btn-primary" @click="addNewAddressBtn">Add new address</button>
            </div>
         </article>
     </section>
