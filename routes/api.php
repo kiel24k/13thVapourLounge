@@ -39,4 +39,5 @@ Route::controller(ClientController::class)->group(function () {
     route::get('/products-overview', 'productsOverview');
     route::post('/client-order', 'ClientOrder');
     route::post('/edit-profile', 'editProfile');
+    route::get('/add-new-address' , 'addNewAddress');
 });

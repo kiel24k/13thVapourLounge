@@ -16,11 +16,11 @@ return new class extends Migration
             $table->bigInteger('user_id');
             $table->string('first_name');
             $table->string('last_name');
-            $table->integer('mobile_number');
+            $table->string('mobile_no');
             $table->string('floor_unit_no');
             $table->string('province');
-            $table->string('District');
-            $table->string('Ward');
+            $table->string('municipality');
+            $table->string('baranggay');
             $table->timestamps();
         });
     }

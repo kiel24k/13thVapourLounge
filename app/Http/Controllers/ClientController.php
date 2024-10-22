@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address_Book;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\User;
@@ -50,7 +51,7 @@ class ClientController extends Controller
     public function ClientOrder(Request $request)
     {
         $user = new UserOrder();
-        $user->user_ID = $request->user_id;
+        $user->user_id = $request->user_id;
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->order_data = $request->order_data;
@@ -60,21 +61,36 @@ class ClientController extends Controller
 
     public function editProfile(Request $request)
     {
-        
-           $request->validate([
+
+        $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-           ]);
+        ]);
 
-            $auth = Auth::user()->id;
-            $user = User::find($auth);
-            $user->first_name = $request->first_name;
-            $user->last_Name = $request->last_name;
-            $user->birthday = $request->birthday;
-            $user->mobile_no = $request->mobile_no;
-            $user->gender = $request->gender;
-            $user->update();
-            return response()->json($user);
-        } 
+        $auth = Auth::user()->id;
+        $user = User::find($auth);
+        $user->first_name = $request->first_name;
+        $user->last_Name = $request->last_name;
+        $user->mobile_no = $request->mobile_no;
+        $user->gender = $request->gender;
+        $user->update();
+        return response()->json($user);
     }
 
+    public function addNewAddress(Request $request)
+    {
+        //  'user_id',
+        // 'first_name',
+        // 'last_name',
+        // 'mobile_no',
+        // 'floor_unit_no',
+        // 'province',
+        // 'municipality',
+        // 'baranggay'
+
+        // $address = new Address_Book();
+        // $address->user_id = Auth::user()->id;
+        
+        return response()->json(Auth::user());
+    }
+}

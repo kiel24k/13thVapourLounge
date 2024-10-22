@@ -79,13 +79,6 @@ onMounted(() => {
                 </div>
             </div>
             <div class="row">
-                <div class="col col-4">
-                    <label for="">Birthday</label>
-                    <span v-if="user.birthday === null">
-                        <img src="/public/image/alert-blue-icon.png" width="15" alt="">
-                    </span>
-                    <span v-else>{{ user.birthday }}</span>
-                </div>
                 <div class="col">
                     <label for="">Gender</label>
                     <span v-if="user.gender === null">
