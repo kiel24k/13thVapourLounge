@@ -4,11 +4,11 @@ import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import Footer from '@/components/Client_Footer.vue'
 import { onMounted, ref } from 'vue';
-import Loader from '@/widgets/Loader.vue'
 
 
 
-const loader = ref(false)
+
+
 const newArrivalListItem = ref({})
 const bestSellerListItem = ref({})
 const cartTotal = ref()
@@ -16,20 +16,20 @@ const cartTotal = ref()
 
 const newArrivalList = async () => {
     try {
-        loader.value = true
+       
         const response = await axios.get('api/new-arrival-list')
         newArrivalListItem.value = response.data
-        loader.value = false
+       
     } catch (error) {
     }
 }
 
 const bestSellerList = async () => {
     try {
-        loader.value = true
+        
         const response = await axios.get('api/best-seller')
         bestSellerListItem.value = response.data
-        loader.value = false
+        
     } catch (error) {
     }
 }
@@ -87,7 +87,7 @@ onMounted(() => {
 
     <Header />
     <Navbar :cartTotal="cartTotal" />
-    <Loader v-if="loader" />
+ 
     <NavbarCategory />
 
     <section class="section-one">
@@ -102,6 +102,7 @@ onMounted(() => {
                         </div>
                     </figure>
                     <summary class="mt-3">
+                        <small>{{ data.product_name }}</small>
                         <p class="label">{{ data.product_label }}</p>
                         <b>₱{{ data.product_price }}</b>
                     </summary>
@@ -192,12 +193,14 @@ summary {
     height: 9rem;
 
 }
+summary small{
+    color:gray;
+    font-size: 12px;
+}
 
 .section-two-item {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-
-
 }
 </style>

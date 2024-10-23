@@ -15,7 +15,7 @@ let SUB_TOTAL_VALUE = ref()
 const QUANTITY_TOTAL_VALUE = ref()
 const fetchProductsValue = ref({})
 const decrementDisabledBtn = ref(false)
-const loader = ref(false)
+
 const userData = ref(Object)
 
 
@@ -30,12 +30,20 @@ const fetchProducts = () => {
     FIXED_TOTAL.value = total
 }
 
-const incrementBtn = (id, price) => {
+const incrementBtn = (id, quantity) => {
+    
     const test = productTotal.value.find((el) => el.id === id)
     if (test) {
         test.quantity += 1
         fetchProductsValue.value = [...productTotal.value]
+        if(test.quantity >= test.max_quantity){
+            test.quantity = test.max_quantity
+            
+        }
+        
     }
+    
+    
     localStorage.setItem('cart', JSON.stringify(productTotal.value))
     fetchProducts()
     SUB_TOTAL()
@@ -99,7 +107,7 @@ const submitCart = async () => {
         //ass
        
     } else {
-        loader.value = true
+        
         router.push('/login')
     }
     fetchProducts()
@@ -123,7 +131,7 @@ onMounted(() => {
 <template>
     <Header />
     <Navbar :QUANTITY_TOTAL_VALUE="QUANTITY_TOTAL_VALUE" @user="user" />
-    <loader v-if="loader" />
+   
     <NavbarCategory />
     <section class="section-one">
         <div id="cart">
@@ -162,7 +170,7 @@ onMounted(() => {
 
                                 <td class="price">₱{{ data.price }}</td>
                                 <td class="quan">
-                                    <button @click="incrementBtn(data.id, data.price)">+</button>
+                                    <button @click="incrementBtn(data.id, data.quantity)">+</button>
                                     <span class="p-1" v-if="data.quantity >= 1">{{ data.quantity }}</span>
                                     <span v-else>{{ data.quantity = 0 }}</span>
                                     <button :disabled="decrementDisabledBtn"
