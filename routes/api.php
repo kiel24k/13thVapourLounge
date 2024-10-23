@@ -41,4 +41,5 @@ Route::controller(ClientController::class)->group(function () {
     route::post('/edit-profile', 'editProfile');
     route::post('/add-new-address' , 'addNewAddress');
     route::get('/address-list', 'addressList');
+    route::get('/all-order','allOrder');
 });

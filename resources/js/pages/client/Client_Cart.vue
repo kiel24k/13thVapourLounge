@@ -88,9 +88,6 @@ const removeItemBtn = (id) => {
 const submitCart = async () => {
     let order = JSON.parse(localStorage.getItem('cart'))
     let cookieUsername = JSON.stringify(Cookies.get('username'))
-  
-
-    
     if (cookieUsername) {
         if(FIXED_TOTAL.value === 0){
             alert("No Product ")
@@ -98,11 +95,13 @@ const submitCart = async () => {
             const orderData = order.filter((el) => el.quantity > 0)
             const response = await axios.post('/api/client-order', {
                 user_id: userData.value.id,
-                first_name: userData.value.first_name,
-                last_name: userData.value.last_name,
-                order_data:JSON.stringify(orderData.concat({total: FIXED_TOTAL.value}) ),
+                order_data:orderData
         })
-        localStorage.setItem('cart', JSON.stringify(order.filter((el) => el.quantity === 0)))
+       console.log(orderData);
+       
+        
+        // console.log(orderData[0].id);
+        // localStorage.setItem('cart', JSON.stringify(order.filter((el) => el.quantity === 0)))
         }
         //ass
        

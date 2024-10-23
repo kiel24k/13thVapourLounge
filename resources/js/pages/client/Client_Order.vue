@@ -2,6 +2,25 @@
 import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import NavbarOrder from '@/components/Client_Navbar_Order.vue'
+import { onMounted, ref } from 'vue';
+
+const order = ref(Object)
+const eachOrder = ref(Object)
+
+const ALL_ORDER_API = async () => {
+    try {
+        const response = await axios.get('api/all-order')
+        order.value = response.data
+        console.log(response.data);
+        
+    } catch (error) {
+
+    }
+}
+
+onMounted(() => {
+    ALL_ORDER_API()
+})
 </script>
 
 
@@ -18,47 +37,30 @@ import NavbarOrder from '@/components/Client_Navbar_Order.vue'
             </div>
         </div>
         <NavbarOrder />
-        <article>
+        <hr>
+        <article v-for="(data, index) in order" :key="index">
             <div class="row p-4">
                 <div class="col">
                     <figure>
-                        <img src="/public/image/manage-icon.png" alt="">
+                        <img :src="`/storage/product_image/${data.order_image}`" width="100">
                         <figcaption>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quibusdam itaque cumque provident
-                            optio maiores. Sint culpa ad temporibus praesentium debitis odio doloribus nisi aliquid
-                            dolorum facere at mollitia, iste earum.
+                            {{ data.order_label }}
                         </figcaption>
                     </figure>
                 </div>
                 <div class="col">
-                    P190.00
+                    P{{ data.order_price }}
                 </div>
                 <div class="col">
-                    QTY: 1
+                    QTY:  {{ data.order_quantity }}
+                </div>
+                <div class="col">
+                    Total: P{{ data.order_total }}
                 </div>
                 <hr>
             </div>
-        </article>
-        <article>
-            <div class="row p-4">
-                <div class="col">
-                    <figure>
-                        <img src="/public/image/manage-icon.png" alt="">
-                        <figcaption>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quibusdam itaque cumque provident
-                            optio maiores. Sint culpa ad temporibus praesentium debitis odio doloribus nisi aliquid
-                            dolorum facere at mollitia, iste earum.
-                        </figcaption>
-                    </figure>
-                </div>
-                <div class="col">
-                    P190.00
-                </div>
-                <div class="col">
-                    QTY: 1
-                </div>
-                <hr>
-            </div>
+
+
         </article>
     </section>
 

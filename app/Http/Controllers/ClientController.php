@@ -51,13 +51,22 @@ class ClientController extends Controller
     }
     public function ClientOrder(Request $request)
     {
-        $user = new UserOrder();
-        $user->user_id = $request->user_id;
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->order_data = $request->order_data;
+
+        for ($i = 0; $i < count($request->order_data); $i++) {
+            $user = new UserOrder();
+            $orderPrice = $request->order_data[$i]['quantity'] * $request->order_data[$i]['price'];
+
+            $user->user_id = $request->user_id;
+            $user->order_image = $request->order_data[$i]['image'];
+            $user->order_price = json_encode(intval($request->order_data[$i]['price']));
+            $user->order_label = $request->order_data[$i]['product_label'];
+            $user->order_quantity = json_encode($request->order_data[$i]['quantity']);
+            $user->order_total = $orderPrice;
+            $user->save();
+        }
         $user->save();
-        return response()->json($user);
+
+        return response()->json();
     }
 
     public function editProfile(Request $request)
@@ -96,10 +105,20 @@ class ClientController extends Controller
         }
     }
 
-    public function addressList () {
+    public function addressList()
+    {
         $addressList = DB::table('address__books')
-        ->select('user_id','first_name','last_name','mobile_no','floor_unit_no','province','municipality','baranggay')
-        ->paginate(10);
+            ->select('user_id', 'first_name', 'last_name', 'mobile_no', 'floor_unit_no', 'province', 'municipality', 'baranggay')
+            ->paginate(10);
         return response()->json($addressList);
+    }
+
+    public function allOrder(Request $request)
+    {
+        $user = DB::table('user_orders')
+            ->select('order_image', 'order_label', 'order_price', 'order_total', 'order_quantity')
+            ->where('user_id', Auth::user()->id)
+            ->get();
+        return response()->json($user);
     }
 }
