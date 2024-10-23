@@ -55,7 +55,7 @@ onMounted(() => {
                     QTY:  {{ data.order_quantity }}
                 </div>
                 <div class="col">
-                    Total: {{ data.order_total }}
+                    Total: P{{ data.order_total }}
                 </div>
                 <hr>
             </div>
