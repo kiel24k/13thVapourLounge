@@ -9,7 +9,7 @@ const router = useRouter()
 const props = defineProps(['cartTotal','QUANTITY_TOTAL_VALUE'])
 const emit = defineEmits(['user'])
 const user = ref(Object)
-const loader = ref(false)
+
 
 
 
@@ -24,14 +24,12 @@ const cartMounted = () => {
 }
 
 const CLIENT_AUTH_API = async () => {
-    loader.value = true
+  
     try{
         const response = await axios.get('/api/client-auth')
        user.value = response.data
        emit('user',response.data)
-       loader.value = false
-       
-        
+      
     }catch(error){
       
     }
@@ -56,7 +54,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <Loader v-if="loader"/>
+
     <nav>
         <div class="row">
             <div class="col nav-main">
@@ -71,9 +69,10 @@ onMounted(() => {
                 <div class="header-action">
                     <router-link :to="{name: 'my-profile'}">
                             <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="" width="30">
-                            {{ user.first_name }} {{ user.last_name }}
+                            <!-- {{ user.first_name }} {{ user.last_name }} -->
+                              My Profile
                     </router-link>
-                   <router-link>
+                   <router-link :to="{name: 'my-order'}">
                     <img src="/public/image/order-icon2.png" width="30" alt="">
                     Order
                    </router-link>

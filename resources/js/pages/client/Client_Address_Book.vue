@@ -78,6 +78,7 @@ onMounted(() => {
             <table class="table">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Full Name</th>
                         <th>Address</th>
                         <th>Postcode</th>
@@ -87,6 +88,7 @@ onMounted(() => {
                 </thead>
                 <tbody>
                     <tr v-for="(data,index) in addressList.data" :key="index">
+                           <td>{{ index + 1 }}</td>
                         <td>{{data.first_name}} {{ data.last_name }}</td>
                         <td>{{ data.floor_unit_no }}</td>
                         <td>{{ data.province }} - {{ data.municipality }} - {{ data.baranggay }}</td>

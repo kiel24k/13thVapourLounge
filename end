@@ -1,0 +1,7 @@
+user.email=kielbermudez200104@gmail.com
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=https://github.com/kiel24k/13thVapourLounge.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*

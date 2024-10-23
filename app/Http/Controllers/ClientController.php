@@ -99,7 +99,7 @@ class ClientController extends Controller
     public function addressList () {
         $addressList = DB::table('address__books')
         ->select('user_id','first_name','last_name','mobile_no','floor_unit_no','province','municipality','baranggay')
-        ->paginate(2);
+        ->paginate(10);
         return response()->json($addressList);
     }
 }

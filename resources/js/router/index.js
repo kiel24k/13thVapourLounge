@@ -42,6 +42,22 @@ const routes = [
         component: () => import("../pages/client/Client_Address_Book.vue"),
         name: "my-address-book",
     },
+    {
+        path: '/my-order',
+        component: () => import('../pages/client/Client_Order.vue'),
+        name: 'my-order'
+    },
+    
+    {
+        path: '/my-order-received',
+        component: () => import('../pages/client/Client_Recieved.vue'),
+        name: 'my-order-recieved'
+    },
+    {
+        path: '/my-order-to-received',
+        component: () => import('../pages/client/Client_Order_To_Received.vue'),
+        name: 'my-order-to-received'
+    },
     //======================Admin routes=============================//
     {
         path: "/admin-dashboard",
