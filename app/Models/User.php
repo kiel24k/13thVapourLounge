@@ -38,9 +38,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function userOrder () {
-        return $this->hasMany(UserOrder::class, 'user_ID');
+    public function orders () {
+        return $this->hasMany(UserOrder::class, 'user_id');
     }
+
+    
 
     /**
      * Get the attributes that should be cast.

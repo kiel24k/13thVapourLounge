@@ -8,23 +8,11 @@ const order = ref(Object)
 const eachOrder = ref(Object)
 
 const ALL_ORDER_API = async () => {
-
-
     try {
         const response = await axios.get('api/all-order')
-
-        for (let i = 0; i <= response.data.length; i++) {
-
-           
-
-
-
-
-            // console.log(order.value = response.data);
-            // eachOrder.value = JSON.parse(order.value[index].order_data)
-            // console.log(eachOrder.value);
-        }
-
+        order.value = response.data
+        console.log(response.data);
+        
     } catch (error) {
 
     }
@@ -49,24 +37,31 @@ onMounted(() => {
             </div>
         </div>
         <NavbarOrder />
-        <table class="table ">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(data, index) in order" :key="index">
-                    <td><img :src="`/storage/product_image/${data.image}`" width="150" alt=""></td>
-                    <td>{{ data.product_label }}</td>
-                    <td>{{ data.quantity }}</td>
+        <hr>
+        <article v-for="(data, index) in order" :key="index">
+            <div class="row p-4">
+                <div class="col">
+                    <figure>
+                        <img :src="`/storage/product_image/${data.order_image}`" width="100">
+                        <figcaption>
+                            {{ data.order_label }}
+                        </figcaption>
+                    </figure>
+                </div>
+                <div class="col">
+                    P{{ data.order_price }}
+                </div>
+                <div class="col">
+                    QTY:  {{ data.order_quantity }}
+                </div>
+                <div class="col">
+                    Total: P{{ data.order_total }}
+                </div>
+                <hr>
+            </div>
 
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
+
+        </article>
     </section>
 
 </template>

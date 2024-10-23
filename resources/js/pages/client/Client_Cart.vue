@@ -97,7 +97,7 @@ const submitCart = async () => {
                 user_id: userData.value.id,
                 order_data:orderData
         })
-       console.log(response);
+       console.log(orderData);
        
         
         // console.log(orderData[0].id);
