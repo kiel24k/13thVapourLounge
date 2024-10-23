@@ -51,13 +51,20 @@ class ClientController extends Controller
     }
     public function ClientOrder(Request $request)
     {
+        
+        foreach ($request->order_data as $orderData) {
         $user = new UserOrder();
         $user->user_id = $request->user_id;
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->order_data = $request->order_data;
+        $user->order_data = json_encode($orderData);
+        $user->save();
+        
+        }
         $user->save();
         return response()->json($user);
+        
+    
+       
+       
     }
 
     public function editProfile(Request $request)
@@ -101,5 +108,13 @@ class ClientController extends Controller
         ->select('user_id','first_name','last_name','mobile_no','floor_unit_no','province','municipality','baranggay')
         ->paginate(10);
         return response()->json($addressList);
+    }
+
+    public function allOrder(Request $request){
+        $order = DB::table('user_orders')
+        ->select('*')
+        ->where('user_id',2 )
+        ->get();
+        return response()->json($order);
     }
 }

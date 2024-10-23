@@ -11,9 +11,8 @@ class UserOrder extends Model
     protected $table = 'user_orders';
     protected $fillable = [
      'user_ID',
-     'first_name',
-     'last_name',
-     'order_data'
+     'order_total',
+     
     ];
 
     public function userInfo () {
