@@ -16,6 +16,7 @@ class UserOrder extends Model
         'order_price',
         'order_total',
         'order_quantity',
+        'status'
     ];
 
     public function userInfo()

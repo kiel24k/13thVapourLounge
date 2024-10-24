@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('order_price');
             $table->integer('order_total');
             $table->integer('order_quantity');
+            $table->enum('status', ['pending','to-received','received']);
             $table->timestamps();
         });
     }

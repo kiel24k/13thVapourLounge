@@ -12,11 +12,13 @@ const ALL_ORDER_API = async () => {
         const response = await axios.get('api/all-order')
         order.value = response.data
         console.log(response.data);
-        
+
     } catch (error) {
 
     }
 }
+
+
 
 onMounted(() => {
     ALL_ORDER_API()
@@ -52,15 +54,18 @@ onMounted(() => {
                     P{{ data.order_price }}
                 </div>
                 <div class="col">
-                    QTY:  {{ data.order_quantity }}
+                    QTY: {{ data.order_quantity }}
                 </div>
                 <div class="col">
-                    Total: PP{{ data.order_total }}
+                    Total: P{{ data.order_total }}
+                </div>
+                <div class="col" >
+                    <span class="status" :style="{ background: data.status === 'pending' ? '#FFEB3B' : data.status === 'to-received' ? '#2196F3' : data.status === 'received' ? '#4CAF50' : 'inherit' }">
+                        {{ data.status }}
+                    </span>
                 </div>
                 <hr>
             </div>
-
-
         </article>
     </section>
 
@@ -86,4 +91,15 @@ figcaption {
     height: 3rem;
     overflow: hidden;
 }
+.status{
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 10px;
+    font-weight: bold;
+    color:rgb(255, 255, 255);
+    
+}
+
+
+
 </style>
