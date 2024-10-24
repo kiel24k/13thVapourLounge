@@ -129,7 +129,7 @@ onMounted(() => {
                     <b>₱{{ data.product_price }}</b>
                 </summary>
                 <div class="text-start">
-                    <button class="btn btn-dark" @click="addToCartBestSeller(data)">Add to Cart</button>
+                    <button class="btn btn-dark"  @click="addToCartBestSeller(data)">Add to Cart</button>
                 </div>
             </article>
         </div>

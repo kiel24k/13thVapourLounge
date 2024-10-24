@@ -12,11 +12,13 @@ const ALL_ORDER_API = async () => {
         const response = await axios.get('api/all-order')
         order.value = response.data
         console.log(response.data);
-        
+
     } catch (error) {
 
     }
 }
+
+
 
 onMounted(() => {
     ALL_ORDER_API()
@@ -38,11 +40,11 @@ onMounted(() => {
         </div>
         <NavbarOrder />
         <hr>
-        <article v-for="(data, index) in order" :key="index">
+        <article  v-for="(data, index) in order" :key="index">
             <div class="row p-4">
                 <div class="col">
                     <figure>
-                        <img :src="`/storage/product_image/${data.order_image}`" width="100">
+                        <img :src="`/storage/product_image/${data.order_image}`" width="80">
                         <figcaption>
                             {{ data.order_label }}
                         </figcaption>
@@ -52,15 +54,19 @@ onMounted(() => {
                     P{{ data.order_price }}
                 </div>
                 <div class="col">
-                    QTY:  {{ data.order_quantity }}
+                    QTY: {{ data.order_quantity }}
                 </div>
                 <div class="col">
-                    Total: PP{{ data.order_total }}
+                    Total: P{{ data.order_total }}
+                </div>
+                <div class="col">
+                    <span class="status"
+                        :style="{ background: data.status === 'pending' ? 'rgb(255,235,59,0.5)' : data.status === 'to-received' ? 'rgb(33,150,243, 0.5' : data.status === 'received' ? 'rgb(76,175,80,0.5)' : 'inherit' }">
+                        {{ data.status }}
+                    </span>
                 </div>
                 <hr>
             </div>
-
-
         </article>
     </section>
 
@@ -85,5 +91,16 @@ figcaption {
     width: 20rem;
     height: 3rem;
     overflow: hidden;
+}
+
+.status {
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 10px;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    backdrop-filter: blur(25px);
+    
+
 }
 </style>

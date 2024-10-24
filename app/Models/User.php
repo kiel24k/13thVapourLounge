@@ -42,6 +42,10 @@ class User extends Authenticatable
         return $this->hasMany(UserOrder::class, 'user_id');
     }
 
+    public function userOrders () {
+        return $this->hasMany(UserOrder::class, 'user_id');
+    }
+
     
 
     /**

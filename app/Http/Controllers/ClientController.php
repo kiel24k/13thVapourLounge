@@ -62,6 +62,7 @@ class ClientController extends Controller
             $user->order_label = $request->order_data[$i]['product_label'];
             $user->order_quantity = json_encode($request->order_data[$i]['quantity']);
             $user->order_total = $orderPrice;
+            $user->status = 'pending';
             $user->save();
         }
         $user->save();
@@ -116,7 +117,7 @@ class ClientController extends Controller
     public function allOrder(Request $request)
     {
         $user = DB::table('user_orders')
-            ->select('order_image', 'order_label', 'order_price', 'order_total', 'order_quantity')
+            ->select('order_image', 'order_label', 'order_price', 'order_total', 'order_quantity','status')
             ->where('user_id', Auth::user()->id)
             ->get();
         return response()->json($user);

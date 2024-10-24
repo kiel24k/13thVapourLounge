@@ -16,6 +16,7 @@ class UserOrder extends Model
         'order_price',
         'order_total',
         'order_quantity',
+        'status'
     ];
 
     public function userInfo()
@@ -23,8 +24,7 @@ class UserOrder extends Model
         return $this->hasMany(User::class, 'id');
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+  
+
+   
 }
