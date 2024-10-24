@@ -40,7 +40,6 @@ onMounted(  () => {
                 </div>
                 <div class="">
                     <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="" width="30">
-                    <img src="/public/image/cart1-icon.png" alt="" width="30">
                     <button class="logoutBtn" @click="logoutBtn">
                         <img src="/public/image/logout.png" width="25" alt="">
                         <b>Logout</b>

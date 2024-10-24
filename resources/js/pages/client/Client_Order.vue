@@ -40,11 +40,11 @@ onMounted(() => {
         </div>
         <NavbarOrder />
         <hr>
-        <article v-for="(data, index) in order" :key="index">
+        <article  v-for="(data, index) in order" :key="index">
             <div class="row p-4">
                 <div class="col">
                     <figure>
-                        <img :src="`/storage/product_image/${data.order_image}`" width="100">
+                        <img :src="`/storage/product_image/${data.order_image}`" width="80">
                         <figcaption>
                             {{ data.order_label }}
                         </figcaption>
@@ -59,8 +59,9 @@ onMounted(() => {
                 <div class="col">
                     Total: P{{ data.order_total }}
                 </div>
-                <div class="col" >
-                    <span class="status" :style="{ background: data.status === 'pending' ? '#FFEB3B' : data.status === 'to-received' ? '#2196F3' : data.status === 'received' ? '#4CAF50' : 'inherit' }">
+                <div class="col">
+                    <span class="status"
+                        :style="{ background: data.status === 'pending' ? 'rgb(255,235,59,0.5)' : data.status === 'to-received' ? 'rgb(33,150,243, 0.5' : data.status === 'received' ? 'rgb(76,175,80,0.5)' : 'inherit' }">
                         {{ data.status }}
                     </span>
                 </div>
@@ -91,15 +92,15 @@ figcaption {
     height: 3rem;
     overflow: hidden;
 }
-.status{
+
+.status {
     padding: 10px;
     border-radius: 15px;
     font-size: 10px;
     font-weight: bold;
-    color:rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    backdrop-filter: blur(25px);
     
+
 }
-
-
-
 </style>

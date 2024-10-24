@@ -97,13 +97,9 @@ const submitCart = async () => {
                 user_id: userData.value.id,
                 order_data:orderData
         })
-       console.log(orderData);
-       
-        
-        // console.log(orderData[0].id);
-        // localStorage.setItem('cart', JSON.stringify(order.filter((el) => el.quantity === 0)))
+     
+        localStorage.setItem('cart', JSON.stringify(order.filter((el) => el.quantity === 0)))
         }
-        //ass
        
     } else {
         

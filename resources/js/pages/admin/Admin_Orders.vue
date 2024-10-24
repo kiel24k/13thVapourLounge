@@ -13,8 +13,8 @@ const userOrderProduct = ref(Object)
 const ORDER_lIST_API = async () => {
     try {
         const response = await axios.get('/api/order-list')
-        orderList.value = response.data[0]
-        console.log(typeof orderList.value.data[0].order_data);
+        orderList.value = response.data
+   
         //  console.log(JSON.parse(orderList.value.data[1].order_data));
     } catch (error) {
 
@@ -22,16 +22,16 @@ const ORDER_lIST_API = async () => {
 
 }
 
-const viewUserProductBtn = (data,first_name,last_name,date) => {
+const viewUserProductBtn = (name,data) => {
     viewUserOrder.value = true
-    userOrderProduct.value =  {
-        data: data,
-        fname: first_name,
-        lname: last_name,
-        date: date
+    userOrderProduct.value = {
+        name:name,
+        data:data
     }
     
 }
+    
+
 const closeModal = () => {
     viewUserOrder.value =false
 }
@@ -96,14 +96,15 @@ onMounted(() => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(data, index) in orderList.data" :key="index">
+                            <tr v-for="(data, index) in orderList" :key="index">
                                 <td>{{ index + 1 }}</td>
                                 <td>{{ data.first_name }} {{ data.last_name }}</td>
                                 <td>{{ data.created_at }}</td>
+                                <!-- <td>{{ data.user_orders[0] }}</td> -->
                                 <td class="action">
                                     <span>
                                         <button>
-                                            <img src="/public/image/view-eye.png" width="20px" alt="" @click="viewUserProductBtn(JSON.parse(data.order_data), data.first_name, data.last_name, data.created_at)">
+                                            <img src="/public/image/view-eye.png" width="20px" alt="" @click="viewUserProductBtn(data.first_name,data.user_orders)">
                                         </button>
                                         <button>
                                             <img src="/public/image/delete-icon.png" width="20px" alt="">

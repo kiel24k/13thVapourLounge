@@ -93,14 +93,12 @@ class AdminController extends Controller
     {
         $user = User::find($request->id)->delete();
         return response()->json($user);
-
     }
 
-    public function orderList (Request $request) {
-        $user = UserOrder::select('*')->paginate(4);
-        return response()->json([
-            $user,
-        ]);
+    public function orderList(Request $request)
+    {
+        $userId = User::with('userOrders')->get();
+        return response()->json($userId);
+       
     }
-
 }

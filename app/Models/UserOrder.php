@@ -24,8 +24,7 @@ class UserOrder extends Model
         return $this->hasMany(User::class, 'id');
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+  
+
+   
 }
