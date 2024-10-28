@@ -37,6 +37,7 @@ const closeModal = () => {
     viewUserOrder.value =false
 }
 const notification = () => {
+    viewUserOrder.value =false
     isStatusUpdate.value = true
     setTimeout(() => {
         isStatusUpdate.value =false

@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 
-const emit = defineEmits(['updateStatusModal'])
+const emit = defineEmits(['updateStatusModal','submitCloseModal'])
 const props = defineProps(['editStatusId'])
 const statusInput = ref({Object})
 
@@ -19,12 +19,11 @@ const submit = async () => {
         }
     )
    if(response.status === 200){
-     emit('updateStatusModal')
+     emit('submitCloseModal')
    }
     
    } catch (error) {
-    emit('updateStatusModal')
-    
+    emit('submitCloseModal')
    }
    
 }
