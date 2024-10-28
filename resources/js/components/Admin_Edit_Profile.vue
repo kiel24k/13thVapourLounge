@@ -32,7 +32,9 @@ const submit = async () => {
                 }
             }
         )
-        console.log(response);
+        if(response.status === 200){
+            emit('closeModal')
+        }
         
     } catch (error) {
         console.log(error);

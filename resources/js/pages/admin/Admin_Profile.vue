@@ -45,8 +45,8 @@ onMounted(() => {
             <div class="main m-2 ">
                 <div class="row" id="profile">
                     <div class="col">
-                        <figure>
-                            <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="">
+                        <figure class="figure-profile">
+                            <img :src="`/storage/admin_profile/${user.image}`" width="150" alt="">
                             <figcaption class="profile-figcaption text-dark">
                                 <span>{{ user.first_name }} {{ user.last_name }}</span>
                             </figcaption>
@@ -87,7 +87,6 @@ onMounted(() => {
                                 </figcaption>
                             </figure>
                         </div>
-                        
                     </article>
                 </section>
             </div>
@@ -122,7 +121,12 @@ figure {
     align-items: center;
     gap: 10px
 }
-
+.figure-profile img{
+    border-radius: 100%;
+    box-shadow: 0px 0px 5px 0px rgb(0, 171, 250);
+    border:solid 1px black;
+    padding:2px;
+}
 .profile-figcaption {
     font-weight: 600;
 }
