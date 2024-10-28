@@ -117,7 +117,7 @@ class AdminController extends Controller
             }
             $image = $request->file('image');
             $fileName = $image->hashName();
-            $image->move(public_path('admin_profile'), $fileName);
+            $image->storeAs('admin_profile', $fileName, 'public');
             $user->image = $fileName;
             $user->update();
         }
