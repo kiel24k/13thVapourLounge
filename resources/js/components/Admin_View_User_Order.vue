@@ -4,13 +4,14 @@ import AdminStatusUpdateModal from '@/components/Admin_Update_Status_Modal.vue'
 
 
 const props = defineProps(['userOrderProduct'])
-const emit = defineEmits('closeModal')
+const emit = defineEmits('closeModal','notification')
 const adminStatusUpdateModal = ref(false)
+const editStatusId = ref()
 
 
 
 const editStatus = (id) => {
-
+    editStatusId.value = id
     adminStatusUpdateModal.value = true
 }
 
@@ -21,7 +22,8 @@ const closeModal = () => {
 
 const updateStatusModal = () => {
     adminStatusUpdateModal.value =false
-
+    emit('closeModal')
+    emit('notification')
 }
 
 onMounted(() => {
@@ -34,7 +36,7 @@ onMounted(() => {
 <template>
 
     <div id="modal">
-        <AdminStatusUpdateModal v-if="adminStatusUpdateModal" @updateStatusModal="updateStatusModal" />
+        <AdminStatusUpdateModal v-if="adminStatusUpdateModal" @updateStatusModal="updateStatusModal" :editStatusId="editStatusId" />
         <div class="modal-main">
             <div class="row modal-title">
                 <div class="col user-info">

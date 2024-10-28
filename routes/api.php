@@ -26,6 +26,7 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/user-list', 'userList');
     route::post('/delete-user','deleteUser');
     route::get('/order-list', 'orderList');
+    route::post('/order-update-status', 'orderUpdateStatus');
 });
 
 Route::controller(ClientController::class)->group(function () {

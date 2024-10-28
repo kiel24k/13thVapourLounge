@@ -3,12 +3,12 @@ import Header from '@/components/Admin_Header.vue'
 import Sidebar from '@/components/Admin_Sidebar.vue'
 import { onMounted, ref } from 'vue';
 import ViewUserOrder from '@/components/Admin_View_User_Order.vue'
+import StatusUpdate from '@/widgets/status_update.vue'
 
 const orderList = ref(Object)
 const viewUserOrder = ref(false)
 const userOrderProduct = ref(Object)
-
-
+const isStatusUpdate = ref(false)
 
 const ORDER_lIST_API = async () => {
     try {
@@ -33,7 +33,14 @@ const viewUserProductBtn = (name,data) => {
     
 
 const closeModal = () => {
+    ORDER_lIST_API()
     viewUserOrder.value =false
+}
+const notification = () => {
+    isStatusUpdate.value = true
+    setTimeout(() => {
+        isStatusUpdate.value =false
+    }, 3000);
 }
 
 onMounted(() => {
@@ -43,7 +50,9 @@ onMounted(() => {
 </script>
 
 <template>
-    <ViewUserOrder v-if="viewUserOrder" :userOrderProduct="userOrderProduct" @closeModal="closeModal"/>
+    <StatusUpdate v-if="isStatusUpdate"/>
+    <ViewUserOrder v-if="viewUserOrder" :userOrderProduct="userOrderProduct" @closeModal="closeModal" @notification="notification"/>
+    
     <div id="section-one">
         <div class="header">
             <Header />

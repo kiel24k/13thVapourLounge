@@ -48,10 +48,6 @@ class AdminController extends Controller
             'description' => $request->description,
             'label_category' => $request->label_category,
         ]);
-        // $image = $request->file('image');
-        // $fileName = $image->hashName();
-        // $request->$image->move(public_path('image'), $fileName); // Move the image
-        // $product->image = $fileName;
         $image = $request->file('image');
         $fileName = $image->hashName();
         $image->store('product_image', 'public');
@@ -99,6 +95,15 @@ class AdminController extends Controller
     {
         $userId = User::with('userOrders')->get();
         return response()->json($userId);
-       
     }
+    public function orderUpdateStatus (Request $request) {
+        $userId = UserOrder::find($request->id);
+        $userId->status = $request->status;
+        $userId->update();
+        return response()->json([
+            "status" => 200
+        ]);
+
+    }
+
 }
