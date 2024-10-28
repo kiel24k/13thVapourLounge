@@ -41,7 +41,7 @@
                 </ul>
                 <h3 class="text-center text-white p-2">Settings</h3>
                 <ul class="navbar nav mt-1">
-                    <router-link :to="{name: 'admin-profile-list'}" class="item1">
+                    <router-link :to="{name: 'admin-profile'}" class="item1">
                         <li class="nav-link text-dark">
                             <img src="/public/image/profile-icon.png" width="20px" alt="" />
                             Profile

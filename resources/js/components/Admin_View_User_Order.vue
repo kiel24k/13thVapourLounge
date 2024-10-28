@@ -23,7 +23,11 @@ const closeModal = () => {
 const updateStatusModal = () => {
     adminStatusUpdateModal.value =false
     emit('closeModal')
+}
+
+const submitCloseModal = () => {
     emit('notification')
+
 }
 
 onMounted(() => {
@@ -36,7 +40,7 @@ onMounted(() => {
 <template>
 
     <div id="modal">
-        <AdminStatusUpdateModal v-if="adminStatusUpdateModal" @updateStatusModal="updateStatusModal" :editStatusId="editStatusId" />
+        <AdminStatusUpdateModal v-if="adminStatusUpdateModal" @updateStatusModal="updateStatusModal" :editStatusId="editStatusId" @submitCloseModal="submitCloseModal" />
         <div class="modal-main">
             <div class="row modal-title">
                 <div class="col user-info">

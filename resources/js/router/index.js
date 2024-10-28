@@ -81,8 +81,8 @@ const routes = [
     },
     {
         path: "/admin-profile",
-        component: () => import("../pages/admin/Admin_Profile_List.vue"),
-        name: "admin-profile-list",
+        component: () => import("../pages/admin/Admin_Profile.vue"),
+        name: "admin-profile",
     },
     {
         path: "/admin-account-settings",

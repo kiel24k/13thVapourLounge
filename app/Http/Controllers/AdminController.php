@@ -9,6 +9,7 @@ use App\Models\UserOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class AdminController extends Controller
 {
@@ -103,6 +104,26 @@ class AdminController extends Controller
         return response()->json([
             "status" => 200
         ]);
+    }
+    public function updateAdminProfile (Request $request){
+        $user = User::find(Auth::user()->id);
+        $user->first_name = $request->first_name; 
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        if($request->hasFile('image')){
+            $filePath = 'admin_profile/' . $user->image;
+            if(File::exists($filePath)){
+                file::delete($filePath);
+            }
+            $image = $request->file('image');
+            $fileName = $image->hashName();
+            $image->move(public_path('admin_profile'), $fileName);
+            $user->image = $fileName;
+            $user->update();
+        }
+        $user->update();
+        return response()->json($user);
+        
 
     }
 
