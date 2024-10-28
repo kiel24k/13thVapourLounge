@@ -1,10 +1,34 @@
 <script setup>
+import { ref } from 'vue';
+
 
 const emit = defineEmits(['updateStatusModal'])
+const props = defineProps(['editStatusId'])
+const statusInput = ref({Object})
 
 const updateStatusModal = () => {
     emit('updateStatusModal')
 }
+
+const submit = async () => {
+   try {
+    const response = await axios.post('api/order-update-status',
+        {
+            id: props.editStatusId,
+            status: statusInput.value
+        }
+    )
+   if(response.status === 200){
+     emit('updateStatusModal')
+   }
+    
+   } catch (error) {
+    emit('updateStatusModal')
+    
+   }
+   
+}
+
 
 </script>
 
@@ -20,21 +44,21 @@ const updateStatusModal = () => {
                 <span>Change Status</span>
             </div>
             <fieldset>
-                <form action="">
+                <form action="" @submit.prevent>
                     <div class="row">
                         <div class="col">
                             <label for="">Pending</label>
-                            <input type="radio" name="status" value="pending">
+                            <input type="radio" name="status" value="pending" v-model="statusInput">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <label for="">To Received</label>
-                            <input type="radio" name="status" value="to-received">
+                            <input type="radio" name="status" value="to-received" v-model="statusInput">
                         </div>
                     </div>
                     <div class="submit-btn">
-                        <button>Review Change</button>
+                        <button @click="submit">Change</button>
                     </div>
                 </form>
             </fieldset>
