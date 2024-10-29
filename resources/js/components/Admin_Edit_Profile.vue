@@ -17,8 +17,6 @@ const user_emit = () => {
 
 const submit = async () => {
     try {
-        // console.log(imageFile.value);
-        
         const response = await axios.post('api/update-admin-profile',
             {   
                 first_name: inputs.value.first_name,

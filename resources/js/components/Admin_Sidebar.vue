@@ -8,12 +8,12 @@
             <div class="menu1">
                 <ul class="navbar nav mt-1">
                     <!-- <small class="p-4">Favorites</small> -->
-                    <div class="item1">
+                    <router-link :to="{name: 'admin-dashboard'}" class="item1">
                         <li class="nav-link text-dark">
                             <img src="/public/image/dashboard-icon.png" width="20px" alt="" />
                             Dashboard
                         </li>
-                    </div>
+                    </router-link>
                     <router-link :to="{name: 'admin-orders'}" class="item1">
                         <li class="nav-link text-dark">
                             <img src="/public/image/order-icon.png" width="20px" alt="" />
