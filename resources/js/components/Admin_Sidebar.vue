@@ -53,18 +53,6 @@
                             Account Setting
                         </li>
                     </router-link>
-                    <div class="item1">
-                        <li class="nav-link text-dark">
-                            <img src="/public/image/payment-method-icon.png" width="20px" alt="" />
-                            Payment Methods
-                        </li>
-                    </div>
-                    <div class="item1">
-                        <li class="nav-link text-dark">
-                            <img src="/public/image/shipping-icon.png" width="25px" alt="" />
-                            Shipping Options
-                        </li>
-                    </div>
                 </ul>
                 <h3 class="text-center text-white p-2">Support</h3>
                 <ul class="navbar nav mt-1">

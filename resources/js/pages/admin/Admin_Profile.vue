@@ -46,7 +46,7 @@ onMounted(() => {
                 <div class="row" id="profile">
                     <div class="col">
                         <figure class="figure-profile">
-                            <img :src="`/storage/admin_profile/${user.image}`" width="150" alt="">
+                            <img v-if="user.image" :src="`/storage/admin_profile/${user.image}`" width="150" alt="">
                             <figcaption class="profile-figcaption text-dark">
                                 <span>{{ user.first_name }} {{ user.last_name }}</span>
                             </figcaption>
