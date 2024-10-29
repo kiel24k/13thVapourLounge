@@ -6,7 +6,6 @@ import NavbarAccount from '@/components/Client_Navbar_Account.vue'
 </script>
 
 <template>
-    <Header/>
     <Navbar/>
     <NavbarCategory/>
     <section class="row" id="profile">

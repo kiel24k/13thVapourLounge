@@ -89,7 +89,16 @@ class ClientController extends Controller
 
     public function addNewAddress(Request $request)
     {
-        try {
+     
+            $request->validate([
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'mobile_no' => 'required|numeric',
+                'floor_unit_no' => 'required',
+                'province' => 'required',
+                'municipality' => 'required',
+                'baranggay' => 'required'
+            ]);
             $address = new Address_Book();
             $address->user_id = Auth::user()->id;
             $address->first_name = $request->first_name;
@@ -101,9 +110,7 @@ class ClientController extends Controller
             $address->baranggay = $request->baranggay;
             $address->save();
             return response()->json(['success' => 'success'], 200);
-        } catch (\Throwable $th) {
-            return response()->json(['error' => 'Failed to submit'], 500);
-        }
+        
     }
 
     public function addressList()
@@ -117,7 +124,7 @@ class ClientController extends Controller
     public function allOrder(Request $request)
     {
         $user = DB::table('user_orders')
-            ->select('order_image', 'order_label', 'order_price', 'order_total', 'order_quantity','status')
+            ->select('order_image', 'order_label', 'order_price', 'order_total', 'order_quantity', 'status')
             ->where('user_id', Auth::user()->id)
             ->get();
         return response()->json($user);

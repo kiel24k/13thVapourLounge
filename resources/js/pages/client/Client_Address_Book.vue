@@ -24,17 +24,18 @@ const ADDRESS_LIST_API = async () => {
         const response = await axios.get('api/address-list')
         addressList.value = response.data
     } catch (error) {
-        
+
     }
 }
 
 const addNewAddressBtn = () => {
-    clientAddAddressBookModal.value =true
+    clientAddAddressBookModal.value = true
 }
 
 const closeModal = () => {
+    ADDRESS_LIST_API()
     clientAddAddressBookModal.value = false
-   
+
 }
 
 
@@ -46,10 +47,10 @@ onMounted(() => {
 </script>
 
 <template>
-    
-    <Navbar/>
-    <NavbarCategory/>
-    <ClientAddAddressBookModal v-if="clientAddAddressBookModal" @closeModal="closeModal"/>
+
+    <Navbar />
+    <NavbarCategory />
+    <ClientAddAddressBookModal v-if="clientAddAddressBookModal" @closeModal="closeModal" />
     <section class="row" id="profile">
         <div class="col">
             <figure>
@@ -70,7 +71,7 @@ onMounted(() => {
     </section>
 
     <nav>
-        <NavbarAccount/>
+        <NavbarAccount />
     </nav>
 
     <section id="info">
@@ -87,71 +88,68 @@ onMounted(() => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(data,index) in addressList.data" :key="index">
-                           <td>{{ index + 1 }}</td>
-                        <td>{{data.first_name}} {{ data.last_name }}</td>
+                    <tr v-for="(data, index) in addressList.data" :key="index">
+                        <td>{{ index + 1 }}</td>
+                        <td>{{ data.first_name }} {{ data.last_name }}</td>
                         <td>{{ data.floor_unit_no }}</td>
                         <td>{{ data.province }} - {{ data.municipality }} - {{ data.baranggay }}</td>
-                        <td>+63{{data.mobile_no}}</td>
-                       
+                        <td>+63{{ data.mobile_no }}</td>
+
                         <td>
                             <span class="text-primary">Edit</span>
                         </td>
                     </tr>
                 </tbody>
-             
+
             </table>
-           <div class="text-end">
-            <button class="btn btn-primary" @click="addNewAddressBtn">Add new address</button>
-           </div>
+            <div class="text-end">
+                <button class="btn btn-primary" @click="addNewAddressBtn">Add new address</button>
+            </div>
         </article>
     </section>
 </template>
 
 <style scoped>
-    #profile {
-        max-width: 70%;
-        margin: auto;
-        display: flex;
-        flex-wrap: wrap;
-    }
+#profile {
+    max-width: 70%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
 
-    figure {
-        display: flex;
-        align-items: center;
-        gap: 10px
-    }
+figure {
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
 
-    .profile-figcaption {
-        font-weight: 600;
-    }
+.profile-figcaption {
+    font-weight: 600;
+}
 
-    .profile-action {
-        display: flex;
-        justify-content: end;
-        align-items: center;
-    }
+.profile-action {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
 
-    #info{
-        max-width:70%;
-        margin: auto;
-        padding:10px;
-        background: white;
-    }
+#info {
+    max-width: 70%;
+    margin: auto;
+    padding: 10px;
+    background: white;
+}
 
-    #info table th{
-        background: rgb(236, 235, 235);
-        color:gray;
-        font-weight: 500;
-        font-size: 12px;
-    }
+#info table th {
+    background: rgb(236, 235, 235);
+    color: gray;
+    font-weight: 500;
+    font-size: 12px;
+}
 
-    #info table td {
-        color:black;
-        font-size: 15px;
-        background: #ffffff;
-    }
-
-
-    
+#info table td {
+    color: black;
+    font-size: 15px;
+    background: #ffffff;
+}
 </style>
