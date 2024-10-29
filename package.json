@@ -13,6 +13,7 @@
     "dependencies": {
         "@vitejs/plugin-vue": "^5.1.4",
         "bootstrap": "^5.3.3",
+        "chart.js": "^4.4.6",
         "js-cookie": "^3.0.5",
         "pinia": "^2.2.2",
         "vue": "^3.5.7",

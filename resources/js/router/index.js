@@ -43,20 +43,20 @@ const routes = [
         name: "my-address-book",
     },
     {
-        path: '/my-order',
-        component: () => import('../pages/client/Client_Order.vue'),
-        name: 'my-order'
+        path: "/my-order",
+        component: () => import("../pages/client/Client_Order.vue"),
+        name: "my-order",
     },
-    
+
     {
-        path: '/my-order-received',
-        component: () => import('../pages/client/Client_Recieved.vue'),
-        name: 'my-order-recieved'
+        path: "/my-order-received",
+        component: () => import("../pages/client/Client_Recieved.vue"),
+        name: "my-order-recieved",
     },
     {
-        path: '/my-order-to-received',
-        component: () => import('../pages/client/Client_Order_To_Received.vue'),
-        name: 'my-order-to-received'
+        path: "/my-order-to-received",
+        component: () => import("../pages/client/Client_Order_To_Received.vue"),
+        name: "my-order-to-received",
     },
     //======================Admin routes=============================//
     {
@@ -88,6 +88,11 @@ const routes = [
         path: "/admin-account-settings",
         component: () => import("../pages/admin/Admin_Account_Settings.vue"),
         name: "admin-account-settings",
+    },
+    {
+        path: "/admin-dashboard",
+        component: () => import("../pages/admin/Admin_Dashboard.vue"),
+        name: "admin-dashboard",
     },
     {
         path: "/client-cancelation",
