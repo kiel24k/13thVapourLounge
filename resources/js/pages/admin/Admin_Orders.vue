@@ -37,6 +37,7 @@ const closeModal = () => {
     viewUserOrder.value =false
 }
 const notification = () => {
+    ORDER_lIST_API()
     viewUserOrder.value =false
     isStatusUpdate.value = true
     setTimeout(() => {
