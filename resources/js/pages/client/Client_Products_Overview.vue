@@ -51,20 +51,25 @@ onMounted(() => {
                     <div class="image-one-content">
                         <img :src="`/storage/product_image/${data.image}`" height="130" width="150" alt="" />
                     </div>
+                    <summary>
+                        <p>₱{{ data.product_label }}</p>
+                        <b>₱{{ data.product_price }}</b>
+                    </summary>
+                    <div class="text-start">
+                        <button class="btn btn-dark">View Product</button>
+                    </div>
                 </router-link>
-                <summary>
-                    <p>₱{{ data.product_label }}</p>
-                    <b>₱{{ data.product_price }}</b>
-                </summary>
-                <div class="text-start">
-                    <button class="btn btn-dark">Add to Cart</button>
-                </div>
+               
             </article>
         </div>
     </section>
     <Footer/>
 </template>
 <style scoped>
+a{
+    text-decoration: none;
+    color:black;
+}
 section {
     width: 70%;
     margin: auto;

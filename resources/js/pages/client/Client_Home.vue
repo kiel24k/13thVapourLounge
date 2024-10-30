@@ -16,10 +16,8 @@ const cartTotal = ref()
 
 const newArrivalList = async () => {
     try {
-       
         const response = await axios.get('api/new-arrival-list')
         newArrivalListItem.value = response.data
-       
     } catch (error) {
     }
 }

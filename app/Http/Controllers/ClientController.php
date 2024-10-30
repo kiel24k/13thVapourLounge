@@ -126,6 +126,7 @@ class ClientController extends Controller
         $user = DB::table('user_orders')
             ->select('order_image', 'order_label', 'order_price', 'order_total', 'order_quantity', 'status')
             ->where('user_id', Auth::user()->id)
+            ->orderBy('id','desc')
             ->get();
         return response()->json($user);
     }
