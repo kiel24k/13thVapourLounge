@@ -4,7 +4,12 @@ import Header from '@/components/Admin_Header.vue'
 import PieChart from '@/components/Admin_Pie_Chart.vue'
 import LineChart from '@/components/Admin_Line_Chart.vue'
 import BarChart from '@/components/Admin_Bar_Chart.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import axios from 'axios'
+
+const totalProducts = ref()
+const totalUsers = ref()
+const totalReceiveOrders = ref()
 
 const showSidebar = ref(true)
 const closeSidebar = () => {
@@ -14,6 +19,28 @@ const closeSidebar = () => {
         showSidebar.value = true
     }
 }
+
+const TOTAL_PRODUCTS_API =  async () => {
+        const response = await axios.get('api/dashboard-product-total')
+        totalProducts.value = response.data
+}
+
+const TOTAL_USERS_API =async () => {
+    const response = await axios.get('api/dashboard-total-user')
+    totalUsers.value = response.data
+}
+
+const TOTAL_RECEIVE_ORDERS_API = async () => {
+    const response = await axios.get('api/dashboard-receive-order-total')
+    totalReceiveOrders.value = response.data
+
+    
+}
+onMounted(() => {
+TOTAL_PRODUCTS_API()
+TOTAL_USERS_API()
+TOTAL_RECEIVE_ORDERS_API()
+})
 
 </script>
 
@@ -31,16 +58,16 @@ const closeSidebar = () => {
                     <div class="row totals text-white">
                         <div class="">
                             <p>products</p>
-                            <span>40</span>
+                            <span>{{ totalProducts }}</span>
 
                         </div>
                         <div class="">
                             <p>users</p>
-                            <span>10</span>
+                            <span>{{ totalUsers }}</span>
                         </div>
                         <div class="">
                             <p>received orders</p>
-                            <span>100</span>
+                            <span>{{ totalReceiveOrders }}</span>
                         </div>
                     </div>
                 </section>
@@ -70,6 +97,8 @@ const closeSidebar = () => {
 .main {
     width: 100%;
     margin: 10px;
+    display: grid;
+    gap:15px;
 }
 
 .header {
@@ -86,7 +115,12 @@ const closeSidebar = () => {
 
 .section-one {
     display: grid;
+    background: rgb(250, 250, 250);
+    padding:20px;
+    box-shadow: 0px 0px 5px 0px gray;
+    border-radius: 5px;
 }
+
 
 .totals {
     display: flex;
@@ -111,5 +145,15 @@ const closeSidebar = () => {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+    gap:10px;
+    margin-top:20px ;
+    margin:2px;
+    
+   
+}
+.charts > div{
+    background: white;
+    box-shadow: 0px 0px 5px 0px gray;
+     border-radius: 5px;
 }
 </style>
