@@ -51,4 +51,5 @@ Route::controller(DashboardController::class)->group(function () {
     route::get('/dashboard-product-total', 'productsTotal');
     route::get('/dashboard-total-user', 'userTotal');
     route::get('/dashboard-receive-order-total', 'receiveOrdersTotal');
+    route::get('/dashboard-pie-chart', 'pieChart');
 });
