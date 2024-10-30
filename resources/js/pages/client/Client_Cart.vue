@@ -37,7 +37,6 @@ const incrementBtn = (id, quantity) => {
         fetchProductsValue.value = [...productTotal.value]
         if(test.quantity >= test.max_quantity){
             test.quantity = test.max_quantity
-            
         }
         
     }

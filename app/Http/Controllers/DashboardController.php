@@ -25,4 +25,14 @@ class DashboardController extends Controller
         ->count();
         return response()->json($order);
     }
+
+    public function pieChart () {
+        $products = DB::table('user_orders')
+        ->select('order_label')
+        ->selectRaw('COUNT(*) as item_count')
+        ->groupBy('order_label')
+        ->get();
+
+        return response()->json($products);
+    }
 }
