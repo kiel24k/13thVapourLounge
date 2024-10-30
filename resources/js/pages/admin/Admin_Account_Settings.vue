@@ -1,43 +1,53 @@
 <script setup>
 import Header from "@/components/Admin_Header.vue"
 import Sidebar from "@/components/Admin_Sidebar.vue"
+import { ref } from "vue";
+
+const showSidebar = ref(true)
+const closeSidebar = () => {
+    if (showSidebar.value == true) {
+        showSidebar.value = false
+    } else if (showSidebar.value === false) {
+        showSidebar.value = true
+    }
+}
 </script>
 
 <template>
     <div id="account-settings">
         <div class="header">
-            <Header />
+            <Header @closeSidebar="closeSidebar"/>
         </div>
         <div class="content">
             <div class="sidebar">
-                <Sidebar />
+                <Sidebar v-if="showSidebar"/>
             </div>
             <div id="settings" class="m-2">
                 <div class="content-one">
                     <div class="content-one-title">
-                        <b>Name</b>
+                        <b>Old Password</b>
                         <small>Changes will update all urls</small>
                     </div>
                     <div class="content-one-main">
-                        <input type="text" placeholder="Kiel Bermudez">
+                        <input type="text" placeholder="Enter Old Password">
                     </div>
                 </div>
                 <div class="content-two">
                     <div class="content-two-title">
-                        <b>Default Branch</b>
+                        <b>New Password</b>
                         <small>Changes will update all urls</small>
                     </div>
                     <div class="content-two-main">
-                        <input type="text" placeholder="Kiel Bermudez">
+                        <input type="text" placeholder="Enter New Password">
                     </div>
                 </div>
                 <div class="content-three">
                     <div class="content-three-title">
-                        <b>Default Branch</b>
+                        <b>Confirm Password</b>
                         <small>Changes will update all urls</small>
                     </div>
                     <div class="content-three-main">
-                        <textarea name="" rows="5" id=""></textarea>
+                        <input type="text" placeholder="Confirm Password"></input>
                     </div>
                 </div>
                 <div class="content-four">
@@ -66,6 +76,10 @@ import Sidebar from "@/components/Admin_Sidebar.vue"
         display: grid;
         gap: 15px;
         justify-content: center;
+        background: white;
+        padding:10px;
+        box-shadow: 0px 0px 5px 0px gray;
+        
 
     }
 

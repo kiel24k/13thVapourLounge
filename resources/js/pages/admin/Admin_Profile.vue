@@ -4,6 +4,7 @@ import Sidebar from '@/components/Admin_Sidebar.vue'
 import { onMounted, ref } from 'vue';
 import AdminEditProfile from '@/components/Admin_Edit_Profile.vue'
 
+const showSidebar = ref(true)
 const user = ref(Object)
 const isAdminEditProfile = ref(false)
 
@@ -26,6 +27,15 @@ const closeModal = () => {
     USER_API()
 }
 
+
+const closeSidebar = () => {
+    if (showSidebar.value == true) {
+        showSidebar.value = false
+    } else if (showSidebar.value === false) {
+        showSidebar.value = true
+    }
+}
+
 onMounted(() => {
     USER_API()
 })
@@ -36,11 +46,11 @@ onMounted(() => {
     <AdminEditProfile v-if="isAdminEditProfile" @closeModal="closeModal" :user="user"/>
     <div id="section-one">
         <div class="header">
-            <Header />
+            <Header @closeSidebar="closeSidebar"/>
         </div>
         <div class="content">
             <div class="sidebar">
-                <Sidebar />
+                <Sidebar v-if="showSidebar"/>
             </div>
             <div class="main m-2 ">
                 <div class="row" id="profile">

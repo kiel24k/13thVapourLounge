@@ -4,16 +4,27 @@ import Header from '@/components/Admin_Header.vue'
 import PieChart from '@/components/Admin_Pie_Chart.vue'
 import LineChart from '@/components/Admin_Line_Chart.vue'
 import BarChart from '@/components/Admin_Bar_Chart.vue'
+import { ref } from 'vue'
+
+const showSidebar = ref(true)
+const closeSidebar = () => {
+    if (showSidebar.value == true) {
+        showSidebar.value = false
+    } else if (showSidebar.value === false) {
+        showSidebar.value = true
+    }
+}
+
 </script>
 
 <template>
     <section id="main">
         <div class="header bg-info">
-            <Header />
+            <Header @closeSidebar="closeSidebar" />
         </div>
         <div class="content">
             <div class="sidebar">
-                <Sidebar />
+                <Sidebar v-if="showSidebar"/>
             </div>
             <div class="main">
                 <section class="section-one">

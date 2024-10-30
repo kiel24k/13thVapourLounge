@@ -32,7 +32,7 @@ onMounted(  () => {
     <nav>
         <div id="nav">
             <div class="nav-main">
-                <div class="">
+                <div class="burger">
                     <img src="/public/image/burder-menu1.png" alt="" width="40px" height="40px" @click="closeSidebar"/>
                 </div>
                 <div class="">
@@ -71,5 +71,8 @@ onMounted(  () => {
 
 .logoutBtn img {
     filter: invert(1);
+}
+.burger{
+    cursor: pointer;
 }
 </style>
