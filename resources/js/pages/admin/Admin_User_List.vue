@@ -3,6 +3,7 @@ import Header from '@/components/Admin_Header.vue'
 import Sidebar from '@/components/Admin_Sidebar.vue'
 import { onMounted, ref } from 'vue';
 
+const showSidebar = ref(true)
 const users = ref({})
 const sortByOrder = ref('asc')
 const sortByName = ref('first_name')
@@ -46,6 +47,15 @@ const deleteBtn = async (id) => {
     }
 }
 
+
+const closeSidebar = () => {
+    if (showSidebar.value == true) {
+        showSidebar.value = false
+    } else if (showSidebar.value === false) {
+        showSidebar.value = true
+    }
+}
+
 onMounted(() => {
     userList()
 })
@@ -54,11 +64,11 @@ onMounted(() => {
 <template>
     <div id="section-one">
         <div class="header">
-            <Header />
+            <Header @closeSidebar="closeSidebar"/>
         </div>
         <div class="content">
             <div class="sidebar">
-                <Sidebar />
+                <Sidebar v-if="showSidebar" />
             </div>
             <div class="main m-2">
                 <section id="section-one" class="mt-4">

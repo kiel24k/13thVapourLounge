@@ -26,12 +26,6 @@
                             Products
                         </li>
                     </router-link>
-                    <div class="item1">
-                        <li class="nav-link text-dark">
-                            <img src="/public/image/report-icon.png" width="20px" alt="" />
-                            Reports
-                        </li>
-                    </div>
                     <router-link :to="{name: 'admin-user-list'}" class="item1">
                         <li class="nav-link text-dark">
                             <img src="/public/image/users-icon.png" width="20px" alt="" />

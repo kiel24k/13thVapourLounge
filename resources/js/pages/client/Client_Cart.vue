@@ -30,8 +30,7 @@ const fetchProducts = () => {
     FIXED_TOTAL.value = total
 }
 
-const incrementBtn = (id, quantity) => {
-    
+const incrementBtn = (id, quantity) => {    
     const test = productTotal.value.find((el) => el.id === id)
     if (test) {
         test.quantity += 1

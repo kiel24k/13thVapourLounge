@@ -11,18 +11,9 @@ const loader = ref(false)
 const route = useRoute()
 const quantity = ref(1)
 const product = ref({})
+const cart = ref()
 
-const increment = () => {
-    quantity.value++
-}
 
-const decrement = () => {
-    quantity.value--
-
-    if (quantity.value <= 0) {
-        quantity.value = 0
-    }
-}
 
 const checkProduct = async () => {
     try {
@@ -35,10 +26,50 @@ const checkProduct = async () => {
         )
         product.value = response.data
         loader.value = false
+
     } catch (error) {
 
     }
-    console.log("your id is", route.params.id);
+}
+
+const increment = () => {
+    quantity.value += 1
+}
+
+const decrement = () => {
+    if (quantity.value <= 1) {
+        quantity.value === 1
+    } else {
+        quantity.value -= 1
+    }
+}
+
+
+
+const addToCart = (id,data) => {
+    let cart = JSON.parse(localStorage.getItem('cart')) || []
+    const existingProduct = cart.find((el) => el.id === id)
+    if (existingProduct) {
+      existingProduct.quantity = quantity.value
+      console.log(existingProduct);
+      
+    } else {
+        cart.push({
+            id: data.id,
+            image: data.image,
+            product_label: data.product_label,
+            price: data.product_price,
+            quantity: quantity.value,
+            max_quantity: data.quantity
+        })
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart))
+   
+    
+
+
+
 
 }
 onMounted(() => {
@@ -50,7 +81,7 @@ onMounted(() => {
 <template>
     <Header />
     <Navbar />
-    <Loader v-if="loader"/>
+    <Loader v-if="loader" />
     <NavbarCategory />
     <section class="section-one">
         <div class="section-main" v-if="product[0]">
@@ -75,12 +106,12 @@ onMounted(() => {
                     <button @click="increment"><b>+</b></button>
                 </div>
                 <div class="buy-now mt-3">
-                    <button class="btn btn-dark">Check Out</button>
+                    <button class="btn btn-dark" @click="addToCart(product[0].id, product[0])">addToCart</button>
                 </div>
             </div>
         </div>
     </section>
-    <Footer/>
+    <Footer />
 
 </template>
 
@@ -88,7 +119,7 @@ onMounted(() => {
 section {
     width: 70%;
     margin: auto;
-    
+
 }
 
 .section-main {
@@ -96,7 +127,7 @@ section {
     justify-content: center;
     align-items: center;
     gap: 25px;
-    
+
 
 }
 
@@ -116,13 +147,13 @@ section {
 .item .category {
 
     width: 21rem;
-    
+
 }
 
 .item .category span {
-    color:gray;
+    color: gray;
     line-height: 2;
-   
+
 }
 
 .quantity {
