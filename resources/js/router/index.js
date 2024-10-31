@@ -51,7 +51,7 @@ const routes = [
     {
         path: "/my-order-received",
         component: () => import("../pages/client/Client_Recieved.vue"),
-        name: "my-order-recieved",
+        name: "my-order-received",
     },
     {
         path: "/my-order-to-received",
@@ -60,7 +60,7 @@ const routes = [
     },
     {
         path: "/my-pending-order",
-        component: () => import("../pages/client/Cllient_Pending_Order.vue"),
+        component: () => import("../pages/client/Cllient_Order_Pending.vue"),
         name: "my-pending-order",
     },
     //======================Admin routes=============================//
