@@ -32,7 +32,7 @@ class DashboardController extends Controller
         ->selectRaw('COUNT(*) as item_count')
         ->groupBy('order_label')
         ->get();
-//sda
+//sdad
         return response()->json($products);
     }
 }
