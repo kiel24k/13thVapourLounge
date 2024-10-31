@@ -58,6 +58,11 @@ const routes = [
         component: () => import("../pages/client/Client_Order_To_Received.vue"),
         name: "my-order-to-received",
     },
+    {
+        path: "/my-pending-order",
+        component: () => import("../pages/client/Cllient_Pending_Order.vue"),
+        name: "my-pending-order",
+    },
     //======================Admin routes=============================//
     {
         path: "/admin-dashboard",

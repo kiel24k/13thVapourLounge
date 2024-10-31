@@ -130,4 +130,12 @@ class ClientController extends Controller
             ->get();
         return response()->json($user);
     }
+    public function pendingOrder () {
+        $order = DB::table('user_orders')
+        ->select('*')
+        ->where('status', 'pending')
+        ->where('user_id', Auth::user()->id)
+        ->get(); 
+        return response()->json($order);
+    }
 }

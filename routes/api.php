@@ -45,6 +45,7 @@ Route::controller(ClientController::class)->group(function () {
     route::post('/add-new-address' , 'addNewAddress');
     route::get('/address-list', 'addressList');
     route::get('/all-order','allOrder');
+    route::get('/pending-order','pendingOrder');
 });
 
 Route::controller(DashboardController::class)->group(function () {

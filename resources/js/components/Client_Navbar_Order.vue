@@ -5,6 +5,9 @@
                 <router-link :to="{name: 'my-order'}" class="nav-link">All</router-link>
             </li>
             <li class="nav-item">
+                <router-link :to="{name: 'my-pending-order'}" class="nav-link">Pending </router-link>
+            </li>
+            <li class="nav-item">
                 <router-link :to="{ name: 'my-order-recieved' }" class="nav-link">To Received</router-link>
             </li>
             <li class="nav-item">
