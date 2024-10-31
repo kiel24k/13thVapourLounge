@@ -50,7 +50,7 @@ const routes = [
 
     {
         path: "/my-order-received",
-        component: () => import("../pages/client/Client_Recieved.vue"),
+        component: () => import("../pages/client/Client_Order_Received.vue"),
         name: "my-order-received",
     },
     {

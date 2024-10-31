@@ -46,7 +46,8 @@ Route::controller(ClientController::class)->group(function () {
     route::get('/address-list', 'addressList');
     route::get('/all-order','allOrder');
     route::get('/pending-order','pendingOrder');
-    route::get('order-to-received','orderToReceived');
+    route::get('/order-to-received','orderToReceived');
+    route::get('/order-received', 'orderReceived');
 });
 
 Route::controller(DashboardController::class)->group(function () {

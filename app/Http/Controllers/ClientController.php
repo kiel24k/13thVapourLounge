@@ -149,4 +149,14 @@ class ClientController extends Controller
             ->get();
         return response()->json($order);
     }
+    public function orderReceived()
+    {
+        $order = DB::table('user_orders')
+            ->select('*')
+            ->where('status', 'received')
+            ->where('user_id', 3)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return response()->json($order);
+    }
 }
