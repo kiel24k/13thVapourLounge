@@ -44,12 +44,7 @@ const createChart = () => {
         'rgba(206, 9, 250  , 0.2)',
       ],
       borderColor: [
-        'rgba(247, 46, 3, 0.2)',
-        'rgba(250, 169, 9 , 0.2)',
-        'rgba(250, 246, 9 , 0.2)',
-        'rgba(9, 250, 104 , 0.2)',
-        'rgba(9, 100, 250  , 0.2)',
-        'rgba(206, 9, 250  , 0.2)',
+        'skyblue'
       ],
       borderWidth: 1,
     }],

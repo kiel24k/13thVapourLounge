@@ -5,10 +5,6 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import Footer from '@/components/Client_Footer.vue'
 import { onMounted, ref } from 'vue';
 
-
-
-
-
 const newArrivalListItem = ref({})
 const bestSellerListItem = ref({})
 const cartTotal = ref()
@@ -118,7 +114,7 @@ onMounted(() => {
             <article v-for="(data, index) in bestSellerListItem.data" :key="index">
                 <router-link :to="{ name: 'client-products', params: { id: data.id } }">
                     <div class="image-one-content">
-                        <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`" height="130" width="150"
+                        <img :src="`/storage/product_image/${data.image}`" height="130" width="150"
                             alt="" />
                     </div>
                 </router-link>
