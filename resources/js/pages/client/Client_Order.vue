@@ -11,8 +11,6 @@ const ALL_ORDER_API = async () => {
     try {
         const response = await axios.get('api/all-order')
         order.value = response.data
-        console.log(response.data);
-
     } catch (error) {
 
     }
@@ -51,13 +49,14 @@ onMounted(() => {
                     </figure>
                 </div>
                 <div class="col">
+                    <b> QTY:</b> x{{ data.order_quantity }}
+                 </div>
+                <div class="col">
                     <b class="text-success">₱</b>{{ data.order_price }}.00
                 </div>
+               
                 <div class="col">
-                    QTY: {{ data.order_quantity }}
-                </div>
-                <div class="col">
-                    Total: P{{ data.order_total }}
+                   <b> Total:</b>  <b class="text-success">₱</b>{{ data.order_total }}
                 </div>
                 <div class="col">
                     <span class="status"
@@ -100,7 +99,5 @@ figcaption {
     font-weight: bold;
     color: rgb(0, 0, 0);
     backdrop-filter: blur(25px);
-    
-
 }
 </style>

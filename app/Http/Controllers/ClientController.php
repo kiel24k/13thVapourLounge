@@ -89,28 +89,27 @@ class ClientController extends Controller
 
     public function addNewAddress(Request $request)
     {
-     
-            $request->validate([
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'mobile_no' => 'required|numeric',
-                'floor_unit_no' => 'required',
-                'province' => 'required',
-                'municipality' => 'required',
-                'baranggay' => 'required'
-            ]);
-            $address = new Address_Book();
-            $address->user_id = Auth::user()->id;
-            $address->first_name = $request->first_name;
-            $address->last_name = $request->last_name;
-            $address->mobile_no = $request->mobile_no;
-            $address->floor_unit_no = $request->floor_unit_no;
-            $address->province = $request->province;
-            $address->municipality = $request->municipality;
-            $address->baranggay = $request->baranggay;
-            $address->save();
-            return response()->json(['success' => 'success'], 200);
-        
+
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'mobile_no' => 'required|numeric',
+            'floor_unit_no' => 'required',
+            'province' => 'required',
+            'municipality' => 'required',
+            'baranggay' => 'required'
+        ]);
+        $address = new Address_Book();
+        $address->user_id = Auth::user()->id;
+        $address->first_name = $request->first_name;
+        $address->last_name = $request->last_name;
+        $address->mobile_no = $request->mobile_no;
+        $address->floor_unit_no = $request->floor_unit_no;
+        $address->province = $request->province;
+        $address->municipality = $request->municipality;
+        $address->baranggay = $request->baranggay;
+        $address->save();
+        return response()->json(['success' => 'success'], 200);
     }
 
     public function addressList()
@@ -126,16 +125,28 @@ class ClientController extends Controller
         $user = DB::table('user_orders')
             ->select('order_image', 'order_label', 'order_price', 'order_total', 'order_quantity', 'status')
             ->where('user_id', Auth::user()->id)
-            ->orderBy('id','desc')
+            ->orderBy('created_at', 'desc')
             ->get();
         return response()->json($user);
     }
-    public function pendingOrder () {
+    public function pendingOrder()
+    {
         $order = DB::table('user_orders')
-        ->select('*')
-        ->where('status', 'pending')
-        ->where('user_id', Auth::user()->id)
-        ->get(); 
+            ->select('*')
+            ->where('status', 'pending')
+            ->where('user_id', Auth::user()->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return response()->json($order);
+    }
+    public function orderToReceived()
+    {
+        $order = DB::table('user_orders')
+            ->select('*')
+            ->where('status', 'to-received')
+            ->where('user_id', 3)
+            ->orderBy('created_at', 'desc')
+            ->get();
         return response()->json($order);
     }
 }
