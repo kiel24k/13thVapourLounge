@@ -206,6 +206,8 @@ onMounted(() => {
                         </tbody>
                     </table>
                     <button class="btn btn-dark proceed-btn" @click="submitCart">PROCEED TO CHECKOUT</button>
+                    <br>
+                    dapat mapupunta sa choose address bago mag proceed
                 </div>
             </div>
         </div>

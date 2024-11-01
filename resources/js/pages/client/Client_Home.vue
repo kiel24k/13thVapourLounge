@@ -20,10 +20,10 @@ const newArrivalList = async () => {
 
 const bestSellerList = async () => {
     try {
-        
+
         const response = await axios.get('api/best-seller')
         bestSellerListItem.value = response.data
-        
+
     } catch (error) {
     }
 }
@@ -68,9 +68,64 @@ const addToCartBestSeller = (data) => {
 onMounted(() => {
     newArrivalList()
     bestSellerList()
-   
-   
-    
+
+
+    // function getAge(dateString) {
+
+
+    //     var today = new Date();
+    //     var birthDate = new Date(dateString);
+    //     var age = today.getFullYear() - birthDate.getFullYear(); //22
+    //     var m = today.getMonth() - birthDate.getMonth(); //3
+    //     var da = birthDate.getDate() - today.getDate(); // 19
+
+
+    //     console.log(birthDate);
+    //     console.log(age);
+    //     console.log(m);
+    //     console.log(da)
+
+
+    //     // if (m <= 0) {
+    //     //     m = m + 12;
+    //     // }
+    //     // if (da <= 0) {
+    //     //     da += 30;
+    //     // }
+
+    //     // return age;
+
+    // }
+    // getAge("1980/03/20");
+
+    // if (age <= 18) {
+    //     alert("not qualified");
+    // }
+    // else if (age > 18) {
+    //     alert("qualified");
+    // }
+
+    // if("1980/03/20" <= 18){
+    //     console.log("dsd");
+
+    // }
+
+    const currentYear = 2024
+    const myYear = 2001  
+
+
+    const test = currentYear - myYear
+    console.log(test);
+
+
+
+
+
+
+
+
+
+
 })
 
 
@@ -81,7 +136,7 @@ onMounted(() => {
 
     <Header />
     <Navbar :cartTotal="cartTotal" />
- 
+
     <NavbarCategory />
 
     <section class="section-one">
@@ -92,7 +147,7 @@ onMounted(() => {
                     <figure>
                         <div class="image-one-content">
                             <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`" height="130"
-                                width="150" alt="" />
+                                width="120" alt="" />
                         </div>
                     </figure>
                     <summary class="mt-3">
@@ -114,8 +169,7 @@ onMounted(() => {
             <article v-for="(data, index) in bestSellerListItem.data" :key="index">
                 <router-link :to="{ name: 'client-products', params: { id: data.id } }">
                     <div class="image-one-content">
-                        <img :src="`/storage/product_image/${data.image}`" height="130" width="150"
-                            alt="" />
+                        <img :src="`/storage/product_image/${data.image}`" height="130" width="120" alt="" />
                     </div>
                 </router-link>
                 <summary>
@@ -123,7 +177,7 @@ onMounted(() => {
                     <b>₱{{ data.product_price }}</b>
                 </summary>
                 <div class="text-start">
-                    <button class="btn btn-dark"  @click="addToCartBestSeller(data)">Add to Cart</button>
+                    <button class="btn btn-dark" @click="addToCartBestSeller(data)">Add to Cart</button>
                 </div>
             </article>
         </div>
@@ -187,8 +241,9 @@ summary {
     height: 9rem;
 
 }
-summary small{
-    color:gray;
+
+summary small {
+    color: gray;
     font-size: 12px;
 }
 
