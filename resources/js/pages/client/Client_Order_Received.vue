@@ -55,6 +55,9 @@ ORDER_RECEIVED_API()
                 </div>
                 <div class="col">
                     <button class="btn btn-dark">mark as complete</button>
+                    <br>
+                    dapat mawawala kapag pinindot ung mask as complete
+                    at mapupunta sa order-completed eyy!
                 </div>
                 <hr>
             </div>
