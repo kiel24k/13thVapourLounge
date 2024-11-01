@@ -54,10 +54,7 @@ ORDER_RECEIVED_API()
                    <b> Total:</b>  <b class="text-success">₱</b>{{ data.order_total }}
                 </div>
                 <div class="col">
-                    <span class="status"
-                        :style="{ background: data.status === 'pending' ? 'rgb(255,235,59,0.5)' : data.status === 'to-received' ? 'rgb(33,150,243, 0.5' : data.status === 'received' ? 'rgb(76,175,80,0.5)' : 'inherit' }">
-                        {{ data.status }}
-                    </span>
+                    <button class="btn btn-dark">mark as complete</button>
                 </div>
                 <hr>
             </div>

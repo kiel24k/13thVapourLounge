@@ -138,20 +138,18 @@ onMounted(() => {
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>
-                                    /
-                                </th>
+                               <th>sd</th>
                                 <th>Product</th>
                                 <th>Price</th>
                                 <th>Quantity</th>
+                                <th>
+                                    /
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(data, index) in productTotal" :key="index">
-                                <td>
-                                    <img src="/public/image/delete-icon.png" alt="" width="20px"
-                                        @click="removeItemBtn(data.id)">
-                                </td>
+                                <td><input type="checkbox" name="" id=""></td>
                                 <td class="product-label">
                                     <div class="product-image">
                                         <img :src="`storage/product_image/${data.image}`" width="70" height="70" alt="">
@@ -160,6 +158,7 @@ onMounted(() => {
                                         <span>{{ data.product_label }}</span>
                                     </div>
                                 </td>
+                                
 
                                 <td class="price">₱{{ data.price }}</td>
                                 <td class="quan">
@@ -168,6 +167,10 @@ onMounted(() => {
                                     <span v-else>{{ data.quantity = 0 }}</span>
                                     <button :disabled="decrementDisabledBtn"
                                         @click="decrementBtn(data.id, data.price)">-</button>
+                                </td>
+                                <td>
+                                    <img src="/public/image/delete-icon.png" alt="" width="20px"
+                                        @click="removeItemBtn(data.id)">
                                 </td>
                             </tr>
                         </tbody>

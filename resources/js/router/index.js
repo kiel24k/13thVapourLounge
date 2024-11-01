@@ -47,7 +47,6 @@ const routes = [
         component: () => import("../pages/client/Client_Order.vue"),
         name: "my-order",
     },
-
     {
         path: "/my-order-received",
         component: () => import("../pages/client/Client_Order_Received.vue"),
@@ -62,6 +61,16 @@ const routes = [
         path: "/my-pending-order",
         component: () => import("../pages/client/Cllient_Order_Pending.vue"),
         name: "my-pending-order",
+    },
+    {
+        path: "/my-place-order",
+        component: () => import("../pages/client/Client_Place_Order.vue"),
+        name: "my-place-order",
+    },
+    {
+        path: "/my-order-complete",
+        component: () => import("../pages/client/Client_Order_Complete.vue"),
+        name: "my-order-complete",
     },
     //======================Admin routes=============================//
     {

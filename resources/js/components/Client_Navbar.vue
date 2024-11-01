@@ -72,7 +72,7 @@ onMounted(() => {
                             <!-- {{ user.first_name }} {{ user.last_name }} -->
                               My Profile
                     </router-link>
-                   <router-link :to="{name: 'my-order'}">
+                   <router-link :to="{name: 'my-pending-order'}">
                     <img src="/public/image/order-icon2.png" width="30" alt="">
                     Order
                    </router-link>

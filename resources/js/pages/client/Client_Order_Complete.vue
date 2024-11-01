@@ -4,18 +4,15 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import NavbarOrder from '@/components/Client_Navbar_Order.vue'
 import { onMounted, ref } from 'vue';
 
-const orderReceive = ref()
-
-const ORDER_TO_RECEIVED_API = async () => {
-    const response = await axios.get('api/order-to-received')
-    orderReceive.value = response.data
+const orderReveived = ref()
+const ORDER_RECEIVED_API = async () => {
+    const response = await axios.get('api/order-received')
+    orderReveived.value = response.data
     
+
 }
-
 onMounted(() => {
-ORDER_TO_RECEIVED_API()
-
-
+ORDER_RECEIVED_API()
 })
 
 </script>
@@ -34,31 +31,37 @@ ORDER_TO_RECEIVED_API()
             </div>
         </div>
         <NavbarOrder />
-        <hr>
-        <article v-for="(data,index) in orderReceive" :key="index">
+        <article v-for="(data, index) in orderReveived" :key="index">
             <div class="row p-4">
                 <div class="col">
                     <figure>
                         <img :src="`/storage/product_image/${data.order_image}`" width="80" alt="">
                         <figcaption>
-                           {{data.order_label}}
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quibusdam itaque cumque provident
+                            optio maiores. Sint culpa ad temporibus praesentium debitis odio doloribus nisi aliquid
+                            dolorum facere at mollitia, iste earum.
                         </figcaption>
                     </figure>
                 </div>
                 <div class="col">
-                    <b>QTY:</b> x{{ data.order_quantity }}
-                </div>
+                    <b> QTY:</b> x{{ data.order_quantity }}
+                 </div>
                 <div class="col">
                     <b class="text-success">₱</b>{{ data.order_price }}.00
                 </div>
+               
                 <div class="col">
-                    <b>Total:</b> <b class="text-success">₱</b>{{ data.order_total }}.00
+                   <b> Total:</b>  <b class="text-success">₱</b>{{ data.order_total }}
                 </div>
-                
+                <div class="col">
+                    <button class="btn btn-dark">Order again</button>
+                    <br>
+                    <small>dapat mababalik sya sa item</small>
+                </div>
                 <hr>
             </div>
         </article>
-      
+        
     </section>
 
 </template>
@@ -88,8 +91,8 @@ figcaption {
     border-radius: 15px;
     font-size: 10px;
     font-weight: bold;
-    background-color: rgb(33,150,243, 0.5);
     color: rgb(0, 0, 0);
+    background-color: rgb(76,175,80,0.5);
     backdrop-filter: blur(25px);
 }
 </style>

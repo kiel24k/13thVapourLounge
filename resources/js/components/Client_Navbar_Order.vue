@@ -2,16 +2,16 @@
     <nav>
         <ul class="navbar nav">
             <li class="nav-item">
-                <router-link :to="{name: 'my-order'}" class="nav-link">All</router-link>
-            </li>
-            <li class="nav-item">
                 <router-link :to="{name: 'my-pending-order'}" class="nav-link">Pending </router-link>
             </li>
             <li class="nav-item">
-                <router-link :to="{ name: 'my-order-to-received' }" class="nav-link">To Received</router-link>
+                <router-link :to="{ name: 'my-order-to-received' }" class="nav-link">Order is out of delivery</router-link>
             </li>
             <li class="nav-item">
-                <router-link :to="{name: 'my-order-received'}" class="nav-link">Received</router-link>
+                <router-link :to="{name: 'my-order-received'}" class="nav-link">Order received</router-link>
+            </li>
+            <li class="nav-item">
+                <router-link :to="{name: 'my-order-complete'}" class="nav-link">Order Completed</router-link>
             </li>
         </ul>
     </nav>
