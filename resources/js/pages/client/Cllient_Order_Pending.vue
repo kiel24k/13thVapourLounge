@@ -50,11 +50,6 @@ onMounted(() => {
                 <div class="col">
                     <b>Total: </b><b class="text-success">₱</b>{{ data.order_total }}.00
                 </div>
-                <div class="col">
-                    <span class="status">
-                        {{ data.status }}
-                    </span>
-                </div>
                 <hr>
             </div>
         </article>
