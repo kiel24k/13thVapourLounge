@@ -49,26 +49,7 @@ class ClientController extends Controller
         $product = Product::where('product_name', $request->product_name)->get();
         return response()->json($product);
     }
-    public function ClientOrder(Request $request)
-    {
-
-        for ($i = 0; $i < count($request->order_data); $i++) {
-            $user = new UserOrder();
-            $orderPrice = $request->order_data[$i]['quantity'] * $request->order_data[$i]['price'];
-
-            $user->user_id = $request->user_id;
-            $user->order_image = $request->order_data[$i]['image'];
-            $user->order_price = json_encode(intval($request->order_data[$i]['price']));
-            $user->order_label = $request->order_data[$i]['product_label'];
-            $user->order_quantity = json_encode($request->order_data[$i]['quantity']);
-            $user->order_total = $orderPrice;
-            $user->status = 'pending';
-            $user->save();
-        }
-        $user->save();
-
-        return response()->json();
-    }
+   
 
     public function editProfile(Request $request)
     {
@@ -110,6 +91,50 @@ class ClientController extends Controller
         $address->baranggay = $request->baranggay;
         $address->save();
         return response()->json(['success' => 'success'], 200);
+    }
+     public function ClientOrder(Request $request)
+    {
+
+        // 'user_id',
+        // 'first_name',
+        // 'last_name',
+        // 'mobile_no',
+        // 'floor_unit_no',
+        // 'island',
+        // 'regions',
+        // 'province',
+        // 'municipality',
+        // 'barangay',
+        // 'order_image',
+        // 'order_label',
+        // 'order_price',
+        // 'order_total',
+        // 'order_quantity',
+        // 'status'
+        for ($i = 0; $i < count($request->order); $i++) {
+            $order = new UserOrder();
+            $order->user_id = Auth::user()->id;
+            $order->first_name = $request->first_name;
+            $order->last_name = $request->last_name;
+            $order->mobile_no = $request->mobile_no;
+            $order->floor_unit_no = $request->floor_unit_no;
+            $order->island = $request->island;
+            $order->regions = $request->regions;
+            $order->province = $request->province;
+            $order->municipality = $request->municipality;
+            $order->barangay = $request->barangay;
+            $order->order_image = $request->order[$i]['image'];
+            $order->order_label = $request->order[$i]['product_label'];
+            $order->order_price =  $request->order[$i]['price'];
+            $order->order_quantity =  $request->order[$i]['quantity'];
+            $order->order_total = $request->order[$i]['price'] * $request->order[$i]['quantity'];
+            $order->save();
+        }
+        $order->save();
+        return response()->json($order);
+        
+
+        
     }
 
     public function addressList()
@@ -159,4 +184,22 @@ class ClientController extends Controller
             ->get();
         return response()->json($order);
     }
+    public function orderCompleted()
+    {
+        $order = DB::table('user_orders')
+            ->select('*')
+            ->where('status', 'completed')
+            ->where('user_id', Auth::user()->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return response()->json($order);
+    }
+
+    public function markAsCompleted (Request $request){
+        $order = DB::table('user_orders')
+        ->where('id',$request->id )
+        ->update(['status' => 'completed']);
+        return response()->json($order);
+    }
+    
 }

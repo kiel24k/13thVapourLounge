@@ -86,8 +86,11 @@ const removeItemBtn = (id) => {
 }
 
 const submitCart = async () => {
-   
-    if (SUB_TOTAL_VALUE.value === 0 || checkedItem.value.length === 0) {
+    let cookieUsername = JSON.stringify(Cookies.get('username'))
+    if (!cookieUsername) {
+        router.push('/login')
+    }
+    else if (SUB_TOTAL_VALUE.value === 0 || checkedItem.value.length === 0) {
         Swal.fire({
             icon: "error",
             title: "Oops...",
@@ -95,7 +98,7 @@ const submitCart = async () => {
             footer: '<a href="#">Tang?</a>'
         });
     } else {
-        router.push({ path: '/my-place-order', query: {  item_id: checkedItem.value } })
+        router.push({ path: '/my-place-order', query: { item_id: checkedItem.value } })
     }
 }
 
@@ -115,7 +118,7 @@ onMounted(() => {
 
     <NavbarCategory />
     {{ checkedItem }}
-    
+
     <section class="section-one">
         <div id="cart">
             <div class="row title">
@@ -138,7 +141,7 @@ onMounted(() => {
                             </tr>
                         </thead>
                         <tbody>
-                           
+
                             <tr v-for="(data, index) in productTotal" :key="index">
                                 <td><input type="checkbox" v-model="checkedItem" :value="data.id" id=""></td>
                                 <td class="product-label">
@@ -177,7 +180,7 @@ onMounted(() => {
                                 <th>₱</th>
                             </tr>
                         </thead>
-                        <tbody> 
+                        <tbody>
                             <tr>
                                 <td>Overall Total</td>
                                 <td>

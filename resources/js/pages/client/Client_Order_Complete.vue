@@ -6,7 +6,7 @@ import { onMounted, ref } from 'vue';
 
 const orderReveived = ref()
 const ORDER_RECEIVED_API = async () => {
-    const response = await axios.get('api/order-received')
+    const response = await axios.get('api/order-completed')
     orderReveived.value = response.data
     
 
