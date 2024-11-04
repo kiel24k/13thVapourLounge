@@ -64,7 +64,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-section {
+.section-category {
     width: 100%;
     margin: auto;
     display: flex;
@@ -95,14 +95,12 @@ section {
     display: grid;
     background: rgb(255, 255, 255);
     max-height: auto;
-    box-shadow: 0px 0px 5px 0px gray;
-    border-radius: 5px;
     padding: 10px;
     overflow: hidden;
     width: 70%;
     gap:10px;
     height: 10rem;
-    margin: auto;
+    margin-top: 50px;
     
 }
 

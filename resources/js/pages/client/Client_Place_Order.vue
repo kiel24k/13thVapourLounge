@@ -11,9 +11,11 @@ import Swal from 'sweetalert2'
 
 
 const route = useRoute()
-const overAllTotalParams = parseInt(route.query.total) + 500
+const price = ref()
+const total = ref()
 const order = ref()
 const router = useRouter()
+const chooseAddress = ref(false)
 
 
 
@@ -22,34 +24,41 @@ const PRODUCTS = () => {
     const cartItems = JSON.parse(localStorage.getItem('cart') || [])
     const getIdOnCart = cartItems.filter((el) => paramsId.includes(el.id))
     order.value = getIdOnCart
+    total.value = order.value.reduce((total, val) => total + parseInt(val.price) * val.quantity , 0)
+
+    
+  
+
+
 }
 
-const chooseAddress = () => {
-   
-
+const chooseAddressModal = () => {
+    chooseAddress.value = true
+}
+const closeModal = () => {
+    chooseAddress.value = false
 }
 
 const submit = async () => {
-    let order = JSON.parse(localStorage.getItem('cart'))
-    let cookieUsername = JSON.stringify(Cookies.get('username'))
-    if (cookieUsername) {
-        if (FIXED_TOTAL.value === 0) {
-            alert("No Product ")
-        } else {
-            const orderData = order.filter((el) => el.quantity > 0)
-            const response = await axios.post('/api/client-order', {
-                user_id: userData.value.id,
-                order_data: orderData
-            })
-            localStorage.setItem('cart', JSON.stringify(order.filter((el) => el.quantity === 0)))
-        }
+    // let order = JSON.parse(localStorage.getItem('cart'))
+    // let cookieUsername = JSON.stringify(Cookies.get('username'))
+    // if (cookieUsername) {
+    //     if (FIXED_TOTAL.value === 0) {
+    //         alert("No Product ")
+    //     } else {
+    //         const orderData = order.filter((el) => el.quantity > 0)
+    //         const response = await axios.post('/api/client-order', {
+    //             user_id: userData.value.id,
+    //             order_data: orderData
+    //         })
+    //         localStorage.setItem('cart', JSON.stringify(order.filter((el) => el.quantity === 0)))
+    //     }
 
-    } else {
-
-        router.push('/login')
-    }
-    fetchProducts()
-    SUB_TOTAL()
+    // } else {
+    //     router.push('/login')
+    // }
+    // fetchProducts()
+    // SUB_TOTAL()
 }
 onMounted(() => {
     PRODUCTS()
@@ -57,14 +66,18 @@ onMounted(() => {
 </script>
 
 <template>
+    <transition name="fade">
+        <ChooseAddress v-if="chooseAddress" @closeModal="closeModal" class="chooseAddress" />
+    </transition>
     <Header />
     <Navbar />
     <NavbarCategory />
+
     <section class="section-one">
         <div class="address" ref="test">
             <div class="row">
                 <div class="col">
-                    Already Address? <small class="text-primary" @click="chooseAddress">Choose Address</small>
+                    Already Address? <small class="text-primary" @click="chooseAddressModal">Choose Address</small>
                 </div>
             </div>
             <div class="row">
@@ -165,7 +178,7 @@ onMounted(() => {
                     <span>Total</span>
                 </div>
                 <div class="col text-end">
-                    <b>P{{ overAllTotalParams }}</b>
+                    <b>P{{ total + 500 }}</b>
                 </div>
                 <hr>
             </div>
@@ -229,4 +242,22 @@ section {
     align-content: center;
     height: max-content
 }
+
+.chooseAddress {
+    transition: all linear 2s;
+}
+
+/* Fade Transition */
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s;
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+
+}
+
+/* Slide In Effect */
 </style>

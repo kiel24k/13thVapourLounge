@@ -68,64 +68,6 @@ const addToCartBestSeller = (data) => {
 onMounted(() => {
     newArrivalList()
     bestSellerList()
-
-
-    // function getAge(dateString) {
-
-
-    //     var today = new Date();
-    //     var birthDate = new Date(dateString);
-    //     var age = today.getFullYear() - birthDate.getFullYear(); //22
-    //     var m = today.getMonth() - birthDate.getMonth(); //3
-    //     var da = birthDate.getDate() - today.getDate(); // 19
-
-
-    //     console.log(birthDate);
-    //     console.log(age);
-    //     console.log(m);
-    //     console.log(da)
-
-
-    //     // if (m <= 0) {
-    //     //     m = m + 12;
-    //     // }
-    //     // if (da <= 0) {
-    //     //     da += 30;
-    //     // }
-
-    //     // return age;
-
-    // }
-    // getAge("1980/03/20");
-
-    // if (age <= 18) {
-    //     alert("not qualified");
-    // }
-    // else if (age > 18) {
-    //     alert("qualified");
-    // }
-
-    // if("1980/03/20" <= 18){
-    //     console.log("dsd");
-
-    // }
-//dsadsa./d
-    const currentYear = 2024
-    const myYear = 2001  
-
-
-    const test = currentYear - myYear
-    console.log(test);
-
-
-
-
-
-
-
-
-
-
 })
 
 
@@ -182,6 +124,65 @@ onMounted(() => {
             </article>
         </div>
     </section>
+    <section class="section-three">
+        <div class="section-three-title">
+            <span>About Us</span>
+            <hr>
+        </div>
+        <article>
+            <h2>Our Vape Juice Online With Free Shipping</h2>
+            <span>E-liquid is one of the most popular products people use when vaping. If you’re looking for a delicious
+                e-liquid made from high-quality ingredients and has a clean taste, look no further than our store. We
+                offer
+                the best e-liquids at low prices. These e-juices produce amazing vapors and create delicious, thick
+                clouds.
+                With our high-end vape pen, you can set the appropriate mode according to your preference to provide
+                steam
+                that makes your throat feel comfortable.
+
+                The e-liquids in our vape shop come in different nicotine strengths and PG/VG ratios. There are also
+                many
+                different types of e-liquids to choose from for beginners and advanced vapers. Our products are made to
+                exacting standards, ensuring they give you an excellent vaping experience and taste great too! Our
+                website
+                is easy to navigate and use so that you can find the perfect vape juice quickly and easily. We offer
+                free
+                shipping and a 30-day money-back guarantee so you can buy our best e-liquid confidently!</span>
+        </article>
+        <article>
+            <h2>Buy The Best Vapes From Specialty Retailers</h2>
+            <span>
+                Vapes are the most popular alternative to smoking. They are easy to use, portable, and safer than
+                traditional cigarettes. If you want to buy a new vape, you have to do your research ahead of time.
+                That’s where our online vaping store comes in. We have many years of experience in e-vape retailing. We
+                can also provide a variety of online vapes tailored to specific needs and preferences, making it easier
+                for customers to find the perfect vape for them.
+
+                Not only that, but we have a wide range of vapes for sale, and you can even find some products you won’t
+                find in other vape stores. They will bring you an unprecedented comfortable and relaxing vaping
+                experience. We also offer a variety of flavors, so you can find the one that suits your taste buds best!
+                Our online Philippines vape shop already has an outstanding reputation, and our products have always
+                been well-received by customers. If you are eager to have a new experience, you must visit our vape shop
+                to buy.
+            </span>
+        </article>
+        <article>
+            <h2>Cheap Vape Pens Of High Quality In Our Philippines Vape Shop</h2>
+            <span>
+                Vape pens are small electronic devices that look like cigarettes and come in all shapes and sizes. They
+                contain batteries, atomizers, and cartridges or tanks that store e-liquid. The vape pen starter kit
+                includes a vape pen, cartridge, and USB charger. They are compatible with most types of e-liquids and
+                can be easily refilled. Cartridges can be replaced in as little as three seconds. The vape pens in our
+                vape shop are cheap but high quality.
+
+                vapesstores.ph is a great place to buy all kinds of vapes and related accessories. We offer a wide
+                selection of vapers, and new products are constantly added to the store. We also carry a vast range of
+                vaporizers, atomizers, and more at affordable prices, so you can find what you’re looking for without
+                breaking your budget! If you are interested in vaping and want to know more about it, please visit our
+                online Philippines vape shop for more information on the products.
+            </span>
+        </article>
+    </section>
     <Footer />
 </template>
 
@@ -213,7 +214,7 @@ a {
 
 
 
-article {
+.section-one-item article {
     width: 12rem;
     border-radius: 10px;
     box-shadow: 0px 0px 5px 0px gray;
@@ -224,7 +225,7 @@ article {
     background: white;
 }
 
-article img {
+.section-one-item article img {
     margin: auto;
 }
 
@@ -251,5 +252,10 @@ summary small {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+}
+
+.section-three:not(.section-three-title) {
+    display: grid;
+    gap: 50px;
 }
 </style>
