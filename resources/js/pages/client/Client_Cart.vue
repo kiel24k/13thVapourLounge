@@ -91,15 +91,13 @@ const submitCart = async () => {
         Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Your Cart Is Empty!",
-            footer: '<a href="#">Why do I have this issue?</a>'
+            text: "Please select Product!",
+            footer: '<a href="#">Tang?</a>'
         });
     } else {
-        router.push({ path: '/my-place-order', query: { total: SUB_TOTAL_VALUE.value, item_id: checkedItem.value } })
+        router.push({ path: '/my-place-order', query: {  item_id: checkedItem.value } })
     }
 }
-
-
 
 onMounted(() => {
     SUB_TOTAL()
@@ -116,6 +114,8 @@ onMounted(() => {
     <Navbar :QUANTITY_TOTAL_VALUE="QUANTITY_TOTAL_VALUE" @user="user" />
 
     <NavbarCategory />
+    {{ checkedItem }}
+    
     <section class="section-one">
         <div id="cart">
             <div class="row title">
@@ -138,7 +138,7 @@ onMounted(() => {
                             </tr>
                         </thead>
                         <tbody>
-                            {{ checkedItem }}
+                           
                             <tr v-for="(data, index) in productTotal" :key="index">
                                 <td><input type="checkbox" v-model="checkedItem" :value="data.id" id=""></td>
                                 <td class="product-label">
@@ -154,8 +154,8 @@ onMounted(() => {
                                     <button @click="incrementBtn(data.id, data.quantity)"
                                         :disabled="!checkedItem.includes(data.id)">+</button>
                                     <span class="p-1" v-if="data.quantity >= 1">{{ data.quantity }}</span>
-                                    <span v-else>{{ data.quantity = 0 }}</span>
-                                    <button :disabled="!checkedItem.includes(data.id) || data.quantity === 0"
+                                    <span v-else>{{ data.quantity = 1 }}</span>
+                                    <button :disabled="!checkedItem.includes(data.id) || data.quantity === 1"
                                         @click="decrementBtn(data.id, data.price)">-</button>
                                 </td>
                                 <td>
@@ -177,18 +177,9 @@ onMounted(() => {
                                 <th>₱</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody> 
                             <tr>
-                                <td>
-                                    SUBTOTAL
-                                </td>
-                                <td>
-
-                                    <span>₱{{ SUB_TOTAL_VALUE }}.00</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Total</td>
+                                <td>Overall Total</td>
                                 <td>
                                     <span>₱{{ SUB_TOTAL_VALUE }}.00</span>
                                 </td>

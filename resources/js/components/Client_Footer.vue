@@ -2,7 +2,7 @@
     <footer>
         <div class="footer-content">
             <div class="footer-title text-center text-white">
-                <h1>Rhona S. Bermudez </h1>
+                <h1>Vapour Lounge Trece Martirez Cavite </h1>
             </div>
             <div class="footer-links">
                 <div class="row">
