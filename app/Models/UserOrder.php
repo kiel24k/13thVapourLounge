@@ -11,6 +11,15 @@ class UserOrder extends Model
     protected $table = 'user_orders';
     protected $fillable = [
         'user_id',
+        'first_name',
+        'last_name',
+        'mobile_no',
+        'floor_unit_no',
+        'island',
+        'regions',
+        'province',
+        'municipality',
+        'barangay',
         'order_image',
         'order_label',
         'order_price',
@@ -23,8 +32,4 @@ class UserOrder extends Model
     {
         return $this->hasMany(User::class, 'id');
     }
-
-  
-
-   
 }

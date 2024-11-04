@@ -9,7 +9,7 @@ import Cookies from 'js-cookie'
 import ChooseAddress from '@/components/Client_Choose_Address_Modal.vue'
 import Swal from 'sweetalert2'
 
-
+const router = useRouter()
 const route = useRoute()
 const total = ref()
 const order = ref()
@@ -21,6 +21,8 @@ const select_regions = ref()
 const select_provinces = ref()
 const selected_municipality = ref()
 const selected_barangays = ref()
+
+
 
 
 const islandGroups = ref([])
@@ -59,18 +61,18 @@ watch(select_regions, async (oldVal, newVal) => {
     const region_code = regions.value.find((el) => el.name === select_regions.value)
     const response = await axios.get(`https://psgc.gitlab.io/api/regions/${region_code.code}/provinces/`)
     provinces.value = response.data
-   
-    
-    
+
+
+
 })
 
 watch(select_provinces, async (oldVal, newVal) => {
-   const province_code = provinces.value.find((el) => el.name === select_provinces.value)
+    const province_code = provinces.value.find((el) => el.name === select_provinces.value)
     const response = await axios.get(`https://psgc.gitlab.io/api/provinces/${province_code.code}/municipalities/`)
     municipality.value = response.data
 })
 
-watch(selected_municipality,async (oldVal, newVal) => {
+watch(selected_municipality, async (oldVal, newVal) => {
     const barangay_code = municipality.value.find((el) => el.name === selected_municipality.value)
     const response = await axios.get(`https://psgc.gitlab.io/api/municipalities/${barangay_code.code}/barangays/`)
     barangay.value = response.data
@@ -86,26 +88,48 @@ const closeModal = () => {
     chooseAddress.value = false
 }
 
-const submit = async () => {
-    // let order = JSON.parse(localStorage.getItem('cart'))
-    // let cookieUsername = JSON.stringify(Cookies.get('username'))
-    // if (cookieUsername) {
-    //     if (FIXED_TOTAL.value === 0) {
-    //         alert("No Product ")
-    //     } else {
-    //         const orderData = order.filter((el) => el.quantity > 0)
-    //         const response = await axios.post('/api/client-order', {
-    //             user_id: userData.value.id,
-    //             order_data: orderData
-    //         })
-    //         localStorage.setItem('cart', JSON.stringify(order.filter((el) => el.quantity === 0)))
-    //     }
+const removeOrderCart = () => {
+    const paramsId = route.query.item_id.map(Number)
+    const cartItems = JSON.parse(localStorage.getItem('cart') || [])
+    const updateCart = cartItems.filter((el) => !paramsId.includes(el.id))
+    return localStorage.setItem('cart', JSON.stringify(updateCart))
+    
+    
+}
 
-    // } else {
-    //     router.push('/login')
-    // }
-    // fetchProducts()
-    // SUB_TOTAL()
+const submit = async () => {
+    try {
+        const response = await axios.post('api/client-order',
+            {
+                order: order.value,
+                first_name: inputs.value.first_name,
+                last_name: inputs.value.last_name,
+                mobile_no: inputs.value.mobile_no,
+                floor_unit_no: inputs.value.floor_unit_no,
+                island: select_island_groups.value,
+                regions: select_regions.value,
+                province: select_provinces.value,
+                municipality: selected_municipality.value,
+                barangay: selected_barangays.value
+
+            })
+        if (response.status === 200) {
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            removeOrderCart()
+            router.push('/cart')
+        }
+
+    } catch (error) {
+        console.log(error);
+
+
+    }
 }
 onMounted(() => {
     PRODUCTS()
@@ -185,7 +209,7 @@ onMounted(() => {
                 <div class="col">
                     <label for="">Provinces</label>
                     <select name="" id="" class="form-select" v-model="select_provinces">
-                        <option :value="data.name" v-for="(data,index) in provinces" :key="index">
+                        <option :value="data.name" v-for="(data, index) in provinces" :key="index">
                             {{ data.name }}
                         </option>
                     </select>

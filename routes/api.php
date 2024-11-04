@@ -48,6 +48,8 @@ Route::controller(ClientController::class)->group(function () {
     route::get('/pending-order','pendingOrder');
     route::get('/order-to-received','orderToReceived');
     route::get('/order-received', 'orderReceived');
+    route::get('/order-completed', 'orderCompleted');
+    route::post('/mark-as-completed', 'markAsCompleted');
 });
 
 Route::controller(DashboardController::class)->group(function () {

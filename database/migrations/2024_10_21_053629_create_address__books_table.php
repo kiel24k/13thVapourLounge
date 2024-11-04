@@ -18,9 +18,11 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('mobile_no');
             $table->string('floor_unit_no');
+            $table->string('island');
+            $table->string('regions');
             $table->string('province');
             $table->string('municipality');
-            $table->string('baranggay');
+            $table->string('barangay');
             $table->timestamps();
         });
     }

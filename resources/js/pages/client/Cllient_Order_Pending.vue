@@ -3,14 +3,50 @@ import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import NavbarOrder from '@/components/Client_Navbar_Order.vue'
 import { onMounted, ref } from 'vue';
+import Swal from 'sweetalert2';
 
 const orderPending = ref()
 
 const ORDER_PENDING_API = async () => {
     const response = await axios.get('/api/pending-order')
-   orderPending.value = response.data
+    orderPending.value = response.data
 }
 
+const cancelOrder = () => {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-success m-2",
+            cancelButton: "btn btn-danger m-2"
+        },
+        buttonsStyling: false
+    });
+    swalWithBootstrapButtons.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            swalWithBootstrapButtons.fire({
+                title: "Deleted!",
+                text: "Your Order has been deleted.",
+                icon: "success"
+            });
+        } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            swalWithBootstrapButtons.fire({
+                title: "Cancelled",
+                text: "Your imaginary file is safe :)",
+                icon: "error"
+            });
+        }
+    });
+}
 onMounted(() => {
     ORDER_PENDING_API()
 })
@@ -31,7 +67,7 @@ onMounted(() => {
         </div>
         <NavbarOrder />
         <hr>
-        <article v-for="(data,index) in orderPending" :key="index">
+        <article v-for="(data, index) in orderPending" :key="index">
             <div class="row p-4">
                 <div class="col">
                     <figure>
@@ -49,6 +85,9 @@ onMounted(() => {
                 </div>
                 <div class="col">
                     <b>Total: </b><b class="text-success">₱</b>{{ data.order_total }}.00
+                </div>
+                <div class="col text-danger">
+                    <b @click="cancelOrder">Cancel Order</b>
                 </div>
                 <hr>
             </div>
@@ -77,13 +116,14 @@ figcaption {
     height: 3rem;
     overflow: hidden;
 }
-.status{
+
+.status {
     padding: 10px;
     border-radius: 15px;
     font-size: 10px;
     font-weight: bold;
     color: rgb(0, 0, 0);
-    background-color: rgb(255,235,59,0.5);
+    background-color: rgb(255, 235, 59, 0.5);
     backdrop-filter: blur(25px);
 }
 </style>
