@@ -118,7 +118,7 @@ onMounted(() => {
                 </div>
             </div>
             <div class="form-modal-title">
-                <span>Add New Addresss</span>
+                <span>Add New Addressss</span>
             </div>
             {{ selected }}
             <fieldset>
