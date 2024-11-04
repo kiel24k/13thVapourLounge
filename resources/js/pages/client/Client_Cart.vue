@@ -7,6 +7,7 @@ import Footer from '@/components/Client_Footer.vue'
 import Cookies from 'js-cookie';
 import { useRouter } from 'vue-router';
 import Loader from '@/widgets/Loader.vue'
+import Swal from 'sweetalert2';
 
 const router = useRouter()
 const productTotal = ref()
@@ -15,6 +16,7 @@ let SUB_TOTAL_VALUE = ref()
 const QUANTITY_TOTAL_VALUE = ref()
 const fetchProductsValue = ref({})
 const decrementDisabledBtn = ref(false)
+const checkedItem = ref([])
 
 const userData = ref(Object)
 
@@ -30,18 +32,18 @@ const fetchProducts = () => {
     FIXED_TOTAL.value = total
 }
 
-const incrementBtn = (id, quantity) => {    
+const incrementBtn = (id, quantity) => {
     const test = productTotal.value.find((el) => el.id === id)
     if (test) {
         test.quantity += 1
         fetchProductsValue.value = [...productTotal.value]
-        if(test.quantity >= test.max_quantity){
+        if (test.quantity >= test.max_quantity) {
             test.quantity = test.max_quantity
         }
-        
+
     }
-    
-    
+
+
     localStorage.setItem('cart', JSON.stringify(productTotal.value))
     fetchProducts()
     SUB_TOTAL()
@@ -84,27 +86,17 @@ const removeItemBtn = (id) => {
 }
 
 const submitCart = async () => {
-    let order = JSON.parse(localStorage.getItem('cart'))
-    let cookieUsername = JSON.stringify(Cookies.get('username'))
-    if (cookieUsername) {
-        if(FIXED_TOTAL.value === 0){
-            alert("No Product ")
-        }else{
-            const orderData = order.filter((el) => el.quantity > 0)
-            const response = await axios.post('/api/client-order', {
-                user_id: userData.value.id,
-                order_data:orderData
-        })
-     
-        localStorage.setItem('cart', JSON.stringify(order.filter((el) => el.quantity === 0)))
-        }
-       
+   
+    if (SUB_TOTAL_VALUE.value === 0 || checkedItem.value.length === 0) {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Your Cart Is Empty!",
+            footer: '<a href="#">Why do I have this issue?</a>'
+        });
     } else {
-        
-        router.push('/login')
+        router.push({ path: '/my-place-order', query: { total: SUB_TOTAL_VALUE.value, item_id: checkedItem.value } })
     }
-    fetchProducts()
-    SUB_TOTAL()
 }
 
 
@@ -112,8 +104,6 @@ const submitCart = async () => {
 onMounted(() => {
     SUB_TOTAL()
     fetchProducts()
-
-
 })
 
 
@@ -124,7 +114,7 @@ onMounted(() => {
 <template>
     <Header />
     <Navbar :QUANTITY_TOTAL_VALUE="QUANTITY_TOTAL_VALUE" @user="user" />
-   
+
     <NavbarCategory />
     <section class="section-one">
         <div id="cart">
@@ -138,7 +128,7 @@ onMounted(() => {
                     <table class="table">
                         <thead>
                             <tr>
-                               <th>sd</th>
+                                <th>sd</th>
                                 <th>Product</th>
                                 <th>Price</th>
                                 <th>Quantity</th>
@@ -148,8 +138,9 @@ onMounted(() => {
                             </tr>
                         </thead>
                         <tbody>
+                            {{ checkedItem }}
                             <tr v-for="(data, index) in productTotal" :key="index">
-                                <td><input type="checkbox" name="" id=""></td>
+                                <td><input type="checkbox" v-model="checkedItem" :value="data.id" id=""></td>
                                 <td class="product-label">
                                     <div class="product-image">
                                         <img :src="`storage/product_image/${data.image}`" width="70" height="70" alt="">
@@ -158,14 +149,13 @@ onMounted(() => {
                                         <span>{{ data.product_label }}</span>
                                     </div>
                                 </td>
-                                
-
                                 <td class="price">₱{{ data.price }}</td>
                                 <td class="quan">
-                                    <button @click="incrementBtn(data.id, data.quantity)">+</button>
+                                    <button @click="incrementBtn(data.id, data.quantity)"
+                                        :disabled="!checkedItem.includes(data.id)">+</button>
                                     <span class="p-1" v-if="data.quantity >= 1">{{ data.quantity }}</span>
                                     <span v-else>{{ data.quantity = 0 }}</span>
-                                    <button :disabled="decrementDisabledBtn"
+                                    <button :disabled="!checkedItem.includes(data.id) || data.quantity === 0"
                                         @click="decrementBtn(data.id, data.price)">-</button>
                                 </td>
                                 <td>
@@ -207,7 +197,6 @@ onMounted(() => {
                     </table>
                     <button class="btn btn-dark proceed-btn" @click="submitCart">PROCEED TO CHECKOUT</button>
                     <br>
-                    dapat mapupunta sa choose address bago mag proceed
                 </div>
             </div>
         </div>

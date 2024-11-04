@@ -143,8 +143,8 @@ class ClientController extends Controller
     {
         $order = DB::table('user_orders')
             ->select('*')
-            ->where('status', 'to-received')
-            ->where('user_id', 3)
+            ->where('status', 'out-of-delivery')
+            ->where('user_id', Auth::user()->id)
             ->orderBy('created_at', 'desc')
             ->get();
         return response()->json($order);
@@ -154,7 +154,7 @@ class ClientController extends Controller
         $order = DB::table('user_orders')
             ->select('*')
             ->where('status', 'received')
-            ->where('user_id', 3)
+            ->where('user_id', Auth::user()->id)
             ->orderBy('created_at', 'desc')
             ->get();
         return response()->json($order);
