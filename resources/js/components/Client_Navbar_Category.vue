@@ -56,9 +56,12 @@ onMounted(() => {
             </ul>
         </nav>
         <div class="item-hover" v-if="itemHover" @mouseleave="mouseOut">
+            
             <router-link class="nav-link" :to="{name: 'products-overview', params: { products_name: data.product_name}}" v-for="(data,index) in itemHoverCategory" :key="index">
              {{ data.product_name }}
+             <hr>
             </router-link>
+            
          </div>
     </section>
 </template>
@@ -101,6 +104,7 @@ onMounted(() => {
     gap:10px;
     height: 10rem;
     margin-top: 50px;
+    box-shadow: 0px 0px 5px 0px black;
     
 }
 

@@ -54,9 +54,7 @@ ORDER_RECEIVED_API()
                    <b> Total:</b>  <b class="text-success">₱</b>{{ data.order_total }}
                 </div>
                 <div class="col">
-                    <button class="btn btn-dark">Order again</button>
-                    <br>
-                    <small>dapat mababalik sya sa item</small>
+                    <router-link class="btn btn-dark" :to="{name: 'client-products', params: {id: data.id}}">Order again</router-link>
                 </div>
                 <hr>
             </div>

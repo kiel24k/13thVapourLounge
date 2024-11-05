@@ -4,6 +4,8 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import NavbarOrder from '@/components/Client_Navbar_Order.vue'
 import { onMounted, ref } from 'vue';
 import Swal from 'sweetalert2';
+import {Delete} from '@element-plus/icons-vue'
+import Footer from '@/components/Client_Footer.vue'
 
 const orderPending = ref()
 
@@ -23,7 +25,7 @@ const cancelOrder = async (id) => {
 
     try {
        const result = await  swalWithBootstrapButtons.fire({
-            title: "Are you sure?",
+            title: "Cancel Your Order",
             text: "You won't be able to revert this!",
             icon: "warning",
             showCancelButton: true,
@@ -108,12 +110,13 @@ onMounted(() => {
                     <b>Total: </b><b class="text-success">₱</b>{{ data.order_total }}.00
                 </div>
                 <div class="col text-danger">
-                    <b @click="cancelOrder(data.id)">Cancel Order</b>
+                    <el-button @click="cancelOrder(data.id)"  type="danger" :icon="Delete" circle></el-button>
                 </div>
                 <hr>
             </div>
         </article>
     </section>
+    <Footer/>
 
 </template>
 

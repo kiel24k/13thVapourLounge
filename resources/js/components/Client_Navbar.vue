@@ -99,7 +99,7 @@ nav{
 }
 .nav-main {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     box-shadow: 0px 0px 5px 0px gray;
     padding: 10px;
     align-items: center;

@@ -117,7 +117,13 @@ class ClientController extends Controller
                 'last_name' => 'required',
                 'mobile_no' => 'required',
                 'floor_unit_no' => 'required',
-                'island' => 'required'
+                'island' => 'required',
+                'regions' => 'required',
+                'province' => 'required',
+                'municipality' => 'required',
+                'barangay' => 'required',
+                
+             
             ]);
 
             $order = new UserOrder();

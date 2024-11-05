@@ -4,6 +4,14 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import NavbarOrder from '@/components/Client_Navbar_Order.vue'
 import { onMounted, ref } from 'vue';
 import Swal from 'sweetalert2';
+import {
+    Check,
+    Delete,
+    Edit,
+    Message,
+    Search,
+    Star,
+} from '@element-plus/icons-vue'
 
 const orderReveived = ref()
 const ORDER_RECEIVED_API = async () => {
@@ -72,7 +80,8 @@ onMounted(() => {
                     <b> Total:</b> <b class="text-success">₱</b>{{ data.order_total }}
                 </div>
                 <div class="col">
-                    <button class="btn btn-dark" @click="submitMarkAsComplete(data.id)">mark as complete</button>
+                    <el-button class="btn btn-dark" @click="submitMarkAsComplete(data.id)" type="success" plain>Order received</el-button>
+
                 </div>
                 <hr>
             </div>
