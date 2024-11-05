@@ -112,6 +112,14 @@ class ClientController extends Controller
         // 'order_quantity',
         // 'status'
         for ($i = 0; $i < count($request->order); $i++) {
+            $request->validate([
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'mobile_no' => 'required',
+                'floor_unit_no' => 'required',
+                'island' => 'required'
+            ]);
+
             $order = new UserOrder();
             $order->user_id = Auth::user()->id;
             $order->first_name = $request->first_name;
@@ -199,6 +207,12 @@ class ClientController extends Controller
         $order = DB::table('user_orders')
         ->where('id',$request->id )
         ->update(['status' => 'completed']);
+        return response()->json($order);
+    }
+    public function cancelOrder (Request $request){
+        $order = DB::table('user_orders')
+        ->where('id', $request->id)
+        ->delete();
         return response()->json($order);
     }
     
