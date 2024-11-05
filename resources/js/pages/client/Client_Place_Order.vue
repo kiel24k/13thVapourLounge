@@ -130,29 +130,7 @@ onMounted(() => {
 })
 
 
-const value = ref('')
-const options = [
-    {
-        value: 'Option1',
-        label: 'Option1',
-    },
-    {
-        value: 'Option2',
-        label: 'Option2',
-    },
-    {
-        value: 'Option3',
-        label: 'Option3',
-    },
-    {
-        value: 'Option4',
-        label: 'Option4',
-    },
-    {
-        value: 'Option5',
-        label: 'Option5',
-    },
-]
+
 </script>
 
 <template>
@@ -165,96 +143,108 @@ const options = [
     
 
     <section class="section-one">
-        <div class="address" ref="test">
-            <div class="row">
-                <div class="col">
-                    Already Address? <small class="text-primary" @click="chooseAddressModal">Choose Address</small>
+        <form @submit.prevent>
+            <div class="address" ref="test">
+                <div class="row">
+                    <div class="col">
+                        Already Address? <small class="text-primary" @click="chooseAddressModal">Choose Address</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <b>Full Name *</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <el-alert :closable="false" :title="inputsValidation.first_name[0]" type="error"  v-if="inputsValidation.first_name" start show-icon/>
+                        <label for="" v-else>First Name </label>
+                        <el-input type="text" placeholder="Ex: John" v-model="inputs.first_name"></el-input>
+                    </div>
+                    <div class="col">
+                        <el-alert :closable="false"  :title="inputsValidation.last_name[0]" type="error"  v-if="inputsValidation.last_name" start show-icon/>
+                        <label for="" v-else>Last Name</label>
+                        <el-input type="text" placeholder="Ex: Doe" v-model="inputs.last_name"></el-input>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="col">
+                        <b>Country / Region *</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <b>Philippines</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <el-alert :closable="false"  :title="inputsValidation.mobile_no[0]" type="error"  v-if="inputsValidation.mobile_no" start show-icon/>
+                        <label for="">Mobile Number</label>
+                        <el-input type="text" placeholder="Ex: +63123456789"  v-model="inputs.mobile_no"></el-input>
+                    </div>
+                    <div class="col">
+                        <small>
+                            <el-alert :closable="false"  :title="inputsValidation.floor_unit_no[0]" type="error"  v-if="inputsValidation.floor_unit_no" start show-icon/>
+                        </small>
+                        <label for="">floor unit no</label>
+                        <el-input type="text" placeholder="Ex: Blk 1 Lot 2 Lot 3" v-model="inputs.floor_unit_no"></el-input>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <el-alert :closable="false"  :title="inputsValidation.island[0]" type="error"  v-if="inputsValidation.island" start show-icon/>
+                        <label for="" v-elses>Island</label>
+                        <el-select v-model="select_island_groups" clearable placeholder="Select" >
+                            <el-option v-for="(data, index) in islandGroups" :key="index" :value="data.code" />
+                        </el-select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <el-alert :closable="false"  :title="inputsValidation.regions[0]" type="error"  v-if="inputsValidation.regions" start show-icon/>
+                        <label for="" v-else>Regions</label>
+                        <el-select v-model="select_regions" clearable placeholder="Select" >
+                            <el-option v-for="(data, index) in regions" :key="index" :value="data.name" />
+                        </el-select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <el-alert :closable="false"  :title="inputsValidation.province[0]" type="error"  v-if="inputsValidation.province" start show-icon/>
+                        <label for="" v-else>Provinces</label>
+                        <el-select v-model="select_provinces">
+                            <el-option :value="data.name" v-for="(data) in provinces">
+                                {{ data.name }}
+                            </el-option>
+                        </el-select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <el-alert :closable="false"  :title="inputsValidation.municipality[0]" type="error"  v-if="inputsValidation.municipality" start show-icon/>
+                        <label for="">Municipalities</label>
+                        <el-select name="" id=""  v-model="selected_municipality">
+                            <el-option :value="data.name" v-for="(data, index) in municipality" :key="index">
+                                {{ data.name }}
+                            </el-option>
+                        </el-select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <el-alert :closable="false"  :title="inputsValidation.barangay[0]" type="error"  v-if="inputsValidation.barangay" start show-icon/>
+                        <label for="">Barangay</label>
+                        <el-select name="" id=""  v-model="selected_barangays">
+                            <el-option :value="data.name" v-for="(data, index) in barangay" :key="index">
+                                {{ data.name }}
+                            </el-option>
+                        </el-select>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <b>Full Name *</b>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-
-                    <label for="">First Name </label>
-                    <el-input type="text" placeholder="Ex: John" v-model="inputs.first_name"></el-input>
-                </div>
-                <div class="col">
-                    <label for="">Last Name</label>
-                    <el-input type="text" placeholder="Ex: Doe" v-model="inputs.last_name"></el-input>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <b>Country / Region *</b>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <b>Philippines</b>
-                    {{ select_island_groups }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <el-input type="text" placeholder="Mobile No."  v-model="inputs.mobile_no"></el-input>
-                </div>
-                <div class="col">
-                    <el-input type="text" placeholder="Floor Unit No." v-model="inputs.floor_unit_no"></el-input>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <label for="">Island</label>
-                    <el-select v-model="select_island_groups" clearable placeholder="Select" style="width: 32rem">
-                        <el-option v-for="(data, index) in islandGroups" :key="index" :value="data.code" />
-                    </el-select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <label for="">Regions</label>
-                    <el-select v-model="select_regions" clearable placeholder="Select" style="width: 32rem">
-                        <el-option v-for="(data, index) in regions" :key="index" :value="data.name" />
-                    </el-select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <label for="">Provinces</label>
-                    <el-select v-model="select_provinces">
-                        <el-option :value="data.name" v-for="(data) in provinces">
-                            {{ data.name }}
-                        </el-option>
-
-                    </el-select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <label for="">Municipalities</label>
-                    <el-select name="" id=""  v-model="selected_municipality">
-                        <el-option :value="data.name" v-for="(data, index) in municipality" :key="index">
-                            {{ data.name }}
-                        </el-option>
-                    </el-select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <label for="">Barangay</label>
-                    <el-select name="" id=""  v-model="selected_barangays">
-                        <el-option :value="data.name" v-for="(data, index) in barangay" :key="index">
-                            {{ data.name }}
-                        </el-option>
-                    </el-select>
-                </div>
-            </div>
-        </div>
+        </form>
         <div class="your-order">
             <div class="row">
                 <div class="col">
@@ -336,6 +326,7 @@ section {
     margin-top: 20px;
     border-radius: 3px;
     background-color: rgb(255, 255, 255);
+    width: 50rem;
 
 }
 

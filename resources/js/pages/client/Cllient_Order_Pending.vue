@@ -5,6 +5,7 @@ import NavbarOrder from '@/components/Client_Navbar_Order.vue'
 import { onMounted, ref } from 'vue';
 import Swal from 'sweetalert2';
 import {Delete} from '@element-plus/icons-vue'
+import Footer from '@/components/Client_Footer.vue'
 
 const orderPending = ref()
 
@@ -115,6 +116,7 @@ onMounted(() => {
             </div>
         </article>
     </section>
+    <Footer/>
 
 </template>
 
