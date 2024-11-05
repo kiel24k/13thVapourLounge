@@ -12,7 +12,7 @@ const ORDER_PENDING_API = async () => {
     orderPending.value = response.data
 }
 
-const cancelOrder = () => {
+const cancelOrder = async (id) => {
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
             confirmButton: "btn btn-success m-2",
@@ -20,33 +20,54 @@ const cancelOrder = () => {
         },
         buttonsStyling: false
     });
-    swalWithBootstrapButtons.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true
-    }).then((result) => {
+
+    try {
+       const result = await  swalWithBootstrapButtons.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: true
+        })
         if (result.isConfirmed) {
-            swalWithBootstrapButtons.fire({
-                title: "Deleted!",
-                text: "Your Order has been deleted.",
-                icon: "success"
-            });
-        } else if (
-            /* Read more about handling dismissals below */
-            result.dismiss === Swal.DismissReason.cancel
-        ) {
-            swalWithBootstrapButtons.fire({
+            const response = await axios.post('api/cancel-order', { id })
+            if (response.status === 200) {
+                ORDER_PENDING_API()
+                swalWithBootstrapButtons.fire({
+                    title: "Deleted!",
+                    text: "Your Order has been deleted.",
+                    icon: "success"
+                });
+            } else {
+                await swalWithBootstrapButtons.fire({
+                    title: "Error",
+                    text: "There was an issue canceling the order.",
+                    icon: "error"
+                });
+            }
+        }else{
+            await swalWithBootstrapButtons.fire({
                 title: "Cancelled",
-                text: "Your imaginary file is safe :)",
+                text: "Order is not delete.",
                 icon: "error"
             });
         }
-    });
-}
+    } catch (error) {
+        console.log(error);
+        await swalWithBootstrapButtons.fire({
+            title: "Error",
+            text: "An error occurred while trying to cancel the order.",
+            icon: "error"
+        });
+    }
+
+    {
+    }
+};
+
+
 onMounted(() => {
     ORDER_PENDING_API()
 })
@@ -87,7 +108,7 @@ onMounted(() => {
                     <b>Total: </b><b class="text-success">₱</b>{{ data.order_total }}.00
                 </div>
                 <div class="col text-danger">
-                    <b @click="cancelOrder">Cancel Order</b>
+                    <b @click="cancelOrder(data.id)">Cancel Order</b>
                 </div>
                 <hr>
             </div>
