@@ -23,6 +23,7 @@ nav {
     max-width: 70%;
     margin: auto;
     font-size: small;
+    
 }
 
 nav a {

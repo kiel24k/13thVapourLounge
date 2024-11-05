@@ -11,11 +11,10 @@ const closeModal = () => {
 
 <template>
     <div id="alert">
-            <div class="content">
+            <el-scrollbar class="content">
                 <b>My address</b>
                 <hr>
                 <table class="table">
-
                     <tbody>
                         <tr>
                             <td style="width: 10px;">
@@ -112,7 +111,7 @@ const closeModal = () => {
                         <b>Confirm</b>
                     </button>
                 </div>
-            </div>
+            </el-scrollbar>
     </div>
 
 </template>
@@ -131,7 +130,6 @@ const closeModal = () => {
 
 .content {
     background-color: rgb(255, 255, 255);
-    overflow-y: scroll;
     max-height: 50rem;
     padding: 10px;
    
