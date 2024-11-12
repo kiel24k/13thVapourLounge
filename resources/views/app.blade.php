@@ -14,7 +14,9 @@
 </body>
 
 <style>
-
+	:root{
+		--table-head-color: rgb(240,246,249);
+	}
 	*{
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 		font-size: 14px;
