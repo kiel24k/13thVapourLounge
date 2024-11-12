@@ -3,15 +3,37 @@ import axios from 'axios';
 import { onMounted } from 'vue';
 import Cookies from 'js-cookie';
 import { useRouter } from 'vue-router';
+import { SplitButton } from 'primevue';
+import Swal from 'sweetalert2';
 
 const emit = defineEmits(['closeSidebar'])
 const router = useRouter()
-const logoutBtn = async () => {
-    try {
-        const response = await axios('api/logout')
+const logoutBtn =  async () => {
+    const response =  await axios('api/logout')
+    Swal.fire({
+  title: "Do you want to logout?",
+  text: "You can login after you logout",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes",
+  cancelButtonText: "No" 
+}).then((result) => {
+  if (result.isConfirmed) {
         if(response.status === 200){
             router.push('/login')
         }
+    Swal.fire({
+      title: "Logout Successful!",
+      text: "Thank you!",
+      icon: "success"
+    });
+  }
+});
+
+    try {
+      
     } catch (error) {
         console.log(error);
     }
@@ -26,6 +48,25 @@ onMounted(  () => {
     // console.log(cookie);
     
 })
+
+const items = [
+    {
+        label: 'Profile',
+        icon: 'pi pi-user',
+        command: () => {
+            this.$toast.add({ severity: 'success', summary: 'Updated', detail: 'Data Updated', life: 3000 });
+        }
+    },
+    {
+        label: 'Logout',
+        icon: 'pi pi-sign-out',
+        command: () => {
+            logoutBtn()
+        }
+    },
+];
+
+
 </script>
 
 <template>
@@ -39,10 +80,7 @@ onMounted(  () => {
                     <img src="/public/image/1920525_gogle_google_logo_network_icon.png" alt="" width="40">
                 </div>
                 <div class="">
-                    <button class="logoutBtn" @click="logoutBtn">
-                        <img src="/public/image/logout.png" width="25" alt="">
-                        <b>Logout</b>
-                    </button>
+                    <SplitButton  severity="secondary" label="Save" :model="items" />
                 </div>
             </div>
         </div>
