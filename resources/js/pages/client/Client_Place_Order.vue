@@ -4,10 +4,11 @@ import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import Footer from '@/components/Client_Footer.vue'
 import { useRoute, useRouter } from 'vue-router'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 import Cookies from 'js-cookie'
 import ChooseAddress from '@/components/Client_Choose_Address_Modal.vue'
 import Swal from 'sweetalert2'
+import { FloatLabel, InputText, Select } from 'primevue'
 
 
 
@@ -20,7 +21,7 @@ const inputs = ref({})
 const inputsValidation = ref({})
 
 const select_island_groups = ref()
-const select_regions = ref()
+const select_regions = ref({})
 const select_provinces = ref()
 const selected_municipality = ref()
 const selected_barangays = ref()
@@ -47,28 +48,31 @@ const PRODUCTS = () => {
 const ISLAND_GROUPS = async () => {
     const response = await axios.get('https://psgc.gitlab.io/api/island-groups/')
     islandGroups.value = response.data
+    // console.log("Island Groups:", response.data);
 }
 
 watch(select_island_groups, async (oldVal, newVal) => {
-    const response = await axios.get(`https://psgc.gitlab.io/api/island-groups/${select_island_groups.value}/regions/`)
+    const response = await axios.get(`https://psgc.gitlab.io/api/island-groups/${select_island_groups.value.code}/regions/`)
     regions.value = response.data
+    
+    
 }
 )
 
-watch(select_regions, async (oldVal, newVal) => {
-    const region_code = regions.value.find((el) => el.name === select_regions.value)
+watch(select_regions, async  (oldVal, newVal) => {
+    const region_code = regions.value.find((el) => el.name === select_regions.value.name)  
     const response = await axios.get(`https://psgc.gitlab.io/api/regions/${region_code.code}/provinces/`)
     provinces.value = response.data
 })
 
 watch(select_provinces, async (oldVal, newVal) => {
-    const province_code = provinces.value.find((el) => el.name === select_provinces.value)
+    const province_code = provinces.value.find((el) => el.name === select_provinces.value.name)
     const response = await axios.get(`https://psgc.gitlab.io/api/provinces/${province_code.code}/municipalities/`)
     municipality.value = response.data
 })
 
 watch(selected_municipality, async (oldVal, newVal) => {
-    const barangay_code = municipality.value.find((el) => el.name === selected_municipality.value)
+    const barangay_code = municipality.value.find((el) => el.name === selected_municipality.value.name)
     const response = await axios.get(`https://psgc.gitlab.io/api/municipalities/${barangay_code.code}/barangays/`)
     barangay.value = response.data
 })
@@ -99,11 +103,11 @@ const submit = async () => {
                 last_name: inputs.value.last_name,
                 mobile_no: inputs.value.mobile_no,
                 floor_unit_no: inputs.value.floor_unit_no,
-                island: select_island_groups.value,
-                regions: select_regions.value,
-                province: select_provinces.value,
-                municipality: selected_municipality.value,
-                barangay: selected_barangays.value
+                island: select_island_groups.value.name,
+                regions: select_regions.value.name,
+                province: select_provinces.value.name,
+                municipality: selected_municipality.value.name,
+                barangay: selected_barangays.value.name
 
             })
         if (response.status === 200) {
@@ -157,14 +161,18 @@ onMounted(() => {
                 </div>
                 <div class="row">
                     <div class="col">
-                        <el-alert :closable="false" :title="inputsValidation.first_name[0]" type="error"  v-if="inputsValidation.first_name" start show-icon/>
-                        <label for="" v-else>First Name </label>
-                        <el-input type="text" placeholder="Ex: John" v-model="inputs.first_name"></el-input>
+                        <FloatLabel variant="on">
+                            <InputText id="on_label" size="small" :invalid="inputsValidation.first_name" v-model="inputs.first_name" autocomplete="off" fluid />
+                            <label for="on_label">First Name</label>
+                        </FloatLabel>
+                        <span class="text-danger" v-if="inputsValidation.first_name">{{ inputsValidation.first_name[0] }}</span>
                     </div>
                     <div class="col">
-                        <el-alert :closable="false"  :title="inputsValidation.last_name[0]" type="error"  v-if="inputsValidation.last_name" start show-icon/>
-                        <label for="" v-else>Last Name</label>
-                        <el-input type="text" placeholder="Ex: Doe" v-model="inputs.last_name"></el-input>
+                        <FloatLabel variant="on">
+                            <InputText id="on_label" size="small" :invalid="inputsValidation.last_name" v-model="inputs.last_name" autocomplete="off" fluid />
+                            <label for="on_label">First Name</label>
+                        </FloatLabel>
+                        <span class="text-danger" v-if="inputsValidation.last_name">{{ inputsValidation.last_name[0] }}</span>
                     </div>
                 </div>
     
@@ -180,67 +188,54 @@ onMounted(() => {
                 </div>
                 <div class="row">
                     <div class="col">
-                        <el-alert :closable="false"  :title="inputsValidation.mobile_no[0]" type="error"  v-if="inputsValidation.mobile_no" start show-icon/>
-                        <label for="">Mobile Number</label>
-                        <el-input type="text" placeholder="Ex: +63123456789"  v-model="inputs.mobile_no"></el-input>
+                        <FloatLabel variant="on">
+                            <InputText id="on_label" size="small" :invalid="inputsValidation.mobile_no" v-model="inputs.mobile_no" autocomplete="off" fluid />
+                            <label for="on_label">Mobile No.</label>
+                        </FloatLabel>
+                        <span class="text-danger" v-if="inputsValidation.mobile_no">{{ inputsValidation.mobile_no[0] }}</span>
                     </div>
                     <div class="col">
-                        <small>
-                            <el-alert :closable="false"  :title="inputsValidation.floor_unit_no[0]" type="error"  v-if="inputsValidation.floor_unit_no" start show-icon/>
-                        </small>
-                        <label for="">floor unit no</label>
-                        <el-input type="text" placeholder="Ex: Blk 1 Lot 2 Lot 3" v-model="inputs.floor_unit_no"></el-input>
+                        <FloatLabel variant="on">
+                            <InputText id="on_label" size="small" :invalid="inputsValidation.floor_unit_no" v-model="inputs.floor_unit_no" autocomplete="off" fluid />
+                            <label for="on_label">First Name</label>
+                        </FloatLabel>
+                        <span class="text-danger" v-if="inputsValidation.floor_unit_no">{{ inputsValidation.floor_unit_no[0] }}</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <el-alert :closable="false"  :title="inputsValidation.island[0]" type="error"  v-if="inputsValidation.island" start show-icon/>
-                        <label for="" v-elses>Island</label>
-                        <el-select v-model="select_island_groups" clearable placeholder="Select" >
-                            <el-option v-for="(data, index) in islandGroups" :key="index" :value="data.code" />
-                        </el-select>
+                        <!-- <el-alert :closable="false"  :title="inputsValidation.island[0]" type="error"  v-if="inputsValidation.island" start show-icon/>
+                        <label for="" v-elses>Island</label> -->
+                        <Select v-model="select_island_groups" :options="islandGroups" :invalid="inputsValidation.island" optionLabel="name" clearable placeholder="Select Island" />
+                        <span class="text-danger" v-if="inputsValidation.island">{{ inputsValidation.island[0] }}</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <el-alert :closable="false"  :title="inputsValidation.regions[0]" type="error"  v-if="inputsValidation.regions" start show-icon/>
-                        <label for="" v-else>Regions</label>
-                        <el-select v-model="select_regions" clearable placeholder="Select" >
-                            <el-option v-for="(data, index) in regions" :key="index" :value="data.name" />
-                        </el-select>
+                        <Select v-model="select_regions" :options="regions" :invalid="inputsValidation.regions" optionLabel="name" clearable placeholder="Select Region" />
+                        <span class="text-danger" v-if="inputsValidation.regions">{{ inputsValidation.regions[0] }}</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <el-alert :closable="false"  :title="inputsValidation.province[0]" type="error"  v-if="inputsValidation.province" start show-icon/>
-                        <label for="" v-else>Provinces</label>
-                        <el-select v-model="select_provinces">
-                            <el-option :value="data.name" v-for="(data) in provinces">
-                                {{ data.name }}
-                            </el-option>
-                        </el-select>
+                        <!-- <el-alert :closable="false"  :title="inputsValidation.province[0]" type="error"  v-if="inputsValidation.province" start show-icon/>
+                        <label for="" v-else>Provinces</label> -->
+                        <Select v-model="select_provinces" :options="provinces" :invalid="inputsValidation.province" optionLabel="name" clearable placeholder="Select Province" />
+                        <span class="text-danger" v-if="inputsValidation.province">{{ inputsValidation.province[0] }}</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <el-alert :closable="false"  :title="inputsValidation.municipality[0]" type="error"  v-if="inputsValidation.municipality" start show-icon/>
-                        <label for="">Municipalities</label>
-                        <el-select name="" id=""  v-model="selected_municipality">
-                            <el-option :value="data.name" v-for="(data, index) in municipality" :key="index">
-                                {{ data.name }}
-                            </el-option>
-                        </el-select>
+                        <Select name="" id=""  v-model="selected_municipality" :options="municipality" :invalid="inputsValidation.municipality" optionLabel="name" clearable placeholder="Select Municipality"/>
+                        <span class="text-danger" v-if="inputsValidation.municipality">{{ inputsValidation.municipality[0] }}</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <el-alert :closable="false"  :title="inputsValidation.barangay[0]" type="error"  v-if="inputsValidation.barangay" start show-icon/>
-                        <label for="">Barangay</label>
-                        <el-select name="" id=""  v-model="selected_barangays">
-                            <el-option :value="data.name" v-for="(data, index) in barangay" :key="index">
-                                {{ data.name }}
-                            </el-option>
-                        </el-select>
+                        <Select name="" id=""  v-model="selected_barangays" :options="barangay" :invalid="barangay" optionLabel="name" clearable placeholder="Select Barangay"/>
+                        <span class="text-danger" v-if="inputsValidation.barangay">{{ inputsValidation.barangay[0] }}</span>
                     </div>
                 </div>
             </div>

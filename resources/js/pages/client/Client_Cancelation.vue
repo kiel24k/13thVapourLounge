@@ -3,6 +3,22 @@ import Header from '@/components/Client_Header.vue'
 import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import NavbarAccount from '@/components/Client_Navbar_Account.vue'
+import { onMounted, ref } from 'vue';
+import { Button } from 'primevue';
+
+const user = ref(Object)
+const USER_API = async () => {
+    try {
+        const response = await axios.get('/api/user')
+        user.value = response.data
+    } catch (error) {
+
+    }
+}
+
+onMounted (() => {
+    USER_API()
+})
 </script>
 
 <template>
@@ -13,14 +29,15 @@ import NavbarAccount from '@/components/Client_Navbar_Account.vue'
             <figure>
                 <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="">
                 <figcaption class="profile-figcaption text-dark">
-                    <span>Full name sample</span>
+                    <span>{{ user.first_name }} {{ user.last_name }}</span>
+                    <br>
+                    <small>{{ user.email }}</small>
                 </figcaption>
             </figure>
         </div>
         <div class="col profile-action">
             <div class="">
-                <button class="btn btn-dark">Edit Profile</button>
-                <button class="btn btn-dark">Add story</button>
+               <Button label="Change Image" severity="contrast" icon="pi pi-pen-to-square" raised/>
             </div>
         </div>
         <hr>
@@ -75,6 +92,10 @@ import NavbarAccount from '@/components/Client_Navbar_Account.vue'
         margin: auto;
         display: flex;
         flex-wrap: wrap;
+        background: white;
+        box-shadow: var(--floating-box-shadow);
+        border-radius: var(--floating-border-radius);
+        margin-top: 10px;
     }
 
     figure {
@@ -96,9 +117,10 @@ import NavbarAccount from '@/components/Client_Navbar_Account.vue'
     #info{
         max-width: 70%;
         margin:auto;
-        box-shadow: 0px 0px 2px 0px gray;    
-        border-radius: 10px;
         padding:10px;
+        background: white;
+        box-shadow: var(--floating-box-shadow);
+        border-radius: var(--floating-border-radius);
         
     }
 

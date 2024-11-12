@@ -78,7 +78,7 @@ class ClientController extends Controller
             'floor_unit_no' => 'required',
             'province' => 'required',
             'municipality' => 'required',
-            'baranggay' => 'required'
+            'barangay' => 'required'
         ]);
         $address = new Address_Book();
         $address->user_id = Auth::user()->id;
@@ -88,7 +88,7 @@ class ClientController extends Controller
         $address->floor_unit_no = $request->floor_unit_no;
         $address->province = $request->province;
         $address->municipality = $request->municipality;
-        $address->baranggay = $request->baranggay;
+        $address->barangay = $request->barangay;
         $address->save();
         return response()->json(['success' => 'success'], 200);
     }
@@ -122,8 +122,6 @@ class ClientController extends Controller
                 'province' => 'required',
                 'municipality' => 'required',
                 'barangay' => 'required',
-                
-             
             ]);
 
             $order = new UserOrder();

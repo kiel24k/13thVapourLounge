@@ -17,6 +17,6 @@ class Address_Book extends Model
         'floor_unit_no',
         'province',
         'municipality',
-        'baranggay'
+        'barangay'
     ];
 }

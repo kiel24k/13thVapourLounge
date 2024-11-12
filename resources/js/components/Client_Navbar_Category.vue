@@ -104,7 +104,7 @@ onMounted(() => {
     gap:10px;
     height: 10rem;
     margin-top: 50px;
-    box-shadow: 0px 0px 5px 0px black;
+    box-shadow: var(--floating-box-shadow);
     
 }
 
