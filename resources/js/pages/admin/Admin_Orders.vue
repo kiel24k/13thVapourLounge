@@ -113,7 +113,7 @@ onMounted(() => {
                                 <td>{{ data.created_at }}</td>
                                 <!-- <td>{{ data.user_orders[0] }}</td> -->
                                 <td class="table-action">
-                                        <Button  @click="viewUserProductBtn(data.first_name, data.user_orders)" icon="pi pi-eye" severity="info" raised/>
+                                        <Button  @click="viewUserProductBtn(data.first_name, data.user_orders)" icon="pi pi-eye" severity="contrast" raised/>
                                         <Button icon="pi pi-trash" severity="danger" raised/>
                                 </td>
                             </tr>
