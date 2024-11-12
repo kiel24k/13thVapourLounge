@@ -6,6 +6,7 @@ import AddCategoryModal from '@/components/Admin_Add_Category.vue'
 import NewCategoryNotification from '@/widgets/new_category_added.vue'
 import { onMounted, ref } from 'vue';
 import axios from 'axios'
+import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue'
 
 const addProductModal = ref(false)
 const addCategoryModal = ref(false)
@@ -123,43 +124,31 @@ onMounted(() => {
             <div class="main m-2">
                 <section id="section-one" class="mt-4">
                     <div class="row">
-                        <div class="col category-action">
-                            <button class="btn btn-primary" @click="createProductBtn">
-                                Create Product
-                                <img src="/public/image/add-icon.png" width="20" alt="">
-                            </button>
-                            <button class="btn btn-primary" @click="createCategoryBtn">
-                                New Category
-                                <img src="/public/image/add-icon.png" width="20" alt="">
-                            </button>
+                       <div class="col table-top">
+                        <div class="category">
+                            <Select/>
                         </div>
-                        <div class="col">
-                            <div class="table-action text-end">
-                                <button>
-                                    <img src="/public/image/search-glassess.png" width="25" alt="">
-                                </button>
-                                <button>
-                                    <span>
-                                        <img src="/public/image/burder-menu1.png" width="25" alt="">
-                                        Columns
-                                    </span>
-                                </button>
-                                <button>
-                                    <span>
-                                        <img src="/public/image/filter-icon.png" width="25px" alt="">
-                                        filters
-                                    </span>
-                                </button>
-                                |
-                                <button class="btn btn-info text-white export">
-                                    <img src="/public/image/download-icon.png" width="20px" alt="">
-                                    Export
-                                </button>
-                            </div>
+                        <div class="search">
+                            <InputGroup>
+                                <InputText placeholder="Keyword" />
+                                <InputGroupAddon>
+                                    <Button icon="pi pi-search" severity="secondary" variant="text" @click="toggle" />
+                                </InputGroupAddon>
+                            </InputGroup>
                         </div>
+                        <div class="download">
+                            <Button icon="pi pi-file-pdf" label="Print" severity="danger" raised/>
+                        </div>
+                       </div>
+                       <div class="col text-end">
+                        <div class="table-top-action">
+                            <Button @click="createCategoryBtn" label="New Category" icon="pi pi-plus-circle" raised severity="success"/>
+                            <Button @click="createProductBtn" label="Add Product" icon="pi pi-plus-circle" raised severity="success"/>
+                        </div>
+                       </div>
                     </div>
                 </section>
-                <section id="section-two" class="mt-2">
+                <section id="section-two" class="mt-4">
                     <table class="table table-hover ">
                         <thead>
                             <tr>
@@ -198,24 +187,18 @@ onMounted(() => {
                                 <td> x{{ data.quantity }} </td>
                                 <td> {{ data.description }} </td>
                                 <td>{{ data.created_at }}</td>
-                                <td class="action">
-                                    <span>
-                                        <button>
-                                            <img src="/public/image/update-pencil-icon.svg" width="20px" alt="">
-                                        </button>
-                                        <button @click="deleteProductBtn(data.id)">
-                                            <img src="/public/image/delete-icon.png" width="20px" alt="">
-                                        </button>
-                                    </span>
+                                <td class="table-action">
+                                    <Button icon="pi pi-file-edit" severity="info"/>
+                                   <Button @click="deleteProductBtn(data.id)" icon="pi pi-trash" severity="danger" raised/>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="row">
                         <div class="col text-center ">
-                            <button @click="prevBtn" :disabled="!pagination.prev_page_url">prev</button>
+                            <Button @click="prevBtn" :disabled="!pagination.prev_page_url" icon="pi pi-chevron-left" severity="contrast" raised rounded />
                             <span>{{ pagination.current_page }} of {{ pagination.last_page }}</span>
-                            <button @click="nextBtn" :disabled="!pagination.next_page_url">next</button>
+                            <Button @click="nextBtn" :disabled="!pagination.next_page_url" icon="pi pi-chevron-right" severity="contrast" raised rounded />
                         </div>
                     </div>
                 </section>
@@ -257,81 +240,33 @@ onMounted(() => {
 .category-input input {
     height: 50px;
 }
-.action {
+.table-top{
+    display: flex;
+    align-items: center;
+    gap:10px;
+}
+.table-top-action {
+    display: flex;
+    align-items: center;
+    gap:10px;
+    justify-content: end;
 
 }
 
 #section-two table th {
     cursor: pointer;
+    background-color: var(--table-head-color);
+}
+table{
+    border-radius:var(--floating-border-radius);
+    box-shadow: var(--floating-box-shadow);
+}
+.table-action{
+    display: flex;
+    align-items: center;
+    gap:10px;
 }
 
 
-@media screen and (min-width: 769px) {
-    section {
-        margin: auto;
-    }
 
-
-    #section-two {
-        overflow-x: auto;
-    }
-
-    #section-two table th {
-        background: rgb(231, 239, 243);
-        color: rgb(0, 0, 0);
-        font-weight: 400;
-        font-size: 400;
-        text-transform: capitalize;
-    }
-
-    .table-action button:not(.export) {
-        border: 1px solid rgb(163, 161, 161);
-        border-radius: 7px;
-        padding: 4px;
-        background: transparent;
-    }
-
-    .action button {
-        background: transparent;
-        border: 0;
-        
-
-    }
-
-
-}
-
-@media screen and (max-width: 1116px) {
-    section {
-        width: 90%;
-        margin: auto;
-    }
-
-    #section-two {
-        overflow: auto;
-    }
-
-    #section-two table th {
-        background: rgb(231, 239, 243);
-        color: rgb(0, 0, 0);
-        font-weight: 400;
-        font-size: 400;
-        text-transform: capitalize;
-    }
-
-    .table-action button:not(.export) {
-        border: 1px solid rgb(163, 161, 161);
-        border-radius: 7px;
-        padding: 4px;
-        background: transparent;
-    }
-
-    .action button {
-        background: transparent;
-        border: 0;
-
-    }
-}
-
-@media screen and (min-width: 601px) {}
 </style>
