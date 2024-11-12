@@ -1,6 +1,7 @@
 <script setup>
 import Header from '@/components/Admin_Header.vue'
 import Sidebar from '@/components/Admin_Sidebar.vue'
+import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue';
 import { onMounted, ref } from 'vue';
 
 const showSidebar = ref(true)
@@ -73,37 +74,25 @@ onMounted(() => {
             <div class="main m-2">
                 <section id="section-one" class="mt-4">
                     <div class="row">
-                        <div class="col">
-                            <span>Products</span>
-                            <span>Store</span>
+                        <div class="col table-top">
+                         <div class="category">
+                             <Select/>
+                         </div>
+                         <div class="search">
+                             <InputGroup>
+                                 <InputText placeholder="Keyword" />
+                                 <InputGroupAddon>
+                                     <Button icon="pi pi-search" severity="secondary" variant="text" @click="toggle" />
+                                 </InputGroupAddon>
+                             </InputGroup>
+                         </div>
+                         <div class="download">
+                             <Button icon="pi pi-file-pdf" label="Print" severity="danger" raised/>
+                         </div>
                         </div>
-                        <div class="col">
-                            <div class="table-action text-end">
-                                <button>
-                                    <img src="/public/image/search-glassess.png" width="25" alt="">
-                                </button>
-                                <button>
-                                    <span>
-                                        <img src="/public/image/burder-menu1.png" width="25" alt="">
-                                        Columns
-                                    </span>
-                                </button>
-                                <button>
-                                    <span>
-                                        <img src="/public/image/filter-icon.png" width="25px" alt="">
-                                        filters
-                                    </span>
-                                </button>
-                                |
-                                <button class="btn btn-info text-white export">
-                                    <img src="/public/image/download-icon.png" width="20px" alt="">
-                                    Export
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                     </div>
                 </section>
-                <section id="section-two" class="">
+                <section id="section-two" class="mt-4">
                     <table class="table table-hover ">
                         <thead>
                             <tr>
@@ -134,24 +123,19 @@ onMounted(() => {
                                 <td> {{ data.age }} </td>
                                 <td>{{ data.address }}</td>
                                 <td>{{ data.email }}</td>
-                                <td class="action">
-                                    <span>
-                                        <button>
-                                            <img src="/public/image/update-pencil-icon.svg" width="20px" alt="">
-                                        </button>
-                                        <button @click="deleteBtn(data.id)">
-                                            <img src="/public/image/delete-icon.png" width="20px" alt="">
-                                        </button>
-                                    </span>
+                                <td class="table-action">
+                                    <Button icon="pi pi-file-edit" severity="info"/>
+                                    <Button icon="pi pi-trash" severity="danger" @click="deleteBtn(data.id)"/>
+                                    
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="row">
-                        <div class="col text-center ">
-                            <button>prev</button>
-                            <span>1 2 3 4 5 6 7 8 9</span>
-                            <button>next</button>
+                        <div class="col pagination">
+                            <Button icon="pi pi-chevron-left" rounded severity="contrast" raised/>
+                            <span>1 of 10</span>
+                            <Button icon="pi pi-chevron-right" rounded severity="contrast" raised/>
                         </div>
                     </div>
                 </section>
@@ -173,72 +157,33 @@ onMounted(() => {
 .main {
     width: 100%;
 }
+table{
+    border-radius: var(--floating-border-radius);
+    box-shadow: var(--floating-box-shadow);
+}
 table th{
     cursor: pointer;
+    background-color: var(--table-head-color);
+}
+.table-top{
+    display: flex;
+    align-items: center;
+    gap:10px;
+}
+.pagination{
+    display: flex;
+    gap:10px;
+    align-items: center;
+    justify-content: center;
+}
+.table-action{
+    display: flex;
+    gap:10px;
+    align-items: center;
+    justify-content: start;
+
 }
 
-@media screen and (min-width: 769px) {
-    section {
-        
-        margin: auto;
-    }
 
-    #section-two {
-        overflow-x: auto;
-    }
 
-    #section-two table th {
-        background: rgb(231, 239, 243);
-        color: rgb(0, 0, 0);
-        font-weight: 400;
-        font-size: 400;
-        text-transform: capitalize;
-    }
-
-    .table-action button:not(.export) {
-        border: 1px solid rgb(163, 161, 161);
-        border-radius: 7px;
-        padding: 4px;
-        background: transparent;
-    }
-
-    .action button {
-        background: transparent;
-        border: 0;
-    }
-}
-
-@media screen and (max-width: 1116px) {
-    section {
-        width: 90%;
-        margin: auto;
-    }
-
-    #section-two {
-        overflow: auto;
-    }
-
-    #section-two table th {
-        background: rgb(231, 239, 243);
-        color: rgb(0, 0, 0);
-        font-weight: 400;
-        font-size: 400;
-        text-transform: capitalize;
-    }
-
-    .table-action button:not(.export) {
-        border: 1px solid rgb(163, 161, 161);
-        border-radius: 7px;
-        padding: 4px;
-        background: transparent;
-    }
-
-    .action button {
-        background: transparent;
-        border: 0;
-
-    }
-}
-
-@media screen and (min-width: 601px) {}
 </style>
