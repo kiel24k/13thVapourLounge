@@ -1,4 +1,5 @@
 <script setup>
+import { FloatLabel, InputNumber, InputText } from 'primevue';
 import { computed, onMounted, ref, watch } from 'vue';
 
 
@@ -12,7 +13,7 @@ const sortMunicipalities = ref(Object)
 const sortBarangay = ref(Object)
 
 const isMunicipality = ref(true)
-const isBaranggay = ref(true)
+const isBarangay = ref(true)
 const isSelectedProvince = ref(false)
 
 const selected = ref()
@@ -20,13 +21,13 @@ const selected = ref()
 const select = ref({
     region_code: '',
     municipality_code: '',
-    baranggay: ''
+    barangay: ''
 })
 
 const inputValidations = ref({
     first_name: '',
     last_name: '',
-    mobile_no:'',
+    mobile_no: '',
     floor_unit_no: ''
 })
 
@@ -47,8 +48,8 @@ const selectedMunicipalityName = () => {
     return municipaltityItem.name
 }
 
-const selectedBaranggayName = () => {
-    const barrangayItem = sortBarangay.value.find(b => b.code === select.value.baranggay)
+const selectedBarangayName = () => {
+    const barrangayItem = sortBarangay.value.find(b => b.code === select.value.barangay)
     return barrangayItem.name
 }
 
@@ -70,7 +71,7 @@ const BARANGAY_API = async () => {
     const response = await axios.get(`https://psgc.gitlab.io/api/municipalities/${select.value.municipality_code}/barangays/`)
     barangay.value = response.data
     sortBarangay.value = barangay.value.sort((a, b) => a.name.localeCompare(b))
-    isBaranggay.value = false
+    isBarangay.value = false
 }
 
 const closeModal = () => {
@@ -92,7 +93,7 @@ const submit = async () => {
             floor_unit_no: inputs.value.floor_unit_no,
             province: selectedProvinceName(),
             municipality: selectedMunicipalityName(),
-            baranggay: selectedBaranggayName()
+            barangay: selectedBarangayName()
         })
         if (response.status === 200) {
             emit('closeModal')
@@ -148,9 +149,9 @@ onMounted(() => {
                     </div>
                     <div class="row">
                         <div class="col form-input select">
-                            <label for="">Baranggay</label>
-                            <select name="" id="" class="form-select" :disabled="isBaranggay"
-                                v-model="select.baranggay">
+                            <label for="">Barangay</label>
+                            <select name="" id="" class="form-select" :disabled="isBarangay"
+                                v-model="select.barangay">
                                 <option :value="data.code" :selected="data.name" v-for="(data, index) in sortBarangay"
                                     :key="index">
                                     {{ data.name }}
@@ -159,36 +160,46 @@ onMounted(() => {
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col form-input">
-                            <label for="">First Name <span class="text-danger" v-if="inputValidations.first_name">{{
-                                    inputValidations.first_name[0] }}</span>
-                                </label>
-                                    
-                            <input type="text" placeholder="Ex: John" v-model="inputs.first_name">
+                        <div class="col">
+                            <FloatLabel variant="on">
+                                <InputText id="on_label" v-model="inputs.first_name" autocomplete="off" fluid />
+                                <label for="on_label">First Name</label>
+                            </FloatLabel>
+                            <span class="text-danger" v-if="inputValidations.first_name">{{
+                                inputValidations.first_name[0] }}</span>
 
                         </div>
-                        <div class="col form-input">
-                            <label for="">Last Name <span class="text-danger" v-if="inputValidations.last_name">{{
-                                    inputValidations.last_name[0] }}</span></label>
-                            <input type="text" placeholder="Ex: Doe" v-model="inputs.last_name">
-
+                        <div class="col">
+                            <FloatLabel variant="on">
+                                <InputText id="on_label" v-model="inputs.last_name" autocomplete="off" fluid />
+                                <label for="on_label">Last Name</label>
+                            </FloatLabel>
+                            <span class="text-danger" v-if="inputValidations.last_name">{{
+                                inputValidations.last_name[0] }}</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col form-input">
-                            <label for="">Mobile No <span class="text-danger" v-if="inputValidations.mobile_no">{{
-                                    inputValidations.mobile_no[0] }}</span></label>
-                            <input type="number" placeholder="Ex: +63123456789" v-model="inputs.mobile_no">
+                            <FloatLabel variant="on">
+                                <InputNumber id="on_label" v-model="inputs.mobile_no" autocomplete="off" fluid />
+                                <label for="on_label">Mobile No.</label>
+                            </FloatLabel>
+                            <span class="text-danger" v-if="inputValidations.mobile_no">{{
+                                inputValidations.mobile_no[0] }}</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col form-input">
-                            <label for="">Floor Unit <span class="text-danger" v-if="inputValidations.floor_unit_no">{{
-                                    inputValidations.floor_unit_no[0] }}</span></label>
-                            <input type="text" placeholder="Ex: Blk 1 lot 1 Phase 1" v-model="inputs.floor_unit_no">
+                            <label for="">Floor Unit </label>
+                                <FloatLabel variant="on">
+                                    <InputText id="on_label" v-model="inputs.floor_unit_no" autocomplete="off" fluid />
+                                    <label for="on_label">Last Name</label>
+                                </FloatLabel>
+                                <span class="text-danger" v-if="inputValidations.floor_unit_no">{{
+                                    inputValidations.floor_unit_no[0] }}</span>
                         </div>
                     </div>
-                   
+
                     <div class="warning-change-message">
                         <small>
                             If you change your name, you can't change it again for 60 days. Don't add any unusual

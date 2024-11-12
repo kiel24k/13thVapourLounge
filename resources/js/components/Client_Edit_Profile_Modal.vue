@@ -1,10 +1,12 @@
 <script setup>
+import { Button, FloatLabel, InputText } from 'primevue';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 
 const router = useRouter()
 const emit = defineEmits(['closeModal'])
-const inputValidation = ref()
+const inputValidation = ref({})
 const user = ref({})
 
 
@@ -15,33 +17,41 @@ const exitModal = () => {
 const USER_API = async () => {
     try {
         const response = await axios.get('api/user')
-       user.value = response.data
+        user.value = response.data
     } catch (error) {
-        
+
     }
-    
+
 }
 
 const saveProfileBtn = async () => {
     try {
         const response = await axios.post('api/edit-profile', {
-            first_name:user.value.first_name,
+            first_name: user.value.first_name,
             last_name: user.value.last_name,
-            birthday:user.value.birthday,
-            mobile_no:user.value.mobile_no,
+            birthday: user.value.birthday,
+            mobile_no: user.value.mobile_no,
             gender: user.value.gender
         })
         console.log(response);
-        
-        if(response.status == 200){
+
+        if (response.status == 200) {
             emit('closeModal')
+            Swal.fire({
+                position: "top-end",
+                icon: "Update Successful",
+                title: "Your Profile was update",
+                showConfirmButton: false,
+                timer: 1500
+            });
+           
         }
     } catch (error) {
         console.log(error);
-        
-      inputValidation.value = error.response.data.errors
+
+        inputValidation.value = error.response.data.errors
     }
-    
+
 }
 
 onMounted(() => {
@@ -64,28 +74,41 @@ onMounted(() => {
                 <form action="" @submit.prevent>
                     <div class="row">
                         <div class="col form-input">
-                            <label for="">First Name</label>
-                            <input type="text" v-model="user.first_name" >
-                            <span v-if="inputValidation">{{ inputValidation.first_name[0] }}</span>
+                            <FloatLabel variant="on">
+                                <InputText id="on_label" v-model="user.first_name" :invalid="inputValidation.first_name"
+                                    autocomplete="off" fluid />
+                                <label for="on_label">First Name</label>
+                            </FloatLabel>
+                            <span class="text-danger" v-if="inputValidation.first_name">{{ inputValidation.first_name[0]
+                                }}</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col form-input">
-                            <label for="">Last Name</label>
-                            <input type="text" v-model="user.last_name" >
-                            <span v-if="inputValidation">{{ inputValidation.last_name[0] }}</span>
+                            <FloatLabel variant="on">
+                                <InputText id="on_label" v-model="user.last_name" :invalid="inputValidation.last_name"
+                                    autocomplete="off" fluid />
+                                <label for="on_label">Last Name</label>
+                            </FloatLabel>
+                            <span class="text-danger" v-if="inputValidation.last_name">{{ inputValidation.last_name[0]
+                                }}</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col form-input">
-                            <label for="">Mobile Number <img  src="/public/image/alert-blue-icon.png" width="15" alt=""></label>
-                            <input type="number" min="10"  v-model="user.mobile_no" >
+                            <label for=""></label>
+                            <FloatLabel variant="on">
+                                <InputText id="on_label" v-model="user.mobile_no" :invalid="inputValidation.mobile_no"
+                                    autocomplete="off" fluid />
+                                <label for="on_label">Mobile No.</label>
+                            </FloatLabel>
+                            <span class="text-danger" v-if="inputValidation.mobile_no">{{ inputValidation.mobile_no[0]
+                                }}</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col form-input">
-                            <label for="">Gender <img  src="/public/image/alert-blue-icon.png" width="15" alt=""></label>
-                            <select name="" id="" class="form-select" v-model="user.gender" >
+                            <select name="" id="" class="form-select" v-model="user.gender">
                                 <option value="" disabled selected>-select-</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
@@ -100,8 +123,8 @@ onMounted(() => {
                         </small>
                     </div>
                     <div class="submit-btn">
-                        <button @click="saveProfileBtn">Save</button>
-                        <button class="bg-danger mt-2" @click="exitModal">Cancel</button>
+                        <Button @click="saveProfileBtn" severity="info" label="Save" raised rounded />
+                        <Button @click="exitModal" severity="danger" label="Cancel" raised rounded />
                     </div>
                 </form>
             </fieldset>
@@ -111,10 +134,10 @@ onMounted(() => {
 
 <style scoped>
 #form-modal {
-    background: rgb(255, 255, 255, 0.5);
-    backdrop-filter: blur(10px);
+    background: rgba(56, 56, 56, 0.5);
+    backdrop-filter: blur(5px);
     overflow: scroll;
-   
+
 }
 
 .form-modal-action {
@@ -138,11 +161,11 @@ onMounted(() => {
     .form-modal-main {
         max-width: 35rem;
         background: rgb(255, 255, 255);
-        border-radius: 10px;
+        border-radius: var(--floating-border-radius);
         display: grid;
         padding: 10px;
         margin: 10px;
-        box-shadow: 0px 0px 3px 0px gray;
+        box-shadow: var(--floating-box-shadow);
     }
 
 
@@ -186,10 +209,10 @@ onMounted(() => {
         padding: 10px;
         border: none;
         border-radius: 25px;
-        background-color: rgb(0, 100, 224);
         font-size: 15px;
         font-weight: bold;
         color: white;
+        margin-top: 5px;
     }
 }
 

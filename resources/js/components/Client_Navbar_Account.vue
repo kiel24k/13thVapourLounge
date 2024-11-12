@@ -2,16 +2,16 @@
     <nav>
         <ul class="navbar nav">
             <li class="nav-item">
-                <router-link :to="{name: 'my-profile'}" class="nav-link">My Account</router-link>
+               <router-link :to="{name: 'my-profile'}" class="nav-link"><b>My Account</b></router-link>
             </li>
             <li class="nav-item">
-                <router-link :to="{name: 'my-address-book'}" class="nav-link">Address Book</router-link>
+                <router-link :to="{name: 'my-address-book'}" class="nav-link"><b>Address Book</b></router-link>
             </li>
             <li class="nav-item">
-                <router-link :to="{name: 'client-cancelation'}" class="nav-link">My Cancellations</router-link>
+                <router-link :to="{name: 'client-cancelation'}" class="nav-link"><b>My Cancellations</b></router-link>
             </li>
             <li class="nav-item">
-                <router-link :to="{name: 'client-wishlist'}" class="nav-link">My Wishlist</router-link>
+                <router-link :to="{name: 'client-wishlist'}" class="nav-link"><b>My Wishlist</b></router-link>
             </li>
 
         </ul>
@@ -23,7 +23,10 @@
     nav {
         max-width: 70%;
         margin: auto;
+        margin-top: 5px;
+        margin-bottom: 5px;
         font-size: small;
+       background-color: rgb(255, 219, 151);
     }
     nav a{
         color:rgb(97, 97, 97);
@@ -31,6 +34,7 @@
     nav a:hover{
         color:rgb(97, 97, 97);
     }
+  
     .router-link-active {
        text-decoration: underline;
        text-underline-offset: 10px;

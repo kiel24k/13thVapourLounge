@@ -5,6 +5,7 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import NavbarAccount from '@/components/Client_Navbar_Account.vue'
 import ClientAddAddressBookModal from '@/components/Client_Add_Address_Modal.vue'
 import { onMounted, ref } from 'vue';
+import { Button } from 'primevue'
 
 
 const clientAddAddressBookModal = ref(false)
@@ -64,7 +65,7 @@ onMounted(() => {
         </div>
         <div class="col profile-action">
             <div class="">
-                <button class="btn btn-dark">Edit Profile Picture</button>
+               <Button label="Change Image" severity="contrast" icon="pi pi-pen-to-square" raised/>
             </div>
         </div>
         <hr>
@@ -103,7 +104,7 @@ onMounted(() => {
 
             </table>
             <div class="text-end">
-                <button class="btn btn-primary" @click="addNewAddressBtn">Add new address</button>
+                <Button @click="addNewAddressBtn" label="Add New Address" severity="success" raised />
             </div>
         </article>
     </section>
@@ -115,6 +116,10 @@ onMounted(() => {
     margin: auto;
     display: flex;
     flex-wrap: wrap;
+    background: white;
+    box-shadow: var(--floating-box-shadow);
+    border-radius: var(--floating-border-radius);
+    margin-top: 10px;
 }
 
 figure {
@@ -138,6 +143,8 @@ figure {
     margin: auto;
     padding: 10px;
     background: white;
+    box-shadow: var(--floating-box-shadow);
+    border-radius: var(--floating-border-radius);
 }
 
 #info table th {

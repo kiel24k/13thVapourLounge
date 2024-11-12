@@ -5,6 +5,7 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import NavbarAccount from '@/components/Client_Navbar_Account.vue'
 import ClientProfileModal from '@/components/Client_Edit_Profile_Modal.vue'
 import { onMounted, ref } from 'vue';
+import { Button, Message } from 'primevue'
 const user = ref(Object)
 const clientProfileModal = ref(false)
 const USER_API = async () => {
@@ -48,8 +49,7 @@ onMounted(() => {
         </div>
         <div class="col profile-action">
             <div class="">
-                <button class="btn btn-dark">Edit Profile Picture</button>
-               
+               <Button label="Change Image" severity="contrast" icon="pi pi-pen-to-square" raised/>
             </div>
         </div>
         <hr>
@@ -64,18 +64,18 @@ onMounted(() => {
             <div class="row">
                 <div class="col">
                     <label for="">Full Name</label>
-                    <span>{{user.first_name}} {{ user.last_name }}</span>
+                   <Message severity="success">{{user.first_name}} {{ user.last_name }}</Message>
                 </div>
                 <div class="col">
                     <label for="">Email Address</label>
-                    <span>{{ user.email }}</span>
+                    <span> <i class="pi pi-envelope"></i> <b>{{ user.email }}</b></span>
                 </div>
                 <div class="col">
                     <label for="">Mobile</label>
                     <span v-if="user.mobile_no === null">
                         <img src="/public/image/alert-blue-icon.png" width="15" alt="">
                     </span>
-                    <span v-else>+63{{ user.mobile_no }}</span>
+                    <span v-else>{{ user.mobile_no }}</span>
                 </div>
             </div>
             <div class="row">
@@ -89,8 +89,8 @@ onMounted(() => {
             </div>
         </article>
         <div class="action">
-            <button class="btn btn-primary" @click="editProfileBtn">Edit</button>
-            <button class="btn btn-danger">Change Password</button>
+            <Button @click="editProfileBtn" icon="pi pi-pen-to-square" label="Edit" severity="info" raised/>
+            <Button label="Change Password" icon="" severity="danger" raised/>
         </div>
     </section>
 </template>
@@ -101,6 +101,10 @@ onMounted(() => {
     margin: auto;
     display: flex;
     flex-wrap: wrap;
+    background: white;
+    box-shadow: var(--floating-box-shadow);
+    border-radius: var(--floating-border-radius);
+    margin-top: 10px;
 }
 
 figure {
@@ -124,6 +128,8 @@ figure {
     margin: auto;
     padding: 10px;
     background: white;
+    box-shadow: var(--floating-box-shadow);
+    border-radius: var(--floating-border-radius);
 }
 
 #info .profile .col {
