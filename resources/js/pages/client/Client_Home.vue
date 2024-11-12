@@ -4,6 +4,7 @@ import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import Footer from '@/components/Client_Footer.vue'
 import { onMounted, ref } from 'vue';
+import { Button, Message } from 'primevue';
 
 const newArrivalListItem = ref({})
 const bestSellerListItem = ref({})
@@ -93,13 +94,13 @@ onMounted(() => {
                         </div>
                     </figure>
                     <summary class="mt-3">
-                        <small>{{ data.product_name }}</small>
+                        <Message severity="info" icon="pi pi-info-circle" size="small">{{ data.product_name }}</Message>
                         <p class="label">{{ data.product_label }}</p>
                         <b>₱{{ data.product_price }}</b>
                     </summary>
                 </router-link>
                 <div class="text-start">
-                    <button class="btn btn-dark mt-3" @click="addToCartNewArrival(data)">Add to Cart</button>
+                    <Button  @click="addToCartNewArrival(data)"  icon="pi pi-cart-plus" severity="warn" label="Add To Cart" raised/>
                 </div>
             </article>
         </div>
@@ -115,11 +116,13 @@ onMounted(() => {
                     </div>
                 </router-link>
                 <summary>
+                    <Message severity="success" icon="pi pi-info-circle"  size="small">{{ data.product_name }}</Message>
                     <p>{{ data.product_label }}</p>
                     <b>₱{{ data.product_price }}</b>
                 </summary>
                 <div class="text-start">
-                    <button class="btn btn-dark" @click="addToCartBestSeller(data)">Add to Cart</button>
+                    <Button @click="addToCartBestSeller(data)" icon="pi pi-cart-plus" severity="warn" label="Add To Cart" raised/>
+                
                 </div>
             </article>
         </div>
@@ -216,8 +219,8 @@ a {
 
 .section-one-item article {
     width: 12rem;
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px 0px gray;
+    border-radius: var(--floating-border-radius);
+    box-shadow: var(--floating-box-shadow);
     padding: 5px;
     margin: 10px;
     height: 24em;
