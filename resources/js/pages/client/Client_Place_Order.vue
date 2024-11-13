@@ -20,11 +20,11 @@ const chooseAddress = ref(false)
 const inputs = ref({})
 const inputsValidation = ref({})
 
-const select_island_groups = ref()
+const select_island_groups = ref({})
 const select_regions = ref({})
-const select_provinces = ref()
-const selected_municipality = ref()
-const selected_barangays = ref()
+const select_provinces = ref({})
+const selected_municipality = ref({})
+const selected_barangays = ref({})
 
 const islandGroups = ref([])
 const regions = ref({})
@@ -109,7 +109,10 @@ const submit = async () => {
                 barangay: selected_barangays.value.name
 
             })
+            console.log(response);
         if (response.status === 200) {
+          
+            
             Swal.fire({
                 position: "top-end",
                 icon: "success",
@@ -122,6 +125,8 @@ const submit = async () => {
         }
 
     } catch (error) {
+        console.log(error);
+        
         if (error.status === 422) {
             inputsValidation.value = error.response.data.errors
         }
@@ -169,7 +174,7 @@ onMounted(() => {
                     <div class="col">
                         <FloatLabel variant="on">
                             <InputText id="on_label" size="small" :invalid="inputsValidation.last_name" v-model="inputs.last_name" autocomplete="off" fluid />
-                            <label for="on_label">First Name</label>
+                            <label for="on_label">Last Name</label>
                         </FloatLabel>
                         <span class="text-danger" v-if="inputsValidation.last_name">{{ inputsValidation.last_name[0] }}</span>
                     </div>
@@ -196,7 +201,7 @@ onMounted(() => {
                     <div class="col">
                         <FloatLabel variant="on">
                             <InputText id="on_label" size="small" :invalid="inputsValidation.floor_unit_no" v-model="inputs.floor_unit_no" autocomplete="off" fluid />
-                            <label for="on_label">First Name</label>
+                            <label for="on_label">Floor Unit No.</label>
                         </FloatLabel>
                         <span class="text-danger" v-if="inputsValidation.floor_unit_no">{{ inputsValidation.floor_unit_no[0] }}</span>
                     </div>
@@ -209,7 +214,6 @@ onMounted(() => {
                 </div>
                 <div class="row">
                     <div class="col">
-                        <el-alert :closable="false"  :title="inputsValidation.regions[0]" type="error"  v-if="inputsValidation.regions" start show-icon/>
                         <Select v-model="select_regions" :options="regions" :invalid="inputsValidation.regions" optionLabel="name" clearable placeholder="Select Region" />
                         <span class="text-danger" v-if="inputsValidation.regions">{{ inputsValidation.regions[0] }}</span>
                     </div>

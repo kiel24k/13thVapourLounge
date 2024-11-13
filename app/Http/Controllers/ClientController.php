@@ -140,6 +140,7 @@ class ClientController extends Controller
             $order->order_price =  $request->order[$i]['price'];
             $order->order_quantity =  $request->order[$i]['quantity'];
             $order->order_total = $request->order[$i]['price'] * $request->order[$i]['quantity'];
+            $order->status = 'pending';
             $order->save();
         }
         $order->save();
@@ -217,7 +218,15 @@ class ClientController extends Controller
     public function cancelOrder (Request $request){
         $order = DB::table('user_orders')
         ->where('id', $request->id)
-        ->delete();
+        ->update(['status' => 'cancelled']);
+        return response()->json($order);
+    }
+    public function cancelledOrder () {
+        $order = DB::table('user_orders')
+        ->select('*')
+        ->where('status' ,'=' ,'cancelled')
+        ->orderBy('created_at', 'desc')
+        ->get();
         return response()->json($order);
     }
     

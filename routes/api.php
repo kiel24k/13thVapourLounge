@@ -51,6 +51,7 @@ Route::controller(ClientController::class)->group(function () {
     route::get('/order-completed', 'orderCompleted');
     route::post('/mark-as-completed', 'markAsCompleted');
     route::post('/cancel-order', 'cancelOrder');
+    route::get('/cancelled-order','cancelledOrder');
 });
 
 Route::controller(DashboardController::class)->group(function () {

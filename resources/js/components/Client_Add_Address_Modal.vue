@@ -13,11 +13,11 @@ import Swal from 'sweetalert2'
 const inputs = ref({})
 const inputsValidation = ref({})
 
-const select_island_groups = ref()
+const select_island_groups = ref({})
 const select_regions = ref({})
-const select_provinces = ref()
-const selected_municipality = ref()
-const selected_barangays = ref()
+const select_provinces = ref({})
+const selected_municipality = ref({})
+const selected_barangays = ref({})
 
 const islandGroups = ref([])
 const regions = ref({})
@@ -31,7 +31,41 @@ emit('closeModal')
 }
 
 
+const submit = async () => {
+    try {
+        const response = await axios.post('api/add-new-address',
+            {
+                mobile_no: inputs.value.mobile_no,
+                floor_unit_no: inputs.value.floor_unit_no,
+                island: select_island_groups.value.name,
+                regions: select_regions.value.name,
+                province: select_provinces.value.name,
+                municipality: selected_municipality.value.name,
+                barangay: selected_barangays.value.name
+            })
+      
+   console.log(response);
+   
+        if (response.status === 200) {
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            emit('closeModal')
+            
+        }
 
+    } catch (error) {
+      
+        
+        if (error.status === 422) {
+            inputsValidation.value = error.response.data.errors
+        }
+    }
+}
 
 
 const ISLAND_GROUPS = async () => {
@@ -65,38 +99,7 @@ watch(selected_municipality, async (oldVal, newVal) => {
     barangay.value = response.data
 })
 
-const submit = async () => {
-    try {
-        const response = await axios.post('api/add-new-address',
-            {
-                mobile_no: inputs.value.mobile_no,
-                floor_unit_no: inputs.value.floor_unit_no,
-                island: select_island_groups.value.name,
-                regions: select_regions.value.name,
-                province: select_provinces.value.name,
-                municipality: selected_municipality.value.name,
-                barangay: selected_barangays.value.name
-            })
-      
 
-        if (response.status === 200) {
-            Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Your work has been saved",
-                showConfirmButton: false,
-                timer: 1500
-            });
-            emit('closeModal')
-            
-        }
-
-    } catch (error) {
-        if (error.status === 422) {
-            inputsValidation.value = error.response.data.errors
-        }
-    }
-}
 
 onMounted(() => {
     ISLAND_GROUPS()
