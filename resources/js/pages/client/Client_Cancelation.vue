@@ -5,7 +5,10 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import NavbarAccount from '@/components/Client_Navbar_Account.vue'
 import { onMounted, ref } from 'vue';
 import { Button } from 'primevue';
+import axios from 'axios';
 
+
+const cancelledOrder = ref({})
 const user = ref(Object)
 const USER_API = async () => {
     try {
@@ -16,8 +19,14 @@ const USER_API = async () => {
     }
 }
 
+const CANCELLED_ORDER_API = async () => {
+    const response = await axios.get('api/cancelled-order')
+    cancelledOrder.value = response.data
+}
+
 onMounted (() => {
     USER_API()
+    CANCELLED_ORDER_API()
 })
 </script>
 
@@ -48,41 +57,39 @@ onMounted (() => {
     </nav>
 
     <section id="info">
-        <article>
-            <h2>Info</h2>
-            <div class="content">
-                <figure class="figure-info">
-                      <img src="/public/image/5296499_fb_facebook_facebook logo_icon.png" width="50" alt="">
-                      <figcaption class="figure-figcaption">
-                        emailsample@gmail.com
-                      </figcaption>
-                </figure>
-            </div>
-            <div class="content">
-                <figure class="figure-info">
-                      <img src="/public/image/5296499_fb_facebook_facebook logo_icon.png" width="50" alt="">
-                      <figcaption class="figure-figcaption">
-                        emailsample@gmail.com
-                      </figcaption>
-                </figure>
-            </div>
-            <div class="content">
-                <figure class="figure-info">
-                      <img src="/public/image/5296499_fb_facebook_facebook logo_icon.png" width="50" alt="">
-                      <figcaption class="figure-figcaption">
-                        emailsample@gmail.com
-                      </figcaption>
-                </figure>
-            </div>
-            <div class="content">
-                <figure class="figure-info">
-                      <img src="/public/image/5296499_fb_facebook_facebook logo_icon.png" width="50" alt="">
-                      <figcaption class="figure-figcaption">
-                        emailsample@gmail.com
-                      </figcaption>
-                </figure>
-            </div>
-        </article>
+       <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Order Price</th>
+                <th>Order Total</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(data, index) in cancelledOrder" :key="index">
+                <td>{{ index + 1 }}</td>
+                <td>
+                    <img :src="`/storage/product_image/${data.order_image}`" width="100" alt="">
+                    <span>{{ data.order_label }}</span>
+                </td>
+                <td>
+                    <span>x{{ data.order_quantity }}</span>
+                </td>
+                <td>
+                    <span>₱{{ data.order_price }}</span>
+                </td>
+                <td>
+                    <span>₱{{ data.order_total }}</span>
+                </td>
+                <td class="table-action">
+                    <Button icon="pi pi-shopping-cart" rounded raised severity="info"/>
+                </td>
+            </tr>
+        </tbody>
+       </table>
     </section>
 </template>
 
@@ -123,6 +130,10 @@ onMounted (() => {
         border-radius: var(--floating-border-radius);
         
     }
+    table th {
+        background: black;
+        color:white;
+    }
 
     .figure-info {
         display: flex;
@@ -130,4 +141,6 @@ onMounted (() => {
     .figure-figcaption{
         font-weight: 600;
     }
+   
+    
 </style>

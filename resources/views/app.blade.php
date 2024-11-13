@@ -28,7 +28,7 @@
     }
 
     body {
-        background: rgb(241, 239, 239);
+        background: rgb(254,254,255);
     }
 </style>
 

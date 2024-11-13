@@ -6,6 +6,7 @@ import { onMounted, ref } from 'vue';
 import Swal from 'sweetalert2';
 import {Delete} from '@element-plus/icons-vue'
 import Footer from '@/components/Client_Footer.vue'
+import { Button } from 'primevue';
 
 const orderPending = ref()
 
@@ -26,11 +27,11 @@ const cancelOrder = async (id) => {
     try {
        const result = await  swalWithBootstrapButtons.fire({
             title: "Cancel Your Order",
-            text: "You won't be able to revert this!",
+            text: "Your Order will not continue to deliver!",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonText: "Yes, delete it!",
-            cancelButtonText: "No, cancel!",
+            confirmButtonText: "Yes, Cancel it!",
+            cancelButtonText: "No",
             reverseButtons: true
         })
         if (result.isConfirmed) {
@@ -38,8 +39,8 @@ const cancelOrder = async (id) => {
             if (response.status === 200) {
                 ORDER_PENDING_API()
                 swalWithBootstrapButtons.fire({
-                    title: "Deleted!",
-                    text: "Your Order has been deleted.",
+                    title: "Cancelled!",
+                    text: "Your Order has been Cancelled.",
                     icon: "success"
                 });
             } else {
@@ -109,8 +110,8 @@ onMounted(() => {
                 <div class="col">
                     <b>Total: </b><b class="text-success">₱</b>{{ data.order_total }}.00
                 </div>
-                <div class="col text-danger">
-                    <el-button @click="cancelOrder(data.id)"  type="danger" :icon="Delete" circle></el-button>
+                <div class="col">
+                    <Button @click="cancelOrder(data.id)" icon="pi pi-times" severity="danger" raised rounded/>
                 </div>
                 <hr>
             </div>
