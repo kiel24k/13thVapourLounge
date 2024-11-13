@@ -122,6 +122,11 @@ onMounted(() => {
 </template>
 
 <style scoped>
+article{
+    box-shadow:var(--floating-box-shadow);
+    border-radius: var(--floating-border-radius);
+    margin-top: 10px;
+}
 section {
     max-width: 70%;
     margin: auto;
