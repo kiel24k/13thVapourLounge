@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('address__books', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id');
-            $table->string('first_name');
-            $table->string('last_name');
             $table->string('mobile_no');
             $table->string('floor_unit_no');
             $table->string('island');

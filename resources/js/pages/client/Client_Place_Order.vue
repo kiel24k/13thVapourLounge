@@ -48,7 +48,6 @@ const PRODUCTS = () => {
 const ISLAND_GROUPS = async () => {
     const response = await axios.get('https://psgc.gitlab.io/api/island-groups/')
     islandGroups.value = response.data
-    // console.log("Island Groups:", response.data);
 }
 
 watch(select_island_groups, async (oldVal, newVal) => {
@@ -204,8 +203,6 @@ onMounted(() => {
                 </div>
                 <div class="row">
                     <div class="col">
-                        <!-- <el-alert :closable="false"  :title="inputsValidation.island[0]" type="error"  v-if="inputsValidation.island" start show-icon/>
-                        <label for="" v-elses>Island</label> -->
                         <Select v-model="select_island_groups" :options="islandGroups" :invalid="inputsValidation.island" optionLabel="name" clearable placeholder="Select Island" />
                         <span class="text-danger" v-if="inputsValidation.island">{{ inputsValidation.island[0] }}</span>
                     </div>
@@ -219,8 +216,6 @@ onMounted(() => {
                 </div>
                 <div class="row">
                     <div class="col">
-                        <!-- <el-alert :closable="false"  :title="inputsValidation.province[0]" type="error"  v-if="inputsValidation.province" start show-icon/>
-                        <label for="" v-else>Provinces</label> -->
                         <Select v-model="select_provinces" :options="provinces" :invalid="inputsValidation.province" optionLabel="name" clearable placeholder="Select Province" />
                         <span class="text-danger" v-if="inputsValidation.province">{{ inputsValidation.province[0] }}</span>
                     </div>
@@ -234,7 +229,7 @@ onMounted(() => {
                 <div class="row">
                     <div class="col">
                         <el-alert :closable="false"  :title="inputsValidation.barangay[0]" type="error"  v-if="inputsValidation.barangay" start show-icon/>
-                        <Select name="" id=""  v-model="selected_barangays" :options="barangay" :invalid="barangay" optionLabel="name" clearable placeholder="Select Barangay"/>
+                        <Select name="" id=""  v-model="selected_barangays" :options="barangay" :invalid="inputsValidation.barangay" optionLabel="name" clearable placeholder="Select Barangay"/>
                         <span class="text-danger" v-if="inputsValidation.barangay">{{ inputsValidation.barangay[0] }}</span>
                     </div>
                 </div>
