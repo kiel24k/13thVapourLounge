@@ -52,8 +52,8 @@ const submit = async () => {
                     </div>
                     <div class="row">
                         <div class="col">
-                            <label for="">To Received</label>
-                            <input type="radio" name="status" value="to-received" v-model="statusInput">
+                            <label for="">Out of delivery</label>
+                            <input type="radio" name="status" value="out-of-delivery" v-model="statusInput">
                         </div>
                     </div>
                     <div class="submit-btn">
