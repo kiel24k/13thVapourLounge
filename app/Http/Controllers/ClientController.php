@@ -72,20 +72,20 @@ class ClientController extends Controller
     {
 
         $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
             'mobile_no' => 'required|numeric',
             'floor_unit_no' => 'required',
+            'island' => 'required',
+            'regions' => 'required',
             'province' => 'required',
             'municipality' => 'required',
-            'barangay' => 'required'
+            'barangay' => 'required',
         ]);
         $address = new Address_Book();
         $address->user_id = Auth::user()->id;
-        $address->first_name = $request->first_name;
-        $address->last_name = $request->last_name;
         $address->mobile_no = $request->mobile_no;
         $address->floor_unit_no = $request->floor_unit_no;
+        $address->island = $request->island;
+        $address->regions = $request->regions;
         $address->province = $request->province;
         $address->municipality = $request->municipality;
         $address->barangay = $request->barangay;
@@ -152,7 +152,8 @@ class ClientController extends Controller
     public function addressList()
     {
         $addressList = DB::table('address__books')
-            ->select('user_id', 'first_name', 'last_name', 'mobile_no', 'floor_unit_no', 'province', 'municipality', 'baranggay')
+            ->select('mobile_no', 'floor_unit_no', 'island', 'regions', 'province', 'municipality', 'barangay')
+            ->where('user_id', '=' ,Auth::user()->id)
             ->paginate(10);
         return response()->json($addressList);
     }

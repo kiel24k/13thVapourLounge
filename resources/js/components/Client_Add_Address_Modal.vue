@@ -1,113 +1,106 @@
 <script setup>
-import { FloatLabel, InputNumber, InputText } from 'primevue';
+import { Button, FloatLabel, InputNumber, InputText, Select } from 'primevue';
 import { computed, onMounted, ref, watch } from 'vue';
 
+import Swal from 'sweetalert2'
 
-const emit = defineEmits(['closeModal'])
-const province = ref(Object)
-const municipalities = ref(Object)
-const barangay = ref(Object)
 
-const sortProvince = ref()
-const sortMunicipalities = ref(Object)
-const sortBarangay = ref(Object)
 
-const isMunicipality = ref(true)
-const isBarangay = ref(true)
-const isSelectedProvince = ref(false)
 
-const selected = ref()
 
-const select = ref({
-    region_code: '',
-    municipality_code: '',
-    barangay: ''
-})
 
-const inputValidations = ref({
-    first_name: '',
-    last_name: '',
-    mobile_no: '',
-    floor_unit_no: ''
-})
 
 const inputs = ref({})
+const inputsValidation = ref({})
 
-const selectedProvinceName = () => {
-    const provinceItem = sortProvince.value.find(p => p.code === select.value.region_code)
-    if (!provinceItem) {
-        isSelectedProvince.value = true
-    } else {
-        return provinceItem.name
-        isSelectedProvince.value = false
-    }
-}
+const select_island_groups = ref()
+const select_regions = ref({})
+const select_provinces = ref()
+const selected_municipality = ref()
+const selected_barangays = ref()
 
-const selectedMunicipalityName = () => {
-    const municipaltityItem = sortMunicipalities.value.find(m => m.code === select.value.municipality_code)
-    return municipaltityItem.name
-}
+const islandGroups = ref([])
+const regions = ref({})
+const provinces = ref({})
+const municipality = ref({})
+const barangay = ref({})
 
-const selectedBarangayName = () => {
-    const barrangayItem = sortBarangay.value.find(b => b.code === select.value.barangay)
-    return barrangayItem.name
-}
-
-const PROVINCE_API = async () => {
-    const response = await axios.get('https://psgc.gitlab.io/api/provinces/')
-    province.value = response.data
-    sortProvince.value = province.value.sort((a, b) => a.name.localeCompare(b.name))
-    // console.log(provinceValue.value);   
-}
-
-const MUNICIPALITIES_API = async () => {
-    const response = await axios.get(`https://psgc.gitlab.io/api/provinces/${select.value.region_code}/municipalities/`)
-    municipalities.value = response.data
-    sortMunicipalities.value = municipalities.value.sort((a, b) => a.name.localeCompare(b.name))
-    isMunicipality.value = false
-}
-
-const BARANGAY_API = async () => {
-    const response = await axios.get(`https://psgc.gitlab.io/api/municipalities/${select.value.municipality_code}/barangays/`)
-    barangay.value = response.data
-    sortBarangay.value = barangay.value.sort((a, b) => a.name.localeCompare(b))
-    isBarangay.value = false
-}
-
+const emit = defineEmits(['closeModal'])
 const closeModal = () => {
-    emit('closeModal')
+emit('closeModal')
 }
 
-watch(select.value, (oldVal, newVal) => {
-    PROVINCE_API()
-    MUNICIPALITIES_API()
-    BARANGAY_API()
+
+
+
+
+const ISLAND_GROUPS = async () => {
+    const response = await axios.get('https://psgc.gitlab.io/api/island-groups/')
+    islandGroups.value = response.data
+}
+
+watch(select_island_groups, async (oldVal, newVal) => {
+    const response = await axios.get(`https://psgc.gitlab.io/api/island-groups/${select_island_groups.value.code}/regions/`)
+    regions.value = response.data
+
+
+}
+)
+
+watch(select_regions, async (oldVal, newVal) => {
+    const region_code = regions.value.find((el) => el.name === select_regions.value.name)
+    const response = await axios.get(`https://psgc.gitlab.io/api/regions/${region_code.code}/provinces/`)
+    provinces.value = response.data
+})
+
+watch(select_provinces, async (oldVal, newVal) => {
+    const province_code = provinces.value.find((el) => el.name === select_provinces.value.name)
+    const response = await axios.get(`https://psgc.gitlab.io/api/provinces/${province_code.code}/municipalities/`)
+    municipality.value = response.data
+})
+
+watch(selected_municipality, async (oldVal, newVal) => {
+    const barangay_code = municipality.value.find((el) => el.name === selected_municipality.value.name)
+    const response = await axios.get(`https://psgc.gitlab.io/api/municipalities/${barangay_code.code}/barangays/`)
+    barangay.value = response.data
 })
 
 const submit = async () => {
     try {
-        const response = await axios.post('/api/add-new-address', {
-            first_name: inputs.value.first_name,
-            last_name: inputs.value.last_name,
-            mobile_no: inputs.value.mobile_no,
-            floor_unit_no: inputs.value.floor_unit_no,
-            province: selectedProvinceName(),
-            municipality: selectedMunicipalityName(),
-            barangay: selectedBarangayName()
-        })
+        const response = await axios.post('api/add-new-address',
+            {
+                mobile_no: inputs.value.mobile_no,
+                floor_unit_no: inputs.value.floor_unit_no,
+                island: select_island_groups.value.name,
+                regions: select_regions.value.name,
+                province: select_provinces.value.name,
+                municipality: selected_municipality.value.name,
+                barangay: selected_barangays.value.name
+            })
+      
+
         if (response.status === 200) {
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500
+            });
             emit('closeModal')
+            
         }
+
     } catch (error) {
-        if (error.response.status === 422) {
-            inputValidations.value = error.response.data.errors
+        if (error.status === 422) {
+            inputsValidation.value = error.response.data.errors
         }
     }
 }
-onMounted(() => {
-    PROVINCE_API()
-})
 
+onMounted(() => {
+    ISLAND_GROUPS()
+})
 </script>
 
 <template>
@@ -123,91 +116,84 @@ onMounted(() => {
             </div>
             {{ selected }}
             <fieldset>
-                <form action="" @submit.prevent>
-                    <div class="row ">
-                        <div class="col form-input select">
-                            <label for="">Province <span v-if="isSelectedProvince" class="text-info">: Select Province
-                                    before proceed</span> </label>
-                            <select name="" id="" class="form-select" v-model="select.region_code">
-                                <option :value="data.code" :selected="data.name" v-for="(data, index) in sortProvince"
-                                    :key="index">
-                                    {{ data.name }}
-                                </option>
-                            </select>
-
+                <form @submit.prevent>
+                    <div class="address" ref="test">
+                        <div class="row">
+                            <div class="col">
+                                <b>Country / Region *</b>
+                            </div>
                         </div>
-                        <div class="col form-input select">
-                            <label for="">Municipality</label>
-                            <select name="" id="" class="form-select" :disabled="isMunicipality"
-                                v-model="select.municipality_code">
-                                <option :value="data.code" :selected="data.name"
-                                    v-for="(data, index) in sortMunicipalities" :key="index">
-                                    {{ data.name }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col form-input select">
-                            <label for="">Barangay</label>
-                            <select name="" id="" class="form-select" :disabled="isBarangay"
-                                v-model="select.barangay">
-                                <option :value="data.code" :selected="data.name" v-for="(data, index) in sortBarangay"
-                                    :key="index">
-                                    {{ data.name }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <FloatLabel variant="on">
-                                <InputText id="on_label" v-model="inputs.first_name" autocomplete="off" fluid />
-                                <label for="on_label">First Name</label>
-                            </FloatLabel>
-                            <span class="text-danger" v-if="inputValidations.first_name">{{
-                                inputValidations.first_name[0] }}</span>
-
-                        </div>
-                        <div class="col">
-                            <FloatLabel variant="on">
-                                <InputText id="on_label" v-model="inputs.last_name" autocomplete="off" fluid />
-                                <label for="on_label">Last Name</label>
-                            </FloatLabel>
-                            <span class="text-danger" v-if="inputValidations.last_name">{{
-                                inputValidations.last_name[0] }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col form-input">
-                            <FloatLabel variant="on">
-                                <InputNumber id="on_label" v-model="inputs.mobile_no" autocomplete="off" fluid />
-                                <label for="on_label">Mobile No.</label>
-                            </FloatLabel>
-                            <span class="text-danger" v-if="inputValidations.mobile_no">{{
-                                inputValidations.mobile_no[0] }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col form-input">
-                            <label for="">Floor Unit </label>
+                        <div class="row">
+                            <div class="col">
                                 <FloatLabel variant="on">
-                                    <InputText id="on_label" v-model="inputs.floor_unit_no" autocomplete="off" fluid />
-                                    <label for="on_label">Last Name</label>
+                                    <InputNumber id="on_label" size="small" :invalid="inputsValidation.mobile_no"
+                                        v-model="inputs.mobile_no" autocomplete="off" fluid :useGrouping="false" />
+                                    <label for="on_label">Mobile No.</label>
                                 </FloatLabel>
-                                <span class="text-danger" v-if="inputValidations.floor_unit_no">{{
-                                    inputValidations.floor_unit_no[0] }}</span>
+                                <span class="text-danger" v-if="inputsValidation.mobile_no">{{
+                                    inputsValidation.mobile_no[0] }}</span>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="warning-change-message">
-                        <small>
-                            If you change your name, you can't change it again for 60 days. Don't add any unusual
-                            capitalization, punctuation, characters or random words. <a href="">Learn More</a>
-                        </small>
-                    </div>
-                    <div class="submit-btn">
-                        <button class="btn" @click="submit">Add</button>
+                        <div class="row mt-4">
+                            <div class="col">
+                                <FloatLabel variant="on">
+                                    <InputText id="on_label" size="small" :invalid="inputsValidation.floor_unit_no"
+                                        v-model="inputs.floor_unit_no" autocomplete="off" fluid :useGrouping="false" />
+                                    <label for="on_label">Floor Unit No.</label>
+                                </FloatLabel>
+                                <span class="text-danger" v-if="inputsValidation.floor_unit_no">{{
+                                    inputsValidation.floor_unit_no[0] }}</span>
+                            </div>
+                           </div>
+                           <div class="row mt-4">
+                            <div class="col">
+                                <Select v-model="select_island_groups" :options="islandGroups"
+                                    :invalid="inputsValidation.island" optionLabel="name" clearable
+                                    placeholder="Select Island" fluid/>
+                                <span class="text-danger" v-if="inputsValidation.island">{{ inputsValidation.island[0]
+                                    }}</span>
+                            </div>
+                          </div>
+                        <div class="row mt-4">
+                            <div class="col">
+                                <el-alert :closable="false" :title="inputsValidation.regions[0]" type="error"
+                                    v-if="inputsValidation.regions" start show-icon />
+                                <Select v-model="select_regions" :options="regions" :invalid="inputsValidation.regions"
+                                    optionLabel="name" clearable placeholder="Select Region" fluid />
+                                <span class="text-danger" v-if="inputsValidation.regions">{{ inputsValidation.regions[0]
+                                    }}</span>
+                            </div>
+                            <div class="col">
+                                <Select v-model="select_provinces" :options="provinces"
+                                    :invalid="inputsValidation.province" optionLabel="name" clearable
+                                    placeholder="Select Province" fluid />
+                                <span class="text-danger" v-if="inputsValidation.province">{{
+                                    inputsValidation.province[0] }}</span>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col">
+                                <Select name="" id="" v-model="selected_municipality" :options="municipality"
+                                    :invalid="inputsValidation.municipality" optionLabel="name" clearable
+                                    placeholder="Select Municipality" fluid />
+                                <span class="text-danger" v-if="inputsValidation.municipality">{{
+                                    inputsValidation.municipality[0] }}</span>
+                            </div>
+                            <div class="col">
+                                <el-alert :closable="false" :title="inputsValidation.barangay[0]" type="error"
+                                    v-if="inputsValidation.barangay" start show-icon />
+                                <Select name="" id="" v-model="selected_barangays" :options="barangay"
+                                    :invalid="inputsValidation.barangay" optionLabel="name" clearable
+                                    placeholder="Select Barangay" fluid/>
+                                <span class="text-danger" v-if="inputsValidation.barangay">{{
+                                    inputsValidation.barangay[0] }}</span>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col text-end">
+                                <Button @click="submit" label="Submit" severity="info" />
+                            </div>
+                        </div>
                     </div>
                 </form>
             </fieldset>
@@ -219,12 +205,6 @@ onMounted(() => {
 .form-modal-action {
     display: flex;
     justify-content: end;
-
-}
-
-fieldset option {
-    font-size: 10px;
-    height: 10px;
 }
 
 fieldset select:focus {
@@ -235,146 +215,43 @@ fieldset select:focus {
     overflow: scroll;
 }
 
-@media screen and (min-width: 365px) {
-    #form-modal {
-        position: fixed;
-        top: 0;
-        height: 100%;
-        width: 100%;
-        z-index: 999;
-        display: grid;
-        justify-content: center;
-        align-items: center;
-        background: rgb(255, 255, 255, 0.5);
-        backdrop-filter: blur(25px);
-    }
-
-    .form-modal-main {
-        max-width: 50rem;
-        background: rgb(255, 255, 255);
-        border-radius: 10px;
-        display: grid;
-        padding: 10px;
-        margin: 10px;
-        box-shadow: 0px 0px 3px 0px gray;
-    }
-
-
-
-    .form-modal-title span {
-        font-weight: 550;
-        font-size: 30px;
-    }
-
-    fieldset {
-        background: rgb(248, 248, 248);
-        padding: 15px;
-        border-radius: 10px;
-        margin: 10px;
-
-    }
-
-    fieldset form {
-        display: grid;
-        gap: 10px;
-    }
-
-    .form-input {
-        display: grid;
-    }
-
-    fieldset input {
-        padding: 10px;
-        border: solid 1px rgb(197, 195, 195);
-        border-radius: 10px;
-
-    }
-
-    fieldset input:focus {
-        outline: 0;
-        color: gray;
-    }
-
-    .submit-btn button {
-        width: 100%;
-        padding: 10px;
-        border: none;
-        border-radius: 25px;
-        background-color: rgb(0, 100, 224);
-        font-size: 15px;
-        font-weight: bold;
-        color: white;
-    }
+#form-modal {
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 999;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    background: rgb(255, 255, 255, 0.5);
+    backdrop-filter: blur(25px);
 }
 
-@media screen and (max-width: 365px) {
-    #form-modal {
-        position: fixed;
-        height: 100%;
-        width: 100%;
-        z-index: 999;
-        display: grid;
-        justify-content: center;
-        align-items: center;
-    }
+.form-modal-main {
+    max-width: 50rem;
+    background: rgb(255, 255, 255);
+    border-radius: var(--floating-border-radius);
+    display: grid;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: var(--floating-box-shadow);
+}
 
-    .form-modal-main {
-        max-width: 35rem;
-        background: rgb(255, 255, 255);
-        border-radius: 10px;
-        display: grid;
-        padding: 10px;
-        margin: 10px;
-        box-shadow: 0px 0px 3px 0px gray;
-    }
+.form-modal-title span {
+    font-weight: 550;
+    font-size: 30px;
+}
 
+fieldset {
+    background: rgb(248, 248, 248);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 10px;
+}
 
-
-    .form-modal-title span {
-        font-weight: 550;
-        font-size: 30px;
-    }
-
-    fieldset {
-        background: rgb(248, 248, 248);
-        padding: 15px;
-        border-radius: 10px;
-        margin: 10px;
-
-    }
-
-    fieldset form {
-        display: grid;
-        gap: 10px;
-    }
-
-    .form-input {
-        display: grid;
-    }
-
-    fieldset input {
-        padding: 10px;
-        border: solid 1px rgb(197, 195, 195);
-        border-radius: 10px;
-        min-width: 1rem;
-
-    }
-
-    fieldset input:focus {
-        outline: 0;
-        color: gray;
-    }
-
-    .submit-btn button {
-        width: 100%;
-        padding: 10px;
-        border: none;
-        border-radius: 25px;
-        background-color: rgb(0, 100, 224);
-        font-size: 15px;
-        font-weight: bold;
-        color: white;
-    }
-
+fieldset form {
+    display: grid;
+    gap: 10px;
 }
 </style>

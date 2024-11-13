@@ -11,12 +11,12 @@ class Address_Book extends Model
     protected $table = 'address__books';
     protected $fillable = [
         'user_id',
-        'first_name',
-        'last_name',
         'mobile_no',
         'floor_unit_no',
+        'island',
+        'regions',
         'province',
         'municipality',
-        'barangay'
+        'barangay',
     ];
 }

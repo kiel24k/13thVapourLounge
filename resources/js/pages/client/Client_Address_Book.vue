@@ -24,6 +24,8 @@ const ADDRESS_LIST_API = async () => {
     try {
         const response = await axios.get('api/address-list')
         addressList.value = response.data
+        console.log(response.data);
+        
     } catch (error) {
 
     }
@@ -77,27 +79,25 @@ onMounted(() => {
 
     <section id="info">
         <article>
-            <table class="table">
+            <table class="table table-striped table-responsive">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Full Name</th>
+                        <th>Mobile No.</th>
+                        <th>Floor Unit No.</th>
                         <th>Address</th>
-                        <th>Postcode</th>
-                        <th>Phone Number</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(data, index) in addressList.data" :key="index">
                         <td>{{ index + 1 }}</td>
-                        <td>{{ data.first_name }} {{ data.last_name }}</td>
+                        <td>{{ data.mobile_no }} {{ data.last_name }}</td>
                         <td>{{ data.floor_unit_no }}</td>
-                        <td>{{ data.province }} - {{ data.municipality }} - {{ data.baranggay }}</td>
-                        <td>+63{{ data.mobile_no }}</td>
-
-                        <td>
-                            <span class="text-primary">Edit</span>
+                        <td>{{ data.island }} - {{ data.regions }} - {{ data.province }} - {{ data.municipality }} - {{ data.barangay }}</td>
+                        <td class="table-action">
+                           <Button label="" rounded icon="pi pi-file-edit" size="small" severity="info" raised/>
+                           <Button label="" rounded icon="pi pi-trash" size="small" severity="danger" raised/>
                         </td>
                     </tr>
                 </tbody>
@@ -148,15 +148,17 @@ figure {
 }
 
 #info table th {
-    background: rgb(236, 235, 235);
-    color: gray;
-    font-weight: 500;
-    font-size: 12px;
+    background: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
 }
 
 #info table td {
     color: black;
     font-size: 15px;
     background: #ffffff;
+}
+.table-action{
+    display: flex;
+    gap:10px;
 }
 </style>
