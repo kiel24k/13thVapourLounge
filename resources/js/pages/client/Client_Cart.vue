@@ -8,6 +8,7 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'vue-router';
 import Loader from '@/widgets/Loader.vue'
 import Swal from 'sweetalert2';
+import { Button } from 'primevue';
 
 const router = useRouter()
 const productTotal = ref()
@@ -141,7 +142,6 @@ onMounted(() => {
                             </tr>
                         </thead>
                         <tbody>
-
                             <tr v-for="(data, index) in productTotal" :key="index">
                                 <td><input type="checkbox" v-model="checkedItem" :value="data.id" id=""></td>
                                 <td class="product-label">
@@ -162,8 +162,7 @@ onMounted(() => {
                                         @click="decrementBtn(data.id, data.price)">-</button>
                                 </td>
                                 <td>
-                                    <img src="/public/image/delete-icon.png" alt="" width="20px"
-                                        @click="removeItemBtn(data.id)">
+                                  <Button @click="removeItemBtn(data.id)" icon="pi pi-trash" severity="danger" raised/>
                                 </td>
                             </tr>
                         </tbody>
@@ -189,7 +188,9 @@ onMounted(() => {
                             </tr>
                         </tbody>
                     </table>
-                    <button class="btn btn-dark proceed-btn" @click="submitCart">PROCEED TO CHECKOUT</button>
+                    <div class="text-end">
+                        <Button @click="submitCart" label="Proceed To Checkout" severity="contrast" raised/>
+                    </div>
                     <br>
                 </div>
             </div>
@@ -201,6 +202,12 @@ onMounted(() => {
 section {
     width: 70%;
     margin: auto;
+}
+.section-one{
+    background-color: white;
+    box-shadow: var(--floating-box-shadow);
+    border-radius: var(--floating-border-radius);
+    padding:20px;   
 }
 
 .table th {
