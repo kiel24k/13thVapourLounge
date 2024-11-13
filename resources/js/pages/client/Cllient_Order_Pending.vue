@@ -82,7 +82,7 @@ onMounted(() => {
     <NavbarCategory />
     <section>
         <div class="title">
-            <h2>My Order</h2>
+            <h2>Order</h2>
         </div>
         <div class="row">
             <div class="col p-4">
