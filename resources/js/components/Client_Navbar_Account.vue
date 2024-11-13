@@ -10,9 +10,7 @@
             <li class="nav-item">
                 <router-link :to="{name: 'client-cancelation'}" class="nav-link"><b>My Cancellations</b></router-link>
             </li>
-            <li class="nav-item">
-                <router-link :to="{name: 'client-wishlist'}" class="nav-link"><b>My Wishlist</b></router-link>
-            </li>
+            
 
         </ul>
     </nav>

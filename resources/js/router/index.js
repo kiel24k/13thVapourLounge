@@ -113,11 +113,7 @@ const routes = [
         component: () => import("../pages/client/Client_Cancelation.vue"),
         name: "client-cancelation",
     },
-    {
-        path: "/client-wishlist",
-        component: () => import("../pages/client/Client_Wishlist.vue"),
-        name: "client-wishlist",
-    },
+   
     //======================Sub-Admin routes=============================//
     {
         path: "/sub-admin-dashboard",
