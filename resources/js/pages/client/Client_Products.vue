@@ -6,6 +6,7 @@ import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import Loader from '@/widgets/Loader.vue'
 import Footer from '@/components/Client_Footer.vue'
+import { Button } from 'primevue';
 
 const loader = ref(false)
 const route = useRoute()
@@ -106,7 +107,7 @@ onMounted(() => {
                     <button @click="increment"><b>+</b></button>
                 </div>
                 <div class="buy-now mt-3">
-                    <button class="btn btn-dark" @click="addToCart(product[0].id, product[0])">addToCart</button>
+                    <Button @click="addToCart(product[0].id, product[0])" severity="contrast" label="Add to cart" raised icon="pi pi-shopping-cart"/>
                 </div>
             </div>
         </div>
