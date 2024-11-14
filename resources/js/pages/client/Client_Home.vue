@@ -96,8 +96,10 @@ onMounted(() => {
                     <summary class="mt-3">
                         <Message severity="info" icon="pi pi-info-circle" size="small">{{ data.product_name }}</Message>
                         <p class="label">{{ data.product_label }}</p>
-                        <b>₱{{ data.product_price }}</b>
                     </summary>
+                    <div class="price">
+                        <b>₱{{ data.product_price }}.00</b>
+                    </div>
                 </router-link>
                 <div class="text-start">
                     <Button  @click="addToCartNewArrival(data)"  icon="pi pi-cart-plus" severity="warn" label="Add To Cart" raised/>
@@ -109,7 +111,7 @@ onMounted(() => {
     <section class="section-two">
         <span>Best Sellers</span>
         <div class="section-one-item">
-            <article v-for="(data, index) in bestSellerListItem.data" :key="index">
+            <article v-for="(data, index) in bestSellerListItem.data" :key="index" >
                 <router-link :to="{ name: 'client-products', params: { id: data.id } }">
                     <div class="image-one-content">
                         <img :src="`/storage/product_image/${data.image}`" height="130" width="120" alt="" />
@@ -118,11 +120,12 @@ onMounted(() => {
                 <summary>
                     <Message severity="success" icon="pi pi-info-circle"  size="small">{{ data.product_name }}</Message>
                     <p>{{ data.product_label }}</p>
-                    <b>₱{{ data.product_price }}</b>
                 </summary>
+                <div class="price">
+                    <b>₱{{ data.product_price }}.00</b>
+                </div>
                 <div class="text-start">
                     <Button @click="addToCartBestSeller(data)" icon="pi pi-cart-plus" severity="warn" label="Add To Cart" raised/>
-                
                 </div>
             </article>
         </div>
@@ -195,6 +198,7 @@ section {
     margin: auto;
 }
 
+
 a {
     text-decoration: none;
     color: black;
@@ -223,7 +227,7 @@ a {
     box-shadow: var(--floating-box-shadow);
     padding: 5px;
     margin: 10px;
-    height: 24em;
+    height: 27rem;
     padding: 20px;
     background: white;
 }
@@ -239,10 +243,11 @@ figure {
 
 summary {
     display: grid;
-    align-items: center;
-    align-content: center;
+    align-items: start;
+    align-content: start;
     list-style: none;
-    height: 9rem;
+    height: 10rem;
+    overflow: hidden;
 
 }
 
