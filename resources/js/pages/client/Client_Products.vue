@@ -99,7 +99,7 @@ onMounted(() => {
                     <span>{{ product[0].description }}</span>
                 </div>
                 <div class="price">
-                    <b>₱400.00s</b>
+                    <b>₱400.00</b>
                 </div>
                 <div class="quantity">
                     <button @click="decrement"><b>-</b></button>
