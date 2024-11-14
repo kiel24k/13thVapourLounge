@@ -1,5 +1,5 @@
 <script setup>
-import Header from '@/components/Client_Header.vue'
+import Footer from '@/components/Client_Footer.vue'
 import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import NavbarAccount from '@/components/Client_Navbar_Account.vue'
@@ -54,7 +54,6 @@ onMounted(() => {
         </div>
         <hr>
     </section>
-
     <nav>
         <NavbarAccount />
     </nav>
@@ -93,6 +92,7 @@ onMounted(() => {
             <Button label="Change Password" icon="" severity="danger" raised/>
         </div>
     </section>
+    <Footer/>
 </template>
 
 <style scoped>
