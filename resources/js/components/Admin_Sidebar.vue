@@ -10,25 +10,25 @@
                     <!-- <small class="p-4">Favorites</small> -->
                     <router-link :to="{name: 'admin-dashboard'}" class="item1">
                         <li class="nav-link text-dark">
-                            <img src="/public/image/dashboard-icon.png" width="20px" alt="" />
+                            <i class="pi pi-shop"</i>
                             Dashboard
                         </li>
                     </router-link>
                     <router-link :to="{name: 'admin-orders'}" class="item1">
                         <li class="nav-link text-dark">
-                            <img src="/public/image/order-icon.png" width="20px" alt="" />
+                          <i class="pi pi-shopping-bag"></i>
                             Orders
                         </li>
                     </router-link>
                     <router-link :to="{ name: 'admin-products' }" class="item1">
                         <li class="nav-link text-dark">
-                            <img src="/public/image/products-icon.png" width="20px" alt="" />
+                           <i class="pi pi-shopping-cart"></i>
                             Products
                         </li>
                     </router-link>
                     <router-link :to="{name: 'admin-user-list'}" class="item1">
                         <li class="nav-link text-dark">
-                            <img src="/public/image/users-icon.png" width="20px" alt="" />
+                            <i class="pi pi-users"></i>
                             Users
                         </li>
                     </router-link>
@@ -37,13 +37,13 @@
                 <ul class="navbar nav mt-1">
                     <router-link :to="{name: 'admin-profile'}" class="item1">
                         <li class="nav-link text-dark">
-                            <img src="/public/image/profile-icon.png" width="20px" alt="" />
+                            <i class="pi pi-user"></i>
                             Profile
                         </li>
                     </router-link>
                     <router-link :to="{name: 'admin-account-settings'}" class="item1">
                         <li class="nav-link text-dark">
-                            <img src="/public/image/settings-icon.png" width="20px" alt="" />
+                            <i class="pi pi-wrench"></i>
                             Account Setting
                         </li>
                     </router-link>
@@ -80,6 +80,8 @@ aside {
     width: 16rem;
     position: relative;
     border-width: 0px 2px 0px 0px;
+ 
+ 
 
 }
 
@@ -117,6 +119,7 @@ ul {
     width: 16rem;
     overflow-y: scroll;
     height: 100%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .menu1::-webkit-scrollbar {
@@ -142,7 +145,7 @@ ul {
 
 
 .menu1 h3 {
-    background-color: rgb(110, 66, 192)
+    background-color: rgb(11, 11, 12)
 }
 
 .category-list {
