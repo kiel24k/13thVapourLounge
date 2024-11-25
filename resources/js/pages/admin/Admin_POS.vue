@@ -1,17 +1,30 @@
-<script setup lang="ts">
-import { Button, InputGroup, InputGroupAddon, InputNumber, InputText, Message } from 'primevue';
+<script setup>
+import { Button, InputGroup, InputGroupAddon, InputNumber, InputText, Message, Select } from 'primevue';
 import { useRouter } from 'vue-router';
+import AddCustomerModal from '@/components/Admin_Pos_Add_Customer_Modal.vue'
+import { ref } from 'vue';
 
 const router = useRouter()
-const itemArray = []
+const addCustomerModal = ref(false)
+
 
 const dashboardBtn = () => {
     router.push('/admin-dashboard')
 }
 
+const addCustomer = () => {
+    addCustomerModal.value = true
+   
+}
+
+const closeModal = () => {
+    addCustomerModal.value = false
+}
+
 </script>
 
 <template>
+    <AddCustomerModal v-if="addCustomerModal" @closeModal="closeModal"/>
     <div class="container-fluid">
         <div class="row">
             <div class="col">
@@ -24,9 +37,9 @@ const dashboardBtn = () => {
             <section class="col">
                 <div class="search">
                     <InputGroup>
-                        <InputText placeholder="Customer" />
+                        <Select v-model="selectedCity" :options="cities" optionLabel="name" placeholder="Select a Customer" checkmark  class="w-full md:w-56" />
                         <InputGroupAddon>
-                            <Button icon="pi pi-user-plus" severity="secondary" variant="text" />
+                            <Button icon="pi pi-user-plus" severity="secondary" variant="text" @click="addCustomer" />
                         </InputGroupAddon>
                     </InputGroup>
                     <InputGroup>
@@ -44,9 +57,7 @@ const dashboardBtn = () => {
                             <p>Sales</p>
                         </figcaption>
                     </figure>
-                    <div class="add-user">
-                        <Button icon="pi pi-user-plus" severity="info" />
-                    </div>
+                    
                 </div>
                 <div class="item-table">
                     <table class="table table-hover table-striped table-responsive">
