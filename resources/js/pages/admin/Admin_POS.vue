@@ -2,25 +2,40 @@
 import { Button, InputGroup, InputGroupAddon, InputNumber, InputText, Message, Select } from 'primevue';
 import { useRouter } from 'vue-router';
 import AddCustomerModal from '@/components/Admin_Pos_Add_Customer_Modal.vue'
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const router = useRouter()
 const addCustomerModal = ref(false)
+const getCustomer = ref({})
+const selectedCustomer = ref({})
 
 
 const dashboardBtn = () => {
     router.push('/admin-dashboard')
 }
 
-const addCustomer = () => {
+const addCustomerBtn = () => {
     addCustomerModal.value = true
    
+}
+
+const GET_CUSTOMER_API = async () => {
+    const response = await axios.get('api/get-customer-list')  
+    getCustomer.value = response.data
+}
+
+const userSelectedName = () => {
+    
 }
 
 const closeModal = () => {
     addCustomerModal.value = false
 }
 
+
+onMounted(() => {
+    GET_CUSTOMER_API()
+})
 </script>
 
 <template>
@@ -35,11 +50,17 @@ const closeModal = () => {
     <div class="container-fluid">
         <div class="row pos-section">
             <section class="col">
-                <div class="search">
-                    <InputGroup>
-                        <Select v-model="selectedCity" :options="cities" optionLabel="name" placeholder="Select a Customer" checkmark  class="w-full md:w-56" />
+                <Message severity="contrast" icon="pi pi-ellipsis-v">Select Customer</Message>
+                <div class="search mt-2">
+                    <InputGroup>                        
+                        <select class="form-select" v-model="selectedCustomer">
+                            <option selected>dasds</option>
+                            <option :value="data.id" v-for="(data) in getCustomer">
+                                {{ data.first_name }} {{ data.last_name }}
+                            </option>
+                        </select>
                         <InputGroupAddon>
-                            <Button icon="pi pi-user-plus" severity="secondary" variant="text" @click="addCustomer" />
+                            <Button icon="pi pi-user-plus" severity="secondary" variant="text" @click="addCustomerBtn" />
                         </InputGroupAddon>
                     </InputGroup>
                     <InputGroup>
@@ -51,13 +72,12 @@ const closeModal = () => {
                 </div>
                 <div class="user-section mt-3">
                     <figure>
-                        <img src="/public/image/users-icon.png" alt="">
+                        <i class="pi pi-user" style="font-size: 3rem"></i>
                         <figcaption>
                             <h2>Rhonalyn</h2>
                             <p>Sales</p>
                         </figcaption>
                     </figure>
-                    
                 </div>
                 <div class="item-table">
                     <table class="table table-hover table-striped table-responsive">

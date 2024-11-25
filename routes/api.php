@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PosController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -59,4 +60,9 @@ Route::controller(DashboardController::class)->group(function () {
     route::get('/dashboard-total-user', 'userTotal');
     route::get('/dashboard-receive-order-total', 'receiveOrdersTotal');
     route::get('/dashboard-pie-chart', 'pieChart');
+});
+
+Route::controller(PosController::class)->group(function () {
+    route::post('/add-customer', 'addCustomer');
+    route::get('/get-customer-list', 'getCustomerList');
 });
