@@ -25,7 +25,7 @@ const GET_CUSTOMER_API = async () => {
 }
 
 const userSelectedName = () => {
-    alert(":dsdddsdsaaddasdasd")
+    alert(":asdasd")
 }
 
 const closeModal = () => {
