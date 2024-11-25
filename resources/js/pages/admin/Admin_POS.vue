@@ -2,12 +2,13 @@
 import { Button, InputGroup, InputGroupAddon, InputNumber, InputText, Message, Select } from 'primevue';
 import { useRouter } from 'vue-router';
 import AddCustomerModal from '@/components/Admin_Pos_Add_Customer_Modal.vue'
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 const router = useRouter()
 const addCustomerModal = ref(false)
 const getCustomer = ref({})
 const selectedCustomer = ref({})
+const customerProfile = ref({})
 
 
 const dashboardBtn = () => {
@@ -16,17 +17,20 @@ const dashboardBtn = () => {
 
 const addCustomerBtn = () => {
     addCustomerModal.value = true
-   
+
 }
 
 const GET_CUSTOMER_API = async () => {
-    const response = await axios.get('api/get-customer-list')  
+    const response = await axios.get('api/get-customer-list')
     getCustomer.value = response.data
-}
 
-const userSelectedName = () => {
-    alert(":asdasd")
 }
+watch(selectedCustomer, (oldVal, newVal) => {
+    customerProfile.value = getCustomer.value.find((el) => el.id === selectedCustomer.value)
+})
+
+
+
 
 const closeModal = () => {
     addCustomerModal.value = false
@@ -39,7 +43,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <AddCustomerModal v-if="addCustomerModal" @closeModal="closeModal"/>
+    <AddCustomerModal v-if="addCustomerModal" @closeModal="closeModal" />
     <div class="container-fluid">
         <div class="row">
             <div class="col">
@@ -52,7 +56,7 @@ onMounted(() => {
             <section class="col">
                 <Message severity="contrast" icon="pi pi-ellipsis-v">Select Customer</Message>
                 <div class="search mt-2">
-                    <InputGroup>                        
+                    <InputGroup>
                         <select class="form-select" v-model="selectedCustomer">
                             <option selected>dasds</option>
                             <option :value="data.id" v-for="(data) in getCustomer">
@@ -60,7 +64,8 @@ onMounted(() => {
                             </option>
                         </select>
                         <InputGroupAddon>
-                            <Button icon="pi pi-user-plus" severity="secondary" variant="text" @click="addCustomerBtn" />
+                            <Button icon="pi pi-user-plus" severity="secondary" variant="text"
+                                @click="addCustomerBtn" />
                         </InputGroupAddon>
                     </InputGroup>
                     <InputGroup>
@@ -74,8 +79,8 @@ onMounted(() => {
                     <figure>
                         <i class="pi pi-user" style="font-size: 3rem"></i>
                         <figcaption>
-                            <h2>Rhonalyn</h2>
-                            <p>Sales</p>
+                            <h2>{{customerProfile.first_name}} </h2>
+                            <p>{{ customerProfile.last_name }}</p>
                         </figcaption>
                     </figure>
                 </div>
@@ -177,7 +182,7 @@ onMounted(() => {
                 <div class="item-list mt-3">
                     <div class="item">
                         <div class="item-quantity">
-                          <Button severity="contrast" label="23" rounded raised size="small"/>
+                            <Button severity="contrast" label="23" rounded raised size="small" />
                         </div>
                         <div class="text-center">
                             <img src="/public/image/gmail-icon.png" alt="">
@@ -188,7 +193,7 @@ onMounted(() => {
                     </div>
                     <div class="item">
                         <div class="item-quantity">
-                            <Button severity="contrast" label="23" rounded raised size="small"/>
+                            <Button severity="contrast" label="23" rounded raised size="small" />
                         </div>
                         <div class="text-center">
                             <img src="/public/image/gmail-icon.png" alt="">
@@ -199,7 +204,7 @@ onMounted(() => {
                     </div>
                     <div class="item">
                         <div class="item-quantity">
-                            <Button severity="contrast" label="23" rounded raised size="small"/>
+                            <Button severity="contrast" label="23" rounded raised size="small" />
                         </div>
                         <div class="text-center">
                             <img src="/public/image/gmail-icon.png" alt="">
@@ -210,7 +215,7 @@ onMounted(() => {
                     </div>
                     <div class="item">
                         <div class="item-quantity">
-                            <Button severity="contrast" label="23" rounded raised size="small"/>
+                            <Button severity="contrast" label="23" rounded raised size="small" />
                         </div>
                         <div class="text-center">
                             <img src="/public/image/gmail-icon.png" alt="">
@@ -221,7 +226,7 @@ onMounted(() => {
                     </div>
                     <div class="item">
                         <div class="item-quantity">
-                            <Button severity="contrast" label="23" rounded raised size="small"/>
+                            <Button severity="contrast" label="23" rounded raised size="small" />
                         </div>
                         <div class="text-center">
                             <img src="/public/image/gmail-icon.png" alt="">
@@ -232,7 +237,7 @@ onMounted(() => {
                     </div>
                     <div class="item">
                         <div class="item-quantity">
-                            <Button severity="contrast" label="23" rounded raised size="small"/>
+                            <Button severity="contrast" label="23" rounded raised size="small" />
                         </div>
                         <div class="text-center">
                             <img src="/public/image/gmail-icon.png" alt="">
@@ -243,7 +248,7 @@ onMounted(() => {
                     </div>
                     <div class="item">
                         <div class="item-quantity">
-                            <Button severity="contrast" label="23" rounded raised size="small"/>
+                            <Button severity="contrast" label="23" rounded raised size="small" />
                         </div>
                         <div class="text-center">
                             <img src="/public/image/gmail-icon.png" alt="">
@@ -254,7 +259,7 @@ onMounted(() => {
                     </div>
                     <div class="item">
                         <div class="item-quantity">
-                            <Button severity="contrast" label="23" rounded raised size="small"/>
+                            <Button severity="contrast" label="23" rounded raised size="small" />
                         </div>
                         <div class="text-center">
                             <img src="/public/image/gmail-icon.png" alt="">
@@ -330,7 +335,7 @@ onMounted(() => {
 .item-list {
     display: flex;
     flex-wrap: wrap;
-    gap:10px;
+    gap: 10px;
 }
 
 .item-list .item {
@@ -338,9 +343,9 @@ onMounted(() => {
     align-content: center;
     justify-content: center;
     align-items: center;
-    padding:8px;
+    padding: 8px;
     background-color: rgb(214, 208, 198);
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);     
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 </style>
