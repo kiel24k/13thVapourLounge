@@ -3,7 +3,7 @@ import axios from 'axios';
 import { onMounted } from 'vue';
 import Cookies from 'js-cookie';
 import { useRouter } from 'vue-router';
-import { SplitButton } from 'primevue';
+import { Button, SplitButton } from 'primevue';
 import Swal from 'sweetalert2';
 
 const emit = defineEmits(['closeSidebar'])
@@ -66,6 +66,10 @@ const items = [
     },
 ];
 
+const posBtn = () => {
+    router.push('/admin-POS')
+}
+
 
 </script>
 
@@ -79,8 +83,10 @@ const items = [
                 <div class="">
                     <img src="/public/image/1920525_gogle_google_logo_network_icon.png" alt="" width="40">
                 </div>
-                <div class="">
-                    <SplitButton  severity="secondary" label="Save" :model="items" />
+               
+                <div class="header-action">
+                    <Button  severity="contrast" icon="pi pi-warehouse" raised label="POS" @click="posBtn" />
+                    <SplitButton  severity="secondary" icon="pi pi-user" :model="items" />
                 </div>
             </div>
         </div>
@@ -111,5 +117,9 @@ const items = [
 }
 .burger{
     cursor: pointer;
+}
+.header-action{
+    display: flex;
+    gap:10px;
 }
 </style>

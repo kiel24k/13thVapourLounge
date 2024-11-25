@@ -109,6 +109,11 @@ const routes = [
         name: "admin-dashboard",
     },
     {
+        path: '/admin-POS',
+        component: () => import("../pages/admin/Admin_POS.vue"),
+        name: 'admin-POS'
+    },
+    {
         path: "/client-cancelation",
         component: () => import("../pages/client/Client_Cancelation.vue"),
         name: "client-cancelation",
