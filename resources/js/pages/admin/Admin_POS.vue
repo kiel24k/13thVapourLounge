@@ -3,11 +3,19 @@ import { Button, InputGroup, InputGroupAddon, InputNumber, InputText, Message, S
 import { useRouter } from 'vue-router';
 import AddCustomerModal from '@/components/Admin_Pos_Add_Customer_Modal.vue'
 import { computed, onMounted, ref, watch } from 'vue';
+import axios from 'axios';
 
 const router = useRouter()
 const addCustomerModal = ref(false)
+
+//API VARIABLE
 const getCustomer = ref({})
+const posCategory = ref({})
+const posItem = ref({})
+
+
 const selectedCustomer = ref({})
+const selectedItemList = ref({})
 const customerProfile = ref({})
 
 
@@ -25,9 +33,31 @@ const GET_CUSTOMER_API = async () => {
     getCustomer.value = response.data
 
 }
+
+const POS_CATEGORY_API = async () => {
+    const response = await axios.get('api/pos-category')
+    posCategory.value = response.data
+}
+
+const POS_ITEM_API = async () => {
+    const response = await axios.get('api/pos-get-items', {
+        params: {
+            product_name: selectedItemList.value
+        }
+    })
+    console.log(response);
+    posItem.value = response.data
+
+}
 watch(selectedCustomer, (oldVal, newVal) => {
     customerProfile.value = getCustomer.value.find((el) => el.id === selectedCustomer.value)
 })
+
+watch(selectedItemList, (oldVal, newVal) => {
+    POS_ITEM_API()
+})
+
+
 
 
 
@@ -39,6 +69,8 @@ const closeModal = () => {
 
 onMounted(() => {
     GET_CUSTOMER_API()
+    POS_CATEGORY_API()
+    POS_ITEM_API()
 })
 </script>
 
@@ -58,7 +90,6 @@ onMounted(() => {
                 <div class="search mt-2">
                     <InputGroup>
                         <select class="form-select" v-model="selectedCustomer">
-                            <option selected>dasds</option>
                             <option :value="data.id" v-for="(data) in getCustomer">
                                 {{ data.first_name }} {{ data.last_name }}
                             </option>
@@ -79,7 +110,7 @@ onMounted(() => {
                     <figure>
                         <i class="pi pi-user" style="font-size: 3rem"></i>
                         <figcaption>
-                            <h2>{{customerProfile.first_name}} </h2>
+                            <h2>{{ customerProfile.first_name }} </h2>
                             <p>{{ customerProfile.last_name }}</p>
                         </figcaption>
                     </figure>
@@ -167,10 +198,13 @@ onMounted(() => {
 
             </section>
             <section class="col">
-                <div class="category">
-                    <select class="form-select">
+                <Message severity="contrast" icon="pi pi-ellipsis-v">Select Category</Message>
+                <div class="category mt-2">
+                    <select class="form-select" v-model="selectedItemList">
                         <option value="">all</option>
-                        <option value=""></option>
+                        <option :value="data.product_name" v-for="(data) in posCategory">
+                            {{ data.product_name }}
+                        </option>
                     </select>
                     <InputGroup>
                         <InputText placeholder="Product" />
@@ -180,92 +214,15 @@ onMounted(() => {
                     </InputGroup>
                 </div>
                 <div class="item-list mt-3">
-                    <div class="item">
-                        <div class="item-quantity">
-                            <Button severity="contrast" label="23" rounded raised size="small" />
+                    <div class="item" v-for="(data) in posItem">
+                        <div class="item-quantity text-start">
+                            <Button severity="warn" :label="data.quantity" rounded raised size="small" />
                         </div>
                         <div class="text-center">
-                            <img src="/public/image/gmail-icon.png" alt="">
+                            <img :src="`storage/product_image/${data.image}`" width="100" alt="">
                         </div>
                         <div class="">
-                            <h4>Item ni kiel </h4>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="item-quantity">
-                            <Button severity="contrast" label="23" rounded raised size="small" />
-                        </div>
-                        <div class="text-center">
-                            <img src="/public/image/gmail-icon.png" alt="">
-                        </div>
-                        <div class="">
-                            <h4>Item ni kiel </h4>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="item-quantity">
-                            <Button severity="contrast" label="23" rounded raised size="small" />
-                        </div>
-                        <div class="text-center">
-                            <img src="/public/image/gmail-icon.png" alt="">
-                        </div>
-                        <div class="">
-                            <h4>Item ni kiel </h4>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="item-quantity">
-                            <Button severity="contrast" label="23" rounded raised size="small" />
-                        </div>
-                        <div class="text-center">
-                            <img src="/public/image/gmail-icon.png" alt="">
-                        </div>
-                        <div class="">
-                            <h4>Item ni kiel </h4>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="item-quantity">
-                            <Button severity="contrast" label="23" rounded raised size="small" />
-                        </div>
-                        <div class="text-center">
-                            <img src="/public/image/gmail-icon.png" alt="">
-                        </div>
-                        <div class="">
-                            <h4>Item ni kiel </h4>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="item-quantity">
-                            <Button severity="contrast" label="23" rounded raised size="small" />
-                        </div>
-                        <div class="text-center">
-                            <img src="/public/image/gmail-icon.png" alt="">
-                        </div>
-                        <div class="">
-                            <h4>Item ni kiel </h4>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="item-quantity">
-                            <Button severity="contrast" label="23" rounded raised size="small" />
-                        </div>
-                        <div class="text-center">
-                            <img src="/public/image/gmail-icon.png" alt="">
-                        </div>
-                        <div class="">
-                            <h4>Item ni kiel </h4>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="item-quantity">
-                            <Button severity="contrast" label="23" rounded raised size="small" />
-                        </div>
-                        <div class="text-center">
-                            <img src="/public/image/gmail-icon.png" alt="">
-                        </div>
-                        <div class="">
-                            <h4>Item ni kiel </h4>
+                            <h4>{{ data.product_label }}</h4>
                         </div>
                     </div>
                 </div>
@@ -275,6 +232,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
+section {
+    background: white;
+}
 .pos-section {
     display: flex;
     gap: 10px;
@@ -304,6 +264,10 @@ onMounted(() => {
     justify-content: start;
     align-items: center;
     align-content: center;
+}
+.item-table {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .item-table table th {
@@ -340,12 +304,14 @@ onMounted(() => {
 
 .item-list .item {
     display: grid;
-    align-content: center;
     justify-content: center;
-    align-items: center;
-    padding: 8px;
-    background-color: rgb(214, 208, 198);
+    align-items: start;
+    padding: 2px;
+    background-color: rgb(255, 255, 255);
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 15rem;
+    overflow:hidden;
+    height: 15rem;
 }
 </style>

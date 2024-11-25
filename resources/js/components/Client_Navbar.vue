@@ -114,7 +114,7 @@ onMounted(() => {
                     </router-link>
                     <b v-if="cartTotal">{{ cartTotal }}</b>
                     <b v-else>{{ cartMountedValue }}</b>
-                    <SplitButton label="Save" icon="pi pi-user" dropdownIcon="pi pi-chevron-down" severity="secondary" @click="save"
+                    <SplitButton icon="pi pi-user" dropdownIcon="pi pi-chevron-down" severity="secondary" @click="save"
                         :model="items" />
                 </div>
 

@@ -65,4 +65,6 @@ Route::controller(DashboardController::class)->group(function () {
 Route::controller(PosController::class)->group(function () {
     route::post('/add-customer', 'addCustomer');
     route::get('/get-customer-list', 'getCustomerList');
+    route::get('/pos-category', 'posCategory');
+    route::get('/pos-get-items', 'getItems');
 });
