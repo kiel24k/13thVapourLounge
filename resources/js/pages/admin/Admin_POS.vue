@@ -57,7 +57,7 @@ watch(selectedCustomer, (oldVal, newVal) => {
 
 watch(selectedItemList, (oldVal, newVal) => {
     POS_ITEM_API()
-    "dsddasdsa"
+    "dsddadassdsa"
 })
 
 watch(search, (oldVal, newVal) => {
