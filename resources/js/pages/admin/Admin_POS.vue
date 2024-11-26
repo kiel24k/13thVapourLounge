@@ -17,6 +17,7 @@ const posItem = ref({})
 const selectedCustomer = ref({})
 const selectedItemList = ref({})
 const customerProfile = ref({})
+const search = ref()
 
 
 const dashboardBtn = () => {
@@ -42,7 +43,8 @@ const POS_CATEGORY_API = async () => {
 const POS_ITEM_API = async () => {
     const response = await axios.get('api/pos-get-items', {
         params: {
-            product_name: selectedItemList.value
+            product_name: selectedItemList.value,
+            search: search.value
         }
     })
     console.log(response);
@@ -207,7 +209,7 @@ onMounted(() => {
                         </option>
                     </select>
                     <InputGroup>
-                        <InputText placeholder="Product" />
+                        <InputText placeholder="Product" v-model="search" />
                         <InputGroupAddon>
                             <Button icon="pi pi-search" severity="secondary" variant="text" />
                         </InputGroupAddon>

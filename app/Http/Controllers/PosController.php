@@ -47,18 +47,45 @@ class PosController extends Controller
 
     public function getItems(Request $request)
     {
-        if (empty($request->product_name)) {
+        if (empty($request->product_name) && empty($request->search)) {
             $product = DB::table('products')
                 ->select('*')
                 ->orderBy('id', 'DESC')
                 ->get();
+            return response()->json("one");
+        } else if ((empty($request->product_name) && isset($request->search))) {
+            $product = DB::table('products')
+                ->select('*')
+                ->where(function ($query) use ($request) {
+                    $query->where('product_label', 'LIKE', '%' . $request->search . '%')
+                        ->where('product_label', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('product_price', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('label_category', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('description', 'LIKE', '%' . $request->search . '%');
+                })
+                ->get();
             return response()->json($product);
+        } else if ((isset($request->product_name) || isset($request->search))) {
+            $product = DB::table('products')
+                ->select("*")
+                ->where(function ($query) use ($request) {
+                    $query->where('product_name', $request->product_name)
+                        ->where('product_label', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('product_price', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('label_category', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('description', 'LIKE', '%' . $request->search . '%');
+                })
+                ->get();
+
+            return response()->json("dsd");
         }
-        $product = DB::table('products')
-            ->select('*')
-            ->where('product_name', $request->product_name)
-            ->orderBy('id', 'DESC')
-            ->get();
-        return response()->json($product);
+        // $product = DB::table('products')
+        //     ->select('*')
+        //     ->where('product_name', $request->product_name)
+        //     ->orderBy('id', 'DESC')
+        //     ->get();
+        // return response()->json($product);
     }
 }
