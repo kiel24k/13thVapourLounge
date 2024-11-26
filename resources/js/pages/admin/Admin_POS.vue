@@ -59,6 +59,10 @@ watch(selectedItemList, (oldVal, newVal) => {
     POS_ITEM_API()
 })
 
+watch(search, (oldVal, newVal) => {
+    POS_ITEM_API()
+})
+
 
 
 

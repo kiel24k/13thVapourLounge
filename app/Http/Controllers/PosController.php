@@ -52,7 +52,13 @@ class PosController extends Controller
                 ->select('*')
                 ->orderBy('id', 'DESC')
                 ->get();
-            return response()->json("one");
+            return response()->json($product);
+        } else if (isset($request->product_name) && empty($request->search)) {
+            $product = DB::table('products')
+                ->select('*')
+                ->where('product_name', $request->product_name)
+                ->get();
+            return response()->json($product);
         } else if ((empty($request->product_name) && isset($request->search))) {
             $product = DB::table('products')
                 ->select('*')
@@ -66,12 +72,13 @@ class PosController extends Controller
                 })
                 ->get();
             return response()->json($product);
-        } else if ((isset($request->product_name) || isset($request->search))) {
+        } else if (isset($request->product_name) || isset($request->search)) {
             $product = DB::table('products')
                 ->select("*")
+                ->where('product_name', $request->product_name)
                 ->where(function ($query) use ($request) {
-                    $query->where('product_name', $request->product_name)
-                        ->where('product_label', 'LIKE', '%' . $request->search . '%')
+                    $query->orWhere('product_name', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('product_label', 'LIKE', '%' . $request->search . '%')
                         ->orWhere('product_price', 'LIKE', '%' . $request->search . '%')
                         ->orWhere('label_category', 'LIKE', '%' . $request->search . '%')
                         ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
@@ -79,7 +86,7 @@ class PosController extends Controller
                 })
                 ->get();
 
-            return response()->json("dsd");
+            return response()->json($product);
         }
         // $product = DB::table('products')
         //     ->select('*')
