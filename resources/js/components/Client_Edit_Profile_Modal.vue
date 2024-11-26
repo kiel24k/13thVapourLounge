@@ -33,8 +33,6 @@ const saveProfileBtn = async () => {
             mobile_no: user.value.mobile_no,
             gender: user.value.gender
         })
-        console.log(response);
-
         if (response.status == 200) {
             emit('closeModal')
             Swal.fire({
@@ -48,7 +46,6 @@ const saveProfileBtn = async () => {
         }
     } catch (error) {
         console.log(error);
-
         inputValidation.value = error.response.data.errors
     }
 

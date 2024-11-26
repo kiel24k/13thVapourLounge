@@ -8,6 +8,7 @@ const emit = defineEmits(['closeModal'])
 const input = ref({})
 const inputValidation = ref({})
 
+
 const closeModal = () => {
     emit('closeModal')
 }
@@ -31,10 +32,10 @@ const submit = async () => {
             });
         }
 
-
-
     } catch (er) {
-        inputValidation.value = er.response.data.error
+        inputValidation.value = er.response.data.errors
+        
+        
     }
 }
 
