@@ -28,13 +28,12 @@ const dashboardBtn = () => {
 
 const addCustomerBtn = () => {
     addCustomerModal.value = true
-
 }
 
 const addItem = (data) => {
     const existingItem = itemSection.value.find(i => i.id === data.id);
     if (existingItem) {
-        existingItem.value = parseInt(existingItem.quantity) + 1
+        existingItem = parseInt(existingItem.quantity++) 
     }else{
         const newItem = { ...data, quantity: 1 };
         itemSection.value.push(newItem)
@@ -191,6 +190,9 @@ onMounted(() => {
                 </div>
                 <div class="item-list mt-3">
                     <div class="item" v-for="(data) in posItem" @click="addItem(data)" >   
+                      <div class="">
+                        <Button :label="data.quantity" rounded raised severity="warn"/>
+                      </div>
                         <div class="text-center mt-2">
                             <img :src="`storage/product_image/${data.image}`" width="100" alt="">
                         </div>
