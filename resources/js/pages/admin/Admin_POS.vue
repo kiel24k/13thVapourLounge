@@ -7,6 +7,7 @@ import axios from 'axios';
 
 const router = useRouter()
 const addCustomerModal = ref(false)
+const itemSection = ref([])
 
 //API VARIABLE
 const getCustomer = ref({})
@@ -20,6 +21,7 @@ const customerProfile = ref({})
 const search = ref()
 
 
+
 const dashboardBtn = () => {
     router.push('/admin-dashboard')
 }
@@ -27,6 +29,18 @@ const dashboardBtn = () => {
 const addCustomerBtn = () => {
     addCustomerModal.value = true
 
+}
+
+const addItem = (data) => {
+    const existingItem = itemSection.value.find(i => i.id === data.id);
+    if (existingItem) {
+        existingItem.value = parseInt(existingItem.quantity) + 1
+    }else{
+        const newItem = { ...data, quantity: 1 };
+        itemSection.value.push(newItem)
+    }
+   
+     
 }
 
 const GET_CUSTOMER_API = async () => {
@@ -47,7 +61,6 @@ const POS_ITEM_API = async () => {
             search: search.value
         }
     })
-    console.log(response);
     posItem.value = response.data
 
 }
@@ -57,21 +70,16 @@ watch(selectedCustomer, (oldVal, newVal) => {
 
 watch(selectedItemList, (oldVal, newVal) => {
     POS_ITEM_API()
-    "sdsadasdsa"
+    
 })
 
 watch(search, (oldVal, newVal) => {
     POS_ITEM_API()
 })
-
-
-
-
-
-
 const closeModal = () => {
     addCustomerModal.value = false
 }
+
 
 
 onMounted(() => {
@@ -126,61 +134,22 @@ onMounted(() => {
                     <table class="table table-hover table-striped table-responsive">
                         <thead>
                             <tr>
-                                <th>Item name</th>
-                                <th>Stock</th>
+                                <th>Product Label</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
-                                <th>Subtotal</th>
+                                <th>Total</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Radio watch</td>
-                                <td>55</td>
+                            <tr v-for="(data) in itemSection">
+                                <td>{{ data.product_label }}</td>
+                                <td>{{ data.quantity }}</td>
                                 <td>
-                                    <b>test</b>
+                                    <Message icon="pi pi-money-bill">P{{ data.product_price }}</Message>
                                 </td>
                                 <td>
                                     <Message severity="success">P20.00</Message>
-                                </td>
-                                <td>
-                                    <Message severity="info">P20.00</Message>
-                                </td>
-                                <td>
-                                    <Button severity="danger" icon="pi pi-trash" />
-                                </td>
-                            </tr>
-
-
-                            <tr>
-                                <td>Radio watch</td>
-                                <td>55</td>
-                                <td>
-                                    <b>test</b>
-                                </td>
-                                <td>
-                                    <Message severity="success">P20.00</Message>
-                                </td>
-                                <td>
-                                    <Message severity="info">P20.00</Message>
-                                </td>
-                                <td>
-                                    <Button severity="danger" icon="pi pi-trash" />
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>Radio watch</td>
-                                <td>55</td>
-                                <td>
-                                    <b>test</b>
-                                </td>
-                                <td>
-                                    <Message severity="success">P20.00</Message>
-                                </td>
-                                <td>
-                                    <Message severity="info">P20.00</Message>
                                 </td>
                                 <td>
                                     <Button severity="danger" icon="pi pi-trash" />
@@ -221,11 +190,8 @@ onMounted(() => {
                     </InputGroup>
                 </div>
                 <div class="item-list mt-3">
-                    <div class="item" v-for="(data) in posItem">
-                        <div class="item-quantity text-start">
-                            <Button severity="warn" :label="data.quantity" rounded raised size="small" />
-                        </div>
-                        <div class="text-center">
+                    <div class="item" v-for="(data) in posItem" @click="addItem(data)" >   
+                        <div class="text-center mt-2">
                             <img :src="`storage/product_image/${data.image}`" width="100" alt="">
                         </div>
                         <div class="">
@@ -242,6 +208,7 @@ onMounted(() => {
 section {
     background: white;
 }
+
 .pos-section {
     display: flex;
     gap: 10px;
@@ -272,6 +239,7 @@ section {
     align-items: center;
     align-content: center;
 }
+
 .item-table {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -318,7 +286,7 @@ section {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     width: 15rem;
-    overflow:hidden;
+    overflow: hidden;
     height: 15rem;
 }
 </style>
