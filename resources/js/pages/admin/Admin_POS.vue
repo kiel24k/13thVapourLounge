@@ -37,6 +37,7 @@ const addItem = (data) => {
     }else{
         const newItem = { ...data, quantity: 1 };
         itemSection.value.push(newItem)
+        "dsd"
     }
    
      
