@@ -31,17 +31,32 @@ const addCustomerBtn = () => {
 }
 
 const addItem = (data) => {
+  
+
     const existingItem = itemSection.value.find(i => i.id === data.id);
+   
     if (existingItem) {
-        existingItem = parseInt(existingItem.quantity++) 
+        existingItem.quantity += 1 
+        existingItem.total = parseInt(existingItem.product_price) * existingItem.quantity
+        
+
+        // existingItem.product_price = 
+        
     }else{
-        const newItem = { ...data, quantity: 1 };
+        const newItem = { ...data, quantity: 1, total: data.product_price };
         itemSection.value.push(newItem)
-        "sddasdassad"
+       
     }
    
      
 }
+const deleteItem = (data) => {
+    const deleteArr = itemSection.value.filter((el) => el.id !== data.id)
+    itemSection.value = deleteArr
+    
+    
+    
+} 
 
 const GET_CUSTOMER_API = async () => {
     const response = await axios.get('api/get-customer-list')
@@ -149,10 +164,10 @@ onMounted(() => {
                                     <Message icon="pi pi-money-bill">P{{ data.product_price }}</Message>
                                 </td>
                                 <td>
-                                    <Message severity="success">P20.00</Message>
+                                    <Message severity="success">{{ data.total }}</Message>
                                 </td>
                                 <td>
-                                    <Button severity="danger" icon="pi pi-trash" />
+                                    <Button severity="danger" icon="pi pi-trash" @click="deleteItem(data)"/>
                                 </td>
                             </tr>
                         </tbody>
