@@ -2,7 +2,7 @@ const Admin = [
     POS [
         {calculate_every_price: 'DONE'},
         {delete: 'DONE'},
-        {calculate_quantity: '' },
+        {calculate_quantity: 'DONE' },
         {calculate_grand_total: ''},
         {reserve_modal: ''},
         {save_reserve_on_database: ''},

@@ -15,10 +15,12 @@ const posCategory = ref({})
 const posItem = ref({})
 
 
+
 const selectedCustomer = ref({})
 const selectedItemList = ref({})
 const customerProfile = ref({})
 const search = ref()
+const quantityTotal = ref()
 
 
 
@@ -30,11 +32,10 @@ const addCustomerBtn = () => {
     addCustomerModal.value = true
 }
 
-const addItem = (data) => {
-  
 
+
+const addItem = (data) => {
     const existingItem = itemSection.value.find(i => i.id === data.id);
-   
     if (existingItem) {
         existingItem.quantity += 1 
         existingItem.total = parseInt(existingItem.product_price) * existingItem.quantity
@@ -47,16 +48,23 @@ const addItem = (data) => {
         itemSection.value.push(newItem)
        
     }
+    totalOfQuantity()
    
      
 }
 const deleteItem = (data) => {
     const deleteArr = itemSection.value.filter((el) => el.id !== data.id)
     itemSection.value = deleteArr
-    
-    
-    
+    totalOfQuantity()
 } 
+
+const totalOfQuantity = () => { 
+    const test = itemSection.value.reduce((acc, el) => acc + el.quantity,0);
+    quantityTotal.value = test
+    
+
+    
+}
 
 const GET_CUSTOMER_API = async () => {
     const response = await axios.get('api/get-customer-list')
@@ -176,7 +184,7 @@ onMounted(() => {
                 <div class="amount-edit">
                     <div class="">
                         <span>Quantity</span>
-                        <h2>5</h2>
+                        <h2>{{quantityTotal}}</h2>
                         <Button severity="danger" label="Reserve" icon="pi pi-briefcase" />
                     </div>
                     <div class="">
