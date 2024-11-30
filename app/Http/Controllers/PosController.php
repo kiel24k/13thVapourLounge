@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PosCustomer;
+use App\Models\PosReserve;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -94,5 +95,19 @@ class PosController extends Controller
         //     ->orderBy('id', 'DESC')
         //     ->get();
         // return response()->json($product);
+    }
+
+    public function reserve (Request $request){
+       foreach ($request->data as $data) {
+        $reserve = new PosReserve();
+        $reserve->product_id = $data['id'];
+        $reserve->customer_id = $request->customer_id;
+        $reserve->product_label = $data['product_label'];
+        $reserve->quantity = $data['quantity'];
+        $reserve->price = $data['product_price'];
+        $reserve->total = $data['total'];
+        $reserve->save();
+       }
+
     }
 }

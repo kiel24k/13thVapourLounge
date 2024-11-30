@@ -67,4 +67,5 @@ Route::controller(PosController::class)->group(function () {
     route::get('/get-customer-list', 'getCustomerList');
     route::get('/pos-category', 'posCategory');
     route::get('/pos-get-items', 'getItems');
+    route::post('/pos-reserve', 'reserve');
 });
