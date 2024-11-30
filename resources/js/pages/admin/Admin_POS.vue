@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import AddCustomerModal from '@/components/Admin_Pos_Add_Customer_Modal.vue'
 import { computed, onMounted, ref, watch } from 'vue';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const router = useRouter()
 const addCustomerModal = ref(false)
@@ -21,6 +22,7 @@ const selectedItemList = ref({})
 const customerProfile = ref({})
 const search = ref()
 const quantityTotal = ref()
+const overAllTotal = ref()
 
 
 
@@ -35,20 +37,18 @@ const addCustomerBtn = () => {
 
 
 const addItem = (data) => {
+   
     const existingItem = itemSection.value.find(i => i.id === data.id);
     if (existingItem) {
         existingItem.quantity += 1 
         existingItem.total = parseInt(existingItem.product_price) * existingItem.quantity
-        
-
         // existingItem.product_price = 
-        
     }else{
         const newItem = { ...data, quantity: 1, total: data.product_price };
         itemSection.value.push(newItem)
-       
     }
     totalOfQuantity()
+    priceTotal()
    
      
 }
@@ -56,14 +56,55 @@ const deleteItem = (data) => {
     const deleteArr = itemSection.value.filter((el) => el.id !== data.id)
     itemSection.value = deleteArr
     totalOfQuantity()
+    priceTotal()
 } 
 
 const totalOfQuantity = () => { 
-    const test = itemSection.value.reduce((acc, el) => acc + el.quantity,0);
-    quantityTotal.value = test
+    const quantotal = itemSection.value.reduce((acc, el) => acc + el.quantity,0);
+    quantityTotal.value = quantotal
+}
+const priceTotal = () => {
+   const price = itemSection.value.reduce((acc,el) => acc + parseInt(el.total),0)
+  overAllTotal.value = price
+   
+}
+
+const submitReserve = async () => {
+    try{
+    const response = await axios.post('api/pos-reserve', {
+      data: itemSection.value,
+      customer_id: selectedCustomer.value
+     
+    })
+     console.log(response);
+     
     
 
-    
+}catch(e){
+    console.log(e);
+}
+}
+
+const reserve =  () => {
+    Swal.fire({
+  title: "Dou you want to reserve?",
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Okay"
+}).then((result) => {
+  if (result.isConfirmed) {
+    submitReserve()
+    Swal.fire({
+      title: "Reserved!",
+      text: "Reserve Success",
+      icon: "success"
+    });
+  }
+});
+
 }
 
 const GET_CUSTOMER_API = async () => {
@@ -185,11 +226,11 @@ onMounted(() => {
                     <div class="">
                         <span>Quantity</span>
                         <h2>{{quantityTotal}}</h2>
-                        <Button severity="danger" label="Reserve" icon="pi pi-briefcase" />
+                        <Button severity="danger" label="Reserve" icon="pi pi-briefcase" @click="reserve" />
                     </div>
                     <div class="">
                         <span>Grand Total</span>
-                        <h2>P232.00</h2>
+                        <h2>P{{ overAllTotal }}</h2>
                         <Button severity="primary" label="Cash" icon="pi pi-money-bill" />
                     </div>
                 </div>
