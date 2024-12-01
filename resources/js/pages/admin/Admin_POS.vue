@@ -5,10 +5,12 @@ import AddCustomerModal from '@/components/Admin_Pos_Add_Customer_Modal.vue'
 import { computed, onMounted, ref, watch } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import PosModalReceipt from '@/components/Admin_Pos_Modal_Receipt.vue'
 
 const router = useRouter()
 const addCustomerModal = ref(false)
 const itemSection = ref([])
+const posModalReceipt = ref(false)
 
 //API VARIABLE
 const getCustomer = ref({})
@@ -144,6 +146,14 @@ const closeModal = () => {
     addCustomerModal.value = false
 }
 
+const cashBtn = () => {
+    posModalReceipt.value = true
+}
+
+const closeModalReceipt = () => {
+    posModalReceipt.value = false
+}
+
 
 
 onMounted(() => {
@@ -154,6 +164,7 @@ onMounted(() => {
 </script>
 
 <template>
+    <PosModalReceipt v-if="posModalReceipt" @closeModalReceipt="closeModalReceipt"/>
     <AddCustomerModal v-if="addCustomerModal" @closeModal="closeModal" />
     <div class="container-fluid">
         <div class="row">
@@ -231,7 +242,7 @@ onMounted(() => {
                     <div class="">
                         <span>Grand Total</span>
                         <h2>P{{ overAllTotal }}</h2>
-                        <Button severity="primary" label="Cash" icon="pi pi-money-bill" />
+                        <Button severity="primary" label="Cash" icon="pi pi-money-bill" @click="cashBtn" />
                     </div>
                 </div>
 
@@ -261,14 +272,14 @@ onMounted(() => {
                         <div class="text-center mt-2">
                             <img :src="`storage/product_image/${data.image}`" width="100" alt="">
                         </div>
-                        <div class="">
+                        <div class="">  
                             <h4>{{ data.product_label }}</h4>
                         </div>
                     </div>
                 </div>
             </section>
         </div>
-    </div>
+        </div>
 </template>
 
 <style scoped>
