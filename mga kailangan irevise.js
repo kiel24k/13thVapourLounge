@@ -5,10 +5,15 @@ const Admin = [
         {}
     ],
     PRODUCTS[{ SEARCH_AND_CATEGORY_AND_PAGINATION_AND_SORTING: "" }
-        
+
     ],
     USERS[
-        {}
+        { SEARCH_AND_CATEGORY_AND_PAGINATION: ''},
+        {UPDATE_ITEM: ''}
+    ],
+    PROFILE [
+        {DISPLAY_INFO:''},
+        {CAN_EDIT_PROFILE:''}
     ],
     POS[
         { calculate_every_price: "DONE" },
