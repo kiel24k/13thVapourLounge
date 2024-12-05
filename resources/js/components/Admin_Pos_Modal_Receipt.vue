@@ -91,7 +91,7 @@ const printReceipt = () => {
                         </table>
                     </div>
                     <div class="mt-3">
-                        <h2>Orders</h2>
+                        <h2>Order</h2>
                         <table class="table">
                             <tbody>
                                 <tr v-for="(data) in itemSection">
