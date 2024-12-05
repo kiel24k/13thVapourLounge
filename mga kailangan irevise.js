@@ -1,6 +1,8 @@
 const Admin = [
     ORDERS[
-        {SELECTED_NAME_NOT_DISPLAYING: ' '}
+        {SEARCH_AND_CATEGORY: ''},
+        {SELECTED_NAME_NOT_DISPLAYING: ''},
+        
     ],
     POS [
         {calculate_every_price: 'DONE'},
