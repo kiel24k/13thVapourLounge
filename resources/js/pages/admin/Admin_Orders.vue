@@ -108,7 +108,9 @@ onMounted(() => {
                         </thead>
                         <tbody>
                             <tr v-for="(data, index) in orderList" :key="index">
+                              
                                 <td>{{ index + 1 }}</td>
+                                <td>{{ data.first_name }}</td>
                                 <td>{{ data.first_name }} {{ data.last_name }}</td>
                                 <td>{{ data.created_at }}</td>
                                 <!-- <td>{{ data.user_orders[0] }}</td> -->
