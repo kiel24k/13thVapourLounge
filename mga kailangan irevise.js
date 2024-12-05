@@ -1,4 +1,7 @@
 const Admin = [
+    ORDERS[
+        {SELECTED_NAME_NOT_DISPLAYING: ' '}
+    ],
     POS [
         {calculate_every_price: 'DONE'},
         {delete: 'DONE'},
@@ -10,5 +13,5 @@ const Admin = [
         {create_pdf_receipt_after_press_the_cash_button:''}
     ],
 
-    
+                    
 ]

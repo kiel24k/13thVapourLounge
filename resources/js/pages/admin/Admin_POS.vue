@@ -12,6 +12,7 @@ const addCustomerModal = ref(false)
 const itemSection = ref([])
 const posModalReceipt = ref(false)
 
+
 //API VARIABLE
 const getCustomer = ref({})
 const posCategory = ref({})
@@ -20,6 +21,10 @@ const posItem = ref({})
 
 
 const selectedCustomer = ref({})
+const propsForCustomerName = computed(() => {
+    const customer = getCustomer.value.find((el) => el.id === selectedCustomer.value)
+    return customer
+})
 const selectedItemList = ref({})
 const customerProfile = ref({})
 const search = ref()
@@ -39,73 +44,70 @@ const addCustomerBtn = () => {
 
 
 const addItem = (data) => {
-   
+
     const existingItem = itemSection.value.find(i => i.id === data.id);
     if (existingItem) {
-        existingItem.quantity += 1 
+        existingItem.quantity += 1
         existingItem.total = parseInt(existingItem.product_price) * existingItem.quantity
         // existingItem.product_price = 
-    }else{
+    } else {
         const newItem = { ...data, quantity: 1, total: data.product_price };
         itemSection.value.push(newItem)
     }
     totalOfQuantity()
     priceTotal()
-   
-     
+
+
 }
 const deleteItem = (data) => {
     const deleteArr = itemSection.value.filter((el) => el.id !== data.id)
     itemSection.value = deleteArr
     totalOfQuantity()
     priceTotal()
-} 
+}
 
-const totalOfQuantity = () => { 
-    const quantotal = itemSection.value.reduce((acc, el) => acc + el.quantity,0);
+const totalOfQuantity = () => {
+    const quantotal = itemSection.value.reduce((acc, el) => acc + el.quantity, 0);
     quantityTotal.value = quantotal
 }
 const priceTotal = () => {
-   const price = itemSection.value.reduce((acc,el) => acc + parseInt(el.total),0)
-  overAllTotal.value = price
-   
+    const price = itemSection.value.reduce((acc, el) => acc + parseInt(el.total), 0)
+    overAllTotal.value = price
+
 }
 
 const submitReserve = async () => {
-    try{
-    const response = await axios.post('api/pos-reserve', {
-      data: itemSection.value,
-      customer_id: selectedCustomer.value
-     
-    })
-     console.log(response);
-     
-    
+    try {
+        const response = await axios.post('api/pos-reserve', {
+            data: itemSection.value,
+            customer_id: selectedCustomer.value
 
-}catch(e){
-    console.log(e);
-}
+        })
+        console.log(response);
+    } catch (e) {
+        console.log(e);
+    }
 }
 
-const reserve =  () => {
+const reserve = () => {
     Swal.fire({
-  title: "Dou you want to reserve?",
-  text: "You won't be able to revert this!",
-  icon: "warning",
-  showCancelButton: true,
-  confirmButtonColor: "#3085d6",
-  cancelButtonColor: "#d33",
-  confirmButtonText: "Okay"
-}).then((result) => {
-  if (result.isConfirmed) {
-    submitReserve()
-    Swal.fire({
-      title: "Reserved!",
-      text: "Reserve Success",
-      icon: "success"
+        title: "Dou you want to reserve?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Okay"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            submitReserve()
+            Swal.fire({
+                title: "Reserved!",
+                text: "Reserve Success",
+                icon: "success"
+            });
+        }
     });
-  }
-});
 
 }
 
@@ -136,7 +138,7 @@ watch(selectedCustomer, (oldVal, newVal) => {
 
 watch(selectedItemList, (oldVal, newVal) => {
     POS_ITEM_API()
-    
+
 })
 
 watch(search, (oldVal, newVal) => {
@@ -144,6 +146,7 @@ watch(search, (oldVal, newVal) => {
 })
 const closeModal = () => {
     addCustomerModal.value = false
+
 }
 
 const cashBtn = () => {
@@ -153,9 +156,6 @@ const cashBtn = () => {
 const closeModalReceipt = () => {
     posModalReceipt.value = false
 }
-
-
-
 onMounted(() => {
     GET_CUSTOMER_API()
     POS_CATEGORY_API()
@@ -164,7 +164,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <PosModalReceipt v-if="posModalReceipt" @closeModalReceipt="closeModalReceipt"/>
+    <PosModalReceipt v-if="posModalReceipt" @closeModalReceipt="closeModalReceipt" :itemSection="itemSection"
+        :propsForCustomerName="propsForCustomerName" :overAllTotal="overAllTotal" />
     <AddCustomerModal v-if="addCustomerModal" @closeModal="closeModal" />
     <div class="container-fluid">
         <div class="row">
@@ -227,7 +228,7 @@ onMounted(() => {
                                     <Message severity="success">{{ data.total }}</Message>
                                 </td>
                                 <td>
-                                    <Button severity="danger" icon="pi pi-trash" @click="deleteItem(data)"/>
+                                    <Button severity="danger" icon="pi pi-trash" @click="deleteItem(data)" />
                                 </td>
                             </tr>
                         </tbody>
@@ -236,7 +237,7 @@ onMounted(() => {
                 <div class="amount-edit">
                     <div class="">
                         <span>Quantity</span>
-                        <h2>{{quantityTotal}}</h2>
+                        <h2>{{ quantityTotal }}</h2>
                         <Button severity="danger" label="Reserve" icon="pi pi-briefcase" @click="reserve" />
                     </div>
                     <div class="">
@@ -265,21 +266,21 @@ onMounted(() => {
                     </InputGroup>
                 </div>
                 <div class="item-list mt-3">
-                    <div class="item" v-for="(data) in posItem" @click="addItem(data)" >   
-                      <div class="">
-                        <Button :label="data.quantity" rounded raised severity="warn"/>
-                      </div>
+                    <div class="item" v-for="(data) in posItem" @click="addItem(data)">
+                        <div class="">
+                            <Button :label="data.quantity" rounded raised severity="warn" />
+                        </div>
                         <div class="text-center mt-2">
                             <img :src="`storage/product_image/${data.image}`" width="100" alt="">
                         </div>
-                        <div class="">  
+                        <div class="">
                             <h4>{{ data.product_label }}</h4>
                         </div>
                     </div>
                 </div>
             </section>
         </div>
-        </div>
+    </div>
 </template>
 
 <style scoped>

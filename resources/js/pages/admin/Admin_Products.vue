@@ -7,7 +7,10 @@ import NewCategoryNotification from '@/widgets/new_category_added.vue'
 import { onMounted, ref } from 'vue';
 import axios from 'axios'
 import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue'
+import html2pdf from 'html2pdf.js'
 
+
+const printContent = ref(null)
 const addProductModal = ref(false)
 const addCategoryModal = ref(false)
 const newCategoryNotification = ref(false)
@@ -102,6 +105,21 @@ const closeSidebar = () => {
     }
 }
 
+const printTable = () => {
+    const elem = printContent.value
+    const options = {
+        margin: 1,
+        filename: 'document.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+    };
+    html2pdf()
+        .from(elem)
+        .set(options)
+        .save();
+};
+
 
 onMounted(() => {
     productList()
@@ -137,7 +155,7 @@ onMounted(() => {
                             </InputGroup>
                         </div>
                         <div class="download">
-                            <Button icon="pi pi-file-pdf" label="Print" severity="danger" raised/>
+                            <Button icon="pi pi-file-pdf" label="Print" severity="danger" raised @click="printTable"/>
                         </div>
                        </div>
                        <div class="col text-end">
@@ -148,7 +166,7 @@ onMounted(() => {
                        </div>
                     </div>
                 </section>
-                <section id="section-two" class="mt-4">
+                <section id="section-two" class="mt-4" ref="printContent">
                     <table class="table table-hover ">
                         <thead>
                             <tr>
