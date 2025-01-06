@@ -92,12 +92,67 @@ class AdminController extends Controller
         return response()->json($user);
     }
 
+    public function orderCategory()
+    {
+        $data = UserOrder::select('date_order')->orderBy('id', 'DESC')->get();
+        return response()->json($data);
+    }
+
     public function orderList(Request $request)
     {
-        $userId = User::with('userOrders')->get();
-        return response()->json($userId);
+        $sort = $request->query('sort', 'ASC');
+        $order = $request->query('order', 'first_name');
+        if (empty($request->category) && empty($request->search)) {
+            $data = UserOrder::OrderBy($order , $sort)->paginate(5);
+            return response()->json($data);
+        } else if (isset($request->category) && empty($request->search)) {
+            $data = UserOrder::where('date_order', $request->category)
+            ->OrderBy($order , $sort)
+            ->paginate(5);
+            return response()->json($data);
+        } else if (empty($request->category) && isset($request->search)) {
+            $data = UserOrder::where('first_name', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('last_name', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('mobile_no', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('floor_unit_no', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('island', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('regions', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('province', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('municipality', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('barangay', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('order_label', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('order_price', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('order_total', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('order_quantity', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('status', 'LIKE', '%' . $request->search . '%')
+                ->OrderBy($order , $sort)
+                ->paginate(5);
+            return response()->json($data);
+        } else if (isset($request->category) && isset($request->search)) {
+            $data = UserOrder::where('date_order', $request->category)
+                ->where(function ($query) use ($request) {
+                    $query->where('first_name', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('last_name', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('mobile_no', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('floor_unit_no', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('island', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('regions', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('province', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('municipality', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('barangay', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('order_label', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('order_price', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('order_total', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('order_quantity', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('status', 'LIKE', '%' . $request->search . '%');
+                })
+                ->OrderBy($order , $sort)
+                ->paginate(5);
+            return response()->json($data);
+        }
     }
-    public function orderUpdateStatus (Request $request) {
+    public function orderUpdateStatus(Request $request)
+    {
         $userId = UserOrder::find($request->id);
         $userId->status = $request->status;
         $userId->update();
@@ -105,14 +160,15 @@ class AdminController extends Controller
             "status" => 200
         ]);
     }
-    public function updateAdminProfile (Request $request){
+    public function updateAdminProfile(Request $request)
+    {
         $user = User::find(Auth::user()->id);
-        $user->first_name = $request->first_name; 
+        $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->email = $request->email;
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $filePath = 'admin_profile/' . $user->image;
-            if(File::exists($filePath)){
+            if (File::exists($filePath)) {
                 file::delete($filePath);
             }
             $image = $request->file('image');
@@ -123,8 +179,5 @@ class AdminController extends Controller
         }
         $user->update();
         return response()->json($user);
-        
-
     }
-
 }
