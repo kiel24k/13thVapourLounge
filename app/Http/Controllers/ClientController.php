@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\User;
 use App\Models\UserOrder;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -141,6 +142,7 @@ class ClientController extends Controller
             $order->order_quantity =  $request->order[$i]['quantity'];
             $order->order_total = $request->order[$i]['price'] * $request->order[$i]['quantity'];
             $order->status = 'pending';
+            $order->date_order = Carbon::today()->format('Y-m-d-D');
             $order->save();
         }
         $order->save();

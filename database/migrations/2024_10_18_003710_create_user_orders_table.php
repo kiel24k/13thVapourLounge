@@ -29,6 +29,7 @@ return new class extends Migration
             $table->integer('order_total');
             $table->integer('order_quantity');
             $table->enum('status', ['cancelled','pending','out-of-delivery','received','completed']);
+            $table->string('date_order');
             $table->timestamps();
         });
     }

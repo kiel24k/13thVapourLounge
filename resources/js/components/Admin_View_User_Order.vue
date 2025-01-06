@@ -57,6 +57,7 @@ onMounted(() => {
                                 <tr>
                                     <th>#</th>
                                     <th>Product</th>
+                                    <th>Sub Order Info</th>
                                     <th>Quantity</th>
                                     <th>Price</th>
                                     <th>Status</th>
@@ -74,8 +75,12 @@ onMounted(() => {
                                             <img :src="`/storage/product_image/${data.order_image}`" width="50" alt="">
                                         </figure>
                                         <figcaption>
+                                            
                                             {{ data.order_label }}
                                         </figcaption>
+                                    </td>
+                                    <td>
+                                        {{ data.first_name }} {{ data.last_name }} / {{ data.mobile_no }}
                                     </td>
                                     <td>
                                         QTY: {{ data.order_quantity }}
