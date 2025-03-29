@@ -1,5 +1,6 @@
 <script setup>
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { onMounted, ref } from 'vue';
 
 
@@ -49,6 +50,13 @@ const saveBtn = async () => {
         })
         console.log(response);
         if (response.status === 200) {
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Product Added",
+                showConfirmButton: false,
+                timer: 1500
+            });
             emit('closeModal')
         }
     } catch (error) {
@@ -88,7 +96,7 @@ onMounted(() => {
             </div>
             <hr>
             <fieldset>
-                <form  enctype="multipart/form-data">
+                <form enctype="multipart/form-data">
                     <div class="row">
                         <div class="col">
                             <label for="">Product Type</label>
@@ -119,27 +127,27 @@ onMounted(() => {
                     </div>
 
                     <div class="row mt-2 field-img">
-                       <div class="col">
-                        <label for="">Image</label>
-                        <input type="file" @change="image">
-                       </div>
-                       <div class="col">
-                        <label for="">Mark as</label>
-                        <select name="" id="" v-model="input.label_category">
-                            <option value="none">None</option>
-                            <option value="new-arrival">New Arrival</option>
-                            <option value="best-seller">Best Seller</option>
-                        </select>
-                       </div>
+                        <div class="col">
+                            <label for="">Image</label>
+                            <input type="file" @change="image">
+                        </div>
+                        <div class="col">
+                            <label for="">Mark as</label>
+                            <select name="" id="" v-model="input.label_category">
+                                <option value="none">None</option>
+                                <option value="new-arrival">New Arrival</option>
+                                <option value="best-seller">Best Seller</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="row mt-2">
-                            <img :src="imageUrl" width="10" alt="">
+                        <img :src="imageUrl" width="10" alt="">
                     </div>
                     <div class="row">
                         <div class="col">
                             <label for="">Description</label>
-                        <textarea name="" rows="10" id="" v-model="input.description"></textarea>
-                        <span v-if="productValidation.description">{{ productValidation.description[0] }}</span>
+                            <textarea name="" rows="10" id="" v-model="input.description"></textarea>
+                            <span v-if="productValidation.description">{{ productValidation.description[0] }}</span>
                         </div>
                     </div>
                 </form>

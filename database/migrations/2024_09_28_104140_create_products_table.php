@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('label_category');
             $table->string('quantity');
             $table->text('description');
+            $table->string('date_released');
             $table->timestamps();
         });
     }

@@ -17,15 +17,35 @@
                     <router-link :to="{name: 'admin-orders'}" class="item1">
                         <li class="nav-link text-dark">
                           <i class="pi pi-shopping-bag"></i>
-                            Orders
+                            Order
                         </li>
                     </router-link>
                     <router-link :to="{ name: 'admin-products' }" class="item1">
                         <li class="nav-link text-dark">
                            <i class="pi pi-shopping-cart"></i>
-                            Products
+                            Product list
                         </li>
                     </router-link>
+                    <!-- test -->
+                    <router-link :to="{ name: 'admin-products' }" class="item1">
+                        <li class="nav-link text-dark">
+                           <i class="pi pi-plus"></i>
+                            New Product
+                        </li>
+                    </router-link>
+                    <router-link :to="{ name: 'admin-products' }" class="item1">
+                        <li class="nav-link text-dark">
+                           <i class="pi pi-list"></i>
+                            Category list
+                        </li>
+                    </router-link>
+                    <router-link :to="{ name: 'admin-products' }" class="item1">
+                        <li class="nav-link text-dark">
+                           <i class="pi pi-plus"></i>
+                            New Category
+                        </li>
+                    </router-link>
+                    <!-- endtest -->
                     <router-link :to="{name: 'admin-user-list'}" class="item1">
                         <li class="nav-link text-dark">
                             <i class="pi pi-users"></i>

@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\User;
 use App\Models\UserOrder;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -48,6 +49,7 @@ class AdminController extends Controller
             'quantity' => $request->product_price,
             'description' => $request->description,
             'label_category' => $request->label_category,
+            'date_released' => Carbon::now()->format('Y-m-d')
         ]);
         $image = $request->file('image');
         $fileName = $image->hashName();
