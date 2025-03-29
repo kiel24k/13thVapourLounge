@@ -1,0 +1,23 @@
+ADMIN SIDE
++kulay ng mga BOX => done   
++UI ng mga graph, dapat naka grid tas may table sa gilid => done 
+
+-PRODUCTS
++UI ng table => done
++alert notif pag success ang submition ng new category at add products => done
++delete confirmation => done
++Update button => 
++search, category, pagination
+
+
+-USERS
++UI ng table 
++delete confirmation
+++search, category, pagination
++update button
+
+-ACCOUNT SETTINGS
++gawin ang change password etc
+
+SIDEBAR 
++maglagay ng category list

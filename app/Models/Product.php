@@ -18,7 +18,8 @@ class Product extends Model
         'quantity',
         'description',
         'image',
-        'label_category'
+        'label_category',
+        'date_released'
     ];
 
 }

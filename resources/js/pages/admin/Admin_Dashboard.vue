@@ -20,12 +20,12 @@ const closeSidebar = () => {
     }
 }
 
-const TOTAL_PRODUCTS_API =  async () => {
-        const response = await axios.get('api/dashboard-product-total')
-        totalProducts.value = response.data
+const TOTAL_PRODUCTS_API = async () => {
+    const response = await axios.get('api/dashboard-product-total')
+    totalProducts.value = response.data
 }
 
-const TOTAL_USERS_API =async () => {
+const TOTAL_USERS_API = async () => {
     const response = await axios.get('api/dashboard-total-user')
     totalUsers.value = response.data
 }
@@ -34,53 +34,99 @@ const TOTAL_RECEIVE_ORDERS_API = async () => {
     const response = await axios.get('api/dashboard-receive-order-total')
     totalReceiveOrders.value = response.data
 
-    
+
 }
 onMounted(() => {
-TOTAL_PRODUCTS_API()
-TOTAL_USERS_API()
-TOTAL_RECEIVE_ORDERS_API()
+    TOTAL_PRODUCTS_API()
+    TOTAL_USERS_API()
+    TOTAL_RECEIVE_ORDERS_API()
 })
 
 </script>
 
 <template>
     <section id="main">
-        <div class="header bg-info">
+        <div class="header">
             <Header @closeSidebar="closeSidebar" />
         </div>
         <div class="content">
             <div class="sidebar">
-                <Sidebar v-if="showSidebar"/>
+                <Sidebar v-if="showSidebar" />
             </div>
             <div class="main">
-                <section class="section-one">
-                    <div class="row totals text-white">
-                        <div class="">
-                            <p>products</p>
-                            <span>{{ totalProducts }}</span>
-
+                <section>
+                    <div class="row">
+                        <div class="col title text-center">
+                            <h4 style="color:gray;">Overview</h4>
                         </div>
-                        <div class="">
-                            <p>users</p>
-                            <span>{{ totalUsers }}</span>
-                        </div>
-                        <div class="">
-                            <p>received orders</p>
-                            <span>{{ totalReceiveOrders }}</span>
+                    </div>
+                    <div class="row">
+                        <div class="col total_content">
+                            <div class="user_total">
+                                <div class="order_title">
+                                    <i class="pi pi-user"></i>
+                                    <span>User</span>
+                                </div>
+                                <div class="order_content">
+                                    <span>{{ totalUsers }}</span>
+                                </div>
+                            </div>
+                            <div class="product_total">
+                                <div class="order_title">
+                                    <i class="pi pi-shopping-cart"></i>
+                                    <span>Products</span>
+                                </div>
+                                <div class="order_content">
+                                    <span>{{ totalProducts }}</span>
+                                </div>
+                            </div>
+                            <div class="order_total">
+                                <div class="order_title">
+                                    <i class="pi pi-shopping-bag"></i>
+                                    <span>order</span>
+                                </div>
+                                <div class="order_content">
+                                    <span>{{ totalReceiveOrders }}</span>
+                                </div>
+                            </div>
+                            <div class="cash_total">
+                                <div class="order_title">
+                                    <i class="pi pi-warehouse"></i>
+                                    <span>Cash</span>
+                                </div>
+                                <div class="order_content">
+                                    <span>234</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
+
+
                 <section class="section-two">
                     <div class="row charts">
-                        <div class="">
-                            <LineChart />
+                        <div class="col graph">
+                                <LineChart />
+                                <BarChart />
                         </div>
-                        <div class="">
-                            <BarChart />
-                        </div>
-                        <div class="">
-                            <PieChart />
+                        <div class="col-4">
+                            <table class="table">
+                                <thead>
+                                   <b>Status</b>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Rhona</td>
+                                        <td>17%</td>
+                                        <td><i class="pi pi-ellipsis-v"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kiel</td>
+                                        <td>24%</td>
+                                        <td><i class="pi pi-ellipsis-v"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </section>
@@ -98,7 +144,7 @@ TOTAL_RECEIVE_ORDERS_API()
     width: 100%;
     margin: 10px;
     display: grid;
-    gap:15px;
+    gap: 15px;
 }
 
 .header {
@@ -115,8 +161,7 @@ TOTAL_RECEIVE_ORDERS_API()
 
 .section-one {
     display: grid;
-    background: rgb(250, 250, 250);
-    padding:20px;
+    padding: 20px;
     box-shadow: 0px 0px 5px 0px gray;
     border-radius: 5px;
 }
@@ -129,31 +174,78 @@ TOTAL_RECEIVE_ORDERS_API()
     gap: 10px;
 }
 
-.totals>div {
-    width: 15rem;
-    height: 15rem;
-    background: rgb(5, 180, 72);
-    box-shadow: 0px 0px 5px 0px gray;
-    border-radius: 10px;
-    font-size: 20px;
-    text-align: center;
-    text-transform: capitalize;
-    font-weight: bold;
-}
-.charts{
+.total_content {
     display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.total_content>div {
+    width: 150px;
+    height: 150px;
+    border-radius: 5px;
+    display: grid;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    gap:10px;
-    margin-top:20px ;
-    margin:2px;
+    align-content: center;
+
+}
+
+.user_total {
+    background-color: rgb(35, 112, 200);
+
+}
+
+.product_total {
+    background-color: rgb(239, 178, 119);
+}
+
+.order_total {
+    background-color: rgb(182, 181, 184);
+}
+
+.cash_total {
+    background-color: rgb(255, 126, 135);
+}
+
+.order_title,
+.order_content {
+    color: white;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+
+}
+
+.order_title i {
+    font-size: 20px;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.order_content span {
+    font-size: 35px;
+    font-weight: 600;
+}
+
+
+.charts {
+    display: flex;
+flex-wrap: wrap;
+
+
+}
+
+.graph {
+    display: grid;
+    gap:10px; 
     
-   
 }
-.charts > div{
+table thead{
     background: white;
-    box-shadow: 0px 0px 5px 0px gray;
-     border-radius: 5px;
 }
+
 </style>

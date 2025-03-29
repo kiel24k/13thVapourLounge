@@ -15,8 +15,8 @@
     datasets: [{
       label: 'Sales',
       data: [65, 59, 80, 81, 56, 55, 40],
-      fill: false,
-      borderColor: 'rgba(75, 192, 192, 1)',
+      fill: true,
+      borderColor: 'green',
       tension: 0.1,
     }],
   };
@@ -52,5 +52,8 @@
   canvas {
     max-width: 100%;
     max-height: 400px;
+    background: white;
+    box-shadow: 0px 0px 5px 0px gray;
+    border-radius: 5px;
   }
   </style>

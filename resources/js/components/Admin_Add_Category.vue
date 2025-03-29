@@ -1,4 +1,5 @@
 <script setup>
+import Swal from 'sweetalert2';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -14,12 +15,19 @@ const saveBtn = async () => {
             product_type: categoryInputs.value.product_type,
             product_name: categoryInputs.value.product_name,
         })
-        if(response.status === 200){
+        if (response.status === 200) {
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "New category saved!",
+                showConfirmButton: false,
+                timer: 1500
+            });
             emit('closeModal')
             emit('notification')
         }
     } catch (error) {
-        if (error.status === 422) { 
+        if (error.status === 422) {
             categoryValidation.value = error.response.data.errors
         }
     }
@@ -118,8 +126,9 @@ const closeModal = () => {
     .form-input {
         display: grid;
     }
-    .form-input span{
-        color:red;
+
+    .form-input span {
+        color: red;
     }
 
     fieldset input {

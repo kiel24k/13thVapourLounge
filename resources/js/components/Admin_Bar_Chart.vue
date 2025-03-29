@@ -15,8 +15,8 @@ const data = {
   datasets: [{
     label: 'Monthly Sales',
     data: [65, 59, 80, 81, 56, 55, 40],
-    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-    borderColor: 'rgba(75, 192, 192, 1)',
+    backgroundColor: 'pink',
+    borderColor: 'red',
     borderWidth: 1,
   }],
 };
@@ -52,5 +52,8 @@ onMounted(() => {
 canvas {
   max-width: 100%;
   max-height: 400px;
+  background: white;
+  box-shadow: 0px 0px 5px 0px gray;
+  border-radius: 5px;
 }
 </style>
