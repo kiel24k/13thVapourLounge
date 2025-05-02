@@ -17,7 +17,7 @@ const category = ref('')
 const sortVal = ref('DESC')
 const orderVal = ref('')
 const pages = ref({
-      current_page: null,
+    current_page: null,
     last_page: null,
 })
 
@@ -34,10 +34,10 @@ const ORDER_lIST_API = async (page = 1) => {
             }
         })
         pages.value = {
-        current_page: response.data.current_page,
-        last_page: response.data.last_page
-    }
-        
+            current_page: response.data.current_page,
+            last_page: response.data.last_page
+        }
+
         orderList.value = response.data
 
     } catch (error) {
@@ -76,11 +76,11 @@ const clear = () => {
 
 const sort = (data) => {
     orderVal.value = data
-   if(sortVal.value === "DESC"){
-    sortVal.value = "ASC"
-   }else{
-    sortVal.value = "DESC"
-   }
+    if (sortVal.value === "DESC") {
+        sortVal.value = "ASC"
+    } else {
+        sortVal.value = "DESC"
+    }
     ORDER_lIST_API()
 }
 
@@ -135,7 +135,6 @@ onMounted(() => {
     <StatusUpdate v-if="isStatusUpdate" />
     <ViewUserOrder v-if="viewUserOrder" :userOrderProduct="userOrderProduct" @closeModal="closeModal"
         @notification="notification" />
-
     <div id="section-one">
         <div class="header">
             <Header @closeSidebar="closeSidebar" />
@@ -175,14 +174,42 @@ onMounted(() => {
                             <tr>
                                 <th>#</th>
                                 <th @click="sort('first_name')">user
-                                    <i class="pi pi-sort-amount-up" v-if="sortVal === 'DESC' "></i>
-                                    <i class="pi pi-sort-amount-down" v-else-if="sortVal === 'ASC' "></i>
+                                    <i class="pi pi-sort-amount-up" v-if="sortVal === 'DESC'"></i>
+                                    <i class="pi pi-sort-amount-down" v-else-if="sortVal === 'ASC'"></i>
                                 </th>
-
-                                <th @click="sort('date_order')">Date Order
-                                    <i class="pi pi-sort-amount-up" v-if="sortVal === 'DESC' "></i>
-                                    <i class="pi pi-sort-amount-down" v-else-if="sortVal === 'ASC' "></i>
+                                <th @click="sort('mobile_no')">Mobile No.
+                                    <i class="pi pi-sort-amount-up" v-if="sortVal === 'DESC'"></i>
+                                    <i class="pi pi-sort-amount-down" v-else-if="sortVal === 'ASC'"></i>
                                 </th>
+                                <th @click="sort('floor_unit_no')">Unit No.
+                                    <i class="pi pi-sort-amount-up" v-if="sortVal === 'DESC'"></i>
+                                    <i class="pi pi-sort-amount-down" v-else-if="sortVal === 'ASC'"></i>
+                                </th>
+                                <th @click="sort('island')">Island
+                                    <i class="pi pi-sort-amount-up" v-if="sortVal === 'DESC'"></i>
+                                    <i class="pi pi-sort-amount-down" v-else-if="sortVal === 'ASC'"></i>
+                                </th>
+                                <th @click="sort('regions')">Regions
+                                    <i class="pi pi-sort-amount-up" v-if="sortVal === 'DESC'"></i>
+                                    <i class="pi pi-sort-amount-down" v-else-if="sortVal === 'ASC'"></i>
+                                </th>
+                                <th @click="sort('province')">Province
+                                    <i class="pi pi-sort-amount-up" v-if="sortVal === 'DESC'"></i>
+                                    <i class="pi pi-sort-amount-down" v-else-if="sortVal === 'ASC'"></i>
+                                </th>
+                                <th @click="sort('municipality')">Municipality
+                                    <i class="pi pi-sort-amount-up" v-if="sortVal === 'DESC'"></i>
+                                    <i class="pi pi-sort-amount-down" v-else-if="sortVal === 'ASC'"></i>
+                                </th>
+                                <th @click="sort('barangay')">Barangay
+                                    <i class="pi pi-sort-amount-up" v-if="sortVal === 'DESC'"></i>
+                                    <i class="pi pi-sort-amount-down" v-else-if="sortVal === 'ASC'"></i>
+                                </th>
+                                <th @click="sort('order_total')">Total
+                                    <i class="pi pi-sort-amount-up" v-if="sortVal === 'DESC'"></i>
+                                    <i class="pi pi-sort-amount-down" v-else-if="sortVal === 'ASC'"></i>
+                                </th>
+                                <th @click="sort('status')">Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -192,12 +219,20 @@ onMounted(() => {
                                 <td>{{ index + 1 }}</td>
 
                                 <td>{{ data.first_name }} {{ data.last_name }}</td>
-                                <td>{{ data.created_at }}</td>
+                                <td>{{ data.mobile_no }}</td>
+                                <td>{{ data.floor_unit_no }}</td>
+                                <td>{{ data.island }}</td>
+                                <td>{{ data.regions }}</td>
+                                <td>{{ data.province }}</td>
+                                <td>{{ data.municipality }}</td>
+                                <td>{{ data.barangay }}</td>
+                                <td>₱{{ data.order_total }}.00</td>
+                                <td>{{ data.status }}</td>
                                 <!-- <td>{{ data.user_orders[0] }}</td> -->
                                 <td class="table-action">
                                     <Button @click="viewUserProductBtn(data.first_name, data.user_orders)"
                                         icon="pi pi-eye" severity="contrast" raised />
-                                    <Button icon="pi pi-trash" severity="danger" raised />
+                                    <!-- <Button icon="pi pi-trash" severity="danger" raised /> -->
                                 </td>
                             </tr>
                         </tbody>
@@ -206,7 +241,8 @@ onMounted(() => {
                         <div class="col pagination ">
                             <Button icon="pi pi-chevron-left" severity="contrast" rounded raised @click="prev" />
                             <span>{{ pages.current_page }} of {{ pages.last_page }}</span>
-                            <Button icon="pi pi-chevron-right" severity="contrast" iconPos="right" rounded raised @click="next" />
+                            <Button icon="pi pi-chevron-right" severity="contrast" iconPos="right" rounded raised
+                                @click="next" />
                         </div>
                     </div>
                 </section>

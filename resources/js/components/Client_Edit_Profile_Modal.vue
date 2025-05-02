@@ -105,11 +105,10 @@ onMounted(() => {
                     </div>
                     <div class="row">
                         <div class="col form-input">
-                            <select name="" id="" class="form-select" v-model="user.gender">
-                                <option value="" disabled selected>-select-</option>
+                            <select name="" id="" class="form-select" v-model="user.gender" placeholder="Sex">
+                                <option value="" disabled selected>-Sex-</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
-                                <option value="others">Others</option>
                             </select>
                         </div>
                     </div>

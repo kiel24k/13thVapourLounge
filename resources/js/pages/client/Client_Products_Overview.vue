@@ -52,7 +52,7 @@ onMounted(() => {
                         <img :src="`/storage/product_image/${data.image}`" height="130" width="150" alt="" />
                     </div>
                     <summary>
-                        <p>₱{{ data.product_label }}</p>
+                        <p>{{ data.product_label }}</p>
                         <b>₱{{ data.product_price }}</b>
                     </summary>
                     <div class="text-start">

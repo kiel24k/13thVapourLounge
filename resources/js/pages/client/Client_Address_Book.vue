@@ -65,11 +65,11 @@ onMounted(() => {
                 </figcaption>
             </figure>
         </div>
-        <div class="col profile-action">
+        <!-- <div class="col profile-action">
             <div class="">
                <Button label="Change Image" severity="contrast" icon="pi pi-pen-to-square" raised/>
             </div>
-        </div>
+        </div> -->
         <hr>
     </section>
 

@@ -101,6 +101,7 @@ onMounted(() => {
                         </figcaption>
                     </figure>
                 </div>
+                {{  }}
                 <div class="col">
                     <b>QTY: </b>{{ data.order_quantity }}
                 </div>

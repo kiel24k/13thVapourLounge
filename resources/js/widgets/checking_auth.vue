@@ -5,8 +5,11 @@ import { useRouter } from 'vue-router';
 const router = useRouter()
 
 const user = async () => {
+   
+    
     try {
-        const response = await axios.get('api/user')
+        const response =  await axios.get('api/user')
+        console.log(response);
         if (response.data.role === 'client') {
             document.cookie = `username=${response.data.first_name};`
             router.push('/')

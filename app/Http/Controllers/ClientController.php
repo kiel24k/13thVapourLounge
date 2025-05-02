@@ -96,22 +96,7 @@ class ClientController extends Controller
      public function ClientOrder(Request $request)
     {
 
-        // 'user_id',
-        // 'first_name',
-        // 'last_name',
-        // 'mobile_no',
-        // 'floor_unit_no',
-        // 'island',
-        // 'regions',
-        // 'province',
-        // 'municipality',
-        // 'barangay',
-        // 'order_image',
-        // 'order_label',
-        // 'order_price',
-        // 'order_total',
-        // 'order_quantity',
-        // 'status'
+        
         for ($i = 0; $i < count($request->order); $i++) {
             $request->validate([
                 'first_name' => 'required',
@@ -136,18 +121,16 @@ class ClientController extends Controller
             $order->province = $request->province;
             $order->municipality = $request->municipality;
             $order->barangay = $request->barangay;
-            $order->order_image = $request->order[$i]['image'];
-            $order->order_label = $request->order[$i]['product_label'];
-            $order->order_price =  $request->order[$i]['price'];
-            $order->order_quantity =  $request->order[$i]['quantity'];
+            $order->order_id = $request->order[$i]['id'];
             $order->order_total = $request->order[$i]['price'] * $request->order[$i]['quantity'];
+            $order->order_quantity = $request->order[$i]['quantity'];
             $order->status = 'pending';
             $order->date_order = Carbon::today()->format('Y-m-d-D');
             $order->save();
         }
         $order->save();
+     
         return response()->json($order);
-        
 
         
     }

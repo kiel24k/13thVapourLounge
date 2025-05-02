@@ -19,6 +19,7 @@ class AuthController extends Controller
         ]);
         $user = new User();
         $user->first_name = $request->first_name;
+        $user->middle_name = $request->middle_name;
         $user->last_name = $request->last_name;
         $user->address = $request->address;
         $user->email = $request->email;

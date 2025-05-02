@@ -89,15 +89,15 @@ onMounted(() => {
                                     <span>{{ totalReceiveOrders }}</span>
                                 </div>
                             </div>
-                            <div class="cash_total">
+                            <!-- <div class="cash_total">
                                 <div class="order_title">
                                     <i class="pi pi-warehouse"></i>
                                     <span>Cash</span>
                                 </div>
                                 <div class="order_content">
-                                    <span>234</span>
+                                    <span>{{ totalReceiveOrders }}</span>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </section>
@@ -108,11 +108,12 @@ onMounted(() => {
                         <div class="col graph">
                                 <LineChart />
                                 <BarChart />
+                                <PieChart/>
                         </div>
                         <div class="col-4">
                             <table class="table">
                                 <thead>
-                                   <b>Status</b>
+                                   <b>First 15 New Products</b>
                                 </thead>
                                 <tbody>
                                     <tr>
@@ -121,7 +122,72 @@ onMounted(() => {
                                         <td><i class="pi pi-ellipsis-v"></i></td>
                                     </tr>
                                     <tr>
-                                        <td>Kiel</td>
+                                        <td>Rhona</td>
+                                        <td>24%</td>
+                                        <td><i class="pi pi-ellipsis-v"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rhona</td>
+                                        <td>24%</td>
+                                        <td><i class="pi pi-ellipsis-v"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rhona</td>
+                                        <td>24%</td>
+                                        <td><i class="pi pi-ellipsis-v"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rhona</td>
+                                        <td>24%</td>
+                                        <td><i class="pi pi-ellipsis-v"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rhona</td>
+                                        <td>24%</td>
+                                        <td><i class="pi pi-ellipsis-v"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rhona</td>
+                                        <td>24%</td>
+                                        <td><i class="pi pi-ellipsis-v"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rhona</td>
+                                        <td>24%</td>
+                                        <td><i class="pi pi-ellipsis-v"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rhona</td>
+                                        <td>24%</td>
+                                        <td><i class="pi pi-ellipsis-v"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rhona</td>
+                                        <td>24%</td>
+                                        <td><i class="pi pi-ellipsis-v"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rhona</td>
+                                        <td>24%</td>
+                                        <td><i class="pi pi-ellipsis-v"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rhona</td>
+                                        <td>24%</td>
+                                        <td><i class="pi pi-ellipsis-v"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rhona</td>
+                                        <td>24%</td>
+                                        <td><i class="pi pi-ellipsis-v"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rhona</td>
+                                        <td>24%</td>
+                                        <td><i class="pi pi-ellipsis-v"></i></td>
+                                    </tr>
+                                     <tr>
+                                        <td>Rhona</td>
                                         <td>24%</td>
                                         <td><i class="pi pi-ellipsis-v"></i></td>
                                     </tr>

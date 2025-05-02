@@ -131,6 +131,8 @@ const submit = async () => {
             inputsValidation.value = error.response.data.errors
         }
     }
+    console.log(order.value);
+    
 }
 onMounted(() => {
     PRODUCTS()
@@ -145,7 +147,6 @@ onMounted(() => {
     <transition name="fade">
         <ChooseAddress v-if="chooseAddress" @closeModal="closeModal" class="chooseAddress" />
     </transition>
-    <Header />
     <Navbar />
     <NavbarCategory />
     

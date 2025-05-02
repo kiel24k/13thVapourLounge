@@ -20,14 +20,12 @@ class UserOrder extends Model
         'province',
         'municipality',
         'barangay',
-        'order_image',
-        'order_label',
+        'order_id',
         'order_price',
         'order_total',
         'order_quantity',
         'status',
         'date_order'
-        
     ];
 
     public function userInfo()

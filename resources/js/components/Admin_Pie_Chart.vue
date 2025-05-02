@@ -1,90 +1,60 @@
 <template>
-  <canvas ref="pieChart"></canvas>
+  
+  <div class="pie_chart bg-white">
+    <div class="title text-center">
+      <b>Most Sales</b>
+    </div>
+    <canvas ref="pieChart"></canvas>
+  </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue';
 import { Chart, registerables } from 'chart.js';
-
-const pieItemCount = ref([])
-const pieOrderLabel = ref([])
+import { onMounted, ref } from 'vue';
 
 
-const PIE_CHART_API = async () => {
-  const response = await axios.get('api/dashboard-pie-chart')
-  pieItemCount.value = response.data.map((el) => el.item_count);
-  pieOrderLabel.value = response.data.map((el) => el.order_label)
-  createChart()
-}
-
-
-
-
-// Register the necessary Chart.js components
+const pieChart = ref(null)
 Chart.register(...registerables);
 
-// Reference to the canvas element
-const pieChart = ref(null);
 
-// Define your chart data and options
+const data = {
+  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  datasets: [{
+    label: 'Monthly Sales',
+    data: [65, 59, 80, 81, 56, 55, 40],
+    backgroundColor:  [
+      'rgb(255, 99, 132)',
+      'rgb(54, 162, 235)',
+      'rgb(255, 205, 86)'
+    ],
+    borderColor:  [
+      'rgb(255, 99, 132)',
+      'rgb(54, 162, 235)',
+      'rgb(255, 205, 86)'
+    ],
+    borderWidth: 1,
+  }],
+};
 
-const createChart = () => {
+onMounted(() => {
   const ctx = pieChart.value.getContext('2d');
-  const data = {
-    labels: pieOrderLabel.value,
-    datasets: [{
-      label: 'Order Count',
-      data: pieItemCount.value,
-      backgroundColor: [
-        'rgba(247, 46, 3, 0.2)',
-        'rgba(250, 169, 9 , 0.2)',
-        'rgba(250, 246, 9 , 0.2)',
-        'rgba(9, 250, 104 , 0.2)',
-        'rgba(9, 100, 250  , 0.2)',
-        'rgba(206, 9, 250  , 0.2)',
-      ],
-      borderColor: [
-        'skyblue'
-      ],
-      borderWidth: 1,
-    }],
-  }
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Record of Products',
-      },
-    },
-  };
   new Chart(ctx, {
     type: 'pie',
     data: data,
-    options: options,
   });
-
-}
-
-// Create the chart when the component is mounted
-onMounted(() => {
-  PIE_CHART_API()
-
-
-
-
 });
-
-
 </script>
 
 <style scoped>
 canvas {
-  width: 30rem;
-  height: 100rem;
-  margin: auto;
+   max-width: 100%;
+  max-height: 400px;
 }
+.pie_chart{
+  background: white;
+  box-shadow: 0px 0px 5px 0px gray;
+  border-radius: 5px;
+  color:gray;
+}
+
 </style>

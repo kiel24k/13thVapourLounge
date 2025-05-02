@@ -33,6 +33,10 @@ const sort = (column) => {
 
 }
 
+const updateBtn = () => {
+    alert("update success")
+}
+
 const deleteBtn = async (id) => {
     try {
         const response = await axios.post('api/delete-user', {
@@ -103,7 +107,7 @@ onMounted(() => {
                                 <th @click="sort('last_name')">Last Name
                                     <span>{{ sortByOrder === 'asc' ? '▲' : '▼' }}</span>
                                 </th>
-                                <th @click="sort('age')">Age
+                                <th @click="sort('gender')">Gender
                                     <span>{{ sortByOrder === 'asc' ? '▲' : '▼' }}</span>
                                 </th>
                                 <th @click="sort('address')">Address
@@ -120,11 +124,11 @@ onMounted(() => {
                                 <td>{{ index + 1 }}</td>
                                 <td>{{ data.first_name }}</td>
                                 <td>{{ data.last_name }}</td>
-                                <td> {{ data.age }} </td>
+                                <td> {{ data.gender }} </td>
                                 <td>{{ data.address }}</td>
                                 <td>{{ data.email }}</td>
                                 <td class="table-action">
-                                    <Button icon="pi pi-file-edit" severity="info"/>
+                                    <!-- <Button icon="pi pi-file-edit" severity="info" @click="updateBtn(data.id)"/> -->
                                     <Button icon="pi pi-trash" severity="danger" @click="deleteBtn(data.id)"/>
                                     
                                 </td>

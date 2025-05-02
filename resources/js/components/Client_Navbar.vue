@@ -90,12 +90,9 @@ onMounted(() => {
     <nav>
         <div class="row">
             <div class="col nav-main">
-                <div class="">
-                    <img src="/public/image/search-glassess copy.png" alt="" width="30">
-                </div>
-                <div class="">
+                <div class="title">
                     <router-link :to="{ name: 'home-dashboard' }" href="" class="nav-link">
-                        <img src="/public/image/1920525_gogle_google_logo_network_icon.png" alt="" width="40">
+                        <img src="/public/image/withoutbgtitleimage-removebg-preview.png" width="120" height="60">
                     </router-link>
                 </div>
                 <div class="header-action">
@@ -137,6 +134,7 @@ nav {
     box-shadow: 0px 0px 5px 0px gray;
     padding: 10px;
     align-items: center;
+    align-content: center;
 
 }
 
@@ -158,4 +156,5 @@ nav {
     color: rgb(102, 76, 76);
     text-transform: capitalize;
 }
+
 </style>

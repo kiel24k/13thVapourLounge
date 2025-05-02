@@ -1,3 +1,4 @@
+import component from "element-plus/es/components/tree-select/src/tree-select-option.mjs";
 import { createWebHistory, createRouter } from "vue-router";
 
 const routes = [
@@ -109,16 +110,41 @@ const routes = [
         name: "admin-dashboard",
     },
     {
-        path: '/admin-POS',
+        path: "/admin-POS",
         component: () => import("../pages/admin/Admin_POS.vue"),
-        name: 'admin-POS'
+        name: "admin-POS",
+    },
+    {
+        path: "/admin-category-list",
+        name: "admin-category-list",
+        component: () => import("../pages/admin/Admin_Category_List.vue"),
+    },
+    {
+        path: "/admin-add-product",
+        name: "admin-add-product",
+        component: () => import("../pages/admin/Admin_Add_Product.vue"),
+    },
+    {
+        path: "/admin-new-category",
+        name: "admin-new-category",
+        component: () => import("../pages/admin/Admin_New_Category.vue"),
+    },
+    {
+        path: "/admin-print-category-list",
+        component: () => import("../pages/admin/Admin_Print_Category_List.vue"),
+        name: "admin-print-category-list",
+    },
+    {
+        path: '/admin-customer-list',
+        component: () => import("../pages/admin/Admin_Customer_List.vue"),
+        name: 'admin-customer-list'
     },
     {
         path: "/client-cancelation",
         component: () => import("../pages/client/Client_Cancelation.vue"),
         name: "client-cancelation",
     },
-   
+
     //======================Sub-Admin routes=============================//
     {
         path: "/sub-admin-dashboard",

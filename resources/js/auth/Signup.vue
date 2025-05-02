@@ -11,6 +11,7 @@ const signupBtn = async () => {
     const response = await axios.post('api/signup', {
       first_name: inputs.value.first_name,
       last_name: inputs.value.last_name,
+      middle_name: inputs.value.middle_name,
       email: inputs.value.email,
       password: inputs.value.password
     });
@@ -37,9 +38,8 @@ const signupBtn = async () => {
           <div class="signup-content1">
             <div class="row title">
               <p>Signup</p>
-              <small>And enjoy life during the time you just saved!</small>
             </div>
-            <div class="row mt-5 signup-with">
+            <!-- <div class="row mt-5 signup-with">
               <div class="col">
                 <button class="btn">
                   <span>
@@ -56,7 +56,7 @@ const signupBtn = async () => {
                   </span>
                 </button>
               </div>
-            </div>
+            </div> -->
 
             <div class="row mt-2">
               <form action="" @submit.prevent>
@@ -68,10 +68,18 @@ const signupBtn = async () => {
                       <small v-if="inputsValidation.first_name">{{ inputsValidation.first_name[0] }}</small>
                     </div>
                     <div class="col">
-                      <label for="">Last Name</label>
-                      <input type="text" class="form-control" v-model="inputs.last_name" />
-                      <small v-if="inputsValidation.last_name">{{ inputsValidation.last_name[0] }}</small>
+                      <div class="col">
+                        <label for="">Middle name: <span class="text-danger">Optional</span></label>
+                        <input type="text" class="form-control" v-model="inputs.middle_name" />
+                      </div>
                     </div>
+                  </div>
+                  <div class="row mt-3">
+                  <div class="col">
+                    <label for="">Last Name</label>
+                    <input type="text" class="form-control" v-model="inputs.last_name" />
+                    <small v-if="inputsValidation.last_name">{{ inputsValidation.last_name[0] }}</small>  
+                  </div>
                   </div>
                   <div class="row mt-3">
                     <div class="col">
@@ -85,17 +93,6 @@ const signupBtn = async () => {
                       <label for="">Password</label>
                       <input type="password" class="form-control" v-model="inputs.password" />
                       <small v-if="inputsValidation.password">{{ inputsValidation.password[0] }}</small>
-                    </div>
-                  </div>
-                  <div class="row mt-3">
-                    <div class="col checkbox">
-                      <div class="">
-                        <input type="checkbox" />
-                      </div>
-                      <div class="">
-                        <label for="">Creating an account means you are aggree with our
-                          terms and policies</label>
-                      </div>
                     </div>
                   </div>
                   <div class="row m-3 create-account-btn">
@@ -135,6 +132,9 @@ const signupBtn = async () => {
     height: 100%;
     width: 100%;
     background-color: rgb(240, 240, 240);
+  }
+  .form small{
+    color:red;
   }
 
   /* .signup-body {

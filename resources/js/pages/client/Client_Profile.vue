@@ -49,7 +49,7 @@ onMounted(() => {
         </div>
         <div class="col profile-action">
             <div class="">
-               <Button label="Change Image" severity="contrast" icon="pi pi-pen-to-square" raised/>
+               <!-- <Button label="Change Image" severity="contrast" icon="pi pi-pen-to-square" raised/> -->
             </div>
         </div>
         <hr>

@@ -21,7 +21,7 @@ class DashboardController extends Controller
 
     public function receiveOrdersTotal () {
         $order = DB::table('user_orders')
-        ->where('status' , 'received')
+        ->distinct()
         ->count();
         return response()->json($order);
     }

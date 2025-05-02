@@ -6,6 +6,9 @@ import html2pdf from 'html2pdf.js'
 const printContent = ref(null)
 const emit = defineEmits(['closeModalReceipt'])
 const inputs = ref({})
+const date = new Date()
+const formatter = new Intl.NumberFormat();
+
 
 
 const props = defineProps(['itemSection', 'propsForCustomerName', 'overAllTotal'])
@@ -27,11 +30,6 @@ const printReceipt = () => {
         .set(options)
         .save();
 };
-
-
-
-
-
 </script>
 
 <template>
@@ -43,52 +41,12 @@ const printReceipt = () => {
                 </div>
             </div>
             <div class="row ">
-                <div class="">
-                    <span>Buyer's Name: {{ propsForCustomerName.first_name }} {{ propsForCustomerName.last_name
-                        }}</span>
-                    <hr>
-                </div>
-                <div class="mt-3">
-                    <FloatLabel variant="in">
-                        <InputNumber :useGrouping="false" fluid v-model="inputs.contact_no" />
-                        <label for="in_label">Contact No.</label>
-                    </FloatLabel>
-                </div>
-                <div class="mt-3">
-                    <FloatLabel variant="in">
-                        <InputText :useGrouping="false" fluid v-model="inputs.address" />
-                        <label for="in_label">Address</label>
-                    </FloatLabel>
-                </div>
-                <div class="mt-3">
-                    <FloatLabel variant="in">
-                        <InputNumber :useGrouping="false" fluid v-model="inputs.amount" />
-                        <label for="in_label">Amount</label>
-                    </FloatLabel>
 
-                </div>
                 <div class="receipt-content" ref="printContent">
-                    <div class="mt-3" v-if="inputs">
-                        <h2>Buyers Info</h2>
-                        <table class="table buyer-info-table">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <i class="pi pi-phone"></i>{{ inputs.contact_no }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <i class="pi pi-warehouse"></i>{{ inputs.address }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <i class="pi pi-wallet"></i>P{{ inputs.amount }}.00
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="receipt_title">
+                        <h1>Vapour Lounge</h1>
+                        <h5>Trece Martires City, Cavite</h5>
+                        <span>Brgy San Agustin</span>
                     </div>
                     <div class="mt-3">
                         <h2>Order</h2>
@@ -96,21 +54,35 @@ const printReceipt = () => {
                             <tbody>
                                 <tr v-for="(data) in itemSection">
                                     <td>{{ data.product_label }}</td>
-                                    <td>P{{ data.product_price }}</td>
+                                    <td>₱{{ data.product_price }}.00</td>
                                     <td>x{{ data.quantity }}</td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="table-total">
-                            <b>Total: P{{ overAllTotal }}.00</b>
+                           
+                            <b>Total: ₱{{ formatter.format(overAllTotal) }}.00</b>
+                            
                             <hr>
-                            <b v-if="inputs.amount">Exhange: P{{ inputs.amount - overAllTotal }}.00</b>
+                            <label for=""><b>Cash:</b></label>
+                            <input type="number" placeholder="ex: 999,999,9" v-model="inputs.amount"
+                                class="form-control">
+                            
+                            <hr>
+                            <b v-if="inputs.amount >= overAllTotal">Exhange: ₱{{ formatter.format(inputs.amount -
+                                overAllTotal) }}.00</b>
+                            <b v-else>Exhange: ₱0.00</b>
+                        </div>
+                        <div class="receipt_footer mt-3">
+                            <h4>Date issued</h4>
+                            <span>{{ date.toLocaleDateString() }}</span>
                         </div>
                     </div>
                 </div>
+               
                 <div class="mt-3 text-end">
-                    <Button label="Go to Receipt" severity="info" icon="pi pi-angle-double-right"
-                        @click="printReceipt" />
+                    <Button label="Receipt" severity="info" icon="pi pi-angle-double-right" @click="printReceipt"
+                        v-if="inputs.amount >= overAllTotal" />
                 </div>
             </div>
         </div>
@@ -136,9 +108,10 @@ const printReceipt = () => {
     margin: 10px;
 
 }
-.buyer-info-table td{
+
+.buyer-info-table td {
     display: flex;
-    gap:10px;
+    gap: 10px;
 }
 
 .receipt-content {
@@ -187,8 +160,28 @@ const printReceipt = () => {
 
 .enter-amount input:focus {
     outline: rgb(226, 221, 221);
-    ;
     color: gray;
 
 }
+
+.receipt_title {
+    display: grid;
+    font-size: 20px;
+    justify-content: center;
+    text-align: center;
+}
+
+.receipt_footer {
+    display: grid;
+    justify-content: center;
+    text-align: center;
+}
+
+.table-total input {
+    background-color: white;
+    outline: none;
+    box-shadow: none;
+
+}
+
 </style>

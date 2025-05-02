@@ -6,11 +6,17 @@ import { computed, onMounted, ref, watch } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import PosModalReceipt from '@/components/Admin_Pos_Modal_Receipt.vue'
+import ReserveList from '@/components/Admin_Reserve_List.vue'
+import AdminReserveModal from '@/components/Admin_Reserve_Modal.vue'
+
+
 
 const router = useRouter()
 const addCustomerModal = ref(false)
 const itemSection = ref([])
 const posModalReceipt = ref(false)
+const childRef = ref(null);
+const isAdminReserveModal = ref(false)
 
 
 //API VARIABLE
@@ -20,7 +26,7 @@ const posItem = ref({})
 
 
 
-const selectedCustomer = ref({})
+const selectedCustomer = ref(null)
 const propsForCustomerName = computed(() => {
     const customer = getCustomer.value.find((el) => el.id === selectedCustomer.value)
     return customer
@@ -29,7 +35,8 @@ const selectedItemList = ref({})
 const customerProfile = ref({})
 const search = ref()
 const quantityTotal = ref()
-const overAllTotal = ref()
+const overAllTotal = ref(0)
+const posTableData = ref({})
 
 
 
@@ -44,7 +51,6 @@ const addCustomerBtn = () => {
 
 
 const addItem = (data) => {
-
     const existingItem = itemSection.value.find(i => i.id === data.id);
     if (existingItem) {
         existingItem.quantity += 1
@@ -76,40 +82,9 @@ const priceTotal = () => {
 
 }
 
-const submitReserve = async () => {
-    try {
-        const response = await axios.post('api/pos-reserve', {
-            data: itemSection.value,
-            customer_id: selectedCustomer.value
 
-        })
-        console.log(response);
-    } catch (e) {
-        console.log(e);
-    }
-}
 
-const reserve = () => {
-    Swal.fire({
-        title: "Dou you want to reserve?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Okay"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            submitReserve()
-            Swal.fire({
-                title: "Reserved!",
-                text: "Reserve Success",
-                icon: "success"
-            });
-        }
-    });
 
-}
 
 const GET_CUSTOMER_API = async () => {
     const response = await axios.get('api/get-customer-list')
@@ -146,6 +121,8 @@ watch(search, (oldVal, newVal) => {
 })
 const closeModal = () => {
     addCustomerModal.value = false
+    GET_CUSTOMER_API()
+
 
 }
 
@@ -156,6 +133,112 @@ const cashBtn = () => {
 const closeModalReceipt = () => {
     posModalReceipt.value = false
 }
+
+const addQuantity = (data) => {
+    const singleItem = itemSection.value.find(item => item.id === data.id)
+    console.log(data.quantity, data.product_price, data.total);
+    console.log(singleItem.quantity, singleItem.product_price, singleItem.total);
+    if (singleItem) {
+        singleItem.quantity += 1
+        singleItem.total = parseInt(data.product_price) * singleItem.quantity
+    }
+    totalOfQuantity()
+    priceTotal()
+}
+
+const reduceQuantity = (data) => {
+    const singleItem = itemSection.value.find(item => item.id === data.id)
+    console.log(data.quantity, data.product_price, data.total);
+    console.log(singleItem.quantity, singleItem.product_price, singleItem.total);
+    if (singleItem.quantity <= 1) {
+        singleItem.quantity = 1
+    }
+    else if (singleItem) {
+        singleItem.quantity -= 1
+        singleItem.total = parseInt(data.total) - parseInt(data.product_price)
+        totalOfQuantity()
+        priceTotal()
+    }
+}
+const quantityEvent = ref('')
+const tableQuantity = (event, data) => {
+    const singleItem = itemSection.value.find(el => el.id === data.id)
+    if (singleItem) {
+        singleItem.quantity = event.value
+        singleItem.total = event.value * parseInt(data.product_price)
+        if (event.value === null) {
+            singleItem.quantity = 0
+            //   singleItem.total = singleItem.product_price
+        }
+    }
+    totalOfQuantity()
+    priceTotal()
+}
+
+const reserveBtn = (data) => {
+    posTableData.value = data
+   if (itemSection.value.length <= 0) {
+        Swal.fire("Fill Order first!");
+    } else if (itemSection.value.length > 0) {
+        isAdminReserveModal.value = true
+        //     await axios({
+        //     method: 'POST',
+        //     url: '/api/pos-reserve-product',
+        //     data: {
+        //         product: data,
+        //         pos_customer_id: selectedCustomer.value,
+        //         overall_quantity: quantityTotal.value,
+        //         overall_total:overAllTotal.value
+        //     }
+        // }).then(response => {
+        //     if (response.status === 200) {
+        //         Swal.fire({
+        //             position: "top-end",
+        //             icon: "success",
+        //             title: "Reserved",
+        //             showConfirmButton: false,
+        //             timer: 1500
+        //         });
+        //         selectedCustomer.value = ''
+        //         itemSection.value = []
+        //         quantityTotal.value = 0
+        //         overAllTotal.value = 0
+        //         childRef.value.GET_RESERVE_LIST_API()
+        //     }
+
+        // }).catch(e => {
+        // console.log(e);
+
+        //     Swal.fire('Customer already exist!'); 
+        // })
+    }
+}
+const submitSuccess = () => {
+    selectedCustomer.value = ''
+    itemSection.value = []
+    quantityTotal.value = 0
+    overAllTotal.value = 0
+    childRef.value.GET_RESERVE_LIST_API()
+    isAdminReserveModal.value = false
+}
+
+const closeReserve = () => {
+    isAdminReserveModal.value = false
+}
+
+// watch(() => quantityEvent.value, (oldVal, newVal) => {
+//     console.log(quantityEvent.value);
+
+// })
+
+const reserveHistory = (data) => {
+    itemSection.value = JSON.parse(data.product)
+    quantityTotal.value = data.overall_quantity
+    overAllTotal.value = data.overall_total
+    selectedCustomer.value = null
+    console.log(data.name);
+
+}
 onMounted(() => {
     GET_CUSTOMER_API()
     POS_CATEGORY_API()
@@ -164,6 +247,8 @@ onMounted(() => {
 </script>
 
 <template>
+    <AdminReserveModal v-if="isAdminReserveModal" :posTableData="posTableData" @closeReserve="closeReserve"
+        @submitSuccess="submitSuccess" :overAllTotal="overAllTotal" :quantityTotal="quantityTotal" />
     <PosModalReceipt v-if="posModalReceipt" @closeModalReceipt="closeModalReceipt" :itemSection="itemSection"
         :propsForCustomerName="propsForCustomerName" :overAllTotal="overAllTotal" />
     <AddCustomerModal v-if="addCustomerModal" @closeModal="closeModal" />
@@ -177,36 +262,9 @@ onMounted(() => {
     <div class="container-fluid">
         <div class="row pos-section">
             <section class="col">
-                <Message severity="contrast" icon="pi pi-ellipsis-v">Select Customer</Message>
-                <div class="search mt-2">
-                    <InputGroup>
-                        <select class="form-select" v-model="selectedCustomer">
-                            <option :value="data.id" v-for="(data) in getCustomer">
-                                {{ data.first_name }} {{ data.last_name }}
-                            </option>
-                        </select>
-                        <InputGroupAddon>
-                            <Button icon="pi pi-user-plus" severity="secondary" variant="text"
-                                @click="addCustomerBtn" />
-                        </InputGroupAddon>
-                    </InputGroup>
-                    <InputGroup>
-                        <InputText placeholder="Product" />
-                        <InputGroupAddon>
-                            <Button icon="pi pi-search" severity="secondary" variant="text" />
-                        </InputGroupAddon>
-                    </InputGroup>
-                </div>
-                <div class="user-section mt-3">
-                    <figure>
-                        <i class="pi pi-user" style="font-size: 3rem"></i>
-                        <figcaption>
-                            <h2>{{ customerProfile.first_name }} </h2>
-                            <p>{{ customerProfile.last_name }}</p>
-                        </figcaption>
-                    </figure>
-                </div>
-                <div class="item-table">
+                <Message severity="contrast" icon="pi pi-ellipsis-v">Product</Message>
+
+                <div class="item-table mt-2">
                     <table class="table table-hover table-striped table-responsive">
                         <thead>
                             <tr>
@@ -219,8 +277,15 @@ onMounted(() => {
                         </thead>
                         <tbody>
                             <tr v-for="(data) in itemSection">
-                                <td>{{ data.product_label }}</td>
-                                <td>{{ data.quantity }}</td>
+                                <td class="product_label">{{ data.product_label }}</td>
+                                <td>
+                                    <div class="quantity_action">
+                                        <button @click="reduceQuantity(data)">-</button>
+                                        <InputNumber :min="1" v-model="data.quantity"
+                                            @input="(e) => tableQuantity(e, data)" />
+                                        <button icon="pi pi-plus" severity="info" @click="addQuantity(data)">+</button>
+                                    </div>
+                                </td>
                                 <td>
                                     <Message icon="pi pi-money-bill">P{{ data.product_price }}</Message>
                                 </td>
@@ -234,23 +299,31 @@ onMounted(() => {
                         </tbody>
                     </table>
                 </div>
-                <div class="amount-edit">
+                <div class="amount-edit mt-3">
                     <div class="">
                         <span>Quantity</span>
-                        <h2>{{ quantityTotal }}</h2>
-                        <Button severity="danger" label="Reserve" icon="pi pi-briefcase" @click="reserve" />
+                        <h2>{{ !quantityTotal ? "0" : quantityTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                        </h2>
+                        <!-- <Button severity="danger" label="Reserve" icon="pi pi-briefcase" @click="reserve" /> -->
+
+                        <Button label="Reserve" severity="danger" icon="pi pi-inbox" @click="reserveBtn(itemSection)" />
+
+
                     </div>
                     <div class="">
                         <span>Grand Total</span>
-                        <h2>P{{ overAllTotal }}</h2>
-                        <Button severity="primary" label="Cash" icon="pi pi-money-bill" @click="cashBtn" />
+                        <h2>P{{ !overAllTotal ? "0" : overAllTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        }}.00</h2>
+
+                        <Button severity="primary" label="Cash" icon="pi pi-money-bill" @click="cashBtn"
+                            :disabled="overAllTotal === 0" />
                     </div>
                 </div>
 
 
             </section>
             <section class="col">
-                <Message severity="contrast" icon="pi pi-ellipsis-v">Select Category</Message>
+                <Message severity="contrast" icon="pi pi-ellipsis-v">Select Product</Message>
                 <div class="category mt-2">
                     <select class="form-select" v-model="selectedItemList">
                         <option value="">all</option>
@@ -267,9 +340,9 @@ onMounted(() => {
                 </div>
                 <div class="item-list mt-3">
                     <div class="item" v-for="(data) in posItem" @click="addItem(data)">
-                        <div class="">
+                        <!-- <div class="">
                             <Button :label="data.quantity" rounded raised severity="warn" />
-                        </div>
+                        </div> -->
                         <div class="text-center mt-2">
                             <img :src="`storage/product_image/${data.image}`" width="100" alt="">
                         </div>
@@ -279,7 +352,9 @@ onMounted(() => {
                     </div>
                 </div>
             </section>
+            <ReserveList ref="childRef" @reserveHistory="reserveHistory" />
         </div>
+
     </div>
 </template>
 
@@ -303,6 +378,8 @@ section {
 .search {
     display: flex;
     gap: 5px;
+    align-items: center;
+    align-content: center;
 }
 
 .user-section {
@@ -322,6 +399,9 @@ section {
 .item-table {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    height: 20rem;
+    overflow-y: scroll;
+
 }
 
 .item-table table th {
@@ -354,6 +434,8 @@ section {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    height: 27rem;
+    overflow-y: scroll;
 }
 
 .item-list .item {
@@ -367,5 +449,28 @@ section {
     width: 15rem;
     overflow: hidden;
     height: 15rem;
+}
+
+.quantity_action {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 10px;
+    gap: 5px;
+
+}
+
+::v-deep .p-inputtext {
+    width: 4rem;
+}
+
+.quantity_action button {
+    background: rgb(197, 217, 224);
+    border: 0;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.product_label {
+    width: 40%;
 }
 </style>

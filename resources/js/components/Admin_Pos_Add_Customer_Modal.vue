@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import { Button, FloatLabel, InputNumber, InputText, Message } from 'primevue';
+import { Button, FloatLabel, InputNumber, InputText, Message, Textarea } from 'primevue';
 import { onMounted, ref } from 'vue';
 import Swal from 'sweetalert2';
 
@@ -16,10 +16,8 @@ const closeModal = () => {
 const submit = async () => {
     try {
         const response = await axios.post('api/add-customer', {
-            first_name: input.value.first_name,
-            middle_name: input.value.middle_name,
-            last_name: input.value.last_name,
-            mobile_no: input.value.mobile_no
+            name: input.value.name,
+            note: input.value.note,
         })
         if (response.status === 200) {
             emit('closeModal')
@@ -32,7 +30,7 @@ const submit = async () => {
             });
         }
 
-    } catch (er) {
+    }catch(er) {
         inputValidation.value = er.response.data.errors
         
         
@@ -53,52 +51,25 @@ const submit = async () => {
                 </div>
             </div>
             <div class="form-modal-title mt-3">
-                <Message severity="warn" icon="pi pi-user">New Customer</Message>
+                <Message severity="warn" icon="pi pi-user">Reserve Customer</Message>
             </div>
             <fieldset>
                 <form @submit.prevent>
                     <div class="row">
                         <div class="col form-input">
-                            <FloatLabel variant="in">
-                                <InputText id="in_label" fluid variant="filled" :invalid="inputValidation.first_name"
-                                    v-model="input.first_name" />
-                                <label for="in_label">First Name</label>
-                            </FloatLabel>
-                            <Message severity="error" v-if="inputValidation.first_name">{{ inputValidation.first_name[0]
+                           <input type="text"  v-model="input.name" placeholder="Enter Name">
+                            <Message severity="error" v-if="inputValidation.name">{{ inputValidation.name[0]
                                 }}</Message>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col form-input">
-                            <FloatLabel variant="in">
-                                <InputText id="in_label" fluid variant="filled" v-model="input.middle_name" />
-                                <label for="in_label">Middle Name</label>
-                            </FloatLabel>
-                            <Message severity="error" v-if="inputValidation.middle_name">{{
-                                inputValidation.middle_name[0] }}</Message>
+                           <Textarea type="text"  v-model="input.note" placeholder="Enter Description" rows="10" cols="10"></Textarea>   
+                            <Message severity="error" v-if="inputValidation.description">{{
+                                inputValidation.description[0] }}</Message>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col form-input">
-                            <FloatLabel variant="in">
-                                <InputText id="in_label" fluid variant="filled" v-model="input.last_name" />
-                                <label for="in_label">Last Name</label>
-                            </FloatLabel>
-                            <Message severity="error" v-if="inputValidation.last_name">{{ inputValidation.last_name[0]
-                                }}</Message>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col form-input">
-                            <FloatLabel variant="in">
-                                <InputNumber inputId="withoutgrouping" :useGrouping="false" fluid
-                                    v-model="input.mobile_no" />
-                                <label for="in_label">Mobile No.</label>
-                            </FloatLabel>
-                            <Message severity="error" v-if="inputValidation.mobile_no">{{ inputValidation.mobile_no[0]
-                                }}</Message>
-                        </div>
-                    </div>
+                    
                     <div class="submit-btn text-end">
                         <Button label="Submit" raised severity="contrast" @click="submit" />
                     </div>

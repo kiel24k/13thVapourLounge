@@ -15,7 +15,7 @@ const data = {
   datasets: [{
     label: 'Monthly Sales',
     data: [65, 59, 80, 81, 56, 55, 40],
-    backgroundColor: 'pink',
+    backgroundColor: 'orange',
     borderColor: 'red',
     borderWidth: 1,
   }],

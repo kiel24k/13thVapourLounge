@@ -21,8 +21,13 @@ Route::controller(AuthController::class)->group(function () {
 Route::controller(AdminController::class)->group(function () {
     route::post('/create-category', 'createCategory');
     route::get('/category-list', 'categoryList');
+    route::get('/category-table', 'categoryTable');
     route::post('/create-product', 'createProduct');
+    route::post('/update-category', 'updateCategory');
+    route::get('/product-list-category','productListCategory');
     route::get('/product-list', 'productList');
+    route::get('/get-update-product', 'getUpdateProduct');
+    route::post('/update-product', 'updateProduct');
     route::get('/delete-product', 'deleteProduct');
     route::get('/display-only-category', 'displayOnlyCategory');
     route::get('/user-list', 'userList');
@@ -31,6 +36,8 @@ Route::controller(AdminController::class)->group(function () {
     route::post('/order-update-status', 'orderUpdateStatus');
     route::post('/update-admin-profile','updateAdminProfile');
     route::get('/order-category', 'orderCategory');
+    route::delete('/delete-product-category', 'deleteProductCategory');
+    route::get('/get-category', 'getCategory');
 });
 
 Route::controller(ClientController::class)->group(function () {
@@ -66,7 +73,10 @@ Route::controller(DashboardController::class)->group(function () {
 Route::controller(PosController::class)->group(function () {
     route::post('/add-customer', 'addCustomer');
     route::get('/get-customer-list', 'getCustomerList');
+    route::delete('/delete-customer', 'deleteCustomer');
     route::get('/pos-category', 'posCategory');
     route::get('/pos-get-items', 'getItems');
-    route::post('/pos-reserve', 'reserve');
+    route::post('/pos-reserve-product', 'postReserveProduct');
+    route::get('/get-reserve-list', 'getReserveList');
+    route::delete('/delete-reserve-list', 'deleteReserveList');
 });
