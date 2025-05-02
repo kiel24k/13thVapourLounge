@@ -1,23 +1,65 @@
-ADMIN SIDE
-+kulay ng mga BOX => done   
-+UI ng mga graph, dapat naka grid tas may table sa gilid => done 
+====ADMIN SIDE====
+POS[
+    -can pause/resume/continue all the transactions even if you leave => DONE
+    -remove the list button nearby at cash button (its confusing daw) => DONE
+    -in adding/creating new customer middle name is optional (not required) => DONE
+    -in adding/choosing product clicking is good. but atleast add manual way to type easily when its has a bigger quantity, also it symbol => DONE
+    -if the valuse is already in thousand you must put a comma (2,000) => DONE
+]
+POS RECEIPT SIDE [
+ -you dont need to put personal info in the receipt => DONE
+ -it only be this layout (or your prefer layout, just like a common receipt) => DONE
+]
 
--PRODUCTS
-+UI ng table => done
-+alert notif pag success ang submition ng new category at add products => done
-+delete confirmation => done
-+Update button => 
-+search, category, pagination
+OVERVIEW [
+    -when the user order a product, it automatically add/sees in the overview => DONE
+]
+
+ADD NEW PRODUCT[
+    -the color of the box may not be blended on the backgound => DONE
+]
+     
 
 
--USERS
-+UI ng table 
-+delete confirmation
-++search, category, pagination
-+update button
+====CLIENT SIDE====
+PROFILE[
+    -Change gender into sex (male/female only) no others => DONE
+    -Dapat naghahighlith yung mga options ng category pag hinover, para malaman na clickable => DONE
+]
 
--ACCOUNT SETTINGS
-+gawin ang change password etc
+===POS===
+RESERVE LIST[
+    -Remove the customer list and the "create customer name". hnd na need ma save ang customer name. => DONE
+    - Name must be needed only when it reserves => DONE
+    - In creating customer for reserving a transaction, just a Unique name, no middle and surname needed. (if the name is already existing it there must be an error that name is already exist.) => DONE
+    -It must be an error when reserving a blank transaction, dapat hnd nagpoproceed. => DONE
+    - sa reserve list dapat may scroll up/down, at may search tab to easily change the exixsting customer. => DONE
+RECEIPT[
+    - ERROR-hnd sya nagpoproceed kapag exact amount ang ininput, dapat acceptable if sakto or sobra magkakaexchange lang. => DONE
+    
+DASHBOARD[
+    - dapat may printing report ang mga chart, para pwede mo sya iprint anytime into a pdf form like bargraph/excel in sales data over time
+    - dapat my time picker para maaaccess mo lng yung specific sales with specific time and date between.
+    - lagyan ng piegraph para nm sa product report(kung anong category ang maraning benta in this month)
+    !DAPAT LAHAT NG YAN PWEDE IPRINT!
+    - dapat lahat ng  action dimo pa kiniclick my preview hover na, parang tinutuk mo pa lng sa delete icon, may mag aappear na delete para di nya na need pindutin para malaman kung ano yung icon na yun.
+    -USERS LIST- dapat mga user lang ng client side ang nandun, hnd na sa admin kasi iisa lng nmn ang admin, at dapat hnd nabubura it can be change over tinme lng.
+    -w
+]
+]
+]
 
-SIDEBAR 
-+maglagay ng category list
+
+===ADMIN SIDE=== FRI MAY 2
+•	Remove the +new category outside (the one in the category list must be consider). => DONE
+•	Fix the reserve customer => DONE
+•	Add sub-admin or how many staff can access the admin side whenever the main admin is not in the shop.  => DONE
+•	Change sales data over time into Weekly sales performance chart  => DESIGN PALANG
+•	Put the pie graph that represent of the product that has the most sales => DESIGN PALANG
+•	ALL THE CHART MUST HAVE A PRINT REPORT WITH A FIX HEADER OUTPUT OF A SHOP LOGO AND ADDRESS 
+==ADMIN PROFILE==
+•	Put also in update/edit profile the change password. => DESIGN PALANG
+•	In admin edit profile the review change is not working, fix that! => DESIGN PALANG
+•	CONTENT
+•	CONTACT SUPPORT
+

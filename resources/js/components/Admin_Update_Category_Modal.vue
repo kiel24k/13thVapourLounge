@@ -4,12 +4,17 @@ import Swal from 'sweetalert2';
 import { onMounted, ref } from 'vue';
 
 
-const emit = defineEmits(['closeModal'])
+const emit = defineEmits(['closeUpdateModal'])
+const props = defineProps(['updateModalId'])
 const categoryList = ref({})
 const input = ref({
     file: ''
 })
-const productValidation = ref({})
+
+const categoryData = ref({})
+
+const updatedProductData = ref({})
+const categoryValidation = ref({})
 const fileName = ref('')
 const imageUrl = ref('')
 const image = (event) => {
@@ -23,53 +28,53 @@ const image = (event) => {
 
 
 const cancelBtn = () => {
-    emit('closeModal')
+    emit('closeUpdateModal')
 }
-const category = async () => {
-    try {
-        const response = await axios.get('api/category-list')
-        categoryList.value = response.data
-    } catch (error) {
+const GET_CATEGORY_API = async () => {
+ await axios({
+    method: 'GET',
+    url: 'api/get-category',
+    params: {
+        id: props.updateModalId
     }
+ }).then(response => {
+    categoryData.value = response.data
+ })
 }
 
+
+
 const saveBtn = async () => {
-    try {
-        const response = await axios.post('api/create-product', {
-            product_name: input.value.category,
-            product_label: input.value.label,
-            product_price: input.value.price,
-            quantity: input.value.quantity,
-            description: input.value.description,
-            image: input.value.file,
-            label_category: input.value.label_category
-        }, {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        })
-        console.log(response);
-        if (response.status === 200) {
-            Swal.fire({
+  await axios({
+    method: 'POST',
+    url: 'api/update-category',
+    data: {
+        id: props.updateModalId,
+        product_type: categoryData.value.product_type,
+        product_name: categoryData.value.product_name,
+        description: categoryData.value.description
+    }
+  }).then(response => {
+    if(response.status === 200){
+        Swal.fire({
                 position: "top-end",
                 icon: "success",
-                title: "Product Added",
+                title: "Category Updated",
                 showConfirmButton: false,
                 timer: 1500
             });
-            emit('closeModal')
-        }
-    } catch (error) {
-        console.log(error);
-
-        if (error.response.status === 422) {
-            productValidation.value = error.response.data.errors
-        }
-
+          emit('closeUpdateModal')
     }
+    
+  }).catch(e => {
+    console.log();
+    categoryValidation.value = e.response.data.errors
+
+  })
 }
 onMounted(() => {
-    category()
+    GET_CATEGORY_API()
+    
 })
 
 </script>
@@ -78,7 +83,7 @@ onMounted(() => {
         <div class="form-modal-main">
             <div class="row">
                 <div class="col modal-title">
-                    <span>Detailed Course Pricing Breakdown</span>
+                    <span>Update Product</span>
                     <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque incidunt soluta doloribus
                         aliquam quae, maiores quam autem veritatis! Laboriosam, placeat quam reprehenderit cumque
                         eligendi incidunt repellat nisi magnam atque modi.</small>
@@ -97,57 +102,25 @@ onMounted(() => {
             <hr>
             <fieldset>
                 <form enctype="multipart/form-data">
-                    <div class="row">
+                    <div class="row mt-2">
                         <div class="col">
-                            <label for="">Product Type</label>
-                            <select name="" id="" v-model="input.category" class="form-select">
-                                <option :value="data.product_name" v-for="(data, index) in categoryList" :key="index">
-                                    {{ data.product_type }} / {{ data.product_name }}
-                                </option>
-                            </select>
-                            <span v-if="productValidation.product_name">{{ productValidation.product_name[0] }}</span>
+                            <label for="">Product type</label>
+                            <input type="text" v-model="categoryData.product_type"></input>
+                            <span v-if="categoryValidation.product_type">{{ categoryValidation.product_type[0] }}</span>
                         </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col">
-                            <label for="">Product Label</label>
-                            <textarea cols="10" rows="1" type="text" v-model="input.label"></textarea>
-                            <span v-if="productValidation.product_label">{{ productValidation.product_label[0] }}</span>
+                            <label for="">Product name</label>
+                            <input type="text" v-model="categoryData.product_name"></input>
+                            <span v-if="categoryValidation.product_name">{{ categoryValidation.product_name[0] }}</span>
                         </div>
-                        <div class="col">
-                            <label for="">Product Price</label>
-                            <input type="number" v-model="input.price">
-                            <span v-if="productValidation.product_price">{{ productValidation.product_price[0] }}</span>
-                        </div>
-                        <div class="col">
-                            <label for="">Quantity</label>
-                            <input type="number" placeholder="x1" v-model="input.quantity">
-                            <span v-if="productValidation.quantity">{{ productValidation.quantity[0] }}</span>
-                        </div>
-                    </div>
-
-                    <div class="row mt-2 field-img">
-                        <div class="col">
-                            <label for="">Image</label>
-                            <input type="file" @change="image">
-                        </div>
-                        <div class="col">
-                            <label for="">Mark as</label>
-                            <select name="" id="" v-model="input.label_category">
-                                <option value="none">None</option>
-                                <option value="new-arrival">New Arrival</option>
-                                <option value="best-seller">Best Seller</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <img :src="imageUrl" width="10" alt="">
                     </div>
                     <div class="row">
                         <div class="col">
                             <label for="">Description</label>
-                            <textarea name="" rows="10" id="" v-model="input.description"></textarea>
-                            <span v-if="productValidation.description">{{ productValidation.description[0] }}</span>
+                            <textarea name="" rows="10" id="" v-model="categoryData.description"></textarea>
+                            <span v-if="categoryValidation.description">{{ categoryValidation.description[0] }}</span>
                         </div>
                     </div>
                 </form>
@@ -207,7 +180,7 @@ onMounted(() => {
 fieldset select {
     width: 100%;
     border-radius: 5px;
-    border: solid 1px rgb(31, 29, 29);
+    border: solid 1px rgb(214, 214, 214);
     padding: 5px;
     transition: all linear 1s;
 }
@@ -254,7 +227,7 @@ fieldset label {
 
 fieldset input,
 textarea {
-    border: 1px solid rgb(76, 72, 72);
+    border: 1px solid rgb(182, 178, 178);
     padding: 5px;
     border-radius: 5px;
 }
@@ -296,6 +269,4 @@ fieldset span {
 .field-img img {
     width: 100px;
 }
-
-
 </style>

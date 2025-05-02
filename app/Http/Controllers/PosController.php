@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PosCustomer;
 use App\Models\PosReserve;
+use App\Models\PosReserveProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,17 +13,12 @@ class PosController extends Controller
     public function addCustomer(Request $request)
     {
         $request->validate([
-            'first_name' => 'required',
-            'middle_name' => 'required',
-            'last_name' => 'required',
-            'mobile_no' => 'required|integer'
+            'name' => 'required|unique:pos_customers,name',
         ]);
 
         $customer = new PosCustomer();
-        $customer->first_name = $request->first_name;
-        $customer->middle_name = $request->middle_name;
-        $customer->last_name = $request->last_name;
-        $customer->mobile_no = $request->mobile_no;
+        $customer->name = $request->name;
+        $customer->note = $request->note;
         $customer->save();
         return response()->json($customer);
     }
@@ -30,10 +26,16 @@ class PosController extends Controller
     public function getCustomerList()
     {
         $customer = DB::table('pos_customers')
-            ->select('id', 'first_name', 'middle_name', 'last_name')
+            ->select('id', 'name')
             ->orderBy('id', 'DESC')
             ->get();
         return response()->json($customer);
+    }
+
+    public function deleteCustomer(Request $request)
+    {
+        $data = PosCustomer::find($request->id)->delete();
+        return response()->json($data);
     }
 
     public function posCategory()
@@ -97,17 +99,44 @@ class PosController extends Controller
         // return response()->json($product);
     }
 
-    public function reserve (Request $request){
-       foreach ($request->data as $data) {
-        $reserve = new PosReserve();
-        $reserve->product_id = $data['id'];
-        $reserve->customer_id = $request->customer_id;
-        $reserve->product_label = $data['product_label'];
-        $reserve->quantity = $data['quantity'];
-        $reserve->price = $data['product_price'];
-        $reserve->total = $data['total'];
-        $reserve->save();
-       }
 
+
+    public function postReserveProduct(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|unique:pos_reserve_products,name',
+        ]);
+       
+        $reserve_product = new PosReserveProduct();
+        $reserve_product->name = $request->name;
+        $reserve_product->note = $request->note;
+        $reserve_product->product = json_encode($request->product);
+        $reserve_product->overall_quantity = $request->overall_quantity;
+        $reserve_product->overall_total = $request->overall_total;
+        $reserve_product->save();
+        return response()->json($reserve_product);
+    }
+
+
+    public function getReserveList(Request $request)
+    {
+        if (empty($request->search)) {
+            $data = DB::table('pos_reserve_products')
+                ->select('*')
+                ->get();
+            return response()->json($data);
+        } else if (isset($request->search)) {
+            $data = PosReserveProduct::where('name', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('note', 'LIKE', '%' . $request->search . '%')
+                ->orderBy('id', 'DESC')
+                ->get();
+            return response()->json($data);
+        }
+    }
+
+    public function deleteReserveList(Request $request)
+    {
+        $data = PosReserveProduct::find($request->id)->delete();
+        return response()->json($data);
     }
 }

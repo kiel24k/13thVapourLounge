@@ -1,28 +1,29 @@
 <script setup>
 import Header from '@/components/Admin_Header.vue'
 import Sidebar from '@/components/Admin_Sidebar.vue'
-import AddProductModal from '@/components/Admin_Add_Product.vue'
 import AddCategoryModal from '@/components/Admin_Add_Category.vue'
-import NewCategoryNotification from '@/widgets/new_category_added.vue'
 import { onMounted, ref, watch } from 'vue';
 import axios from 'axios'
 import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue'
 import html2pdf from 'html2pdf.js'
 import Swal from 'sweetalert2'
-import UpdateProductModal from '@/components/Admin_Update_Product_Modal.vue'
+import UpdateCategoryModal from '@/components/Admin_Update_Category_Modal.vue'
+import Loader from '@/widgets/Loader.vue';
 
-const selectCategory = ref('')
 const search = ref('')
-const productListCategoryData = ref({})
+const categoryTableData = ref({})
+
+
 
 const printContent = ref(null)
 const addProductModal = ref(false)
 const addCategoryModal = ref(false)
-const isUpdateProductModal = ref(false)
+const isUpdateCategoryModal = ref(false)
 const showSidebar = ref(true)
-const productData = ref({})
 const sortOrder = ref('desc')
 const sortBy = ref('product_name')
+const table_action_icon = ref(true)
+const isLoader = ref(false)
 
 const updateModalId = ref(null)
 
@@ -33,34 +34,23 @@ const pagination = ref({
     prev_page_url: null,
 });
 
-const PRODUCT_lIST_CATEGORY_API = () => {
-    axios({
-        method:'GET',
-        url: 'api/product-list-category'
-    }).then(response => {
-        productListCategoryData.value = response.data
-    })
-}
 
-const productList = async (page) => {
-    try {
-        const response = await axios.get(`api/product-list?page=${page}`, {
-            params: {
-                search: search.value,
-                category: selectCategory.value,
-                sortOrder: sortOrder.value,
-                sortBy: sortBy.value
-            }
-        })
-        pagination.value = {
-            current_page: response.data.current_page,
-            last_page: response.data.last_page,
-            next_page_url: response.data.next_page_url,
-            prev_page_url: response.data.prev_page_url,
+
+const CATEGORY_TABLE_API = async (page = 1) => {
+    await axios({
+        method: 'GET',  
+        url: '/api/category-table',
+        params: {
+            sortBy: sortBy.value,
+            sortOrder: sortOrder.value,
+            search: search.value
         }
-        productData.value = response.data
-    } catch (error) {
-    }
+    }).then(response => {
+        console.log(response);
+        
+        categoryTableData.value = response.data
+    })
+
 }
 
 const sort = (column) => {
@@ -70,7 +60,7 @@ const sort = (column) => {
         sortOrder.value = 'asc'
         sortBy.value = column
     }
-    productList()
+    CATEGORY_TABLE_API()
 }
 
 const deleteProductBtn = (id) => {
@@ -85,13 +75,13 @@ const deleteProductBtn = (id) => {
     }).then((result) => {
         if (result.isConfirmed) {
             axios({
-                method: 'GET',
-                url: 'api/delete-product',
+                method: 'DELETE',
+                url: 'api/delete-product-category',
                 params: {
                     id: id
                 }
             }).then(response => {
-                response.status === 200 ? productList() : productList()
+                response.status === 200 ?   CATEGORY_TABLE_API() :   CATEGORY_TABLE_API()
             })
             Swal.fire({
                 title: "Deleted!",
@@ -106,13 +96,13 @@ const deleteProductBtn = (id) => {
 
 const updateBtn = (id) => {
     updateModalId.value = id
-    isUpdateProductModal.value = true
-     
+    isUpdateCategoryModal.value = true
+
 }
 
 const closeUpdateModal = () => {
-    isUpdateProductModal.value = false 
-    productList()
+    isUpdateCategoryModal.value = false
+   CATEGORY_TABLE_API()
 }
 
 const prevBtn = () => {
@@ -126,13 +116,6 @@ const nextBtn = () => {
         productList(pagination.value.current_page + 1)
     }
 
-}
-
-const createProductBtn = () => {
-    addProductModal.value = true
-}
-const createCategoryBtn = () => {
-    addCategoryModal.value = true
 }
 const closeModal = () => {
     addProductModal.value = false
@@ -150,42 +133,49 @@ const closeSidebar = () => {
 }
 
 const printTable = () => {
+    isLoader.value = true
+    table_action_icon.value = false
     const elem = printContent.value
     const options = {
         margin: 1,
-        filename: 'document.pdf',
+        filename: 'Category List.pdf',
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
     };
+    setTimeout(() => {
+table_action_icon.value = true
+isLoader.value = false
+    }, 500)
     html2pdf()
         .from(elem)
         .set(options)
         .save();
 };
 
-watch(search, (oldVal,newVal) => {
-    productList()
+
+
+watch(search, (oldVal, newVal) => {
+    
+    CATEGORY_TABLE_API()
 
 })
 
-watch(selectCategory, (oldVal,newVal) => {
-    productList()
-})
- 
+
+
 onMounted(() => {
-    PRODUCT_lIST_CATEGORY_API()
-    productList()
+    CATEGORY_TABLE_API()
 })
 
 </script>
 
 <template>
+    <Loader v-if="isLoader"/>
     <div id="products">
         <div class="header">
-            <AddProductModal v-if="addProductModal" @closeModal="closeModal" />
             <AddCategoryModal v-if="addCategoryModal" @closeModal="closeModal" @notification="notification" />
-            <UpdateProductModal v-if="isUpdateProductModal" :updateModalId="updateModalId" @closeUpdateModal="closeUpdateModal" />
+            <UpdateCategoryModal v-if="isUpdateCategoryModal" :updateModalId="updateModalId"
+                @closeUpdateModal="closeUpdateModal" />
             <Header @closeSidebar="closeSidebar" />
         </div>
         <div class="content">
@@ -196,12 +186,9 @@ onMounted(() => {
                 <section id="section-one" class="mt-4">
                     <div class="row">
                         <div class="col table-top">
-                            <div class="category">
-                                <Select v-model="selectCategory" :options="productListCategoryData" optionLabel="date_released" placeholder="Select date" />
-                            </div>
                             <div class="search">
                                 <InputGroup>
-                                    <InputText placeholder="Search..." v-model="search" />
+                                    <InputText placeholder="Keyword" v-model="search" />
                                     <InputGroupAddon>
                                         <Button icon="pi pi-search" severity="secondary" variant="text"
                                             @click="toggle" />
@@ -215,10 +202,14 @@ onMounted(() => {
                         </div>
                         <div class="col text-end">
                             <div class="table-top-action">
-                                <Button @click="createCategoryBtn" label="New Category" icon="pi pi-plus-circle" raised
-                                    severity="success" />
-                                <Button @click="createProductBtn" label="Add Product" icon="pi pi-plus-circle" raised
-                                    severity="success" />
+                              <router-link :to="{name: 'admin-new-category'}">
+                                <Button  label="New Category" icon="pi pi-plus-circle" raised
+                                severity="success" />
+                              </router-link>
+                               <router-link :to="{name: 'admin-products'}">
+                                <Button icon="pi pi-list" label="Product List" raised
+                                severity="info" />
+                               </router-link>
                             </div>
                         </div>
                     </div>
@@ -228,45 +219,23 @@ onMounted(() => {
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th @click="sort('product_type')">
+                                    <div class="table_header">
+                                        <div class="table_head_title">
+                                            Product type
+                                        </div>
+                                        <div class="table_head_icon" v-if="table_action_icon">
+                                            <i class="pi pi-sort-amount-down-alt" v-if="sortOrder === 'asc'"></i>
+                                            <i class="pi pi-sort-amount-down" v-if="sortOrder === 'desc'"></i>
+                                        </div>
+                                    </div>
+                                </th>
                                 <th @click="sort('product_name')">
                                     <div class="table_header">
                                         <div class="table_head_title">
-                                            Name
+                                            Product name
                                         </div>
-                                        <div class="table_head_icon">
-                                            <i class="pi pi-sort-amount-down-alt" v-if="sortOrder === 'asc'"></i>
-                                            <i class="pi pi-sort-amount-down" v-if="sortOrder === 'desc'"></i>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th @click="sort('product_label')">
-                                    <div class="table_header">
-                                        <div class="table_head_title">
-                                            Label
-                                        </div>
-                                        <div class="table_head_icon">
-                                            <i class="pi pi-sort-amount-down-alt" v-if="sortOrder === 'asc'"></i>
-                                            <i class="pi pi-sort-amount-down" v-if="sortOrder === 'desc'"></i>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th @click="sort('product_price')">
-                                    <div class="table_header">
-                                        <div class="table_head_title">
-                                            Price
-                                        </div>
-                                        <div class="table_head_icon">
-                                            <i class="pi pi-sort-amount-down-alt" v-if="sortOrder === 'asc'"></i>
-                                            <i class="pi pi-sort-amount-down" v-if="sortOrder === 'desc'"></i>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th @click="sort('quantity')">
-                                    <div class="table_header">
-                                        <div class="table_head_title">
-                                            Quantity
-                                        </div>
-                                        <div class="table_head_icon">
+                                        <div class="table_head_icon" v-if="table_action_icon">
                                             <i class="pi pi-sort-amount-down-alt" v-if="sortOrder === 'asc'"></i>
                                             <i class="pi pi-sort-amount-down" v-if="sortOrder === 'desc'"></i>
                                         </div>
@@ -277,35 +246,22 @@ onMounted(() => {
                                         <div class="table_head_title">
                                             Description
                                         </div>
-                                        <div class="table_head_icon">
+                                        <div class="table_head_icon" v-if="table_action_icon">
                                             <i class="pi pi-sort-amount-down-alt" v-if="sortOrder === 'asc'"></i>
                                             <i class="pi pi-sort-amount-down" v-if="sortOrder === 'desc'"></i>
                                         </div>
                                     </div>
                                 </th>
-                                <th>Action</th>
+                                <th v-if="table_action_icon">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(data, index) in productData.data" :key="index">
+                            <tr v-for="(data, index) in categoryTableData.data" :key="index">
                                 <td>{{ index + 1 }}</td>
-                                <td style="display: flex; gap:10px;">
-                                    <div class="">
-                                        <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`"
-                                            width="40" height="40" alt="">
-                                    </div>
-                                    <div style="display: grid;">
-                                        <span>{{ data.product_label }}</span>
-                                       
-                                        <small style="font-weight: 600; color:gray">{{ data.date_released }}</small>
-                                    </div>
-                                </td>
+                                <td>{{ data.product_type }}</td>
                                 <td>{{ data.product_name }}</td>
-                                <td>₱{{ data.product_price }}</td>
-
-                                <td> x{{ data.quantity }} </td>
                                 <td> {{ data.description }} </td>
-                                <td class="table-action">
+                                <td class="table-action" v-if="table_action_icon">
                                     <Button icon="pi pi-file-edit" severity="info" @click="updateBtn(data.id)" />
                                     <Button @click="deleteProductBtn(data.id)" icon="pi pi-trash" severity="danger"
                                         raised />
@@ -313,7 +269,7 @@ onMounted(() => {
                             </tr>
                         </tbody>
                     </table>
-                    <div class="row">
+                    <div class="row" v-if="table_action_icon">
                         <div class="col text-center ">
                             <Button @click="prevBtn" :disabled="!pagination.prev_page_url" severity="contrast"
                                 icon="pi pi-chevron-left" variant="text" rounded />

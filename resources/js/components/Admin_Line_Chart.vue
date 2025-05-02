@@ -29,7 +29,7 @@
       },
       title: {
         display: true,
-        text: 'Sales Data Over Time',
+        text: 'Weekly sales chart',
       },
     },
   };

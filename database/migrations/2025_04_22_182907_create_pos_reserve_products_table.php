@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pos_customers', function (Blueprint $table) {
+        Schema::create('pos_reserve_products', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('middle_name');
-            $table->string('last_name');
-            $table->string('mobile_no');
+            $table->string('name');
+            $table->text('note')->nullable();
+            $table->text('product');
+            $table->integer('overall_quantity');
+            $table->integer('overall_total');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('pos_reserve_products');
     }
 };

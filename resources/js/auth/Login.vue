@@ -42,7 +42,7 @@ const loginBtn = async () => {
               <p>Login</p>
               <span>An enjoy life during the time you just saved!</span>
             </div>
-            <div class="row mt-5 login-with">
+            <!-- <div class="row mt-5 login-with">
               <div class="col">
                 <button class="btn">
                   <span>
@@ -59,7 +59,7 @@ const loginBtn = async () => {
                   </span>
                 </button>
               </div>
-            </div>
+            </div> -->
 
             <div class="row mt-2">
               <form action="" @submit.prevent>
@@ -71,14 +71,14 @@ const loginBtn = async () => {
                     <div class="col">
                       <label for="">Email</label>
                       <input type="text" class="form-control" v-model="inputs.email" />
-                      <small v-if="inputsValidation.email">{{ inputsValidation.email[0] }}</small>
+                      <small class="text-danger" v-if="inputsValidation.email">{{ inputsValidation.email[0] }}</small>
                     </div>
                   </div>
                   <div class="row mt-3">
                     <div class="col">
                       <label for="">Password</label>
-                      <input type="text" class="form-control" v-model="inputs.password" />
-                      <small v-if="inputsValidation.password">{{ inputsValidation.password[0] }}</small>
+                      <input type="password" class="form-control" v-model="inputs.password" />
+                      <small class="text-danger" v-if="inputsValidation.password">{{ inputsValidation.password[0] }}</small>
                     </div>
                   </div>
                   <div class="row m-3 login-btn">

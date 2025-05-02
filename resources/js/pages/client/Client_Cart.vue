@@ -114,11 +114,10 @@ onMounted(() => {
 </script>
 
 <template>
-    <Header />
+  
     <Navbar :QUANTITY_TOTAL_VALUE="QUANTITY_TOTAL_VALUE" @user="user" />
 
     <NavbarCategory />
-    {{ checkedItem }}
 
     <section class="section-one">
         <div id="cart">

@@ -14,6 +14,7 @@ const saveBtn = async () => {
         const response = await axios.post('api/create-category', {
             product_type: categoryInputs.value.product_type,
             product_name: categoryInputs.value.product_name,
+            description: categoryInputs.value.description
         })
         if (response.status === 200) {
             Swal.fire({
@@ -44,22 +45,29 @@ const closeModal = () => {
                 <img src="/public/image/exit_icon.png" width="35" alt="" @click="closeModal">
             </div>
             <div class="form-modal-title">
-                <span>New Category</span>
+                <span>CREATE NEW CATEGORY</span>
             </div>
             <fieldset>
                 <form action="" @submit.prevent>
                     <div class="row">
                         <div class="col form-input">
-                            <label for="">Product Type</label>
+                            <label for="">Category name</label>
                             <input type="text" placeholder="" v-model="categoryInputs.product_type">
                             <span v-if="categoryValidation.product_type">{{ categoryValidation.product_type[0] }}</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col form-input">
-                            <label for="">Product Name</label>
+                            <label for="">Product type</label>
                             <input type="text" placeholder="" v-model="categoryInputs.product_name">
                             <span v-if="categoryValidation.product_name">{{ categoryValidation.product_name[0] }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col form-input">
+                            <label for="">Details</label>
+                            <textarea class="form-control" name="" id="" v-model="categoryInputs.description"></textarea>
+                            <span v-if="categoryValidation.description">{{ categoryValidation.description[0] }}</span>
                         </div>
                     </div>
                     <div class="warning-change-message">

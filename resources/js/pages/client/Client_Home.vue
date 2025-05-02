@@ -1,5 +1,5 @@
 <script setup>
-import Header from '@/components/Client_Header.vue'
+
 import Navbar from '@/components/Client_Navbar.vue'
 import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import Footer from '@/components/Client_Footer.vue'
@@ -76,12 +76,22 @@ onMounted(() => {
 </script>
 
 <template>
-
-    <Header />
     <Navbar :cartTotal="cartTotal" />
 
     <NavbarCategory />
+    <section class="mt-4 top_homepage">
+       <a href="https://www.google.com/maps/place/13th+Vapour+Lounge/@14.282278,120.8652239,15.75z/data=!4m6!3m5!1s0x33bd81effd100ed7:0x59aa7255e5f6bc7e!8m2!3d14.282493!4d120.8660981!16s%2Fg%2F11gmcc2vvf?entry=ttu&g_ep=EgoyMDI1MDQyOS4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+        <figure>
+            <img src="/public/image/shoplocation.png" alt="" width="1200" height="360" >
+        </figure>
+        <div class="location_title">
+            <strong class="text-danger">Trece Martires city</strong>
+            <i class="pi pi-map-marker text-danger"></i>
+        </div>
+       </a>
 
+        
+    </section>
     <section class="section-one">
         <span>New arrivals</span>
         <div class="section-one-item">
@@ -102,30 +112,34 @@ onMounted(() => {
                     </div>
                 </router-link>
                 <div class="text-start">
-                    <Button  @click="addToCartNewArrival(data)"  icon="pi pi-cart-plus" severity="warn" label="Add To Cart" raised/>
+                    <Button @click="addToCartNewArrival(data)" icon="pi pi-cart-plus" severity="warn"
+                        label="Add To Cart" raised />
                 </div>
             </article>
         </div>
+        <hr>
     </section>
+    
 
     <section class="section-two">
         <span>Best Sellers</span>
         <div class="section-one-item">
-            <article v-for="(data, index) in bestSellerListItem.data" :key="index" >
+            <article v-for="(data, index) in bestSellerListItem.data" :key="index">
                 <router-link :to="{ name: 'client-products', params: { id: data.id } }">
                     <div class="image-one-content">
                         <img :src="`/storage/product_image/${data.image}`" height="130" width="120" alt="" />
                     </div>
                 </router-link>
                 <summary>
-                    <Message severity="success" icon="pi pi-info-circle"  size="small">{{ data.product_name }}</Message>
+                    <Message severity="success" icon="pi pi-info-circle" size="small">{{ data.product_name }}</Message>
                     <p>{{ data.product_label }}</p>
                 </summary>
                 <div class="price">
                     <b>₱{{ data.product_price }}.00</b>
                 </div>
                 <div class="text-start">
-                    <Button @click="addToCartBestSeller(data)" icon="pi pi-cart-plus" severity="warn" label="Add To Cart" raised/>
+                    <Button @click="addToCartBestSeller(data)" icon="pi pi-cart-plus" severity="warn"
+                        label="Add To Cart" raised />
                 </div>
             </article>
         </div>
@@ -266,4 +280,19 @@ summary small {
     display: grid;
     gap: 50px;
 }
+.top_homepage{
+    padding:10px;
+    box-shadow: 0px 0px 5px gray;
+    background: white;
+    border-radius: 10px;
+}
+.location_title{
+    display: flex;
+    align-items: center;
+    gap:10px;
+    justify-content: end;
+    
+}
+
+
 </style>

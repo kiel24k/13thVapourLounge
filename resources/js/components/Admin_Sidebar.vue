@@ -27,22 +27,16 @@
                         </li>
                     </router-link>
                     <!-- test -->
-                    <router-link :to="{ name: 'admin-products' }" class="item1">
+                    <!-- <router-link :to="{ name: 'admin-add-product' }" class="item1">
                         <li class="nav-link text-dark">
                            <i class="pi pi-plus"></i>
                             New Product
                         </li>
-                    </router-link>
-                    <router-link :to="{ name: 'admin-products' }" class="item1">
+                    </router-link> -->
+                    <router-link :to="{ name: 'admin-category-list' }" class="item1">
                         <li class="nav-link text-dark">
                            <i class="pi pi-list"></i>
                             Category list
-                        </li>
-                    </router-link>
-                    <router-link :to="{ name: 'admin-products' }" class="item1">
-                        <li class="nav-link text-dark">
-                           <i class="pi pi-plus"></i>
-                            New Category
                         </li>
                     </router-link>
                     <!-- endtest -->
@@ -61,19 +55,19 @@
                             Profile
                         </li>
                     </router-link>
-                    <router-link :to="{name: 'admin-account-settings'}" class="item1">
+                    <!-- <router-link :to="{name: 'admin-account-settings'}" class="item1">
                         <li class="nav-link text-dark">
                             <i class="pi pi-wrench"></i>
                             Account Setting
                         </li>
-                    </router-link>
+                    </router-link> -->
                 </ul>
                 <h3 class="text-center text-white p-2">Support</h3>
                 <ul class="navbar nav mt-1">
                     <div class="item1">
                         <li class="nav-link text-dark">
                             <img src="/public/image/documentation.png" width="20px" alt="" />
-                            Documentation
+                            Content
                         </li>
                     </div>
                     <div class="item1">
