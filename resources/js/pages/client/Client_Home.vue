@@ -79,19 +79,17 @@ onMounted(() => {
     <Navbar :cartTotal="cartTotal" />
 
     <NavbarCategory />
-    <section class="mt-4 top_homepage">
-       <a href="https://www.google.com/maps/place/13th+Vapour+Lounge/@14.282278,120.8652239,15.75z/data=!4m6!3m5!1s0x33bd81effd100ed7:0x59aa7255e5f6bc7e!8m2!3d14.282493!4d120.8660981!16s%2Fg%2F11gmcc2vvf?entry=ttu&g_ep=EgoyMDI1MDQyOS4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+   <div class="container-fluid mt-3">
+    <a href="https://www.google.com/maps/place/13th+Vapour+Lounge/@14.282278,120.8652239,15.75z/data=!4m6!3m5!1s0x33bd81effd100ed7:0x59aa7255e5f6bc7e!8m2!3d14.282493!4d120.8660981!16s%2Fg%2F11gmcc2vvf?entry=ttu&g_ep=EgoyMDI1MDQyOS4wIKXMDSoASAFQAw%3D%3D" target="_blank">
         <figure>
-            <img src="/public/image/shoplocation.png" alt="" width="1200" height="360" >
+            <img src="/public/image/shopcover.jpg" alt="" width="1900" height="360" >
         </figure>
         <div class="location_title">
-            <strong class="text-danger">Trece Martires city</strong>
+            <small>Trece Martires city</small>
             <i class="pi pi-map-marker text-danger"></i>
         </div>
        </a>
-
-        
-    </section>
+   </div>
     <section class="section-one">
         <span>New arrivals</span>
         <div class="section-one-item">
@@ -143,11 +141,12 @@ onMounted(() => {
                 </div>
             </article>
         </div>
+        <hr>
     </section>
     <section class="section-three">
         <div class="section-three-title">
             <span>About Us</span>
-            <hr>
+          
         </div>
         <article>
             <h2>Our Vape Juice Online With Free Shipping</h2>
@@ -244,6 +243,10 @@ a {
     height: 27rem;
     padding: 20px;
     background: white;
+    transition: all linear 0.2s;
+}
+.section-one-item article:hover{
+    transform: scale(1.1);
 }
 
 .section-one-item article img {
