@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ContentManagementController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PosController;
 use Illuminate\Http\Request;
@@ -79,4 +80,8 @@ Route::controller(PosController::class)->group(function () {
     route::post('/pos-reserve-product', 'postReserveProduct');
     route::get('/get-reserve-list', 'getReserveList');
     route::delete('/delete-reserve-list', 'deleteReserveList');
+});
+
+route::controller(ContentManagementController::class)->group(function () {
+
 });

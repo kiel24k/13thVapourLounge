@@ -65,10 +65,12 @@
                 <h3 class="text-center text-white p-2">Support</h3>
                 <ul class="navbar nav mt-1">
                     <div class="item1">
+                     <router-link :to="{name: 'admin-content-management'}">
                         <li class="nav-link text-dark">
                             <img src="/public/image/documentation.png" width="20px" alt="" />
-                            Content
+                            Content Management
                         </li>
+                     </router-link>
                     </div>
                     <div class="item1">
                         <li class="nav-link text-dark">

@@ -135,9 +135,14 @@ const routes = [
         name: "admin-print-category-list",
     },
     {
-        path: '/admin-customer-list',
+        path: "/admin-customer-list",
         component: () => import("../pages/admin/Admin_Customer_List.vue"),
-        name: 'admin-customer-list'
+        name: "admin-customer-list",
+    },
+    {
+        path: "/admin-content-management",
+        component: () => import("../pages/admin/Admin_Content_Management.vue"),
+        name: "admin-content-management",
     },
     {
         path: "/client-cancelation",
