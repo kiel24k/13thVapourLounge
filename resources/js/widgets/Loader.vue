@@ -15,10 +15,11 @@
 <style scoped>
 #loader{
     position: fixed;
-    z-index: 999;
+    z-index: 9999;
     width: 100%;
     height: 100%;
     background: white;
+    top:0;
 }
 div {
     display: flex;

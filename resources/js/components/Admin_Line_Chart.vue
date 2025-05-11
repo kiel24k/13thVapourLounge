@@ -11,12 +11,12 @@
   
   // Define your chart data and options
   const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    labels: ['WEEK 1', 'WEEK 2', 'WEEK 3', 'WEEK 4', 'WEEK 5', 'WEEK 6', 'WEEK 7'],
     datasets: [{
       label: 'Sales',
       data: [65, 59, 80, 81, 56, 55, 40],
       fill: true,
-      borderColor: 'green',
+      borderColor: '#BBB4A5',
       tension: 0.1,
     }],
   };

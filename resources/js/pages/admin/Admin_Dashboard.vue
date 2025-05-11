@@ -103,7 +103,7 @@ onMounted(() => {
                 </section>
 
 
-                <section class="section-two">
+                <section class="section-two mt-4">
                     <div class="row charts">
                         <div class="col graph">
                                 <LineChart />
@@ -117,8 +117,8 @@ onMounted(() => {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Rhona</td>
-                                        <td>17%</td>
+                                        <td>PODS</td>
+                                        <td>17X</td>
                                         <td><i class="pi pi-ellipsis-v"></i></td>
                                     </tr>
                                     <tr>
@@ -242,32 +242,32 @@ onMounted(() => {
 
 .total_content {
     display: flex;
-    gap: 10px;
+    gap: 40px;
     justify-content: center;
 }
 
 .total_content>div {
     width: 150px;
     height: 150px;
-    border-radius: 5px;
     display: grid;
     justify-content: center;
     align-items: center;
     align-content: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
 
 }
 
 .user_total {
-    background-color: rgb(35, 112, 200);
+    background-color: rgb(110, 173, 208);
 
 }
 
 .product_total {
-    background-color: rgb(239, 178, 119);
+    background-color: rgb(223, 117, 103);
 }
 
 .order_total {
-    background-color: rgb(182, 181, 184);
+    background-color: rgb(72, 171, 168);
 }
 
 .cash_total {

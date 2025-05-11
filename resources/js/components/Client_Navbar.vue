@@ -13,8 +13,18 @@ const emit = defineEmits(['user'])
 const user = ref(Object)
 
 
+//API VARIABLES
+const titleData = ref({})
 
-
+//API FUNCTIONS
+const GET_TITLE_API = async () => {
+    await axios({
+        method: 'GET',
+        url: '/api/get-published-title-tag'
+    }).then(response => {
+        titleData.value = response.data
+    })
+}
 
 
 const cartMountedValue = ref()
@@ -61,9 +71,6 @@ const logout = async () => {
                 });
             }
         });
-
-
-
     } catch (error) {
 
     }
@@ -82,6 +89,7 @@ const items = [
 onMounted(() => {
     cartMounted()
     CLIENT_AUTH_API()
+    GET_TITLE_API()
 })
 </script>
 
@@ -90,9 +98,11 @@ onMounted(() => {
     <nav>
         <div class="row">
             <div class="col nav-main">
-                <div class="title">
+                
+                <div class="title" v-if="titleData[0]">
                     <router-link :to="{ name: 'home-dashboard' }" href="" class="nav-link">
-                        <img src="/public/image/withoutbgtitleimage-removebg-preview.png" width="120" height="60">
+                        <img :src="`/storage/cms_image/${titleData[0].image}`" width="120" height="60">
+                        <h4>{{ titleData[0].caption }}</h4>
                     </router-link>
                 </div>
                 <div class="header-action">
@@ -155,6 +165,12 @@ nav {
     text-decoration: none;
     color: rgb(102, 76, 76);
     text-transform: capitalize;
+}
+.nav-link{
+    display: flex;
+    align-items: center;
+    gap:10px;
+    color:rgb(200, 168, 108);
 }
 
 </style>

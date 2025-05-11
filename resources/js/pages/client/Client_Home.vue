@@ -5,11 +5,50 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import Footer from '@/components/Client_Footer.vue'
 import { onMounted, ref } from 'vue';
 import { Button, Message } from 'primevue';
+import loader from '@/widgets/Loader.vue'
 
+const isLoader = ref(false)
 const newArrivalListItem = ref({})
 const bestSellerListItem = ref({})
 const cartTotal = ref()
 
+//API VARIABLES
+const heroData = ref({})
+const publishedServiceData = ref({})
+const publishedAboutUsData = ref({})
+
+
+//API FUNCTIONS
+const GET_PUBLISHED_HERO_API = async () => {
+    isLoader.value = true
+    await axios({
+        method: 'GET',
+        url: 'api/get-published-hero'
+    }).then(response => {
+      
+        heroData.value = response.data
+        isLoader.value = false
+    })
+}
+
+const GET_PUBLISHED_SERVICE_API = async () => {
+    await axios({
+        method: 'GET',
+        url:'/api/get-published-service'
+    }).then(response => {
+        publishedServiceData.value = response.data
+    })
+}
+
+const GET_PUBLISHED_ABOUT_US_API = async () => {
+    await axios({
+        method: 'GET',
+        url: '/api/get-published-about-us'
+    }).then(response => {
+        publishedAboutUsData.value = response.data
+
+    })
+}
 
 const newArrivalList = async () => {
     try {
@@ -66,9 +105,12 @@ const addToCartBestSeller = (data) => {
     localStorage.setItem('cart', JSON.stringify(cart))
     cartTotal.value = cart.reduce((total, el) => total + el.quantity, 0)
 }
-onMounted(() => {
+onMounted( () => {
     newArrivalList()
     bestSellerList()
+    GET_PUBLISHED_HERO_API()
+    GET_PUBLISHED_SERVICE_API()
+    GET_PUBLISHED_ABOUT_US_API()
 })
 
 
@@ -76,20 +118,22 @@ onMounted(() => {
 </script>
 
 <template>
+    <loader v-if="isLoader"/>
     <Navbar :cartTotal="cartTotal" />
 
     <NavbarCategory />
-   <div class="container-fluid mt-3">
-    <a href="https://www.google.com/maps/place/13th+Vapour+Lounge/@14.282278,120.8652239,15.75z/data=!4m6!3m5!1s0x33bd81effd100ed7:0x59aa7255e5f6bc7e!8m2!3d14.282493!4d120.8660981!16s%2Fg%2F11gmcc2vvf?entry=ttu&g_ep=EgoyMDI1MDQyOS4wIKXMDSoASAFQAw%3D%3D" target="_blank">
-        <figure>
-            <img src="/public/image/shopcover.jpg" alt="" width="1900" height="360" >
-        </figure>
-        <div class="location_title">
-            <small>Trece Martires city</small>
-            <i class="pi pi-map-marker text-danger"></i>
-        </div>
-       </a>
-   </div>
+    <div class="container-fluid mt-3" v-if="heroData[0]">
+        <a href="https://www.google.com/maps/place/13th+Vapour+Lounge/@14.282278,120.8652239,15.75z/data=!4m6!3m5!1s0x33bd81effd100ed7:0x59aa7255e5f6bc7e!8m2!3d14.282493!4d120.8660981!16s%2Fg%2F11gmcc2vvf?entry=ttu&g_ep=EgoyMDI1MDQyOS4wIKXMDSoASAFQAw%3D%3D"
+            target="_blank">
+            <figure>
+                <img :src="`storage/cms_image/${heroData[0].image}`" alt="" width="1900" height="360">
+            </figure>
+            <div class="location_title">
+                <strong class="text-center">{{ heroData[0].details }}.</strong>
+            </div>
+            <hr>
+        </a>
+    </div>
     <section class="section-one">
         <span>New arrivals</span>
         <div class="section-one-item">
@@ -117,7 +161,7 @@ onMounted(() => {
         </div>
         <hr>
     </section>
-    
+
 
     <section class="section-two">
         <span>Best Sellers</span>
@@ -143,63 +187,33 @@ onMounted(() => {
         </div>
         <hr>
     </section>
+    <section class="mt-3">
+        <div class="service_title text-center">
+            <h1>Service we provided</h1>
+        </div>
+
+        <div class="service_content mt-5">
+            <div class="content" v-for="data in publishedServiceData">
+                <figure>
+                    <img :src="`storage/cms_image/${data.image}`" alt="" width="50" height="50">
+                </figure>
+                <figcaption>
+                    <h3>{{ data.caption }}</h3>
+                    <span>{{data.details}}</span>
+                </figcaption>
+            </div>
+           
+        </div>
+        <hr>
+    </section>
     <section class="section-three">
         <div class="section-three-title">
-            <span>About Us</span>
-          
+            <b>About Us</b>
+
         </div>
-        <article>
-            <h2>Our Vape Juice Online With Free Shipping</h2>
-            <span>E-liquid is one of the most popular products people use when vaping. If you’re looking for a delicious
-                e-liquid made from high-quality ingredients and has a clean taste, look no further than our store. We
-                offer
-                the best e-liquids at low prices. These e-juices produce amazing vapors and create delicious, thick
-                clouds.
-                With our high-end vape pen, you can set the appropriate mode according to your preference to provide
-                steam
-                that makes your throat feel comfortable.
-
-                The e-liquids in our vape shop come in different nicotine strengths and PG/VG ratios. There are also
-                many
-                different types of e-liquids to choose from for beginners and advanced vapers. Our products are made to
-                exacting standards, ensuring they give you an excellent vaping experience and taste great too! Our
-                website
-                is easy to navigate and use so that you can find the perfect vape juice quickly and easily. We offer
-                free
-                shipping and a 30-day money-back guarantee so you can buy our best e-liquid confidently!</span>
-        </article>
-        <article>
-            <h2>Buy The Best Vapes From Specialty Retailers</h2>
-            <span>
-                Vapes are the most popular alternative to smoking. They are easy to use, portable, and safer than
-                traditional cigarettes. If you want to buy a new vape, you have to do your research ahead of time.
-                That’s where our online vaping store comes in. We have many years of experience in e-vape retailing. We
-                can also provide a variety of online vapes tailored to specific needs and preferences, making it easier
-                for customers to find the perfect vape for them.
-
-                Not only that, but we have a wide range of vapes for sale, and you can even find some products you won’t
-                find in other vape stores. They will bring you an unprecedented comfortable and relaxing vaping
-                experience. We also offer a variety of flavors, so you can find the one that suits your taste buds best!
-                Our online Philippines vape shop already has an outstanding reputation, and our products have always
-                been well-received by customers. If you are eager to have a new experience, you must visit our vape shop
-                to buy.
-            </span>
-        </article>
-        <article>
-            <h2>Cheap Vape Pens Of High Quality In Our Philippines Vape Shop</h2>
-            <span>
-                Vape pens are small electronic devices that look like cigarettes and come in all shapes and sizes. They
-                contain batteries, atomizers, and cartridges or tanks that store e-liquid. The vape pen starter kit
-                includes a vape pen, cartridge, and USB charger. They are compatible with most types of e-liquids and
-                can be easily refilled. Cartridges can be replaced in as little as three seconds. The vape pens in our
-                vape shop are cheap but high quality.
-
-                vapesstores.ph is a great place to buy all kinds of vapes and related accessories. We offer a wide
-                selection of vapers, and new products are constantly added to the store. We also carry a vast range of
-                vaporizers, atomizers, and more at affordable prices, so you can find what you’re looking for without
-                breaking your budget! If you are interested in vaping and want to know more about it, please visit our
-                online Philippines vape shop for more information on the products.
-            </span>
+        <article v-for="data in publishedAboutUsData">
+            <h2>{{data.caption}}</h2>
+            <span>{{ data.details }}</span>
         </article>
     </section>
     <Footer />
@@ -245,7 +259,8 @@ a {
     background: white;
     transition: all linear 0.2s;
 }
-.section-one-item article:hover{
+
+.section-one-item article:hover {
     transform: scale(1.1);
 }
 
@@ -283,19 +298,55 @@ summary small {
     display: grid;
     gap: 50px;
 }
-.top_homepage{
-    padding:10px;
+
+.top_homepage {
+    padding: 10px;
     box-shadow: 0px 0px 5px gray;
     background: white;
     border-radius: 10px;
 }
-.location_title{
+
+.location_title {
     display: flex;
     align-items: center;
-    gap:10px;
-    justify-content: end;
-    
+    gap: 10px;
+    justify-content: start;
+}
+
+.location_title {
+    color: rgb(161, 129, 70);
+}
+
+.main_service {
+    display: grid;
+    justify-content: center;
 }
 
 
+.service_content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    width: auto;
+    margin: auto;
+
+}
+
+.service_content>div {
+    width: 20rem;
+    background: white;
+    box-shadow: 0px 0px 5px 0px gray;
+    height: 15rem;
+    border-radius: 12px;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.service_content figure {
+    padding: 10px;
+}
+.content figure img{
+    border-radius: 100%;
+}
 </style>

@@ -35,6 +35,7 @@ const submit = async () => {
                 timer: 1500
             });
             emit('submitSuccess')
+            emit('closeReserve')
         }
 
     }).catch(e => {

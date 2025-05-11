@@ -28,17 +28,20 @@ class AdminController extends Controller
         $category->save();
         return response()->json($category);
     }
-    public function deleteProductCategory (Request $request){
+    public function deleteProductCategory(Request $request)
+    {
         $category = ProductCategory::find($request->id)->delete();
         return response()->json($category);
     }
 
-    public function getCategory (Request $request) {
+    public function getCategory(Request $request)
+    {
         $category = ProductCategory::find($request->id);
         return response()->json($category);
     }
 
-    public function updateCategory (Request $request){
+    public function updateCategory(Request $request)
+    {
         $request->validate([
             'product_type' => 'required',
             'product_name' => 'required',
@@ -58,18 +61,19 @@ class AdminController extends Controller
         return response()->json($productType);
     }
 
-    public function categoryTable (Request $request) {
-        $sortOrder = $request->query('sortOrder','DESC');
+    public function categoryTable(Request $request)
+    {
+        $sortOrder = $request->query('sortOrder', 'DESC');
         $sortBy = $request->query('sortBy', 'product_name');
-        if(empty($request->search)){
-            $data = ProductCategory::orderBy($sortBy,  $sortOrder)->paginate(5);
+        if (empty($request->search)) {
+            $data = ProductCategory::orderBy($sortBy,  $sortOrder)->get();
             return response()->json($data);
-        }else if(isset($request->search)){
+        } else if (isset($request->search)) {
             $data = ProductCategory::where('product_type', 'LIKE', '%' . $request->search . '%')
-            ->orWhere('product_name', 'LIKE', '%' . $request->search . '%')
-            ->orWhere('description', 'LIKE', '%' . $request->search . '%')
-            ->orderBy($sortBy,  $sortOrder)
-            ->paginate(5);
+                ->orWhere('product_name', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('description', 'LIKE', '%' . $request->search . '%')
+                ->orderBy($sortBy,  $sortOrder)
+                ->paginate(5);
             return response()->json($data);
         }
     }
@@ -102,7 +106,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function productListCategory () {
+    public function productListCategory()
+    {
         $data = Product::select('date_released')->orderBy('id', 'DESC')->get();
         return response()->json($data);
     }
@@ -110,46 +115,46 @@ class AdminController extends Controller
     {
         $sortOrder = $request->query('sortOrder', 'asc');
         $sortBy = $request->query('sortBy', 'product_name');
-       if(empty($request->search) && empty($request->category)){
-        $data = Product::orderBy($sortBy, $sortOrder)->paginate(5);
-        return response()->json($data);
-       }else if(isset($request->category) && empty($request->search)){
-        $data = Product::where('date_released', $request->category)
-        ->orderBy($sortBy, $sortOrder)
-        ->paginate(5);
-        return response()->json($data);
-       }else if(empty($request->category) && isset($request->search)){
-        $data = Product::where('product_name', 'LIKE', '%' . $request->search . '%')
-        ->orWhere('product_label', 'LIKE', '%' . $request->search . '%')
-        ->orWhere('label_category', 'LIKE', '%' .$request->search . '%')
-        ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
-        ->orWhere('description', 'LIKE', '%' . $request->search . '%')
-        ->orderBy($sortBy, $sortOrder)
-        ->paginate(5);
-        return response()->json($data);
-       }else if(isset($request->category) && isset($request->search)){
-        $data = Product::where('date_released', $request->category)
-        ->where(function ($query) use ($request) {
-            $query->where('product_name', 'LIKE', '%' . $request->search . '%')
-            ->orWhere('product_label', 'LIKE', '%' . $request->search . '%')
-            ->orWhere('label_category', 'LIKE', '%' .$request->search . '%')
-            ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
-            ->orWhere('description', 'LIKE', '%' . $request->search . '%');
-        })
-        ->orderBy($sortBy, $sortOrder)
-        ->paginate(5);
-        return response()->json($data);
-     
-       }
-     
+        if (empty($request->search) && empty($request->category)) {
+            $data = Product::orderBy($sortBy, $sortOrder)->paginate(5);
+            return response()->json($data);
+        } else if (isset($request->category) && empty($request->search)) {
+            $data = Product::where('date_released', $request->category)
+                ->orderBy($sortBy, $sortOrder)
+                ->paginate(5);
+            return response()->json($data);
+        } else if (empty($request->category) && isset($request->search)) {
+            $data = Product::where('product_name', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('product_label', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('label_category', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('description', 'LIKE', '%' . $request->search . '%')
+                ->orderBy($sortBy, $sortOrder)
+                ->paginate(5);
+            return response()->json($data);
+        } else if (isset($request->category) && isset($request->search)) {
+            $data = Product::where('date_released', $request->category)
+                ->where(function ($query) use ($request) {
+                    $query->where('product_name', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('product_label', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('label_category', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('description', 'LIKE', '%' . $request->search . '%');
+                })
+                ->orderBy($sortBy, $sortOrder)
+                ->paginate(5);
+            return response()->json($data);
+        }
     }
 
-    public function getUpdateProduct (Request $request) {
+    public function getUpdateProduct(Request $request)
+    {
         $product = Product::find($request->id);
         return response()->json($product);
     }
 
-    public function updateProduct (Request $request){
+    public function updateProduct(Request $request)
+    {
         $product = Product::find($request->productId);
         $product->product_name = $request->product_name;
         $product->product_label = $request->product_label;
@@ -157,7 +162,7 @@ class AdminController extends Controller
         $product->label_category = $request->label_category;
         $product->quantity = $request->quantity;
         $product->description = $request->description;
-        
+
         if ($request->hasFile('image')) {
             $filePath = '/public/storage/product_image/' . $product->image;
             if (File::exists($filePath)) {
@@ -210,18 +215,18 @@ class AdminController extends Controller
         $sort = $request->query('sort', 'ASC');
         $order = $request->query('order', 'first_name');
         if (empty($request->category) && empty($request->search)) {
-            $data = UserOrder::select('first_name', 'last_name', 'mobile_no','floor_unit_no','island','regions','province','municipality','barangay','status')
-            ->distinct()
-            ->OrderBy($order , $sort)
-            ->distinct()
-            ->paginate(5);
+            $data = UserOrder::select('first_name', 'last_name', 'mobile_no', 'floor_unit_no', 'island', 'regions', 'province', 'municipality', 'barangay', 'status')
+                ->distinct()
+                ->OrderBy($order, $sort)
+                ->distinct()
+                ->paginate(5);
             return response()->json($data);
         } else if (isset($request->category) && empty($request->search)) {
-            $data = UserOrder::select('first_name', 'last_name', 'mobile_no','floor_unit_no','island','regions','province','municipality','barangay','status')
-            ->where('date_order', $request->category)
-            ->OrderBy($order , $sort)
-            ->distinct()
-            ->paginate(5);
+            $data = UserOrder::select('first_name', 'last_name', 'mobile_no', 'floor_unit_no', 'island', 'regions', 'province', 'municipality', 'barangay', 'status')
+                ->where('date_order', $request->category)
+                ->OrderBy($order, $sort)
+                ->distinct()
+                ->paginate(5);
             return response()->json($data);
         } else if (empty($request->category) && isset($request->search)) {
             $data = UserOrder::where('first_name', 'LIKE', '%' . $request->search . '%')
@@ -238,7 +243,7 @@ class AdminController extends Controller
                 ->orWhere('order_total', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('order_quantity', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('status', 'LIKE', '%' . $request->search . '%')
-                ->OrderBy($order , $sort)
+                ->OrderBy($order, $sort)
                 ->distinct()
                 ->paginate(5);
             return response()->json($data);
@@ -260,7 +265,7 @@ class AdminController extends Controller
                         ->orWhere('order_quantity', 'LIKE', '%' . $request->search . '%')
                         ->orWhere('status', 'LIKE', '%' . $request->search . '%');
                 })
-                ->OrderBy($order , $sort)
+                ->OrderBy($order, $sort)
                 ->paginate(5);
             return response()->json($data);
         }
@@ -278,6 +283,7 @@ class AdminController extends Controller
     {
         $user = User::find(Auth::user()->id);
         $user->first_name = $request->first_name;
+        $user->middle_name = $request->middle_name;
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         if ($request->hasFile('image')) {
@@ -295,4 +301,3 @@ class AdminController extends Controller
         return response()->json($user);
     }
 }
- 

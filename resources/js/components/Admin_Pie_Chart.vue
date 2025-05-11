@@ -15,8 +15,6 @@ import { onMounted, ref } from 'vue';
 
 const pieChart = ref(null)
 Chart.register(...registerables);
-
-
 const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
   datasets: [{

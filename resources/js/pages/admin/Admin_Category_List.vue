@@ -85,7 +85,7 @@ const deleteProductBtn = (id) => {
             })
             Swal.fire({
                 title: "Deleted!",
-                text: "Your file has been deleted.",
+                text: "Your category has been deleted.",
                 icon: "success"
             })
         }
@@ -256,7 +256,7 @@ onMounted(() => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(data, index) in categoryTableData.data" :key="index">
+                            <tr v-for="(data, index) in categoryTableData" :key="index">
                                 <td>{{ index + 1 }}</td>
                                 <td>{{ data.product_type }}</td>
                                 <td>{{ data.product_name }}</td>

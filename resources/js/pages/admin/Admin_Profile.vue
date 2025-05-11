@@ -2,16 +2,20 @@
 import Header from '@/components/Admin_Header.vue'
 import Sidebar from '@/components/Admin_Sidebar.vue'
 import { Button, FileUpload, FloatLabel, IftaLabel, Image, InputText, Toast } from 'primevue';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import ChangePasswordModal from '@/components/Admin_Change_Password_Modal.vue'
 import Swal from 'sweetalert2';
 
 const isChangePasswordModal = ref(false)
 const showSidebar = ref(true)
+
+
+//API VARIABLES
 const userData = ref(Object)
 
 //COMPONENTS VARIABLE
 const src = ref(null);
+
 
 //API FUNCTION
 const GET_USER_API = async () => {
@@ -23,9 +27,56 @@ const GET_USER_API = async () => {
     })
 }
 
+const submit = () => {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Update it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios({
+                method: 'POST',
+                url: '/api/update-admin-profile',
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                data: {
+                    first_name: userData.value.first_name,
+                    middle_name: userData.value.middle_name,
+                    last_name: userData.value.last_name,
+                    email: userData.value.email,
+                    image: userData.value.image
+                }
+            }).then(response => {
+                if (response === 200) {
+                    GET_USER_API()
+                }
+            }).catch(e => {
+                console.log(e.response.data.errors);
+
+            })
+            Swal.fire({
+                title: "Updated!",
+                text: "Your Profie has been Update.",
+                icon: "success"
+            });
+        }
+    });
+
+
+
+
+}
+
+
 //COMPONENTS FUNCTION
 function onFileSelect(event) {
     const file = event.files[0];
+    userData.value.image = file
     const reader = new FileReader();
     reader.onload = async (e) => {
         src.value = e.target.result;
@@ -43,23 +94,20 @@ const closeSidebar = () => {
 
 const closeChangePasswordModal = () => {
     isChangePasswordModal.value = false
+    GET_USER_API()
 }
 
 const discard = () => {
-    Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, Discard it!"
-    }).then((result) => {
-        src.value = null
-    });
+    src.value = null
+    GET_USER_API()
 }
 
 //HOOKS
+watch(userData, (oldVal, newVal) => {
+    console.log("dsada");
+
+})
+
 onMounted(() => {
     GET_USER_API()
 })
@@ -84,9 +132,8 @@ onMounted(() => {
                             <span>Last edit on 12 February 2024</span>
                         </div>
                         <div class="col text-end">
-                            <Button label="Discard" icon="pi pi-save" severity="secondary" raised class="m-2"
-                                @click="discard()" />
-                            <Button label="Save" icon="pi pi-save" severity="help" raised class="m-2" />
+                            <Button label="Save" icon="pi pi-save" severity="help" raised class="m-2"
+                                @click="submit()" />
                         </div>
                     </div>
                     <div class="row mt-4">
@@ -105,19 +152,20 @@ onMounted(() => {
 
                                 <Image src="image/370076_account_avatar_client_male_person_icon.png" alt="Image"
                                     width="150" preview imageStyle="border-radius: 100%;"
-                                    v-else-if="userData.image === null" />
-
-                                <Image src="https://randomuser.me/api/portraits/men/78.jpg" alt="Image" width="150"
-                                    preview imageStyle="border-radius: 100%;"
-                                    v-else-if="userData.image != null && src === null" />
+                                    v-else-if="src === null && userData.image === null" />
+                                <Image :src="`storage/admin_profile/${userData.image}`" alt="Image" width="150" height="150" preview
+                                    imageStyle="border-radius: 100%;" v-else-if="userData.image != null && src === null"  />
                             </figure>
+
                             <div class="figure_action">
                                 <FileUpload mode="basic" @select="onFileSelect" customUpload auto severity="secondary"
                                     class="p-button-outlined" />
-
-                                <Button label="Delete picture" severity="danger" variant="outlined" />
+                                <Button label="Discard" icon="pi pi-save" severity="secondary"  class="m-2"
+                                @click="discard()" v-if="src != null" />
+                                
                             </div>
                         </div>
+                        
 
                     </div>
                     <div class="row mt-4">
