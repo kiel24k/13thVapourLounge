@@ -71,6 +71,7 @@ onMounted(() => {
 
 <style scoped>
 .section-category {
+ 
     width: 100%;
     margin: auto;
     display: flex;
@@ -98,17 +99,17 @@ onMounted(() => {
 
 .item-hover {
     position: absolute;
-    display: grid;
+    display: flex;
     align-items: start;
     align-content: start;
     background: rgb(255, 255, 255);
     max-height: auto;
     padding: 10px;
     overflow: hidden;
-    width: 20%;
+    width: 50%;
     gap: 10px;
     height: 10rem;
-    margin-top: 50px;
+    margin-top: 45px;
     box-shadow: var(--floating-box-shadow);
     overflow-y: scroll;
 

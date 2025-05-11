@@ -17,7 +17,8 @@ Route::controller(AuthController::class)->group(function () {
     route::post('/signup', 'signup');
     route::post('/login', 'login');
     route::get('/user', 'user');
-    route::get('/logout','logout');
+    route::post('/change-password', 'changePassword');
+    route::get('/logout', 'logout');
 });
 Route::controller(AdminController::class)->group(function () {
     route::post('/create-category', 'createCategory');
@@ -25,17 +26,17 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/category-table', 'categoryTable');
     route::post('/create-product', 'createProduct');
     route::post('/update-category', 'updateCategory');
-    route::get('/product-list-category','productListCategory');
+    route::get('/product-list-category', 'productListCategory');
     route::get('/product-list', 'productList');
     route::get('/get-update-product', 'getUpdateProduct');
     route::post('/update-product', 'updateProduct');
     route::get('/delete-product', 'deleteProduct');
     route::get('/display-only-category', 'displayOnlyCategory');
     route::get('/user-list', 'userList');
-    route::post('/delete-user','deleteUser');
+    route::post('/delete-user', 'deleteUser');
     route::get('/order-list', 'orderList');
     route::post('/order-update-status', 'orderUpdateStatus');
-    route::post('/update-admin-profile','updateAdminProfile');
+    route::post('/update-admin-profile', 'updateAdminProfile');
     route::get('/order-category', 'orderCategory');
     route::delete('/delete-product-category', 'deleteProductCategory');
     route::get('/get-category', 'getCategory');
@@ -46,22 +47,22 @@ Route::controller(ClientController::class)->group(function () {
     route::get('/new-arrival-list', 'newArrivalList');
     route::get('/best-seller', 'bestSeller');
     route::get('/all-products', 'allProduct');
-    route::get('/client-category-list','categoryList');
+    route::get('/client-category-list', 'categoryList');
     route::get('/check-product', 'checkProduct');
     route::get('/item-on-category', 'itemOnCategory');
     route::get('/products-overview', 'productsOverview');
     route::post('/client-order', 'ClientOrder');
     route::post('/edit-profile', 'editProfile');
-    route::post('/add-new-address' , 'addNewAddress');
+    route::post('/add-new-address', 'addNewAddress');
     route::get('/address-list', 'addressList');
-    route::get('/all-order','allOrder');
-    route::get('/pending-order','pendingOrder');
-    route::get('/order-to-received','orderToReceived');
+    route::get('/all-order', 'allOrder');
+    route::get('/pending-order', 'pendingOrder');
+    route::get('/order-to-received', 'orderToReceived');
     route::get('/order-received', 'orderReceived');
     route::get('/order-completed', 'orderCompleted');
     route::post('/mark-as-completed', 'markAsCompleted');
     route::post('/cancel-order', 'cancelOrder');
-    route::get('/cancelled-order','cancelledOrder');
+    route::get('/cancelled-order', 'cancelledOrder');
 });
 
 Route::controller(DashboardController::class)->group(function () {
@@ -69,6 +70,7 @@ Route::controller(DashboardController::class)->group(function () {
     route::get('/dashboard-total-user', 'userTotal');
     route::get('/dashboard-receive-order-total', 'receiveOrdersTotal');
     route::get('/dashboard-pie-chart', 'pieChart');
+    route::get('/dashboard-monthly-sales', 'monthlySales');
 });
 
 Route::controller(PosController::class)->group(function () {
@@ -83,5 +85,23 @@ Route::controller(PosController::class)->group(function () {
 });
 
 route::controller(ContentManagementController::class)->group(function () {
-
+    route::get('/get-title', 'getTitle');
+    route::post('/update-title', 'updateTitle');
+    route::get('/get-published-title-tag', 'getPublishedTitleTag');
+    //HERO
+    route::get('/get-hero', 'getHero');
+    route::post('/update-hero', 'updateHero');
+    route::get('/get-published-hero', 'getPublishedHero');
+    //ABOUT US
+    route::post('/submit-about-us','submitAboutUs');
+    route::get('/get-about-us','getAboutUs');
+    route::post('/update-about-us', 'updateAboutUs');
+    route::delete('/delete-about-us', 'deleteAboutUs');
+    route::get('/get-published-about-us', 'getPublishedAboutUs');
+    //SERVICE
+    route::post('/submit-service', 'submitService');
+    route::get('/get-service', 'getService');
+    route::post('/update-service', 'updateService');
+    route::delete('/delete-service', 'deleteService');
+    route::get('/get-published-service', 'getPublishedService');
 });

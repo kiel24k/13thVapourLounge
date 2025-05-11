@@ -2,37 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    public function productsTotal () {
+    public function productsTotal()
+    {
         $product = DB::table('products')
-        ->count();
+            ->count();
         return response()->json($product);
     }
 
-    public function userTotal () {
+    public function userTotal()
+    {
         $user = DB::table('users')
-        ->count();
+            ->count();
         return response()->json($user);
     }
 
-    public function receiveOrdersTotal () {
+    public function receiveOrdersTotal()
+    {
         $order = DB::table('user_orders')
-        ->distinct()
-        ->count();
+            ->distinct()
+            ->count();
         return response()->json($order);
     }
 
-    public function pieChart () {
+    public function pieChart()
+    {
         $products = DB::table('user_orders')
-        ->select('order_label')
-        ->selectRaw('COUNT(*) as item_count')
-        ->groupBy('order_label')
-        ->get();
-//sdadsddsdds
-        return response()->json($products);
+            ->select('order_label')
+            ->selectRaw('COUNT(*) as item_count')
+            ->groupBy('order_label')
+            ->get();
+        return $products;      
+    }
+
+    public function monthlySales()
+    {
+        $data = DB::table('user_orders')
+           ->selectRaw('EXTRACT(MONTH from date_order) as month')
+           ->selectRaw('SUM(order_total) as total')
+           ->groupBy('month')
+           ->get();
+        return $data;
     }
 }

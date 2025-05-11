@@ -72,19 +72,8 @@
                         </li>
                      </router-link>
                     </div>
-                    <div class="item1">
-                        <li class="nav-link text-dark">
-                            <img src="/public/image/contact-support-icon.png" width="20px" alt="" />
-                            Contact Support
-                        </li>
-                    </div>
-                    <div class="item1">
-                        <li class="nav-link text-dark">
-                            <img src="/public/image/370076_account_avatar_client_male_person_icon.png" width="20px"
-                                alt="" />
-                            FAQs
-                        </li>
-                    </div>
+                   
+                   
                 </ul>
 
             </div>

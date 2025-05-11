@@ -107,9 +107,7 @@ const POS_ITEM_API = async () => {
     posItem.value = response.data
 
 }
-watch(selectedCustomer, (oldVal, newVal) => {
-    customerProfile.value = getCustomer.value.find((el) => el.id === selectedCustomer.value)
-})
+
 
 watch(selectedItemList, (oldVal, newVal) => {
     POS_ITEM_API()

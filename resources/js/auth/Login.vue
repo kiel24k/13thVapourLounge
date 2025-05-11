@@ -40,7 +40,7 @@ const loginBtn = async () => {
           <div class="login-content1">
             <div class="row title">
               <p>Login</p>
-              <span>An enjoy life during the time you just saved!</span>
+              <span>Unleash the Vapor, Taste the Clouds</span>
             </div>
             <!-- <div class="row mt-5 login-with">
               <div class="col">

@@ -1,50 +1,122 @@
 <template>
-  <canvas ref="barChart"></canvas>
+  <canvas ref="chartRef"></canvas>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { Chart, registerables } from 'chart.js';
+import { ref, computed, onMounted, watch } from 'vue';
+import {
+  Chart,
+  registerables
+} from 'chart.js';
 
-// Register necessary components of Chart.js
+//API VARIABLES
+const monthlySalesData = ref([])
+
+//COMPONENTS VARIABLE
+
+const months = ref([
+  'JANUARY',
+  'FEBRUARY',
+  'MARCH',
+  'APRIL',
+  'MAY',
+  'JUNE',
+  'JULY',
+  'AUGUST',
+  'SEPTEMBER',
+  'OCTOBER',
+  'NOVEMBER',
+  'DECEMBER'
+])
+
+//API FUNCTION
+const GET_MONTHLY_SALES_API = async () => {
+  await axios({
+    method: 'GET',
+    url: '/api/dashboard-monthly-sales'
+  }).then(response => {
+    monthlySalesData.value = response.data
+
+  })
+}
+// Register Chart.js components
 Chart.register(...registerables);
 
-// Define your chart data and options
-const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  datasets: [{
-    label: 'Monthly Sales',
-    data: [65, 59, 80, 81, 56, 55, 40],
-    backgroundColor: 'orange',
-    borderColor: 'red',
-    borderWidth: 1,
-  }],
-};
 
-const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
-    },
-    title: {
-      display: true,
-      text: 'Monthly Sales Data',
-    },
-  },
-};
 
-// Reference to the canvas element
-const barChart = ref(null);
+// Computed totals
+const totalOrderPerMonth = computed(() =>
+  monthlySalesData.value.map(val => parseInt(val.total))
+);
 
-// Create the chart when the component is mounted
-onMounted(() => {
-  const ctx = barChart.value.getContext('2d');
-  new Chart(ctx, {
+// Computed labels
+const monthLabels = computed(() =>
+  monthlySalesData.value.map(val => val.month)
+);
+
+// Chart instance
+const chartRef = ref(null);
+let chartInstance = null;
+
+// Initialize chart
+const renderChart = () => {
+  if (chartInstance) {
+    chartInstance.destroy(); // Clean up old chart if it exists
+  }
+
+  chartInstance = new Chart(chartRef.value, {
     type: 'bar',
-    data: data,
-    options: options,
+    data: {
+      labels: months.value,
+      datasets: [
+        {
+          label: 'Monthly Sales',
+          data: monthSalesMap.value,
+          backgroundColor: '#6F8ECE',
+          borderColor: '#6F8ECE',
+          borderWidth: 0,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
   });
+};
+
+//COMPONENTS FUNCTION
+
+const monthSalesMap = computed(() => {
+  const result = {}
+  months.value.forEach((monthName, index) => {
+    const match = monthlySalesData.value.find(item => item.month === index + 1)
+    result[monthName] = match ? parseInt(match.total) : 0
+  })
+  return result
+});
+
+onMounted(() => {
+
+  renderChart();
+  GET_MONTHLY_SALES_API()
+
+
+
+});
+
+
+
+
+
+
+// Watch for data updates
+watch([totalOrderPerMonth, monthLabels], () => {
+  renderChart();
 });
 </script>
 

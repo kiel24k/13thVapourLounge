@@ -1,8 +1,29 @@
+<script setup>
+import { onMounted, ref } from 'vue'
+
+//API VARIABLES
+const titleData = ref({})
+
+//API FUNCTIONS
+const GET_TITLE_API = async () => {
+    await axios({
+        method: 'GET',
+        url: '/api/get-published-title-tag'
+    }).then(response => {
+        titleData.value = response.data
+    })
+}
+
+onMounted(() => {
+    GET_TITLE_API()
+})
+</script>
+
 <template>
     <footer>
         <div class="footer-content">
-            <div class="footer-title text-center text-white">
-                <h1>Vapour Lounge Trece Martirez Cavite </h1>
+            <div class="footer-title text-center text-white" v-if="titleData[0]">
+                <h1>{{ titleData[0].caption }} Trece Martirez Cavite </h1>
             </div>
             <div class="footer-links">
                 <div class="row">
@@ -28,7 +49,7 @@ footer {
     display: grid;
     justify-content: center;
     align-items: center;
-    
+
 }
 
 .footer-links .social-media-img img {

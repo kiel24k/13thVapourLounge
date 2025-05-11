@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('content_management', function (Blueprint $table) {
             $table->id();
-            $table->text('caption');
-            $table->text('details');
+            $table->text('caption')->nullable();
+            $table->text('details')->nullable();
             $table->enum('status', ['published', 'unpublished']);
             $table->enum('type', ['title_tag','hero','about_us','service', 'contacts' ]);
             $table->string('image')->nullable();
