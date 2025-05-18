@@ -1,5 +1,5 @@
 <template>
-  
+
   <div class="pie_chart bg-white">
     <div class="title text-center">
       <b>Most Sales</b>
@@ -10,49 +10,70 @@
 
 <script setup>
 import { Chart, registerables } from 'chart.js';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+
+//API VARIABLES
+const pieChartData = ref([])
+//API FUNCTIONS
+const GET_PIE_CHART_API = () => {
+  axios({
+    method: 'GET',
+    url: '/api/dashboard-pie-chart'
+  }).then(response => {
+    if (response.status === 200) {
+      pieChartData.value = response.data
+      fetchPieChart()
+    }
+
+  })
+
+}
 
 
 const pieChart = ref(null)
 Chart.register(...registerables);
-const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  datasets: [{
-    label: 'Monthly Sales',
-    data: [65, 59, 80, 81, 56, 55, 40],
-    backgroundColor:  [
-      'rgb(255, 99, 132)',
-      'rgb(54, 162, 235)',
-      'rgb(255, 205, 86)'
-    ],
-    borderColor:  [
-      'rgb(255, 99, 132)',
-      'rgb(54, 162, 235)',
-      'rgb(255, 205, 86)'
-    ],
-    borderWidth: 1,
-  }],
-};
+const data = computed(() => {
+  return {
+    labels: pieChartData.value.map(val => val.product_label),
+    datasets: [{
+      label: 'Most Sales',
+      data: pieChartData.value.map(val => val.item_count),
+      backgroundColor: [
+        'rgb(255, 99, 132)',
+        'rgb(54, 162, 235)',
+        'rgb(255, 205, 86)'
+      ],
+      borderColor: [
+        'white'
+      ],
+      borderWidth: 1,
+    }],
+  };
+})
 
-onMounted(() => {
+const fetchPieChart = () => {
   const ctx = pieChart.value.getContext('2d');
   new Chart(ctx, {
     type: 'pie',
-    data: data,
+    data: data.value,
   });
+}
+
+onMounted(() => {
+  GET_PIE_CHART_API()
 });
 </script>
 
 <style scoped>
 canvas {
-   max-width: 100%;
+  max-width: 100%;
   max-height: 400px;
 }
-.pie_chart{
+
+.pie_chart {
   background: white;
   box-shadow: 0px 0px 5px 0px gray;
   border-radius: 5px;
-  color:gray;
+  color: gray;
 }
-
 </style>

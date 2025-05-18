@@ -70,7 +70,10 @@ Route::controller(DashboardController::class)->group(function () {
     route::get('/dashboard-total-user', 'userTotal');
     route::get('/dashboard-receive-order-total', 'receiveOrdersTotal');
     route::get('/dashboard-pie-chart', 'pieChart');
+    route::get('/dashboard-date-sales-category', 'salesDateCategory');
+     route::get('/dashboard-weekly-sales', 'weeklySales');
     route::get('/dashboard-monthly-sales', 'monthlySales');
+   
 });
 
 Route::controller(PosController::class)->group(function () {

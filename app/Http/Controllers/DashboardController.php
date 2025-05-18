@@ -33,20 +33,55 @@ class DashboardController extends Controller
     public function pieChart()
     {
         $products = DB::table('user_orders')
-            ->select('order_label')
+            ->leftJoin('products', 'user_orderS.order_id', '=', 'products.id')
+            ->select('products.product_label')
             ->selectRaw('COUNT(*) as item_count')
-            ->groupBy('order_label')
+            ->groupBy('products.product_label')
             ->get();
-        return $products;      
+        return response()->json($products);
+    }
+
+    public function salesDateCategory()
+    {
+        $salesYear = DB::table('user_orders')
+            ->selectRaw('YEAR(date_order) as year')
+            ->distinct()
+            ->get();
+
+        $salesMonth = DB::table('user_orders')
+            ->selectRaw('MONTH(date_order) as month')
+            ->distinct()
+            ->get();
+
+
+        return response()->json([
+            'sales_year' => $salesYear,
+            'sales_month' => $salesMonth
+        ]);
+    }
+
+    public function weeklySales(Request $request)
+    {
+        $year = $request->query('year', 2025);
+        $month = $request->query('month', 1);
+        $data = DB::table('user_orders')
+            ->selectRaw('CEIL(DAY(date_order) / 7) as week_group')
+            ->selectRaw('SUM(order_total) as total')
+            ->whereMonth('date_order', $month) // Optional: limit to May
+            ->whereYear('date_order', $year)
+            ->groupBy('week_group')
+            ->orderBy('week_group')
+            ->get();
+        return $data;
     }
 
     public function monthlySales()
     {
         $data = DB::table('user_orders')
-           ->selectRaw('EXTRACT(MONTH from date_order) as month')
-           ->selectRaw('SUM(order_total) as total')
-           ->groupBy('month')
-           ->get();
+            ->selectRaw('EXTRACT(MONTH from date_order) as month')
+            ->selectRaw('SUM(order_total) as total')
+            ->groupBy('month')
+            ->get();
         return $data;
     }
 }

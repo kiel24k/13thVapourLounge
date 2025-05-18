@@ -46,13 +46,10 @@ Chart.register(...registerables);
 
 // Computed totals
 const totalOrderPerMonth = computed(() =>
-  monthlySalesData.value.map(val => parseInt(val.total))
+ monthlySalesData.value.map(val => parseInt(val.total))
 );
 
-// Computed labels
-const monthLabels = computed(() =>
-  monthlySalesData.value.map(val => val.month)
-);
+
 
 // Chart instance
 const chartRef = ref(null);
@@ -63,7 +60,6 @@ const renderChart = () => {
   if (chartInstance) {
     chartInstance.destroy(); // Clean up old chart if it exists
   }
-
   chartInstance = new Chart(chartRef.value, {
     type: 'bar',
     data: {
@@ -101,12 +97,8 @@ const monthSalesMap = computed(() => {
 });
 
 onMounted(() => {
-
   renderChart();
   GET_MONTHLY_SALES_API()
-
-
-
 });
 
 
@@ -115,7 +107,7 @@ onMounted(() => {
 
 
 // Watch for data updates
-watch([totalOrderPerMonth, monthLabels], () => {
+watch([totalOrderPerMonth], () => {
   renderChart();
 });
 </script>

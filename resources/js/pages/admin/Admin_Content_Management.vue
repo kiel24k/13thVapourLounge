@@ -156,13 +156,13 @@ onMounted(() => {
                                 <i class="pi pi-pencil text-end"></i>
                             </div>
                             
-                            <!-- <div class="about_us" @click="aboutUs()">
+                             <div class="about_us" @click="aboutUs()">
                                 <span>
                                     <h3>About us</h3>
                                    <i class="pi pi-question-circle"  style="font-size:15rem;color:skyblue"></i>
                                 </span>
                                 <i class="pi pi-pencil text-end"></i>
-                            </div> -->
+                            </div> 
                             <div class="service" @click="service()">
                                 <span>
                                     <h3>Service</h3>
