@@ -88,6 +88,14 @@ class ContentManagementController extends Controller
             ->where('status', 'published')
             ->get();
         return response()->json($data);
+
+
+
+
+
+
+
+        
     }
 
     //ABOUT US

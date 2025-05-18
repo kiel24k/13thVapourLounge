@@ -85,7 +85,7 @@ onMounted(() => {
                                     <i class="pi pi-shopping-bag"></i>
                                     <span>order</span>
                                 </div>
-                                <div class="order_content">
+                                <div class="order_content"> 
                                     <span>{{ totalReceiveOrders }}</span>
                                 </div>
                             </div>
