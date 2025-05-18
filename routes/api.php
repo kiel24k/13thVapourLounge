@@ -34,7 +34,7 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/display-only-category', 'displayOnlyCategory');
     route::get('/user-list', 'userList');
     route::post('/delete-user', 'deleteUser');
-    route::get('/order-list', 'orderList');
+    route::get('/get-user-order', 'getUserOrder');
     route::post('/order-update-status', 'orderUpdateStatus');
     route::post('/update-admin-profile', 'updateAdminProfile');
     route::get('/order-category', 'orderCategory');

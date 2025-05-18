@@ -210,66 +210,17 @@ class AdminController extends Controller
         return response()->json($data);
     }
 
-    public function orderList(Request $request)
-    {
-        $sort = $request->query('sort', 'ASC');
-        $order = $request->query('order', 'first_name');
-        if (empty($request->category) && empty($request->search)) {
-            $data = UserOrder::select('first_name', 'last_name', 'mobile_no', 'floor_unit_no', 'island', 'regions', 'province', 'municipality', 'barangay', 'status')
-                ->distinct()
-                ->OrderBy($order, $sort)
-                ->distinct()
-                ->paginate(5);
-            return response()->json($data);
-        } else if (isset($request->category) && empty($request->search)) {
-            $data = UserOrder::select('first_name', 'last_name', 'mobile_no', 'floor_unit_no', 'island', 'regions', 'province', 'municipality', 'barangay', 'status')
-                ->where('date_order', $request->category)
-                ->OrderBy($order, $sort)
-                ->distinct()
-                ->paginate(5);
-            return response()->json($data);
-        } else if (empty($request->category) && isset($request->search)) {
-            $data = UserOrder::where('first_name', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('last_name', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('mobile_no', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('floor_unit_no', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('island', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('regions', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('province', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('municipality', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('barangay', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('order_label', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('order_price', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('order_total', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('order_quantity', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('status', 'LIKE', '%' . $request->search . '%')
-                ->OrderBy($order, $sort)
-                ->distinct()
-                ->paginate(5);
-            return response()->json($data);
-        } else if (isset($request->category) && isset($request->search)) {
-            $data = UserOrder::where('date_order', $request->category)
-                ->where(function ($query) use ($request) {
-                    $query->where('first_name', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('last_name', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('mobile_no', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('floor_unit_no', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('island', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('regions', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('province', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('municipality', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('barangay', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('order_label', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('order_price', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('order_total', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('order_quantity', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('status', 'LIKE', '%' . $request->search . '%');
-                })
-                ->OrderBy($order, $sort)
-                ->paginate(5);
-            return response()->json($data);
-        }
+
+
+    public function getUserOrder (Request $request) {
+        $data = DB::table('user_orders')
+        ->leftJoin('users' ,'users.id', '=', 'user_orders.user_id')
+        ->leftJoin('products', 'products.id', '=', 'user_orders.order_id')
+        ->select('users.*', 'user_orders.*', 'products.*')
+        ->paginate(20);
+        return response()->json($data);
     }
+   
     public function orderUpdateStatus(Request $request)
     {
         $userId = UserOrder::find($request->id);
