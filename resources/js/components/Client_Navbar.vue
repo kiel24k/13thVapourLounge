@@ -104,6 +104,7 @@ onMounted(() => {
                         <img :src="`/storage/cms_image/${titleData[0].image}`" width="120" height="60">
                         <h4>{{ titleData[0].caption }}</h4>
                     </router-link>
+                    
                 </div>
                 <div class="header-action">
                     <router-link :to="{ name: 'my-profile' }">

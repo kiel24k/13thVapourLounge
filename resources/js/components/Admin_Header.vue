@@ -1,10 +1,13 @@
 <script setup>
 import axios from 'axios';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import Cookies from 'js-cookie';
 import { useRouter } from 'vue-router';
 import { Button, SplitButton } from 'primevue';
 import Swal from 'sweetalert2';
+import sidebar from '@/components/Admin_Sidebar.vue'
+
+const isSidebar = ref(false)
 
 const emit = defineEmits(['closeSidebar'])
 const router = useRouter()
@@ -39,8 +42,14 @@ const logoutBtn = async () => {
     }
 }
 
+const openSidebar = () => {
+   isSidebar.value = true
+
+}
+
 const closeSidebar = () => {
-    emit('closeSidebar')
+    isSidebar.value = false
+
 }
 
 onMounted(() => {
@@ -74,11 +83,16 @@ const posBtn = () => {
 </script>
 
 <template>
+  
+      <transition name="sidebarTransition">
+        <sidebar v-if="isSidebar" @closeSidebar="closeSidebar" />
+      </transition>
+
     <nav>
         <div id="nav">
             <div class="nav-main">
                 <div class="burger">
-                    <img src="/public/image/burder-menu1.png" alt="" width="40px" height="40px" @click="closeSidebar" />
+                    <img src="/public/image/burder-menu1.png" alt="" width="40px" height="40px" @click="openSidebar" />
                 </div>
                 <div class="">
                     <img src="/public/image/1920525_gogle_google_logo_network_icon.png" alt="" width="40">
@@ -94,7 +108,15 @@ const posBtn = () => {
 </template>
 
 <style scoped>
+#nav{
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+
+}
 .nav-main {
+    position: sticky;
+    top:0;
     display: flex;
     justify-content: space-between;
     box-shadow: 0px 0px 10px 0px gray;
@@ -123,5 +145,31 @@ const posBtn = () => {
 .header-action {
     display: flex;
     gap: 10px;
+}
+
+.sidebarTransition-enter-active,
+.sidebarTransition-leave-active {
+  transition: all 0.3s cubic-bezier(0.65, 0, 0.35, 1);
+  will-change: transform, opacity;
+}
+
+.sidebarTransition-enter-from {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.sidebarTransition-enter-to {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.sidebarTransition-leave-from {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.sidebarTransition-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
 }
 </style>

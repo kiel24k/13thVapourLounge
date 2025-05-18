@@ -8,7 +8,9 @@ import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue
 
 const orderList = ref(Object)
 const viewUserOrder = ref(false)
-const userOrderProduct = ref(Object)
+const userOrderProduct = ref({
+
+})
 const isStatusUpdate = ref(false)
 const showSidebar = ref(true)
 const orderCategory = ref({})
@@ -24,25 +26,12 @@ const pages = ref({
 
 //API METHODS
 const ORDER_lIST_API = async (page = 1) => {
-    try {
-        const response = await axios.get(`/api/order-list?page=${page}`, {
-            params: {
-                search: search.value,
-                category: category.value,
-                sort: sortVal.value,
-                order: orderVal.value
-            }
-        })
-        pages.value = {
-            current_page: response.data.current_page,
-            last_page: response.data.last_page
-        }
-
+    await axios({
+        method: 'GET',
+        url: '/api/get-user-order'
+    }).then(response => {
         orderList.value = response.data
-
-    } catch (error) {
-
-    }
+    })
 }
 
 const ORDER_CATEGORY_API = async () => {
@@ -51,17 +40,16 @@ const ORDER_CATEGORY_API = async () => {
 }
 
 
-const viewUserProductBtn = (name, data) => {
+const viewUserProductBtn = (data) => {
     viewUserOrder.value = true
-    userOrderProduct.value = {
-        name: name,
-        data: data
-    }
+    userOrderProduct.value = data
 }
 
 //components
 watch(search, (oldVal, newVal) => {
     ORDER_lIST_API()
+    console.log(search.value);
+
 })
 
 watch(category, (oldVal, newVal) => {
@@ -97,11 +85,6 @@ const next = () => {
     }
 
 }
-
-
-
-
-
 const closeModal = () => {
     ORDER_lIST_API()
     viewUserOrder.value = false
@@ -140,17 +123,18 @@ onMounted(() => {
             <Header @closeSidebar="closeSidebar" />
         </div>
         <div class="content">
-            <div class="sidebar">
+            <!-- <div class="sidebar">
                 <Sidebar v-if="showSidebar" />
-            </div>
-            <div class="main m-2">
+            </div> -->
+            <div class="main m-5">
                 <section id="section-one" class="mt-4">
                     <div class="row">
                         <div class="col table-top">
                             <div class="search">
                                 <Select v-model="category" :options="orderCategory" optionLabel="date_order"
                                     placeholder="select category" />
-                                <Button label="clear" severity="danger" raised @click="clear" />
+                                <Button label="clear" severity="secondary" variant="outlined" raised @click="clear"
+                                    v-if="category" />
                             </div>
                             <div class="category">
                                 <InputGroup>
@@ -159,6 +143,8 @@ onMounted(() => {
                                         <Button icon="pi pi-search" severity="secondary" variant="text"
                                             @click="toggle" />
                                     </InputGroupAddon>
+                                    <Button label="clear" severity="secondary" variant="outlined" raised
+                                        @click="search = ''" v-if="search" />
                                 </InputGroup>
                             </div>
                             <div class="download">
@@ -169,7 +155,7 @@ onMounted(() => {
                     </div>
                 </section>
                 <section id="section-two" class="mt-4">
-                    <table class="table table-hover table-responsive">
+                    <table class="table table-bordered table-hover table-responsive">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -218,8 +204,8 @@ onMounted(() => {
 
                                 <td>{{ index + 1 }}</td>
 
-                                <td>{{ data.first_name }} {{ data.last_name }}</td>
-                                <td>{{ data.mobile_no }}</td>
+                                <td>{{ data.order_first_name }} {{ data.order_last_name }}</td>
+                                <td>{{ data.order_mobile_no }}</td>
                                 <td>{{ data.floor_unit_no }}</td>
                                 <td>{{ data.island }}</td>
                                 <td>{{ data.regions }}</td>
@@ -227,21 +213,33 @@ onMounted(() => {
                                 <td>{{ data.municipality }}</td>
                                 <td>{{ data.barangay }}</td>
                                 <td>₱{{ data.order_total }}.00</td>
-                                <td>{{ data.status }}</td>
+                                <td>
+                                    <span class="table_status" :style="{
+                                        backgroundColor:
+                                            data.status === 'cancelled' ? 'red' :
+                                                data.status === 'pending' ? 'orange' :
+                                                    data.status === 'out-of-delivery' ? 'blue' :
+                                                        data.status === 'received' ? 'green' :
+                                                            data.status === 'completed' ? 'violet' : 
+                                                            'transparent'
+                                    }">
+                                        {{ data.status }}</span>
+                                </td>
                                 <!-- <td>{{ data.user_orders[0] }}</td> -->
                                 <td class="table-action">
-                                    <Button @click="viewUserProductBtn(data.first_name, data.user_orders)"
-                                        icon="pi pi-eye" severity="contrast" raised />
-                                    <!-- <Button icon="pi pi-trash" severity="danger" raised /> -->
+                                    <Button @click="viewUserProductBtn(data)"
+                                        icon="pi pi-eye" severity="primary" raised title="View" />
+                                    <Button icon="pi pi-file-edit" severity="info" raised title="Edit" />
+                                    <Button icon="pi pi-trash" severity="danger" raised title="Delete" />
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="row">
                         <div class="col pagination ">
-                            <Button icon="pi pi-chevron-left" severity="contrast" rounded raised @click="prev" />
+                            <Button icon="pi pi-chevron-left" severity="contrast" variant="text" @click="prev" />
                             <span>{{ pages.current_page }} of {{ pages.last_page }}</span>
-                            <Button icon="pi pi-chevron-right" severity="contrast" iconPos="right" rounded raised
+                            <Button icon="pi pi-chevron-right" severity="contrast" iconPos="right" variant="text"
                                 @click="next" />
                         </div>
                     </div>
@@ -308,5 +306,12 @@ section {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+.table_status {
+    padding: 5px;
+    border-radius: 50px;
+    font-weight: bold;
+    color: white;
 }
 </style>

@@ -1,28 +1,36 @@
 <script setup>
-
+import { Button } from 'primevue';
+const emit = defineEmits(['closeSidebar'])
+const closeSidebar = () => {
+    emit('closeSidebar')
+}
 </script>
 
 <template>
     <aside>
         <div id="sidebar" class="">
             <div class="menu1">
-                <ul class="navbar nav mt-1">
+                <div class="text-end p-2">
+                    <Button size="large" variant="text" icon="pi pi-times" severity="danger" @click="closeSidebar" />
+                </div>
+                <ul class="navbar nav">
                     <!-- <small class="p-4">Favorites</small> -->
-                    <router-link :to="{name: 'admin-dashboard'}" class="item1">
+
+                    <router-link :to="{ name: 'admin-dashboard' }" class="item1">
                         <li class="nav-link text-dark">
-                            <i class="pi pi-shop"</i>
-                            Dashboard
+                            <i class="pi pi-shop" </i>
+                                Dashboard
                         </li>
                     </router-link>
-                    <router-link :to="{name: 'admin-orders'}" class="item1">
+                    <router-link :to="{ name: 'admin-orders' }" class="item1">
                         <li class="nav-link text-dark">
-                          <i class="pi pi-shopping-bag"></i>
+                            <i class="pi pi-shopping-bag"></i>
                             Order
                         </li>
                     </router-link>
                     <router-link :to="{ name: 'admin-products' }" class="item1">
                         <li class="nav-link text-dark">
-                           <i class="pi pi-shopping-cart"></i>
+                            <i class="pi pi-shopping-cart"></i>
                             Product list
                         </li>
                     </router-link>
@@ -35,24 +43,39 @@
                     </router-link> -->
                     <router-link :to="{ name: 'admin-category-list' }" class="item1">
                         <li class="nav-link text-dark">
-                           <i class="pi pi-list"></i>
+                            <i class="pi pi-list"></i>
                             Category list
                         </li>
                     </router-link>
                     <!-- endtest -->
-                    <router-link :to="{name: 'admin-user-list'}" class="item1">
+                </ul>
+                <div class="sidebar_highlights">
+                    <i class="pi pi-check"></i>
+                    <h3 class="text-center text-white p-2">Account</h3>
+                </div>
+                <ul class="navbar nav mt-1">
+                    <router-link :to="{ name: 'admin-profile' }" class="item1">
+                        <li class="nav-link text-dark">
+                            <i class="pi pi-user"></i>
+                            Profile
+                        </li>
+                    </router-link>
+                      <router-link :to="{ name: 'admin-user-list' }" class="item1">
                         <li class="nav-link text-dark">
                             <i class="pi pi-users"></i>
                             Users
                         </li>
                     </router-link>
-                </ul>
-                <h3 class="text-center text-white p-2">Settings</h3>
-                <ul class="navbar nav mt-1">
-                    <router-link :to="{name: 'admin-profile'}" class="item1">
+                    <router-link :to="{ name: 'admin-user-list' }" class="item1">
                         <li class="nav-link text-dark">
-                            <i class="pi pi-user"></i>
-                            Profile
+                            <i class="pi pi-users"></i>
+                            Users
+                        </li>
+                    </router-link>
+                    <router-link :to="{ name: 'admin-user-list' }" class="item1">
+                        <li class="nav-link text-dark">
+                            <i class="pi pi-users"></i>
+                            Users
                         </li>
                     </router-link>
                     <!-- <router-link :to="{name: 'admin-account-settings'}" class="item1">
@@ -62,18 +85,20 @@
                         </li>
                     </router-link> -->
                 </ul>
-                <h3 class="text-center text-white p-2">Support</h3>
+                <div class="sidebar_highlights">
+                    <i class="pi pi-cog"></i>
+                    <h3 class="text-center text-white p-2">Settings</h3>
+                </div>
+
                 <ul class="navbar nav mt-1">
                     <div class="item1">
-                     <router-link :to="{name: 'admin-content-management'}">
-                        <li class="nav-link text-dark">
-                            <img src="/public/image/documentation.png" width="20px" alt="" />
-                            Content Management
-                        </li>
-                     </router-link>
+                        <router-link :to="{ name: 'admin-content-management' }">
+                            <li class="nav-link text-dark">
+                                <img src="/public/image/documentation.png" width="20px" alt="" />
+                                Content Management
+                            </li>
+                        </router-link>
                     </div>
-                   
-                   
                 </ul>
 
             </div>
@@ -82,12 +107,13 @@
 </template>
 <style scoped>
 aside {
-    width: 16rem;
-    position: relative;
-    border-width: 0px 2px 0px 0px;
- 
- 
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
 
+    z-index: 1000;
 }
 
 a {
@@ -106,7 +132,7 @@ ul {
 }
 
 .item1:hover {
-    background: rgb(231, 230, 230);
+    background: rgb(180, 179, 179);
     color: rgb(253, 248, 248);
 }
 
@@ -124,7 +150,8 @@ ul {
     width: 16rem;
     overflow-y: scroll;
     height: 100%;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background: white;
 }
 
 .menu1::-webkit-scrollbar {
@@ -149,19 +176,17 @@ ul {
 
 
 
-.menu1 h3 {
-    background-color: rgb(11, 11, 12)
-}
+
 
 .category-list {
     display: grid;
 }
-.category-item1{
-  
-}
-.category-item1:hover{
-   background:#beb4b4;
-   cursor: pointer;
+
+.category-item1 {}
+
+.category-item1:hover {
+    background: #beb4b4;
+    cursor: pointer;
 
 }
 
@@ -176,15 +201,31 @@ ul {
 .showItem {
     height: auto;
 }
-.category-i{
+
+.category-i {
     rotate: 180deg;
     transition: all linear 0.2s;
 }
-.categoryImg{
-  rotate: 270deg;
+
+.categoryImg {
+    rotate: 270deg;
 }
 
-.router-link-active, .router-link-exact-active{
-    background: rgb(216, 214, 214);
+.router-link-active,
+.router-link-exact-active {
+    background: rgb(245, 224, 201);
+}
+
+.sidebar_highlights {
+    background-color: rgb(155, 99, 36);
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+}
+
+.sidebar_highlights i {
+    font-size: large;
+    color: white;
 }
 </style>
