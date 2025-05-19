@@ -92,13 +92,8 @@ const closeAdminCmsContact = () => {
 }
 
 
-const closeSidebar = () => {
-    if (showSidebar.value == true) {
-        showSidebar.value = false
-    } else if (showSidebar.value === false) {
-        showSidebar.value = true
-    }
-}
+
+
 
 //HOOKS 
 onMounted(() => {
@@ -119,12 +114,9 @@ onMounted(() => {
     <AdminCmsContactModal v-if="isAdminCmsContactModal" @closeAdminCmsContact="closeAdminCmsContact" />
     <div id="section-one">
         <div class="header">
-            <Header @closeSidebar="closeSidebar" />
+            <Header  />
         </div>
         <div class="content">
-            <div class="sidebar">
-                <Sidebar v-if="showSidebar" />
-            </div>
             <div class="main m-2">
                 <section>
                     <Message severity="secondary">
@@ -203,6 +195,7 @@ onMounted(() => {
 .content_section {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 15px;
 }
 

@@ -12,13 +12,7 @@ const totalUsers = ref()
 const totalReceiveOrders = ref()
 
 const showSidebar = ref(true)
-const closeSidebar = () => {
-    if (showSidebar.value == true) {
-        showSidebar.value = false
-    } else if (showSidebar.value === false) {
-        showSidebar.value = true
-    }
-}
+
 
 const TOTAL_PRODUCTS_API = async () => {
     const response = await axios.get('api/dashboard-product-total')
@@ -47,12 +41,12 @@ onMounted(() => {
 <template>
     <section id="main">
         <div class="header">
-            <Header @closeSidebar="closeSidebar" />
+            <Header  />
         </div>
         <div class="content">
-            <div class="sidebar">
+            <!-- <div class="sidebar">
                 <Sidebar v-if="showSidebar" />
-            </div>
+            </div> -->
             <div class="main">
                 <section>
                     <div class="row">
@@ -211,6 +205,7 @@ onMounted(() => {
     margin: 10px;
     display: grid;
     gap: 15px;
+    margin-top:5rem;
 }
 
 .header {

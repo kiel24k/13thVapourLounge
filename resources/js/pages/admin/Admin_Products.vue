@@ -140,15 +140,6 @@ const closeModal = () => {
     productList()
 }
 
-
-const closeSidebar = () => {
-    if (showSidebar.value == true) {
-        showSidebar.value = false
-    } else if (showSidebar.value === false) {
-        showSidebar.value = true
-    }
-}
-
 const printTable = () => {
     const elem = printContent.value
     const options = {
@@ -186,13 +177,10 @@ onMounted(() => {
             <AddProductModal v-if="addProductModal" @closeModal="closeModal" />
             <AddCategoryModal v-if="addCategoryModal" @closeModal="closeModal" @notification="notification" />
             <UpdateProductModal v-if="isUpdateProductModal" :updateModalId="updateModalId" @closeUpdateModal="closeUpdateModal" />
-            <Header @closeSidebar="closeSidebar" />
+            <Header />
         </div>
         <div class="content">
-            <div class="sidebar ">
-                <Sidebar v-if="showSidebar" />
-            </div>
-            <div class="main m-2">
+            <div class="main">
                 <section id="section-one" class="mt-4">
                     <div class="row">
                         <div class="col table-top">
@@ -337,6 +325,8 @@ onMounted(() => {
 
 .main {
     width: 100%;
+    margin-top:5rem;
+ 
 }
 
 .header {
