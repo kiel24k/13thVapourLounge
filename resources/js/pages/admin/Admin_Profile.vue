@@ -121,10 +121,7 @@ onMounted(() => {
             <Header @closeSidebar="closeSidebar" />
         </div>
         <div class="content">
-            <div class="sidebar">
-                <Sidebar v-if="showSidebar" />
-            </div>
-            <div class="main m-2 bg-white p-2 ">
+            <div class="main bg-white p-2 ">
                 <Section>
                     <div class="row">
                         <div class="col">
@@ -233,6 +230,7 @@ onMounted(() => {
     width: 100%;
     border-radius: 10px;
     box-shadow: 0px 0px 10px gray;
+    margin-top: 5rem;
 
 }
 

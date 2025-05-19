@@ -23,7 +23,7 @@
     }
 
     * {
-        font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-family:font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
         font-size: 14px;
     }
 

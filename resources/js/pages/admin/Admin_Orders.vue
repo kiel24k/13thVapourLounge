@@ -99,13 +99,7 @@ const notification = () => {
 }
 
 
-const closeSidebar = () => {
-    if (showSidebar.value == true) {
-        showSidebar.value = false
-    } else if (showSidebar.value === false) {
-        showSidebar.value = true
-    }
-}
+
 
 onMounted(() => {
     ORDER_CATEGORY_API()
@@ -120,12 +114,9 @@ onMounted(() => {
         @notification="notification" />
     <div id="section-one">
         <div class="header">
-            <Header @closeSidebar="closeSidebar" />
+            <Header  />
         </div>
         <div class="content">
-            <!-- <div class="sidebar">
-                <Sidebar v-if="showSidebar" />
-            </div> -->
             <div class="main m-5">
                 <section id="section-one" class="mt-4">
                     <div class="row">
