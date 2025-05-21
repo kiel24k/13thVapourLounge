@@ -5,6 +5,9 @@ import { Button, FileUpload, FloatLabel, IftaLabel, Image, InputText, Toast } fr
 import { onMounted, ref, watch } from 'vue';
 import ChangePasswordModal from '@/components/Admin_Change_Password_Modal.vue'
 import Swal from 'sweetalert2';
+import Loader from '@/widgets/Loader.vue';
+
+const isLoading = ref(false)
 
 const isChangePasswordModal = ref(false)
 const showSidebar = ref(true)
@@ -108,13 +111,17 @@ watch(userData, (oldVal, newVal) => {
 
 })
 
-onMounted(() => {
-    GET_USER_API()
+onMounted(async () => {
+    isLoading.value = true
+    await GET_USER_API()
+    isLoading.value = false
+
 })
 
 </script>
 
 <template>
+    <Loader v-if="isLoading" />
     <ChangePasswordModal v-if="isChangePasswordModal" @closeChangePasswordModal="closeChangePasswordModal" />
     <div id="section-one">
         <div class="header">
@@ -150,19 +157,20 @@ onMounted(() => {
                                 <Image src="image/370076_account_avatar_client_male_person_icon.png" alt="Image"
                                     width="150" preview imageStyle="border-radius: 100%;"
                                     v-else-if="src === null && userData.image === null" />
-                                <Image :src="`storage/admin_profile/${userData.image}`" alt="Image" width="150" height="150" preview
-                                    imageStyle="border-radius: 100%;" v-else-if="userData.image != null && src === null"  />
+                                <Image :src="`storage/admin_profile/${userData.image}`" alt="Image" width="150"
+                                    height="150" preview imageStyle="border-radius: 100%;"
+                                    v-else-if="userData.image != null && src === null" />
                             </figure>
 
                             <div class="figure_action">
                                 <FileUpload mode="basic" @select="onFileSelect" customUpload auto severity="secondary"
                                     class="p-button-outlined" />
-                                <Button label="Discard" icon="pi pi-save" severity="secondary"  class="m-2"
-                                @click="discard()" v-if="src != null" />
-                                
+                                <Button label="Discard" icon="pi pi-save" severity="secondary" class="m-2"
+                                    @click="discard()" v-if="src != null" />
+
                             </div>
                         </div>
-                        
+
 
                     </div>
                     <div class="row mt-4">

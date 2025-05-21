@@ -15,6 +15,8 @@ Route::get('/user', function (Request $request) {
 
 Route::controller(AuthController::class)->group(function () {
     route::post('/signup', 'signup');
+    route::post('/add-staff', 'addStaff');
+    route::post('/update-staff','updateStaff');
     route::post('/login', 'login');
     route::get('/user', 'user');
     route::post('/change-password', 'changePassword');
@@ -34,6 +36,7 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/display-only-category', 'displayOnlyCategory');
     route::get('/user-list', 'userList');
     route::post('/delete-user', 'deleteUser');
+    route::get('/get-user-staff', 'getUserStaff');
     route::get('/get-user-order', 'getUserOrder');
     route::post('/order-update-status', 'orderUpdateStatus');
     route::post('/update-admin-profile', 'updateAdminProfile');
@@ -73,6 +76,7 @@ Route::controller(DashboardController::class)->group(function () {
     route::get('/dashboard-date-sales-category', 'salesDateCategory');
      route::get('/dashboard-weekly-sales', 'weeklySales');
     route::get('/dashboard-monthly-sales', 'monthlySales');
+    route::get('/dashboard-new-product-added', 'newProductAdded');
    
 });
 

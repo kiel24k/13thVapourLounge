@@ -50,7 +50,7 @@ class ClientController extends Controller
         $product = Product::where('product_name', $request->product_name)->get();
         return response()->json($product);
     }
-   
+
 
     public function editProfile(Request $request)
     {
@@ -93,15 +93,15 @@ class ClientController extends Controller
         $address->save();
         return response()->json(['success' => 'success'], 200);
     }
-     public function ClientOrder(Request $request)
+    public function ClientOrder(Request $request)
     {
 
-        
+
         for ($i = 0; $i < count($request->order); $i++) {
             $request->validate([
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'mobile_no' => 'required',
+                'order_first_name' => 'required',
+                'order_last_name' => 'required',
+                'order_mobile_no' => 'required',
                 'floor_unit_no' => 'required',
                 'island' => 'required',
                 'regions' => 'required',
@@ -112,9 +112,9 @@ class ClientController extends Controller
 
             $order = new UserOrder();
             $order->user_id = Auth::user()->id;
-            $order->first_name = $request->first_name;
-            $order->last_name = $request->last_name;
-            $order->mobile_no = $request->mobile_no;
+            $order->order_first_name = $request->order_first_name;
+            $order->order_last_name = $request->order_last_name;
+            $order->order_mobile_no = $request->order_mobile_no;
             $order->floor_unit_no = $request->floor_unit_no;
             $order->island = $request->island;
             $order->regions = $request->regions;
@@ -129,17 +129,15 @@ class ClientController extends Controller
             $order->save();
         }
         $order->save();
-     
-        return response()->json($order);
 
-        
+        return response()->json($order);
     }
 
     public function addressList()
     {
         $addressList = DB::table('address__books')
             ->select('mobile_no', 'floor_unit_no', 'island', 'regions', 'province', 'municipality', 'barangay')
-            ->where('user_id', '=' ,Auth::user()->id)
+            ->where('user_id', '=', Auth::user()->id)
             ->paginate(10);
         return response()->json($addressList);
     }
@@ -156,63 +154,68 @@ class ClientController extends Controller
     public function pendingOrder()
     {
         $order = DB::table('user_orders')
-            ->select('*')
-            ->where('status', 'pending')
-            ->where('user_id', Auth::user()->id)
-            ->orderBy('created_at', 'desc')
+            ->leftJoin('products', 'products.id', '=', 'user_orders.order_id')
+            ->select('user_orders.*', 'products.*', 'user_orders.id as user_order_id')
+            ->where('user_orders.status', 'pending')
+            ->where('user_orders.user_id', Auth::user()->id)
+            ->orderBy('user_orders.date_order', 'desc')
             ->get();
         return response()->json($order);
     }
     public function orderToReceived()
     {
         $order = DB::table('user_orders')
-            ->select('*')
-            ->where('status', 'out-of-delivery')
-            ->where('user_id', Auth::user()->id)
-            ->orderBy('created_at', 'desc')
+            ->leftJoin('products', 'products.id', '=', 'user_orders.order_id')
+            ->where('user_orders.status', 'out-of-delivery')
+            ->where('user_orders.user_id', Auth::user()->id)
+            ->orderBy('user_orders.date_order', 'desc')
             ->get();
         return response()->json($order);
     }
     public function orderReceived()
     {
         $order = DB::table('user_orders')
-            ->select('*')
-            ->where('status', 'received')
-            ->where('user_id', Auth::user()->id)
-            ->orderBy('created_at', 'desc')
+            ->leftJoin('products', 'products.id', '=', 'user_orders.order_id')
+            ->select("user_orders.*", "products.*", "user_orders.id as user_order_id")
+            ->where('user_orders.status', 'received')
+            ->where('user_orders.user_id', Auth::user()->id)
+            ->orderBy('user_orders.date_order', 'desc')
             ->get();
         return response()->json($order);
     }
     public function orderCompleted()
     {
         $order = DB::table('user_orders')
-            ->select('*')
-            ->where('status', 'completed')
-            ->where('user_id', Auth::user()->id)
-            ->orderBy('created_at', 'desc')
+            ->leftJoin('products', 'products.id', '=', 'user_orders.order_id')
+            ->where('user_orders.status', 'completed')
+            ->where('user_orders.user_id', Auth::user()->id)
+            ->orderBy('user_orders.date_order', 'desc')
             ->get();
         return response()->json($order);
     }
 
-    public function markAsCompleted (Request $request){
+    public function markAsCompleted(Request $request)
+    {
         $order = DB::table('user_orders')
-        ->where('id',$request->id )
-        ->update(['status' => 'completed']);
+            ->where('id', $request->id)
+            ->update(['status' => 'completed']);
         return response()->json($order);
     }
-    public function cancelOrder (Request $request){
+    public function cancelOrder(Request $request)
+    {
         $order = DB::table('user_orders')
-        ->where('id', $request->id)
-        ->update(['status' => 'cancelled']);
+            ->where('id', $request->id)
+            ->update(['status' => 'cancelled']);
         return response()->json($order);
     }
-    public function cancelledOrder () {
+    public function cancelledOrder()
+    {
         $order = DB::table('user_orders')
-        ->select('*')
-        ->where('status' ,'=' ,'cancelled')
-        ->orderBy('created_at', 'desc')
-        ->get();
+            ->leftJoin('products', 'products.id', '=', 'user_orders.order_id')
+            ->where('user_orders.status', 'cancelled')
+            ->where('user_orders.user_id', Auth::user()->id)
+            ->orderBy('user_orders.date_order', 'desc')
+            ->get();
         return response()->json($order);
     }
-    
 }

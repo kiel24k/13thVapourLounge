@@ -203,6 +203,10 @@ class AdminController extends Controller
         $user = User::find($request->id)->delete();
         return response()->json($user);
     }
+    public function getUserStaff () {
+        $data = User::where('role', 'staff')->paginate(9);
+        return response()->json($data);
+    }
 
     public function orderCategory()
     {
@@ -216,13 +220,15 @@ class AdminController extends Controller
         $data = DB::table('user_orders')
         ->leftJoin('users' ,'users.id', '=', 'user_orders.user_id')
         ->leftJoin('products', 'products.id', '=', 'user_orders.order_id')
-        ->select('users.*', 'user_orders.*', 'products.*')
-        ->paginate(20);
+        ->select('users.*', 'user_orders.id as user_order_id', 'user_orders.*', 'products.*')
+        ->orderBy('user_orders.id', 'DESC')
+        ->paginate(10);
         return response()->json($data);
     }
    
     public function orderUpdateStatus(Request $request)
     {
+        
         $userId = UserOrder::find($request->id);
         $userId->status = $request->status;
         $userId->update();

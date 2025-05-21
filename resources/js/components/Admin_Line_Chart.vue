@@ -168,10 +168,6 @@ onBeforeUnmount(() => {
 .line_chart {
   max-width: 100%;
   max-height: auto;
-  background: white;
-  box-shadow: 0px 0px 5px 0px gray;
-  border-radius: 5px;
-  padding: 10px;
 }
 
 canvas {

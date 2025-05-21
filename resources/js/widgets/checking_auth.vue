@@ -16,9 +16,9 @@ const user = async () => {
         } else if (response.data.role === 'admin') {
             document.cookie = `username=${response.data.first_name};`
             router.push('/admin-dashboard')
-        } else if (response.data.role === 'subadmin') {
+        } else if (response.data.role === 'staff') {
             document.cookie = `username=${response.data.first_name};`
-            router.push('sub-admin-dashboard')
+            router.push('/staff-dashboard')
         }
     } catch (error) {
         console.log(error);

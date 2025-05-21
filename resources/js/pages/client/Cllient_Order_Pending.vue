@@ -7,6 +7,9 @@ import Swal from 'sweetalert2';
 import {Delete} from '@element-plus/icons-vue'
 import Footer from '@/components/Client_Footer.vue'
 import { Button } from 'primevue';
+import Loader from '@/widgets/Loader.vue'
+
+const isloading = ref(false)
 
 const orderPending = ref()
 
@@ -71,50 +74,47 @@ const cancelOrder = async (id) => {
 };
 
 
-onMounted(() => {
-    ORDER_PENDING_API()
+onMounted(async() => {
+    isloading.value = true
+
+  await ORDER_PENDING_API()
+
+  isloading.value = false
 })
 </script>
 
 
 <template>
+    <Loader v-if="isloading"/>
     <Navbar />
     <NavbarCategory />
     <section>
         <div class="title">
             <h2>Order</h2>
         </div>
-        <div class="row">
-            <div class="col p-4">
-                <input type="text" class="form-control" placeholder="search by item">
-            </div>
-        </div>
         <NavbarOrder />
         <hr>
         <article v-for="(data, index) in orderPending" :key="index">
             <div class="row p-4">
-                <div class="col">
-                    <figure>
-                        <img :src="`/storage/product_image/${data.order_image}`" width="80" alt="">
-                        <figcaption>
-                            {{ data.order_label }}
-                        </figcaption>
-                    </figure>
-                </div>
-                {{  }}
-                <div class="col">
-                    <b>QTY: </b>{{ data.order_quantity }}
+                <div class="col product_data">
+                    <span>{{ data.product_name }}</span>
+                    <span>{{ data.product_label }}</span>
+                    <strong>{{ data.date_released }}</strong>
                 </div>
                 <div class="col">
-                    <b class="text-success">₱</b>{{ data.order_price }}.00
+                   <b class="status">{{ data.status }}</b>
+                </div>
+                <div class="col">
+                    <b>QTY: </b>{{ data.order_quantity }}x
                 </div>
                 <div class="col">
                     <b>Total: </b><b class="text-success">₱</b>{{ data.order_total }}.00
                 </div>
                 <div class="col">
-                    <Button @click="cancelOrder(data.id)" icon="pi pi-times" severity="danger" raised rounded/>
+                    <Button @click="cancelOrder(data.user_order_id)" label="Cancel" severity="danger"/>
                 </div>
                 <hr>
+                    
             </div>
         </article>
     </section>
@@ -156,5 +156,8 @@ figcaption {
     color: rgb(0, 0, 0);
     background-color: rgb(255, 235, 59, 0.5);
     backdrop-filter: blur(25px);
+}
+.product_data{
+    display: grid;
 }
 </style>

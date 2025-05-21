@@ -110,9 +110,9 @@ const routes = [
         name: "admin-dashboard",
     },
     {
-        path: "/admin-POS",
+        path: "/POS",
         component: () => import("../pages/admin/Admin_POS.vue"),
-        name: "admin-POS",
+        name: "POS",
     },
     {
         path: "/admin-category-list",
@@ -145,16 +145,41 @@ const routes = [
         name: "admin-content-management",
     },
     {
+        path: "/admin-staff-list",
+        name: "admin-staff-list",
+        component: () => import("../pages/admin/Admin_Staff_List.vue"),
+    },
+     {
+        path: "/staff-order-list",
+        component: () => import("../pages/staff/Staff_Order_List.vue"),
+        name: "staff-orders",
+    },
+     {
+        path: "/staff-products",
+        component: () => import("../pages/staff/Staff_Products.vue"),
+        name: "staff-products",
+    },
+    {
         path: "/client-cancelation",
         component: () => import("../pages/client/Client_Cancelation.vue"),
         name: "client-cancelation",
     },
+      {
+        path: "/staff-category-list",
+        name: "staff-category-list",
+        component: () => import("../pages/staff/Staff_Category_List.vue"),
+    },
+    {
+        path: "/staff-new-category",
+        name: "staff-new-category",
+        component: () => import("../pages/staff/Staff_New_Category.vue"),
+    },
 
     //======================Sub-Admin routes=============================//
     {
-        path: "/sub-admin-dashboard",
-        component: () => import("../pages/sub-admin/Sub_Dashboard.vue"),
-        name: "sub-admin-dashboard",
+        path: "/staff-dashboard",
+        component: () => import("../pages/staff/Staff_Dashboard.vue"),
+        name: "staff-dashboard",
     },
     {
         path: "/test",

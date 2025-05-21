@@ -6,6 +6,7 @@ import Footer from '@/components/Client_Footer.vue'
 import { onMounted, ref } from 'vue';
 import { Button, Message } from 'primevue';
 import loader from '@/widgets/Loader.vue'
+import Swal from 'sweetalert2';
 
 const isLoader = ref(false)
 const newArrivalListItem = ref({})
@@ -85,6 +86,13 @@ const addToCartNewArrival = (data) => {
     }
     localStorage.setItem('cart', JSON.stringify(cart))
     cartTotal.value = cart.reduce((total, el) => total + el.quantity, 0)
+    Swal.fire({
+  position: "top-end",
+  icon: "success",
+  title: "Product has been added to cart",
+  showConfirmButton: false,
+  timer: 1500
+});
 }
 
 const addToCartBestSeller = (data) => {
@@ -104,6 +112,14 @@ const addToCartBestSeller = (data) => {
     }
     localStorage.setItem('cart', JSON.stringify(cart))
     cartTotal.value = cart.reduce((total, el) => total + el.quantity, 0)
+
+        Swal.fire({
+  position: "top-end",
+  icon: "success",
+  title: "Product has been added to cart",
+  showConfirmButton: false,
+  timer: 1500
+});
 }
 onMounted( () => {
     newArrivalList()

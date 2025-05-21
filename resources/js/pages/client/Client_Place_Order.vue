@@ -8,7 +8,7 @@ import { onMounted, reactive, ref, watch } from 'vue'
 import Cookies from 'js-cookie'
 import ChooseAddress from '@/components/Client_Choose_Address_Modal.vue'
 import Swal from 'sweetalert2'
-import { FloatLabel, InputText, Select } from 'primevue'
+import { FloatLabel, InputNumber, InputText, Select } from 'primevue'
 
 
 
@@ -98,9 +98,9 @@ const submit = async () => {
         const response = await axios.post('api/client-order',
             {
                 order: order.value,
-                first_name: inputs.value.first_name,
-                last_name: inputs.value.last_name,
-                mobile_no: inputs.value.mobile_no,
+                order_first_name: inputs.value.first_name,
+                order_last_name: inputs.value.last_name,
+                order_mobile_no: inputs.value.mobile_no,
                 floor_unit_no: inputs.value.floor_unit_no,
                 island: select_island_groups.value.name,
                 regions: select_regions.value.name,
@@ -167,17 +167,17 @@ onMounted(() => {
                 <div class="row">
                     <div class="col">
                         <FloatLabel variant="on">
-                            <InputText id="on_label" size="small" :invalid="inputsValidation.first_name" v-model="inputs.first_name" autocomplete="off" fluid />
+                            <InputText id="on_label" size="large" :invalid="inputsValidation.order_first_name" v-model="inputs.first_name" autocomplete="off" fluid />
                             <label for="on_label">First Name</label>
                         </FloatLabel>
-                        <span class="text-danger" v-if="inputsValidation.first_name">{{ inputsValidation.first_name[0] }}</span>
+                        <span class="text-danger" v-if="inputsValidation.order_first_name">{{ inputsValidation.order_first_name[0] }}</span>
                     </div>
                     <div class="col">
                         <FloatLabel variant="on">
-                            <InputText id="on_label" size="small" :invalid="inputsValidation.last_name" v-model="inputs.last_name" autocomplete="off" fluid />
+                            <InputText id="on_label" size="large" :invalid="inputsValidation.order_last_name" v-model="inputs.last_name" autocomplete="off" fluid />
                             <label for="on_label">Last Name</label>
                         </FloatLabel>
-                        <span class="text-danger" v-if="inputsValidation.last_name">{{ inputsValidation.last_name[0] }}</span>
+                        <span class="text-danger" v-if="inputsValidation.order_last_name">{{ inputsValidation.order_last_name[0] }}</span>
                     </div>
                 </div>
     
@@ -195,14 +195,14 @@ onMounted(() => {
                 <div class="row">
                     <div class="col">
                         <FloatLabel variant="on">
-                            <InputText id="on_label" size="small" :invalid="inputsValidation.mobile_no" v-model="inputs.mobile_no" autocomplete="off" fluid />
+                            <InputNumber id="on_label" :useGrouping="false" size="large" :invalid="inputsValidation.order_mobile_no" v-model="inputs.mobile_no" autocomplete="off" fluid />
                             <label for="on_label">Mobile No.</label>
                         </FloatLabel>
-                        <span class="text-danger" v-if="inputsValidation.mobile_no">{{ inputsValidation.mobile_no[0] }}</span>
+                        <span class="text-danger" v-if="inputsValidation.order_mobile_no">{{ inputsValidation.order_mobile_no[0] }}</span>
                     </div>
                     <div class="col">
                         <FloatLabel variant="on">
-                            <InputText id="on_label" size="small" :invalid="inputsValidation.floor_unit_no" v-model="inputs.floor_unit_no" autocomplete="off" fluid />
+                            <InputText id="on_label" size="large" :invalid="inputsValidation.floor_unit_no" v-model="inputs.floor_unit_no" autocomplete="off" fluid />
                             <label for="on_label">Floor Unit No.</label>
                         </FloatLabel>
                         <span class="text-danger" v-if="inputsValidation.floor_unit_no">{{ inputsValidation.floor_unit_no[0] }}</span>
@@ -326,11 +326,7 @@ section {
 
 }
 
-input {
-    padding: 15px;
-    border-radius: 5px;
-    border: solid 1px rgb(5, 5, 5);
-}
+
 
 .address select {
     padding: 15px;
