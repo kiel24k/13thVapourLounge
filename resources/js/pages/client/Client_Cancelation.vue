@@ -21,6 +21,8 @@ const USER_API = async () => {
 
 const CANCELLED_ORDER_API = async () => {
     const response = await axios.get('api/cancelled-order')
+    console.log(response.data);
+    
     cancelledOrder.value = response.data
 }
 
@@ -34,6 +36,7 @@ onMounted (() => {
     <Navbar/>
     <NavbarCategory/>
     <section class="row" id="profile">
+        
         <div class="col">
             <figure>
                 <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="">
@@ -63,29 +66,24 @@ onMounted (() => {
                 <th>#</th>
                 <th>Item</th>
                 <th>Quantity</th>
-                <th>Order Price</th>
                 <th>Order Total</th>
-                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="(data, index) in cancelledOrder" :key="index">
                 <td>{{ index + 1 }}</td>
                 <td>
-                    <img :src="`/storage/product_image/${data.order_image}`" width="100" alt="">
-                    <span>{{ data.order_label }}</span>
+                  <div class="item">
+                      <span>{{ data.product_name }}</span>
+                    <span>{{ data.product_label }}</span>
+                    <strong>{{ data.date_order }}</strong>
+                  </div>
                 </td>
                 <td>
-                    <span>x{{ data.order_quantity }}</span>
-                </td>
-                <td>
-                    <span>₱{{ data.order_price }}</span>
+                    <span>{{ data.order_quantity }}x</span>
                 </td>
                 <td>
                     <span>₱{{ data.order_total }}</span>
-                </td>
-                <td class="table-action">
-                    <Button icon="pi pi-shopping-cart" rounded raised severity="info"/>
                 </td>
             </tr>
         </tbody>
@@ -141,6 +139,9 @@ onMounted (() => {
     }
     .figure-figcaption{
         font-weight: 600;
+    }
+    .item{
+        display: grid;
     }
    
     

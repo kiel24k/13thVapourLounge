@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'vue-router';
 import { Button, SplitButton } from 'primevue';
 import Swal from 'sweetalert2';
-import sidebar from '@/components/Admin_Sidebar.vue'
+import sidebar from '@/components/Staff_Sidebar.vue'
 
 const isSidebar = ref(false)
 const titleData = ref({})

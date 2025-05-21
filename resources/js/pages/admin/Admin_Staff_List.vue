@@ -4,17 +4,24 @@ import Sidebar from '@/components/Admin_Sidebar.vue'
 import { Button, InputGroup, InputGroupAddon, InputText, Message, Select } from 'primevue';
 import Swal from 'sweetalert2';
 import { onMounted, ref } from 'vue';
+import AddNewStaffModal from '@/components/Add_New_Staff_Modal.vue'
+import UpdateStaffModal from '@/components/Admin_Update_Staff_Modal.vue'
 import Loader from '@/widgets/Loader.vue'
+import { fa } from 'element-plus/es/locales.mjs';
+
 
 const isLoading = ref(false)
+const isAddNewStaffModal = ref(false)
 
-const showSidebar = ref(true)
+const isUpdateStaffModal = ref(false)
+
+const staffData = ref({})
 const users = ref({})
 const sortByOrder = ref('asc')
 const sortByName = ref('first_name')
 const userList = async (page) => {
     try {
-        const response = await axios.get(`api/user-list?page=${page}`, {
+        const response = await axios.get(`api/get-user-staff?page=${page}`, {
             params: {
                 sortByOrder: sortByOrder.value,
                 sortByName: sortByName.value
@@ -37,9 +44,7 @@ const sort = (column) => {
 
 }
 
-const updateBtn = () => {
-    alert("update success")
-}
+
 
 const deleteBtn = (id) => {
     Swal.fire({
@@ -63,28 +68,38 @@ const deleteBtn = (id) => {
             userList()
         }
     });
+}
 
+const closeNewStaffModal = () => {
+    isAddNewStaffModal.value = false
+    userList()
+}
 
+const updateBtn = (data) => {
+    isUpdateStaffModal.value = true
+    staffData.value = data
+}
 
-
-
-
-
-
+const closeUpdateStaffModal = () => {
+    isUpdateStaffModal.value = false
+    userList()
 }
 
 
 
 
-onMounted(async() => {
+onMounted(async () => {
     isLoading.value = true
     await userList()
+
     isLoading.value = false
 })
 </script>
 
 <template>
-    <Loader v-if="isLoading"/>
+    <Loader v-if="isLoading" />
+    <AddNewStaffModal v-if="isAddNewStaffModal" @closeNewStaffModal="closeNewStaffModal" />
+    <UpdateStaffModal v-if="isUpdateStaffModal" @closeUpdateStaffModal="closeUpdateStaffModal" :staffData="staffData" />
     <div id="section-one">
         <div class="header">
             <Header />
@@ -92,10 +107,10 @@ onMounted(async() => {
         <div class="content">
             <div class="main">
                 <section id="section-one" class="">
-                    <div class="row">
+                    <div class="row mt-2">
                         <div class="col">
                             <Message icon="pi pi-list" severity="contrast">
-                                Client List
+                                Staff List
                             </Message>
                         </div>
                     </div>
@@ -113,28 +128,25 @@ onMounted(async() => {
                             <div class="download">
                                 <Button icon="pi pi-file-pdf" label="Print" severity="danger" raised />
                             </div>
+                            <div class="add_user">
+                                <Button label="Add New Staff" icon="pi pi-user" @click="isAddNewStaffModal = true" />
+                            </div>
                         </div>
                     </div>
                 </section>
                 <section id="section-two" class="mt-4">
-                    <table class="table table-hover  table-bordered">
+                    <table class="table table-hover table-bordered">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th @click="sort('first_name')">First Name
-                                    <span>{{ sortByOrder === 'asc' ? '▲' : '▼' }}</span>
+                                    <!-- <span>{{ sortByOrder === 'asc' ? '▲' : '▼' }}</span> -->
                                 </th>
                                 <th @click="sort('last_name')">Last Name
-                                    <span>{{ sortByOrder === 'asc' ? '▲' : '▼' }}</span>
-                                </th>
-                                <th @click="sort('gender')">Gender
-                                    <span>{{ sortByOrder === 'asc' ? '▲' : '▼' }}</span>
-                                </th>
-                                <th @click="sort('address')">Address
-                                    <span>{{ sortByOrder === 'asc' ? '▲' : '▼' }}</span>
+                                    <!-- <span>{{ sortByOrder === 'asc' ? '▲' : '▼' }}</span> -->
                                 </th>
                                 <th @click="sort('email')">Email
-                                    <span>{{ sortByOrder === 'asc' ? '▲' : '▼' }}</span>
+                                    <!-- <span>{{ sortByOrder === 'asc' ? '▲' : '▼' }}</span> -->
                                 </th>
                                 <th>Action</th>
                             </tr>
@@ -144,24 +156,17 @@ onMounted(async() => {
                                 <td>{{ index + 1 }}</td>
                                 <td>{{ data.first_name }}</td>
                                 <td>{{ data.last_name }}</td>
-                                <td> {{ data.gender }} </td>
-                                <td>{{ data.address }}</td>
                                 <td>{{ data.email }}</td>
                                 <td class="table-action">
                                     <!-- <Button icon="pi pi-file-edit" severity="info" @click="updateBtn(data.id)"/> -->
-                                    <Button icon="pi pi-trash" severity="danger" @click="deleteBtn(data.id)" />
+                                    <Button icon="pi pi-trash" severity="danger" @click="deleteBtn(data.id)"
+                                        title="Delete" />
+                                    <Button icon="pi pi-pencil" severity="info" title="Edit" @click="updateBtn(data)" />
 
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <div class="row">
-                        <div class="col pagination">
-                            <Button icon="pi pi-chevron-left" severity="contrast" variant="text" />
-                            <span>1 of 10</span>
-                            <Button icon="pi pi-chevron-right" severity="contrast" variant="text" />
-                        </div>
-                    </div>
                 </section>
             </div>
         </div>

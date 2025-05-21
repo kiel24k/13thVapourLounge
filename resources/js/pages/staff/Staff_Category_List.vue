@@ -1,10 +1,10 @@
 <script setup>
-import Header from '@/components/Admin_Header.vue'
+import Header from '@/components/Staff_Header.vue'
 import Sidebar from '@/components/Admin_Sidebar.vue'
 import AddCategoryModal from '@/components/Admin_Add_Category.vue'
 import { onMounted, ref, watch } from 'vue';
 import axios from 'axios'
-import { Button, InputGroup, InputGroupAddon, InputText, Message, Select } from 'primevue'
+import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue'
 import html2pdf from 'html2pdf.js'
 import Swal from 'sweetalert2'
 import UpdateCategoryModal from '@/components/Admin_Update_Category_Modal.vue'
@@ -176,14 +176,7 @@ onMounted(async () => {
         </div>
         <div class="content">
             <div class="main">
-                <div class="row mt-2">
-                    <div class="col">
-                        <Message icon="pi pi-list" severity="contrast">
-                            Category list
-                        </Message>
-                    </div>
-                </div>
-                <section id="section-one" class="mt-2">
+                <section id="section-one" class="mt-4">
                     <div class="row">
                         <div class="col table-top">
                             <div class="search">
@@ -202,11 +195,11 @@ onMounted(async () => {
                         </div>
                         <div class="col text-end">
                             <div class="table-top-action">
-                              <router-link :to="{name: 'admin-new-category'}">
+                              <router-link :to="{name: 'staff-new-category'}">
                                 <Button  label="New Category" icon="pi pi-plus-circle" raised
                                 severity="success" />
                               </router-link>
-                               <router-link :to="{name: 'admin-products'}">
+                               <router-link :to="{name: 'staff-products'}">
                                 <Button icon="pi pi-list" label="Product List" raised
                                 severity="info" />
                                </router-link>

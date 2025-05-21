@@ -16,19 +16,19 @@ const closeSidebar = () => {
                 <ul class="navbar nav">
                     <!-- <small class="p-4">Favorites</small> -->
 
-                    <router-link :to="{ name: 'admin-dashboard' }" class="item1">
+                    <router-link :to="{ name: 'staff-dashboard' }" class="item1">
                         <li class="nav-link text-dark">
                             <i class="pi pi-shop" </i>
                                 Dashboard
                         </li>
                     </router-link>
-                    <router-link :to="{ name: 'admin-orders' }" class="item1">
+                    <router-link :to="{ name: 'staff-orders' }" class="item1">
                         <li class="nav-link text-dark">
                             <i class="pi pi-shopping-bag"></i>
                             Order
                         </li>
                     </router-link>
-                    <router-link :to="{ name: 'admin-products' }" class="item1">
+                    <router-link :to="{ name: 'staff-products' }" class="item1">
                         <li class="nav-link text-dark">
                             <i class="pi pi-shopping-cart"></i>
                             Product list
@@ -41,7 +41,7 @@ const closeSidebar = () => {
                             New Product
                         </li>
                     </router-link> -->
-                    <router-link :to="{ name: 'admin-category-list' }" class="item1">
+                    <router-link :to="{ name: 'staff-category-list' }" class="item1">
                         <li class="nav-link text-dark">
                             <i class="pi pi-list"></i>
                             Category list
@@ -49,52 +49,10 @@ const closeSidebar = () => {
                     </router-link>
                     <!-- endtest -->
                 </ul>
-                <div class="sidebar_highlights">
-                    <i class="pi pi-check"></i>
-                    <h3 class="text-center text-white p-2">Account</h3>
-                </div>
-                <ul class="navbar nav mt-1">
-                    <router-link :to="{ name: 'admin-profile' }" class="item1">
-                        <li class="nav-link text-dark">
-                            <i class="pi pi-user"></i>
-                            Profile
-                        </li>
-                    </router-link>
-                      <router-link :to="{ name: 'admin-user-list' }" class="item1">
-                        <li class="nav-link text-dark">
-                            <i class="pi pi-users"></i>
-                            Client
-                        </li>
-                    </router-link>
-                    <router-link :to="{name: 'admin-staff-list'}"  class="item1">
-                        <li class="nav-link text-dark">
-                            <i class="pi pi-users"></i>
-                            Staff
-                        </li>
-                    </router-link>
-                   
-                    <!-- <router-link :to="{name: 'admin-account-settings'}" class="item1">
-                        <li class="nav-link text-dark">
-                            <i class="pi pi-wrench"></i>
-                            Account Setting
-                        </li>
-                    </router-link> -->
-                </ul>
-                <div class="sidebar_highlights">
-                    <i class="pi pi-cog"></i>
-                    <h3 class="text-center text-white p-2">Settings</h3>
-                </div>
+              
+              
 
-                <ul class="navbar nav mt-1">
-                    <div class="item1">
-                        <router-link :to="{ name: 'admin-content-management' }">
-                            <li class="nav-link text-dark">
-                                <img src="/public/image/documentation.png" width="20px" alt="" />
-                                Content Management
-                            </li>
-                        </router-link>
-                    </div>
-                </ul>
+            
 
             </div>
         </div>

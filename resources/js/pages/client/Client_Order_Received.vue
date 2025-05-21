@@ -4,6 +4,8 @@ import NavbarCategory from '@/components/Client_Navbar_Category.vue'
 import NavbarOrder from '@/components/Client_Navbar_Order.vue'
 import { onMounted, ref } from 'vue';
 import Swal from 'sweetalert2';
+import Loader from '@/widgets/Loader.vue'
+
 import {
     Check,
     Delete,
@@ -12,6 +14,8 @@ import {
     Search,
     Star,
 } from '@element-plus/icons-vue'
+
+const isLoading = ref(false)
 
 const orderReveived = ref()
 const ORDER_RECEIVED_API = async () => {
@@ -39,14 +43,17 @@ const submitMarkAsComplete = async (id) => {
     }
 
 }
-onMounted(() => {
-    ORDER_RECEIVED_API()
+onMounted(async() => {
+    isLoading.value = true
+    await ORDER_RECEIVED_API()
+    isLoading.value = false
 })
 
 </script>
 
 
 <template>
+    <Loader v-if="isLoading"/>
     <Navbar />
     <NavbarCategory />
     <section>
@@ -61,27 +68,22 @@ onMounted(() => {
         <NavbarOrder />
         <article v-for="(data, index) in orderReveived" :key="index">
             <div class="row p-4">
-                <div class="col">
-                    <figure>
-                        <img :src="`/storage/product_image/${data.order_image}`" width="80" alt="">
-                        <figcaption>
-                            {{ data.order_label }}
-                        </figcaption>
-                    </figure>
+                 <div class="col product_data">
+                    <span>{{ data.product_name }}</span>
+                    <span>{{ data.product_label }}</span>
+                    <strong>{{ data.date_released }}</strong>
                 </div>
                 <div class="col">
-                    <b> QTY:</b> x{{ data.order_quantity }}
+                    <b class="status">{{ data.status }}</b>
                 </div>
                 <div class="col">
-                    <b class="text-success">₱</b>{{ data.order_price }}.00
-                </div>
-
-                <div class="col">
-                    <b> Total:</b> <b class="text-success">₱</b>{{ data.order_total }}
+                    <b>QTY: </b>{{ data.order_quantity }}x
                 </div>
                 <div class="col">
-                    <el-button class="btn btn-dark" @click="submitMarkAsComplete(data.id)" type="success" plain>Order received</el-button>
-
+                    <b>Total: </b><b class="text-success">₱</b>{{ data.order_total }}.00
+                </div>
+                <div class="col">
+                    <el-button class="btn btn-dark" @click="submitMarkAsComplete(data.user_order_id)" type="success" plain>Order received</el-button>
                 </div>
                 <hr>
             </div>
@@ -125,5 +127,8 @@ figcaption {
     color: rgb(0, 0, 0);
     background-color: rgb(76, 175, 80, 0.5);
     backdrop-filter: blur(25px);
+}
+.product_data{
+    display: grid;
 }
 </style>

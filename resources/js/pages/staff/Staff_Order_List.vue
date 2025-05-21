@@ -1,14 +1,12 @@
 <script setup>
-import Header from '@/components/Admin_Header.vue'
+import Header from '@/components/Staff_Header.vue'
 import Sidebar from '@/components/Admin_Sidebar.vue'
 import { onMounted, ref, watch } from 'vue';
 import ViewUserOrder from '@/components/Admin_View_User_Order.vue'
 import StatusUpdate from '@/widgets/status_update.vue'
-import { Button, InputGroup, InputGroupAddon, InputText, Message, Select } from 'primevue';
+import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue';
 import Loader from '@/widgets/Loader.vue'
-import OrderChangeStatusModal from "@/components/Order_Change_Status_Modal.vue"
 
-const isOrderChangeStatusModal = ref(false)
 const isLoading = ref(false)
 
 const orderList = ref(Object)
@@ -33,13 +31,9 @@ const pages = ref({
 const ORDER_lIST_API = async (page = 1) => {
     await axios({
         method: 'GET',
-        url: `/api/get-user-order?page=${page}`
+        url: '/api/get-user-order'
     }).then(response => {
         orderList.value = response.data
-        pages.value = {
-            current_page: response.data.current_page,
-            last_page: response.data.last_page
-        }
     })
 }
 
@@ -107,31 +101,22 @@ const notification = () => {
     }, 3000);
 }
 
-const updateBtn = (data) => {
-    isOrderChangeStatusModal.value = true
-    userOrderProduct.value = data
 
-}
 
-const closeOrderChangeStatusModal = () => {
-    isOrderChangeStatusModal.value = false
-    ORDER_lIST_API()
-}
+
 onMounted(async () => {
     isLoading.value = true
     await Promise.all([
         ORDER_CATEGORY_API(),
         ORDER_lIST_API()
     ])
-    isLoading.value = false
+     isLoading.value = false
 })
 
 </script>
 
 <template>
     <Loader v-if="isLoading" />
-    <OrderChangeStatusModal v-if="isOrderChangeStatusModal" :userOrderProduct="userOrderProduct"
-        @closeOrderChangeStatusModal="closeOrderChangeStatusModal" />
     <StatusUpdate v-if="isStatusUpdate" />
     <ViewUserOrder v-if="viewUserOrder" :userOrderProduct="userOrderProduct" @closeModal="closeModal"
         @notification="notification" />
@@ -143,15 +128,8 @@ onMounted(async () => {
             <div class="main m-5">
                 <section id="section-one" class="mt-4">
                     <div class="row">
-                        <div class="col mt-2">
-                            <Message icon="pi pi-list" severity="contrast">
-                                Order List
-                            </Message>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
                         <div class="col table-top">
-                            <!-- <div class="search">
+                            <div class="search">
                                 <Select v-model="category" :options="orderCategory" optionLabel="date_order"
                                     placeholder="select category" />
                                 <Button label="clear" severity="secondary" variant="outlined" raised @click="clear"
@@ -167,7 +145,7 @@ onMounted(async () => {
                                     <Button label="clear" severity="secondary" variant="outlined" raised
                                         @click="search = ''" v-if="search" />
                                 </InputGroup>
-                            </div> -->
+                            </div>
                             <div class="download">
                                 <Button icon="pi pi-file-pdf" severity="danger" label="PDF" raised />
                             </div>
@@ -250,8 +228,7 @@ onMounted(async () => {
                                 <td class="table-action">
                                     <Button @click="viewUserProductBtn(data)" icon="pi pi-eye" severity="primary" raised
                                         title="View" />
-                                    <Button icon="pi pi-file-edit" severity="info" raised title="Edit"
-                                        @click="updateBtn(data)" />
+                                    <Button icon="pi pi-file-edit" severity="info" raised title="Edit" />
                                     <Button icon="pi pi-trash" severity="danger" raised title="Delete" />
                                 </td>
                             </tr>

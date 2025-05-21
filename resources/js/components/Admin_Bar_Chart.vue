@@ -116,8 +116,6 @@ watch([totalOrderPerMonth], () => {
 canvas {
   max-width: 100%;
   max-height: 400px;
-  background: white;
-  box-shadow: 0px 0px 5px 0px gray;
-  border-radius: 5px;
+ 
 }
 </style>

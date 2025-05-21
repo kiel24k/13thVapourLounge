@@ -6,6 +6,7 @@ import axios from 'axios';
 import { onMounted, ref, watch  } from 'vue';
 import { useRoute } from 'vue-router';
 import Footer from '@/components/Client_Footer.vue'
+import Loader from '@/widgets/Loader.vue'
 
 
 
@@ -17,14 +18,12 @@ const productOverviewItem = ref(Object)
 
 const product_overview_api = async () => {
    try{
-    loader.value = true
     const response = await axios.get('/api/products-overview', {
         params: {
             product_name: route.params.products_name
         }
     })
     productOverviewItem.value = response.data
-    loader.value = false
    }catch(error){
 
    }
@@ -33,14 +32,15 @@ const product_overview_api = async () => {
 watch(route, (oldVal, newVal) => {
     product_overview_api()
 })
-onMounted(() => {
-    product_overview_api()
+onMounted(async() => {
+    Loader.value = true
+    await product_overview_api()
+    Loader.value = false
 })
 
 </script>
 
 <template>
-    <Header />
     <Navbar />
     <Loader v-if="loader"/>
     <NavbarCategory />

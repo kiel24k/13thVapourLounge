@@ -80,7 +80,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <Header />
+ 
     <Navbar />
     <Loader v-if="loader" />
     <NavbarCategory />

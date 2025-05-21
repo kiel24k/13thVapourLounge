@@ -27,10 +27,10 @@ const posItem = ref({})
 
 
 const selectedCustomer = ref(null)
-const propsForCustomerName = computed(() => {
-    const customer = getCustomer.value.find((el) => el.id === selectedCustomer.value)
-    return customer
-})
+// const propsForCustomerName = computed(() => {
+//     const customer = getCustomer.value.find((el) => el.id === selectedCustomer.value)
+//     return customer
+// })
 const selectedItemList = ref({})
 const customerProfile = ref({})
 const search = ref()
@@ -41,7 +41,7 @@ const posTableData = ref({})
 
 
 const dashboardBtn = () => {
-    router.push('/admin-dashboard')
+    history.back()
 }
 
 const addCustomerBtn = () => {
@@ -253,7 +253,7 @@ onMounted(() => {
     <div class="container-fluid">
         <div class="row">
             <div class="col">
-                <Button icon="pi pi-home" severity="contrast" label="Dashboard" @click="dashboardBtn" />
+                <Button icon="pi pi-angle-double-left" severity="contrast" label="Back" @click="dashboardBtn" />
             </div>
         </div>
     </div>

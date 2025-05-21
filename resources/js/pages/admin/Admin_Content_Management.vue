@@ -8,6 +8,9 @@ import AdminCmsHeroModal from '@/components/Admin_Cms_Hero.vue'
 import AdminCmsAboutUsModal from '@/components/Admin_Cms_About_Us.vue'
 import AdminCmsServiceModal from '@/components/Admin_Cms_Service.vue'
 import AdminCmsContactModal from '@/components/Admin_Cms_Contact.vue'
+import Loader from '@/widgets/Loader.vue';
+
+const isLoading = ref(false)
 
 const showSidebar = ref(true)
 
@@ -96,15 +99,20 @@ const closeAdminCmsContact = () => {
 
 
 //HOOKS 
-onMounted(() => {
-    GET_TITLE_API()
-    GET_HERO_API()
+onMounted(async () => {
+    isLoading.value = true
+    await Promise.all([
+        GET_TITLE_API(),
+        GET_HERO_API()
+    ])
+    isLoading.value = false
 })
 
 
 </script>
 
 <template>
+    <Loader v-if="isLoading" />
     <AdminCmsTitleModal v-if="isAdminCmsTitleModal" @closeAdminCmsTitle="closeAdminCmsTitle"
         :titleData="buttonData.titleData" />
     <AdminCmsHeroModal v-if="isAdminCmsHeroModal" @closeAdminCmsHero="closeAdminCmsHero"
@@ -114,16 +122,22 @@ onMounted(() => {
     <AdminCmsContactModal v-if="isAdminCmsContactModal" @closeAdminCmsContact="closeAdminCmsContact" />
     <div id="section-one">
         <div class="header">
-            <Header  />
+            <Header />
         </div>
         <div class="content">
             <div class="main m-2">
+
                 <section>
-                    <Message severity="secondary">
-                        <h4>Content Management</h4>
-                    </Message>
+
                     <div class="row mt-3">
-                        <div class="col content_section">
+                        <div class="row mt-5">
+                            <div class="col">
+                                <Message icon="pi pi-list" severity="contrast">
+                                    Content management
+                                </Message>
+                            </div>
+                        </div>
+                        <div class="col content_section mt-3">
                             <div class="title" @click="title(titleData[0])">
                                 <span v-if="titleData">
                                     <h3>Title:</h3>
@@ -147,25 +161,25 @@ onMounted(() => {
                                 </span>
                                 <i class="pi pi-pencil text-end"></i>
                             </div>
-                            
-                             <div class="about_us" @click="aboutUs()">
+
+                            <div class="about_us" @click="aboutUs()">
                                 <span>
                                     <h3>About us</h3>
-                                   <i class="pi pi-question-circle"  style="font-size:15rem;color:skyblue"></i>
+                                    <i class="pi pi-question-circle" style="font-size:15rem;color:skyblue"></i>
                                 </span>
                                 <i class="pi pi-pencil text-end"></i>
-                            </div> 
+                            </div>
                             <div class="service" @click="service()">
                                 <span>
                                     <h3>Service</h3>
-                                    <i class="pi pi-check-circle"  style="font-size:15rem;color:yellowgreen"></i>
+                                    <i class="pi pi-check-circle" style="font-size:15rem;color:yellowgreen"></i>
                                 </span>
                                 <i class="pi pi-pencil text-end"></i>
                             </div>
                             <div class="contacts" @click="contacts()">
                                 <span>
                                     <h3>Contacts</h3>
-                                    <i class="pi pi-book"  style="font-size:15rem;color:green"></i>
+                                    <i class="pi pi-book" style="font-size:15rem;color:green"></i>
                                 </span>
                                 <i class="pi pi-pencil text-end"></i>
                             </div>

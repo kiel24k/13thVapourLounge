@@ -120,8 +120,8 @@ onMounted(() => {
                         <img src="/public/image/cart1-icon.png" alt="" width="30">
                         cart
                     </router-link>
-                    <b v-if="cartTotal">{{ cartTotal }}</b>
-                    <b v-else>{{ cartMountedValue }}</b>
+                    <!-- <b v-if="cartTotal">{{ cartTotal }}</b>
+                    <b v-else>{{ cartMountedValue }}</b> -->
                     <SplitButton icon="pi pi-user" dropdownIcon="pi pi-chevron-down" severity="secondary" @click="save"
                         :model="items" />
                 </div>

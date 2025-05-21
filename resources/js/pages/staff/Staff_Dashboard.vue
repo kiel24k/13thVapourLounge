@@ -1,13 +1,12 @@
 <script setup>
 import Sidebar from '@/components/Admin_Sidebar.vue'
-import Header from '@/components/Admin_Header.vue'
+import Header from '@/components/Staff_Header.vue'
 import PieChart from '@/components/Admin_Pie_Chart.vue'
 import LineChart from '@/components/Admin_Line_Chart.vue'
 import BarChart from '@/components/Admin_Bar_Chart.vue'
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
 import Loader from '@/widgets/Loader.vue'
-import { Button } from 'primevue'
 
 const isLoader = ref(false)
 const totalProducts = ref()
@@ -123,25 +122,12 @@ onMounted(async () => {
                 <section class="section-two mt-4">
                     <div class="row charts">
                         <div class="col graph">
-                            <div class="linechart">
-                                <LineChart />
-                                <div class="chart_action text-end">
-                                    <Button label="Print" severity="danger" />
-                                </div>
-                            </div>
-                            <div class="barchart">
-                                <BarChart />
-                                <div class="chart_action text-end">
-                                    <Button label="Print" severity="danger" />
-                                </div>
-                            </div>
-                            <div class="piechart text-end">
-                                <PieChart />
-                                  <Button label="Print" severity="danger" />
-                            </div>
+                            <LineChart />
+                            <BarChart />
+                            <PieChart />
                         </div>
                         <div class="col-4 bg-white">
-                            <b>First 15 New Products</b>
+                             <b>First 15 New Products</b>
                             <table class="table">
                                 <tbody>
                                     <tr v-for="(data, key) in newProductAddedData">
@@ -273,25 +259,5 @@ onMounted(async () => {
 
 table thead {
     background: white;
-}
-
-.linechart {
-    background: white;
-    box-shadow: 0px 0px 5px 0px gray;
-    border-radius: 5px;
-    padding: 10px;
-}
-
-.barchart {
-    background: white;
-    box-shadow: 0px 0px 5px 0px gray;
-    border-radius: 5px;
-    padding:10px;
-}
-.piechart{
-     background: white;
-  box-shadow: 0px 0px 5px 0px gray;
-  border-radius: 5px;
-  padding: 10px;
 }
 </style>

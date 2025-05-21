@@ -6,10 +6,13 @@ import AddCategoryModal from '@/components/Admin_Add_Category.vue'
 import NewCategoryNotification from '@/widgets/new_category_added.vue'
 import { onMounted, ref, watch } from 'vue';
 import axios from 'axios'
-import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue'
+import { Button, InputGroup, InputGroupAddon, InputText, Message, Select } from 'primevue'
 import html2pdf from 'html2pdf.js'
 import Swal from 'sweetalert2'
 import UpdateProductModal from '@/components/Admin_Update_Product_Modal.vue'
+import Loader from '@/widgets/Loader.vue'
+
+const isLoading = ref(false)
 
 const selectCategory = ref('')
 const search = ref('')
@@ -35,7 +38,7 @@ const pagination = ref({
 
 const PRODUCT_lIST_CATEGORY_API = () => {
     axios({
-        method:'GET',
+        method: 'GET',
         url: 'api/product-list-category'
     }).then(response => {
         productListCategoryData.value = response.data
@@ -107,11 +110,11 @@ const deleteProductBtn = (id) => {
 const updateBtn = (id) => {
     updateModalId.value = id
     isUpdateProductModal.value = true
-     
+
 }
 
 const closeUpdateModal = () => {
-    isUpdateProductModal.value = false 
+    isUpdateProductModal.value = false
     productList()
 }
 
@@ -155,37 +158,53 @@ const printTable = () => {
         .save();
 };
 
-watch(search, (oldVal,newVal) => {
+watch(search, (oldVal, newVal) => {
     productList()
 
 })
 
-watch(selectCategory, (oldVal,newVal) => {
+watch(selectCategory, (oldVal, newVal) => {
     productList()
 })
- 
-onMounted(() => {
-    PRODUCT_lIST_CATEGORY_API()
-    productList()
+
+onMounted(async () => {
+    isLoading.value = true
+    await Promise.all([
+        PRODUCT_lIST_CATEGORY_API(),
+        productList()
+    ])
+    isLoading.value = false
 })
 
 </script>
 
 <template>
+    <Loader v-if="isLoading" />
     <div id="products">
         <div class="header">
             <AddProductModal v-if="addProductModal" @closeModal="closeModal" />
             <AddCategoryModal v-if="addCategoryModal" @closeModal="closeModal" @notification="notification" />
-            <UpdateProductModal v-if="isUpdateProductModal" :updateModalId="updateModalId" @closeUpdateModal="closeUpdateModal" />
+            <UpdateProductModal v-if="isUpdateProductModal" :updateModalId="updateModalId"
+                @closeUpdateModal="closeUpdateModal" />
             <Header />
         </div>
         <div class="content">
             <div class="main">
-                <section id="section-one" class="mt-4">
+                <div class="row mt-2">
+                    <div class="col">
+                        <Message icon="pi pi-list" severity="contrast">
+                            Order List
+                        </Message>
+                    </div>
+                </div>
+                <section id="section-one" class="mt-2">
                     <div class="row">
+
                         <div class="col table-top">
+
                             <div class="category">
-                                <Select v-model="selectCategory" :options="productListCategoryData" optionLabel="date_released" placeholder="Select date" />
+                                <Select v-model="selectCategory" :options="productListCategoryData"
+                                    optionLabel="date_released" placeholder="Select date" />
                             </div>
                             <div class="search">
                                 <InputGroup>
@@ -284,7 +303,7 @@ onMounted(() => {
                                     </div>
                                     <div style="display: grid;">
                                         <span>{{ data.product_label }}</span>
-                                       
+
                                         <small style="font-weight: 600; color:gray">{{ data.date_released }}</small>
                                     </div>
                                 </td>
@@ -325,8 +344,8 @@ onMounted(() => {
 
 .main {
     width: 100%;
-    margin-top:5rem;
- 
+    margin-top: 5rem;
+
 }
 
 .header {

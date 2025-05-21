@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\UserOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -83,5 +84,13 @@ class DashboardController extends Controller
             ->groupBy('month')
             ->get();
         return $data;
+    }
+
+    public function newProductAdded () {
+        $data = Product::select('*')
+        ->orderBy('id', 'DESC')
+        ->limit(15)
+        ->get();
+        return response()->json($data);
     }
 }
