@@ -74,7 +74,7 @@ const items = [
         label: 'Profile',
         icon: 'pi pi-user',
         command: () => {
-           router.push('/admin-profile')
+           router.push('/staff-profile')
         }
     },
     {

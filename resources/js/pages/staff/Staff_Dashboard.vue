@@ -122,12 +122,18 @@ onMounted(async () => {
                 <section class="section-two mt-4">
                     <div class="row charts">
                         <div class="col graph">
-                            <LineChart />
-                            <BarChart />
-                            <PieChart />
+                            <div class="linechart">
+                                <LineChart />
+                            </div>
+                            <div class="barchart">
+                                <BarChart />
+                            </div>
+                            <div class="piechart">
+                                <PieChart />
+                            </div>
                         </div>
                         <div class="col-4 bg-white">
-                             <b>First 15 New Products</b>
+                            <b>First 15 New Products</b>
                             <table class="table">
                                 <tbody>
                                     <tr v-for="(data, key) in newProductAddedData">
@@ -255,6 +261,12 @@ onMounted(async () => {
     display: grid;
     gap: 10px;
 
+}
+.graph > div{
+    background: white;
+    padding:5px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px gray;
 }
 
 table thead {

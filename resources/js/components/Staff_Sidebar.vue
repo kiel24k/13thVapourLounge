@@ -47,6 +47,12 @@ const closeSidebar = () => {
                             Category list
                         </li>
                     </router-link>
+                     <router-link :to="{ name: 'staff-profile' }" class="item1">
+                        <li class="nav-link text-dark">
+                            <i class="pi pi-user"></i>
+                            Profile
+                        </li>
+                    </router-link>
                     <!-- endtest -->
                 </ul>
               

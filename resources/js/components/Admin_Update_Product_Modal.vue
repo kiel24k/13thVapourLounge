@@ -49,41 +49,40 @@ const GET_UPDATE_PRODUCT = async () => {
 }
 
 const saveBtn = async () => {
-    console.log(input.value.file);
-    
-    // try {
-    //     const response = await axios.post('api/update-product', {
-    //         productId: props.updateModalId,
-    //         product_name: updatedProductData.value.product_name,
-    //         product_label: updatedProductData.value.product_label,
-    //         product_price: updatedProductData.value.product_price,
-    //         quantity: updatedProductData.value.quantity,
-    //         description: updatedProductData.value.description,
-    //         image: input.value.file,
-    //         label_category: updatedProductData.value.label_category
-    //     }, {
-    //         headers: {
-    //             'content-type': 'multipart/form-data'
-    //         }
-    //     })
-    //     if (response.status === 200) {
-    //         Swal.fire({
-    //             position: "top-end",
-    //             icon: "success",
-    //             title: "Product Added",
-    //             showConfirmButton: false,
-    //             timer: 1500
-    //         });
-    //         emit('closeUpdateModal')
-    //     }
-    // } catch (error) {
-    //     console.log(error);
+   
+    try {
+        const response = await axios.post('api/update-product', {
+            productId: props.updateModalId,
+            product_name: updatedProductData.value.product_name,
+            product_label: updatedProductData.value.product_label,
+            product_price: updatedProductData.value.product_price,
+            quantity: updatedProductData.value.quantity,
+            description: updatedProductData.value.description,
+            image: input.value.file,
+            label_category: updatedProductData.value.label_category
+        }, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        })
+        if (response.status === 200) {
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Product Added",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            emit('closeUpdateModal')
+        }
+    } catch (error) {
+        console.log(error);
 
-    //     if (error.response.status === 422) {
-    //         productValidation.value = error.response.data.errors
-    //     }
+        if (error.response.status === 422) {
+            productValidation.value = error.response.data.errors
+        }
 
-    // }
+    }
 }
 onMounted(() => {
     GET_UPDATE_PRODUCT()
