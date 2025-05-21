@@ -116,12 +116,12 @@ class AdminController extends Controller
         $sortOrder = $request->query('sortOrder', 'asc');
         $sortBy = $request->query('sortBy', 'product_name');
         if (empty($request->search) && empty($request->category)) {
-            $data = Product::orderBy($sortBy, $sortOrder)->paginate(5);
+            $data = Product::orderBy($sortBy, $sortOrder)->paginate(6);
             return response()->json($data);
         } else if (isset($request->category) && empty($request->search)) {
             $data = Product::where('date_released', $request->category)
                 ->orderBy($sortBy, $sortOrder)
-                ->paginate(5);
+                ->paginate(6);
             return response()->json($data);
         } else if (empty($request->category) && isset($request->search)) {
             $data = Product::where('product_name', 'LIKE', '%' . $request->search . '%')
@@ -130,7 +130,7 @@ class AdminController extends Controller
                 ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('description', 'LIKE', '%' . $request->search . '%')
                 ->orderBy($sortBy, $sortOrder)
-                ->paginate(5);
+                ->paginate(6);
             return response()->json($data);
         } else if (isset($request->category) && isset($request->search)) {
             $data = Product::where('date_released', $request->category)
@@ -142,7 +142,7 @@ class AdminController extends Controller
                         ->orWhere('description', 'LIKE', '%' . $request->search . '%');
                 })
                 ->orderBy($sortBy, $sortOrder)
-                ->paginate(5);
+                ->paginate(6);
             return response()->json($data);
         }
     }

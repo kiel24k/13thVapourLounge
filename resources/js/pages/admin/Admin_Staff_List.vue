@@ -126,7 +126,7 @@ onMounted(async () => {
                                 </InputGroup>
                             </div>
                             <div class="download">
-                                <Button icon="pi pi-file-pdf" label="Print" severity="danger" raised />
+                                <!-- <Button icon="pi pi-file-pdf" label="Print" severity="danger" raised /> -->
                             </div>
                             <div class="add_user">
                                 <Button label="Add New Staff" icon="pi pi-user" @click="isAddNewStaffModal = true" />
