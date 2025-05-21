@@ -11,8 +11,10 @@ import html2pdf from 'html2pdf.js'
 import Swal from 'sweetalert2'
 import UpdateProductModal from '@/components/Admin_Update_Product_Modal.vue'
 import Loader from '@/widgets/Loader.vue'
+import PrintProductListModal from "@/components/Print_Product_List_Modal.vue"
 
 const isLoading = ref(false)
+const isPrintProductListModal = ref(false)
 
 const selectCategory = ref('')
 const search = ref('')
@@ -143,20 +145,14 @@ const closeModal = () => {
     productList()
 }
 
-const printTable = () => {
-    const elem = printContent.value
-    const options = {
-        margin: 1,
-        filename: 'document.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-    };
-    html2pdf()
-        .from(elem)
-        .set(options)
-        .save();
+const print = () => {
+    isPrintProductListModal.value = true
+  
 };
+
+const closePrintProductListModal = () => {
+    isPrintProductListModal.value = false
+}
 
 watch(search, (oldVal, newVal) => {
     productList()
@@ -180,6 +176,7 @@ onMounted(async () => {
 
 <template>
     <Loader v-if="isLoading" />
+    <PrintProductListModal v-if="isPrintProductListModal" :productData="productData" @closePrintProductListModal="closePrintProductListModal"/>
     <div id="products">
         <div class="header">
             <AddProductModal v-if="addProductModal" @closeModal="closeModal" />
@@ -217,7 +214,7 @@ onMounted(async () => {
                             </div>
                             <div class="download">
                                 <Button icon="pi pi-file-pdf" label="Print" severity="danger" raised
-                                    @click="printTable" />
+                                    @click="print()" />
                             </div>
                         </div>
                         <div class="col text-end">

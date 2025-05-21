@@ -17,7 +17,7 @@
         "chart.js": "^4.4.6",
         "element-plus": "^2.8.7",
         "htm2pdf": "^1.0.3",
-        "html2pdf.js": "^0.10.2",
+        "html2pdf.js": "^0.10.3",
         "js-cookie": "^3.0.5",
         "pinia": "^2.2.2",
         "primeicons": "^7.0.0",

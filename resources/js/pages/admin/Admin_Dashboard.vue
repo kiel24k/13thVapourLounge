@@ -8,6 +8,13 @@ import { onMounted, ref } from 'vue'
 import axios from 'axios'
 import Loader from '@/widgets/Loader.vue'
 import { Button } from 'primevue'
+import PrintLineChartModal from "@/components/Print_Line_Chart.vue"
+import PrintBarGraphModal from "@/components/Print_Bar_Graph_Modal.vue"
+import PrintPieChartModal from "@/components/Print_Pie_Chart_Modal.vue"
+
+const isPrintLineChartModal = ref(false)
+const isPrintBarGraphModal = ref(false)
+const isPrintPieChartModal= ref(false)
 
 const isLoader = ref(false)
 const totalProducts = ref()
@@ -46,6 +53,30 @@ const GET_NEW_PRODUCT_ADDED_API = async () => {
         newProductAddedData.value = response.data
     })
 }
+
+const printLineChart = () => {
+    isPrintLineChartModal.value = true
+}
+
+const closePrintLineChartModal = () => {
+    isPrintLineChartModal.value = false
+}
+
+const printBarGraph = () => {
+    isPrintBarGraphModal.value = true
+}
+
+const closePrintBarGraphModal = () => {
+    isPrintBarGraphModal.value = false
+}
+
+const printPieChart = () => {
+    isPrintPieChartModal.value = true
+}
+
+const closePieChartModal = () => {
+    isPrintPieChartModal.value = false
+}
 onMounted(async () => {
     isLoader.value = true;
     await Promise.all([
@@ -62,6 +93,9 @@ onMounted(async () => {
 
 <template>
     <Loader v-if="isLoader" />
+    <PrintLineChartModal v-if="isPrintLineChartModal" @closePrintLineChartModal="closePrintLineChartModal"/>
+    <PrintBarGraphModal v-if="isPrintBarGraphModal" @closePrintBarGraphModal="closePrintBarGraphModal"/>
+    <PrintPieChartModal v-if="isPrintPieChartModal" @closePieChartModal="closePieChartModal"/>
     <section id="main">
         <div class="header">
             <Header />
@@ -126,18 +160,18 @@ onMounted(async () => {
                             <div class="linechart">
                                 <LineChart />
                                 <div class="chart_action text-end">
-                                    <Button label="Print" severity="danger" />
+                                    <Button label="Print" severity="danger" @click="printLineChart()" />
                                 </div>
                             </div>
                             <div class="barchart">
                                 <BarChart />
                                 <div class="chart_action text-end">
-                                    <Button label="Print" severity="danger" />
+                                    <Button label="Print" severity="danger" @click="printBarGraph()" />
                                 </div>
                             </div>
                             <div class="piechart text-end">
                                 <PieChart />
-                                  <Button label="Print" severity="danger" />
+                                  <Button label="Print" severity="danger" @click="printPieChart()" />
                             </div>
                         </div>
                         <div class="col-4 bg-white">

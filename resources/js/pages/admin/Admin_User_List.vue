@@ -111,7 +111,7 @@ onMounted(async() => {
                                 </InputGroup>
                             </div>
                             <div class="download">
-                                <Button icon="pi pi-file-pdf" label="Print" severity="danger" raised />
+                                <!-- <Button icon="pi pi-file-pdf" label="Print" severity="danger" raised /> -->
                             </div>
                         </div>
                     </div>
