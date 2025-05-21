@@ -6,8 +6,16 @@ import NavbarAccount from '@/components/Client_Navbar_Account.vue'
 import ClientProfileModal from '@/components/Client_Edit_Profile_Modal.vue'
 import { onMounted, ref } from 'vue';
 import { Button, Message } from 'primevue'
+import ClientChangePasswordModal from '@/components/Client_Change_Password_Modal.vue'
+import Loader from "@/widgets/Loader.vue"
+
+const isLoading = ref(false)
+const isClientChangePasswordModal = ref(false)
 const user = ref(Object)
 const clientProfileModal = ref(false)
+
+
+
 const USER_API = async () => {
     try {
         const response = await axios.get('/api/user')
@@ -26,13 +34,22 @@ const closeModal = () => {
     USER_API()
 }
 
-onMounted(() => {
-    USER_API()
+const closeChangePasswordModal = () => {
+    isClientChangePasswordModal.value = false
+}
+
+onMounted(async () => {
+    isLoading.value = true
+    await USER_API()
+    isLoading.value = false
+
 
 })
 </script>
 
 <template>
+    <Loader v-if="isLoading"/>
+    <ClientChangePasswordModal v-if="isClientChangePasswordModal"  @closeChangePasswordModal="closeChangePasswordModal"/>
     <Navbar />
     <NavbarCategory />
     <ClientProfileModal v-if="clientProfileModal" @closeModal="closeModal" />
@@ -89,7 +106,7 @@ onMounted(() => {
         </article>
         <div class="action">
             <Button @click="editProfileBtn" icon="pi pi-pen-to-square" label="Edit" severity="info" raised/>
-            <Button label="Change Password" icon="" severity="danger" raised/>
+            <Button label="Change Password" icon="" severity="danger" raised @click="isClientChangePasswordModal = true"/>
         </div>
     </section>
     <Footer/>

@@ -190,7 +190,7 @@ onMounted(async () => {
                 <div class="row mt-2">
                     <div class="col">
                         <Message icon="pi pi-list" severity="contrast">
-                            Order List
+                            Product List
                         </Message>
                     </div>
                 </div>

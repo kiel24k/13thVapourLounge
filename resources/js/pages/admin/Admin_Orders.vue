@@ -7,6 +7,7 @@ import StatusUpdate from '@/widgets/status_update.vue'
 import { Button, InputGroup, InputGroupAddon, InputText, Message, Select } from 'primevue';
 import Loader from '@/widgets/Loader.vue'
 import OrderChangeStatusModal from "@/components/Order_Change_Status_Modal.vue"
+import Swal from 'sweetalert2';
 
 const isOrderChangeStatusModal = ref(false)
 const isLoading = ref(false)
@@ -33,7 +34,11 @@ const pages = ref({
 const ORDER_lIST_API = async (page = 1) => {
     await axios({
         method: 'GET',
-        url: `/api/get-user-order?page=${page}`
+        url: `/api/get-user-order?page=${page}`,
+        params: {
+            sort: sortVal.value,
+            order:orderVal.value
+        }
     }).then(response => {
         orderList.value = response.data
         pages.value = {
@@ -117,6 +122,38 @@ const closeOrderChangeStatusModal = () => {
     isOrderChangeStatusModal.value = false
     ORDER_lIST_API()
 }
+
+const deleteOrder = (id) => {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios({
+                method: 'DELETE',
+                url: '/api/delete-user-order',
+                data: {
+                    id: id
+                }
+            }).then(response => {
+                if (response.status === 200) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Order has been deleted.",
+                        icon: "success"
+                    });   
+                }
+                   ORDER_lIST_API()
+            })
+
+        }
+    });
+}
 onMounted(async () => {
     isLoading.value = true
     await Promise.all([
@@ -168,9 +205,9 @@ onMounted(async () => {
                                         @click="search = ''" v-if="search" />
                                 </InputGroup>
                             </div> -->
-                            <div class="download">
+                            <!-- <div class="download">
                                 <Button icon="pi pi-file-pdf" severity="danger" label="PDF" raised />
-                            </div>
+                            </div> -->
                         </div>
 
                     </div>
@@ -181,8 +218,8 @@ onMounted(async () => {
                             <tr>
                                 <th>#</th>
                                 <th @click="sort('first_name')">user
-                                    <i class="pi pi-sort-amount-up" v-if="sortVal === 'DESC'"></i>
-                                    <i class="pi pi-sort-amount-down" v-else-if="sortVal === 'ASC'"></i>
+                                    <!-- <i class="pi pi-sort-amount-up" v-if="sortVal === 'DESC'"></i>
+                                    <i class="pi pi-sort-amount-down" v-else-if="sortVal === 'ASC'"></i> -->
                                 </th>
                                 <th @click="sort('mobile_no')">Mobile No.
                                     <i class="pi pi-sort-amount-up" v-if="sortVal === 'DESC'"></i>
@@ -244,7 +281,8 @@ onMounted(async () => {
                                                             data.status === 'completed' ? 'violet' :
                                                                 'transparent'
                                     }">
-                                        {{ data.status }}</span>
+                                        {{ data.status }}
+                                    </span>
                                 </td>
                                 <!-- <td>{{ data.user_orders[0] }}</td> -->
                                 <td class="table-action">
@@ -252,7 +290,8 @@ onMounted(async () => {
                                         title="View" />
                                     <Button icon="pi pi-file-edit" severity="info" raised title="Edit"
                                         @click="updateBtn(data)" />
-                                    <Button icon="pi pi-trash" severity="danger" raised title="Delete" />
+                                    <Button icon="pi pi-trash" severity="danger" raised title="Delete"
+                                        @click="deleteOrder(data.user_order_id)" />
                                 </td>
                             </tr>
                         </tbody>

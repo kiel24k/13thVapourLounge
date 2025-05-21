@@ -203,7 +203,8 @@ class AdminController extends Controller
         $user = User::find($request->id)->delete();
         return response()->json($user);
     }
-    public function getUserStaff () {
+    public function getUserStaff()
+    {
         $data = User::where('role', 'staff')->paginate(9);
         return response()->json($data);
     }
@@ -216,25 +217,34 @@ class AdminController extends Controller
 
 
 
-    public function getUserOrder (Request $request) {
+    public function getUserOrder(Request $request)
+    {
+        $sort = $request->query('sort', 'DESC');
+        $order = $request->query('order', 'id');
         $data = DB::table('user_orders')
-        ->leftJoin('users' ,'users.id', '=', 'user_orders.user_id')
-        ->leftJoin('products', 'products.id', '=', 'user_orders.order_id')
-        ->select('users.*', 'user_orders.id as user_order_id', 'user_orders.*', 'products.*')
-        ->orderBy('user_orders.id', 'DESC')
-        ->paginate(10);
+            ->leftJoin('users', 'users.id', '=', 'user_orders.user_id')
+            ->leftJoin('products', 'products.id', '=', 'user_orders.order_id')
+            ->select('users.*', 'user_orders.id as user_order_id', 'user_orders.*', 'products.*')
+            ->orderBy("user_orders.$order", $sort)
+            ->paginate(10);
         return response()->json($data);
     }
-   
+
     public function orderUpdateStatus(Request $request)
     {
-        
+
         $userId = UserOrder::find($request->id);
         $userId->status = $request->status;
         $userId->update();
         return response()->json([
             "status" => 200
         ]);
+    }
+
+    public function deleteOrder(Request $request)
+    {
+        $order = UserOrder::find($request->id)->delete();
+        return response()->json($order);
     }
     public function updateAdminProfile(Request $request)
     {
@@ -256,5 +266,12 @@ class AdminController extends Controller
         }
         $user->update();
         return response()->json($user);
+    }
+
+    public function lowStockProduct()
+    {
+        $data = Product::where('quantity', '<=', 50)
+            ->get();
+        return response()->json($data);
     }
 }

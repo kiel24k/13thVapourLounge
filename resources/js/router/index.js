@@ -174,6 +174,11 @@ const routes = [
         name: "staff-new-category",
         component: () => import("../pages/staff/Staff_New_Category.vue"),
     },
+     {
+        path: "/staff-profile",
+        component: () => import("../pages/staff/Staff_Profile.vue"),
+        name: "staff-profile",
+    },
 
     //======================Sub-Admin routes=============================//
     {

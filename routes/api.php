@@ -40,9 +40,11 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/get-user-order', 'getUserOrder');
     route::post('/order-update-status', 'orderUpdateStatus');
     route::post('/update-admin-profile', 'updateAdminProfile');
+    route::delete('/delete-user-order', 'deleteOrder');
     route::get('/order-category', 'orderCategory');
     route::delete('/delete-product-category', 'deleteProductCategory');
     route::get('/get-category', 'getCategory');
+    route::get('/low-stock-product', 'lowStockProduct');
 });
 
 Route::controller(ClientController::class)->group(function () {
