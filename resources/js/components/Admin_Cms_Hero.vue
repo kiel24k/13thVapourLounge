@@ -92,7 +92,7 @@ const closeModal = () => {
                     <div class="row mt-3">
                         <div class="col">
                             <img v-if="src" :src="src" alt="Image" width="200" height="150" />
-                            <img :src="`storage/cms_image/${propsData.image}`" alt="" width="150"
+                            <img :src="`/image/cms_image/${propsData.image}`" alt="" width="150"
                                 v-else-if="src === null">
                         </div>
                         <hr>

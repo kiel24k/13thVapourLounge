@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Client title</title>
+    <title>13thVapourLounge</title>
+    <link rel="icon" type="image/gif" href="/image/shopcover.jpg">
 
     @vite('resources/css/app.css')
 </head>

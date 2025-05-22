@@ -130,7 +130,7 @@ const posBtn = () => {
                     <img src="/public/image/burder-menu1.png" alt="" width="40px" height="40px" @click="openSidebar" />
                 </div>
                 <div class="">
-                    <img v-if="titleData[0]" :src="`/storage/cms_image/${titleData[0].image}`" alt="" width="100"
+                    <img v-if="titleData[0]" :src="`/image/cms_image/${titleData[0].image}`" alt="" width="100"
                         height="40">
                 </div>
 
@@ -151,7 +151,7 @@ const posBtn = () => {
                                                 <Button icon="pi pi-info" raised rounded :severity="data.quantity <= 50 && data.quantity > 25 ? 'success' : data.quantity <= 25 ? 'danger' : 'info' " />
                                             </div>
                                             <div class="">
-                                                 <img :src="`storage/product_image/${data.image}`"
+                                                 <img :src="`/image/product_image/${data.image}`"
                                                 style="width: 32px" />
                                             <div>
                                                

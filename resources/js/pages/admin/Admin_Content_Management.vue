@@ -143,7 +143,7 @@ onMounted(async () => {
                                     <h3>Title:</h3>
                                     <h4>{{ titleData[0].caption }}</h4>
                                     <p class="text-center">
-                                        <img :src="`/storage/cms_image/${titleData[0].image}`" width="250" height="150"
+                                        <img :src="`/image/cms_image/${titleData[0].image}`" width="250" height="150"
                                             alt="">
                                     </p>
                                 </span>
@@ -155,7 +155,7 @@ onMounted(async () => {
                                 <span v-if="heroData">
                                     <p>{{ heroData[0].details }}</p>
                                     <p class="text-center">
-                                        <img :src="`/storage/cms_image/${heroData[0].image}`" width="250" height="150"
+                                        <img :src="`/image/cms_image/${heroData[0].image}`" width="250" height="150"
                                             alt="">
                                     </p>
                                 </span>

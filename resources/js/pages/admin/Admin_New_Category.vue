@@ -32,11 +32,13 @@ const submit = async () => {
         method: 'POST',
         url: 'api/create-category',
         data: {
+            category: input.value.category,
             product_type: input.value.product_type,
-            product_name: input.value.product_name,
             description: input.value.description
         }
     }).then(response => {
+        console.log(response);
+        
        if(response.status === 200){
         Swal.fire({
                 position: "top-end",
@@ -84,17 +86,17 @@ const submit = async () => {
                         </div>
                         <div class="row">
                             <div class="col mt-3">
-                                <label for="">Product type</label>
-                                <input type="text" class="form-control" v-model="input.product_type">
-                                <span v-if="validation.product_type">{{ validation.product_type[0] }}</span>
+                                <label for="">Category</label>
+                                <input type="text" class="form-control" v-model="input.category">
+                                <span v-if="validation.category">{{ validation.category[0] }}</span>
                                
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mt-3">
-                                <label for="">Product name</label>
-                                <input type="text" class="form-control" v-model="input.product_name">
-                                <span v-if="validation.product_name">{{ validation.product_name[0] }}</span>
+                                <label for="">Product type</label>
+                                <input type="text" class="form-control" v-model="input.product_type">
+                                <span v-if="validation.product_type">{{ validation.product_type[0] }}</span>
                             </div>
                         </div>
                         <div class="row">

@@ -50,8 +50,8 @@ const saveBtn = async () => {
     url: 'api/update-category',
     data: {
         id: props.updateModalId,
+        category: categoryData.value.category,
         product_type: categoryData.value.product_type,
-        product_name: categoryData.value.product_name,
         description: categoryData.value.description
     }
   }).then(response => {
@@ -83,37 +83,28 @@ onMounted(() => {
         <div class="form-modal-main">
             <div class="row">
                 <div class="col modal-title">
-                    <span>Update Product</span>
+                    <span>Update Category</span>
                     <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque incidunt soluta doloribus
                         aliquam quae, maiores quam autem veritatis! Laboriosam, placeat quam reprehenderit cumque
                         eligendi incidunt repellat nisi magnam atque modi.</small>
                 </div>
-                <div class="col text-end help-action">
-                    <button class="help-btn">
-                        <img src="/public/image/help-icon.png" width="25" alt="">
-                        <small>Help!</small>
-                    </button>
-                    <button>
-                        <img src="/public/image/view-eye.png" width="25" alt="">
-                        <small>Preview</small>
-                    </button>
-                </div>
+                
             </div>
             <hr>
             <fieldset>
                 <form enctype="multipart/form-data">
                     <div class="row mt-2">
                         <div class="col">
-                            <label for="">Product type</label>
-                            <input type="text" v-model="categoryData.product_type"></input>
-                            <span v-if="categoryValidation.product_type">{{ categoryValidation.product_type[0] }}</span>
+                            <label for="">Category</label>
+                            <input type="text" v-model="categoryData.category"></input>
+                            <span v-if="categoryValidation.category">{{ categoryValidation.category[0] }}</span>
                         </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col">
-                            <label for="">Product name</label>
-                            <input type="text" v-model="categoryData.product_name"></input>
-                            <span v-if="categoryValidation.product_name">{{ categoryValidation.product_name[0] }}</span>
+                            <label for="">Product type</label>
+                            <input type="text" v-model="categoryData.product_type"></input>
+                            <span v-if="categoryValidation.product_type">{{ categoryValidation.product_type[0] }}</span>
                         </div>
                     </div>
                     <div class="row">

@@ -82,7 +82,7 @@ const submit = async () => {
                         </div>
                         <div class="row">
                             <div class="col mt-3">
-                                <label for="">Product type</label>
+                                <label for="">Category</label>
                                 <input type="text" class="form-control" v-model="input.product_type">
                                 <span v-if="validation.product_type">{{ validation.product_type[0] }}</span>
                                
@@ -90,7 +90,7 @@ const submit = async () => {
                         </div>
                         <div class="row">
                             <div class="col mt-3">
-                                <label for="">Product name</label>
+                                <label for="">Product Type</label>
                                 <input type="text" class="form-control" v-model="input.product_name">
                                 <span v-if="validation.product_name">{{ validation.product_name[0] }}</span>
                             </div>
@@ -105,7 +105,7 @@ const submit = async () => {
                         </div>
                         <div class="row">
                             <div class="col text-end mt-4 form_action">
-                               <router-link :to="{name: 'admin-category-list'}">
+                               <router-link :to="{name: 'staff-category-list'}">
                                 <Button label="Category list" severity="danger" icon="pi pi-list"/>
                                </router-link>
                                 <Button label="Submit" raised severity="info" @click="submit()"/>

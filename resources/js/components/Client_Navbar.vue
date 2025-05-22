@@ -101,7 +101,7 @@ onMounted(() => {
                 
                 <div class="title" v-if="titleData[0]">
                     <router-link :to="{ name: 'home-dashboard' }" href="" class="nav-link">
-                        <img :src="`/storage/cms_image/${titleData[0].image}`" width="120" height="60">
+                        <img :src="`/image/cms_image/${titleData[0].image}`" width="120" height="60">
                         <h4>{{ titleData[0].caption }}</h4>
                     </router-link>
                     
@@ -116,7 +116,8 @@ onMounted(() => {
                         <img src="/public/image/order-icon2.png" width="30" alt="">
                         Order
                     </router-link>
-                    <router-link :to="{ name: 'client-cart' }">
+                    {{ cart }}
+                    <router-link :to="{ name: 'client-cart' }" >
                         <img src="/public/image/cart1-icon.png" alt="" width="30">
                         cart
                     </router-link>

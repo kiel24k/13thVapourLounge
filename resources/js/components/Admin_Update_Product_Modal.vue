@@ -119,8 +119,8 @@ onMounted(() => {
                         <div class="col">
                             <label for="">Product Type</label>
                             <select name="" id="" v-model="updatedProductData.product_name">
-                                <option :value="data.product_name" v-for="(data, index) in categoryList" :key="index">
-                                    {{ data.product_type }} / {{ data.product_name }}
+                                <option :value="data.product_type" v-for="(data, index) in categoryList" :key="index">
+                                    {{ data.category }} / {{ data.product_type }}
                                 </option>
                             </select>
                             <span v-if="productValidation.product_name">{{ productValidation.product_name[0] }}</span>

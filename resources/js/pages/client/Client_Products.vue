@@ -7,6 +7,7 @@ import { useRoute } from 'vue-router';
 import Loader from '@/widgets/Loader.vue'
 import Footer from '@/components/Client_Footer.vue'
 import { Button } from 'primevue';
+import Swal from 'sweetalert2';
 
 const loader = ref(false)
 const route = useRoute()
@@ -64,6 +65,14 @@ const addToCart = (id,data) => {
             max_quantity: data.quantity
         })
     }
+
+    Swal.fire({
+  position: "top-end",
+  icon: "success",
+  title: "Product has been added to cart",
+  showConfirmButton: false,
+  timer: 1500
+});
 
     localStorage.setItem('cart', JSON.stringify(cart))
    

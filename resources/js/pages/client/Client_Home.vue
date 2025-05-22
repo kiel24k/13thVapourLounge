@@ -142,7 +142,7 @@ onMounted( () => {
         <a href="https://www.google.com/maps/place/13th+Vapour+Lounge/@14.282278,120.8652239,15.75z/data=!4m6!3m5!1s0x33bd81effd100ed7:0x59aa7255e5f6bc7e!8m2!3d14.282493!4d120.8660981!16s%2Fg%2F11gmcc2vvf?entry=ttu&g_ep=EgoyMDI1MDQyOS4wIKXMDSoASAFQAw%3D%3D"
             target="_blank">
             <figure>
-                <img :src="`storage/cms_image/${heroData[0].image}`" alt="" width="1900" height="360">
+                <img :src="`/image/cms_image/${heroData[0].image}`" alt="" width="1900" height="360">
             </figure>
             <div class="location_title">
                 <strong class="text-center">{{ heroData[0].details }}.</strong>
@@ -157,8 +157,9 @@ onMounted( () => {
                 <router-link :to="{ name: 'client-products', params: { id: data.id } }">
                     <figure>
                         <div class="image-one-content">
-                            <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`" height="130"
+                            <img :src="`/image/product_image/${data.image}`" height="130"
                                 width="120" alt="" />
+                             
                         </div>
                     </figure>
                     <summary class="mt-3">
@@ -185,7 +186,7 @@ onMounted( () => {
             <article v-for="(data, index) in bestSellerListItem.data" :key="index">
                 <router-link :to="{ name: 'client-products', params: { id: data.id } }">
                     <div class="image-one-content">
-                        <img :src="`/storage/product_image/${data.image}`" height="130" width="120" alt="" />
+                        <img :src="`/image/product_image/${data.image}`" height="130" width="120" alt="" />
                     </div>
                 </router-link>
                 <summary>
@@ -211,7 +212,7 @@ onMounted( () => {
         <div class="service_content mt-5">
             <div class="content" v-for="data in publishedServiceData">
                 <figure>
-                    <img :src="`storage/cms_image/${data.image}`" alt="" width="50" height="50">
+                    <img :src="`/image/cms_image/${data.image}`" alt="" width="50" height="50">
                 </figure>
                 <figcaption>
                     <h3>{{ data.caption }}</h3>

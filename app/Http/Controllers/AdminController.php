@@ -17,13 +17,13 @@ class AdminController extends Controller
     public function createCategory(Request $request)
     {
         $request->validate([
-            'product_type' => 'required|unique:product_categories,product_name',
-            'product_name' => 'required|unique:product_categories,product_name',
+            'category' => 'required|unique:product_categories,category',
+            'product_type' => 'required|unique:product_categories,product_type',
             'description' => 'required'
         ]);
         $category = new ProductCategory();
+        $category->category = $request->category;
         $category->product_type = $request->product_type;
-        $category->product_name = $request->product_name;
         $category->description = $request->description;
         $category->save();
         return response()->json($category);
@@ -43,13 +43,13 @@ class AdminController extends Controller
     public function updateCategory(Request $request)
     {
         $request->validate([
+            'category' => 'required',
             'product_type' => 'required',
-            'product_name' => 'required',
             'description' => 'required'
         ]);
         $category = ProductCategory::find($request->id);
+        $category->category = $request->category;
         $category->product_type = $request->product_type;
-        $category->product_name = $request->product_name;
         $category->description = $request->description;
         $category->update();
         return response()->json($category);
@@ -64,13 +64,13 @@ class AdminController extends Controller
     public function categoryTable(Request $request)
     {
         $sortOrder = $request->query('sortOrder', 'DESC');
-        $sortBy = $request->query('sortBy', 'product_name');
+        $sortBy = $request->query('sortBy', 'category');
         if (empty($request->search)) {
             $data = ProductCategory::orderBy($sortBy,  $sortOrder)->get();
             return response()->json($data);
         } else if (isset($request->search)) {
-            $data = ProductCategory::where('product_type', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('product_name', 'LIKE', '%' . $request->search . '%')
+            $data = ProductCategory::where('category', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('product_type', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('description', 'LIKE', '%' . $request->search . '%')
                 ->orderBy($sortBy,  $sortOrder)
                 ->paginate(5);
@@ -97,8 +97,8 @@ class AdminController extends Controller
             'date_released' => Carbon::now()->format('Y-m-d')
         ]);
         $image = $request->file('image');
-        $fileName = $image->hashName();
-        $image->store('product_image', 'public');
+        $fileName = $image->hashName(); 
+             $image->move(public_path('image/product_image'), $fileName);
         $product->image = $fileName;
         $product->save();
         return response()->json([
@@ -108,7 +108,7 @@ class AdminController extends Controller
 
     public function productListCategory()
     {
-        $data = Product::select('date_released')->orderBy('id', 'DESC')->get();
+        $data = Product::select('date_released')->orderBy('id', 'DESC')->distinct()->get();
         return response()->json($data);
     }
     public function productList(Request $request)
@@ -164,13 +164,13 @@ class AdminController extends Controller
         $product->description = $request->description;
 
         if ($request->hasFile('image')) {
-            $filePath = '/public/storage/product_image/' . $product->image;
+            $filePath = '/public/image/product_image/' . $product->image;
             if (File::exists($filePath)) {
                 file::delete($filePath);
             }
             $image = $request->file('image');
             $fileName = $image->hashName();
-            $image->storeAs('/product_image', $fileName, 'public');
+     $image->move(public_path('image/product_image'), $fileName);
             $product->image = $fileName;
             $product->update();
         }
@@ -185,7 +185,7 @@ class AdminController extends Controller
 
     public function displayOnlyCategory()
     {
-        $uniqueCategory = ProductCategory::select('product_name')
+        $uniqueCategory = ProductCategory::select('category')
             ->distinct()
             ->get();
         return response()->json($uniqueCategory);
@@ -254,13 +254,13 @@ class AdminController extends Controller
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         if ($request->hasFile('image')) {
-            $filePath = 'admin_profile/' . $user->image;
+            $filePath = 'public/image/admin_profile/' . $user->image;
             if (File::exists($filePath)) {
                 file::delete($filePath);
             }
             $image = $request->file('image');
             $fileName = $image->hashName();
-            $image->storeAs('admin_profile', $fileName, 'public');
+             $image->move(public_path('image/admin_profile'), $fileName);
             $user->image = $fileName;
             $user->update();
         }
