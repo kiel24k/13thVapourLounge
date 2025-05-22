@@ -5,9 +5,13 @@ import { onMounted, ref, watch } from 'vue';
 import ViewUserOrder from '@/components/Admin_View_User_Order.vue'
 import StatusUpdate from '@/widgets/status_update.vue'
 import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue';
+import OrderChangeStatusModal from "@/components/Order_Change_Status_Modal.vue"
 import Loader from '@/widgets/Loader.vue'
+import Swal from 'sweetalert2';
 
 const isLoading = ref(false)
+
+const isOrderChangeStatusModal = ref(false)
 
 const orderList = ref(Object)
 const viewUserOrder = ref(false)
@@ -92,6 +96,50 @@ const closeModal = () => {
     ORDER_lIST_API()
     viewUserOrder.value = false
 }
+
+const updateBtn = (data) => {
+    isOrderChangeStatusModal.value = true
+    userOrderProduct.value = data
+
+}
+
+const closeOrderChangeStatusModal = () => {
+    isOrderChangeStatusModal.value = false
+    ORDER_lIST_API()
+}
+
+const deleteOrder = (id) => {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios({
+                method: 'DELETE',
+                url: '/api/delete-user-order',
+                data: {
+                    id: id
+                }
+            }).then(response => {
+                if (response.status === 200) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Order has been deleted.",
+                        icon: "success"
+                    });   
+                }
+                   ORDER_lIST_API()
+            })
+
+        }
+    });
+}
+
 const notification = () => {
     ORDER_lIST_API()
     viewUserOrder.value = false
@@ -117,6 +165,8 @@ onMounted(async () => {
 
 <template>
     <Loader v-if="isLoading" />
+        <OrderChangeStatusModal v-if="isOrderChangeStatusModal" :userOrderProduct="userOrderProduct"
+        @closeOrderChangeStatusModal="closeOrderChangeStatusModal" />
     <StatusUpdate v-if="isStatusUpdate" />
     <ViewUserOrder v-if="viewUserOrder" :userOrderProduct="userOrderProduct" @closeModal="closeModal"
         @notification="notification" />
@@ -129,7 +179,7 @@ onMounted(async () => {
                 <section id="section-one" class="mt-4">
                     <div class="row">
                         <div class="col table-top">
-                            <div class="search">
+                            <!-- <div class="search">
                                 <Select v-model="category" :options="orderCategory" optionLabel="date_order"
                                     placeholder="select category" />
                                 <Button label="clear" severity="secondary" variant="outlined" raised @click="clear"
@@ -145,10 +195,10 @@ onMounted(async () => {
                                     <Button label="clear" severity="secondary" variant="outlined" raised
                                         @click="search = ''" v-if="search" />
                                 </InputGroup>
-                            </div>
-                            <div class="download">
+                            </div> -->
+                            <!-- <div class="download">
                                 <Button icon="pi pi-file-pdf" severity="danger" label="PDF" raised />
-                            </div>
+                            </div> -->
                         </div>
 
                     </div>
@@ -228,8 +278,10 @@ onMounted(async () => {
                                 <td class="table-action">
                                     <Button @click="viewUserProductBtn(data)" icon="pi pi-eye" severity="primary" raised
                                         title="View" />
-                                    <Button icon="pi pi-file-edit" severity="info" raised title="Edit" />
-                                    <Button icon="pi pi-trash" severity="danger" raised title="Delete" />
+                                     <Button icon="pi pi-file-edit" severity="info" raised title="Edit"
+                                        @click="updateBtn(data)" />
+                                   <Button icon="pi pi-trash" severity="danger" raised title="Delete"
+                                        @click="deleteOrder(data.user_order_id)" />
                                 </td>
                             </tr>
                         </tbody>

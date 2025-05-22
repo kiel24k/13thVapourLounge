@@ -131,7 +131,7 @@ onMounted(() => {
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>sd</th>
+                                <th></th>
                                 <th>Product</th>
                                 <th>Price</th>
                                 <th>Quantity</th>
@@ -145,7 +145,7 @@ onMounted(() => {
                                 <td><input type="checkbox" v-model="checkedItem" :value="data.id" id=""></td>
                                 <td class="product-label">
                                     <div class="product-image">
-                                        <img :src="`storage/product_image/${data.image}`" width="70" height="70" alt="">
+                                        <img :src="`/image/product_image/${data.image}`" width="70" height="70" alt="">
                                     </div>
                                     <div class="label">
                                         <span>{{ data.product_label }}</span>

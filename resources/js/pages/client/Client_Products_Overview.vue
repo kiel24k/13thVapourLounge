@@ -20,7 +20,7 @@ const product_overview_api = async () => {
    try{
     const response = await axios.get('/api/products-overview', {
         params: {
-            product_name: route.params.products_name
+            product_name : route.params.product_type 
         }
     })
     productOverviewItem.value = response.data
@@ -49,7 +49,7 @@ onMounted(async() => {
             <article  v-for="(data, index) in productOverviewItem" :key="index">
                 <router-link :to="{name: 'client-products', params: {id: data.id} }">
                     <div class="image-one-content">
-                        <img :src="`/storage/product_image/${data.image}`" height="130" width="150" alt="" />
+                        <img :src="`/image/product_image/${data.image}`" height="130" width="150" alt="" />
                     </div>
                     <summary>
                         <p>{{ data.product_label }}</p>
@@ -104,5 +104,9 @@ summary {
     list-style: none;
     height: 9rem;
 
+}
+.image-one-content{
+    display: grid;
+    justify-content: center;
 }
 </style>

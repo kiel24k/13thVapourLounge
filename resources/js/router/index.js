@@ -34,7 +34,7 @@ const routes = [
         name: "my-profile",
     },
     {
-        path: "/products-overview/:products_name",
+        path: "/products-overview/:product_type",
         component: () => import("../pages/client/Client_Products_Overview.vue"),
         name: "products-overview",
     },
@@ -79,7 +79,7 @@ const routes = [
         component: () => import("../pages/admin/Admin_Dashboard.vue"),
         name: "admin-dashboard",
     },
-    {
+    {   
         path: "/admin-orders-list",
         component: () => import("../pages/admin/Admin_Orders.vue"),
         name: "admin-orders",

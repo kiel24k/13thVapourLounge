@@ -28,13 +28,13 @@ class ContentManagementController extends Controller
         $cms->type = 'title_tag';
 
         if ($request->hasFile('image')) {
-            $filePath = '/public/storage/cms_image/' . $cms->image;
+            $filePath = '/public/image/cms_image/' . $cms->image;
             if (File::exists($filePath)) {
                 file::delete($filePath);
             }
             $image = $request->file('image');
             $fileName = $image->hashName();
-            $image->storeAs('/cms_image', $fileName, 'public');
+             $image->move(public_path('image/cms_image'), $fileName);
             $cms->image = $fileName;
             $cms->update();
         }
@@ -69,13 +69,13 @@ class ContentManagementController extends Controller
         $cms->type = 'hero';
 
         if ($request->hasFile('image')) {
-            $filePath = '/public/storage/cms_image/' . $cms->image;
+            $filePath = '/public/image/cms_image/' . $cms->image;
             if (File::exists($filePath)) {
                 file::delete($filePath);
             }
             $image = $request->file('image');
             $fileName = $image->hashName();
-            $image->storeAs('/cms_image', $fileName, 'public');
+            $image->move(public_path('image/cms_image'), $fileName);
             $cms->image = $fileName;
             $cms->update();
         }
@@ -143,7 +143,7 @@ class ContentManagementController extends Controller
         $cms->type = 'service';
         $image = $request->file('image');
         $fileName = $image->hashName();
-        $image->store('cms_image', 'public');
+         $image->move(public_path('image/cms_image'), $fileName);
         $cms->image = $fileName;
         $cms->save();
     }

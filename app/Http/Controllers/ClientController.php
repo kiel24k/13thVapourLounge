@@ -34,7 +34,7 @@ class ClientController extends Controller
     }
     public function categoryList()
     {
-        return response()->json(ProductCategory::select('product_type')->distinct()->get());
+        return response()->json(ProductCategory::select('category')->distinct()->get());
     }
     public function checkProduct(Request $request)
     {
@@ -42,7 +42,7 @@ class ClientController extends Controller
     }
     public function itemOnCategory(Request $request)
     {
-        $product = ProductCategory::where('product_type', $request->product_type)->get();
+        $product = ProductCategory::where('category', $request->category)->get();
         return response()->json($product);
     }
     public function productsOverview(Request $request)

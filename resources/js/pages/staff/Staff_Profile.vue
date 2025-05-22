@@ -155,7 +155,7 @@ onMounted(async () => {
                                 <Image src="image/370076_account_avatar_client_male_person_icon.png" alt="Image"
                                     width="150" preview imageStyle="border-radius: 100%;"
                                     v-else-if="src === null && userData.image === null" />
-                                <Image :src="`storage/admin_profile/${userData.image}`" alt="Image" width="150"
+                                <Image :src="`/image/admin_profile/${userData.image}`" alt="Image" width="150"
                                     height="150" preview imageStyle="border-radius: 100%;"
                                     v-else-if="userData.image != null && src === null" />
                             </figure>

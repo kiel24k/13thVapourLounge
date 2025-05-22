@@ -21,7 +21,7 @@ const addCategoryModal = ref(false)
 const isUpdateCategoryModal = ref(false)
 const showSidebar = ref(true)
 const sortOrder = ref('desc')
-const sortBy = ref('product_name')
+const sortBy = ref('category')
 const table_action_icon = ref(true)
 const isLoader = ref(false)
 
@@ -178,7 +178,7 @@ onMounted(async () => {
             <div class="main">
                 <section id="section-one" class="mt-4">
                     <div class="row">
-                        <div class="col table-top">
+                        <!-- <div class="col table-top">
                             <div class="search">
                                 <InputGroup>
                                     <InputText placeholder="Keyword" v-model="search" />
@@ -192,7 +192,7 @@ onMounted(async () => {
                                 <Button icon="pi pi-file-pdf" label="Print" severity="danger" raised
                                     @click="printTable" />
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col text-end">
                             <div class="table-top-action">
                               <router-link :to="{name: 'staff-new-category'}">
@@ -212,10 +212,10 @@ onMounted(async () => {
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th @click="sort('product_type')">
+                                <th @click="sort('category')">
                                     <div class="table_header">
                                         <div class="table_head_title">
-                                            Product type
+                                            Category
                                         </div>
                                         <div class="table_head_icon" v-if="table_action_icon">
                                             <i class="pi pi-sort-amount-down-alt" v-if="sortOrder === 'asc'"></i>
@@ -223,7 +223,7 @@ onMounted(async () => {
                                         </div>
                                     </div>
                                 </th>
-                                <th @click="sort('product_name')">
+                                <th @click="sort('product_type')">
                                     <div class="table_header">
                                         <div class="table_head_title">
                                             Product name
@@ -251,8 +251,8 @@ onMounted(async () => {
                         <tbody>
                             <tr v-for="(data, index) in categoryTableData" :key="index">
                                 <td>{{ index + 1 }}</td>
+                                <td>{{ data.category }}</td>
                                 <td>{{ data.product_type }}</td>
-                                <td>{{ data.product_name }}</td>
                                 <td> {{ data.description }} </td>
                                 <td class="table-action" v-if="table_action_icon">
                                     <Button icon="pi pi-file-edit" severity="info" @click="updateBtn(data.id)" />

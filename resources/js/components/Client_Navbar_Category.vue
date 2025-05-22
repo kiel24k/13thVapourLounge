@@ -22,12 +22,12 @@ const categoryList = async () => {
     }
 }
 
-const mouseHover = async (product_type) => {
+const mouseHover = async (category) => {
     itemHover.value = true
     try {
         const response = await axios.get('/api/item-on-category', {
             params: {
-                product_type: product_type
+                category: category
             }
         })
         itemHoverCategory.value = response.data
@@ -51,17 +51,17 @@ onMounted(() => {
         <nav id="nav-category">
             <ul class="navbar nav">
                 <li class="nav-item" v-for="(data, index) in categoryData" :key="index">
-                    <span href="" class="nav-link" @mouseenter="mouseHover(data.product_type)">{{ data.product_type }} |
+                    <span href="" class="nav-link" @mouseenter="mouseHover(data.category)">{{ data.category }} |
                     </span>
                 </li>
             </ul>
         </nav>
         <div class="item-hover" v-if="itemHover" @mouseleave="mouseOut">
             <router-link class="nav-link"
-                :to="{ name: 'products-overview', params: { products_name: data.product_name } }"
+                :to="{ name: 'products-overview', params: { product_type: data.product_type } }"
                 v-for="(data, index) in itemHoverCategory" :key="index">
                 <div class="overview">
-                    <span> {{ data.product_name }}</span>
+                    <span> {{ data.product_type }}</span>
                 </div>
             </router-link>
 

@@ -231,7 +231,7 @@ onMounted(() => {
                             <div class="row mt-3">
                                 <div class="col">
                                     <Image v-if="src != null" :src="src" alt="Image" width="150" height="120" preview />
-                                    <Image :src="`storage/cms_image/${input.image}`" width="150" height="120" alt=""
+                                    <Image :src="`/image/cms_image/${input.image}`" width="150" height="120" alt=""
                                         v-else-if="input.image" preview/>
                                 </div>
                             </div>

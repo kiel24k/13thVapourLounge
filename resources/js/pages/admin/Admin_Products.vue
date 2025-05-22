@@ -295,7 +295,7 @@ onMounted(async () => {
                                 <td>{{ index + 1 }}</td>
                                 <td style="display: flex; gap:10px;">
                                     <div class="">
-                                        <img :src="`http://127.0.0.1:8000/storage/product_image/${data.image}`"
+                                        <img :src="`image/product_image/${data.image}`"
                                             width="40" height="40" alt="">
                                     </div>
                                     <div style="display: grid;">
