@@ -48,6 +48,9 @@ const printReceipt = () => {
                         <h5>Trece Martires City, Cavite</h5>
                         <span>Brgy San Agustin</span>
                     </div>
+                    <div class="receipt_id">
+                        
+                    </div>
                     <div class="mt-3">
                         <h2>Order</h2>
                         <table class="table">

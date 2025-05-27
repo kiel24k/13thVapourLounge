@@ -80,7 +80,8 @@ const closeModal = () => {
 .main {
     padding: 10px;
     background: white;
-    height: auto;
+     height: 50rem;
+     overflow:scroll ;
 }
 
 figure {
