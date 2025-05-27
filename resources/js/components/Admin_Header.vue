@@ -6,10 +6,13 @@ import { useRouter } from 'vue-router';
 import { Button, Popover, SplitButton } from 'primevue';
 import Swal from 'sweetalert2';
 import sidebar from '@/components/Admin_Sidebar.vue'
+import AdminUpdateProductModal from "@/components/Admin_Update_Product_Modal.vue"
 
 const isSidebar = ref(false)
 const titleData = ref({})
 const lowStockProductData = ref({})
+const isAdminUpdateProductModal = ref(false)
+const updateModalId = ref()
 
 const emit = defineEmits(['closeSidebar'])
 const router = useRouter()
@@ -85,6 +88,16 @@ const closeSidebar = () => {
 
 }
 
+const editItem = (id) => {
+    isAdminUpdateProductModal.value = true
+    updateModalId.value = id
+
+}
+
+
+const closeUpdateModal = () => {
+    isAdminUpdateProductModal.value = false
+}
 onMounted(() => {
     const cookie = Cookies.get('username')
     GET_TITLE_API()
@@ -118,7 +131,7 @@ const posBtn = () => {
 </script>
 
 <template>
-
+<AdminUpdateProductModal v-if="isAdminUpdateProductModal" :updateModalId="updateModalId" @closeUpdateModal="closeUpdateModal"/>
     <transition name="sidebarTransition">
         <sidebar v-if="isSidebar" @closeSidebar="closeSidebar" />
     </transition>
@@ -146,24 +159,30 @@ const posBtn = () => {
                                     <ul class="list-none p-0 m-0 flex flex-col">
                                         <li v-for="data in lowStockProductData" :key="data.id"
                                             class="flex items-center gap-2 px-2 py-3 hover:bg-emphasis cursor-pointer rounded-border">
-                                           <div class="notif-item">
-                                            <div>
-                                                <Button icon="pi pi-info" raised rounded :severity="data.quantity <= 50 && data.quantity > 25 ? 'success' : data.quantity <= 25 ? 'danger' : 'info' " />
-                                            </div>
-                                            <div class="">
-                                                 <img :src="`/image/product_image/${data.image}`"
-                                                style="width: 32px" />
-                                            <div>
-                                               
-                                                <span class="font-medium">{{ data.product_name }}</span>
-                                                <div class="text-sm text-surface-500 dark:text-surface-400">{{
-                                                    data.product_label }}
-                                                    
+                                            <div class="notif-item">
+                                                <div>
+                                                    <Button icon="pi pi-info" raised rounded
+                                                        :severity="data.quantity <= 50 && data.quantity > 25 ? 'success' : data.quantity <= 25 ? 'danger' : 'info'" />
                                                 </div>
-                                                  <span>The quantity of this product is only {{ data.quantity }}x</span>
+                                                <div class="">
+                                                    <img :src="`/image/product_image/${data.image}`"
+                                                        style="width: 32px" />
+                                                    <div>
+
+                                                        <span class="font-medium">{{ data.product_name }}</span>
+                                                        <div class="text-sm text-surface-500 dark:text-surface-400">{{
+                                                            data.product_label }}
+
+                                                        </div>
+                                                        <span>The quantity of this product is only {{ data.quantity
+                                                            }}x</span>
+                                                        <p>
+                                                            
+                                                            <Button severity="info" icon="pi pi-pencil" label="Edit this item" size="small" @click="editItem(data.id)"/>
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            </div>
-                                           </div>
                                         </li>
                                     </ul>
                                 </div>
@@ -247,8 +266,12 @@ const posBtn = () => {
     transform: translateX(-100%);
     opacity: 0;
 }
-.notif-item{
+
+.notif-item {
     display: flex;
-    gap:10px;
+    gap: 10px;
+}
+ul li {
+    list-style: none;
 }
 </style>
