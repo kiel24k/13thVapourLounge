@@ -136,10 +136,10 @@ const posBtn = () => {
                 <div class="burger">
                     <img src="/public/image/burder-menu1.png" alt="" width="40px" height="40px" @click="openSidebar" />
                 </div>
-                <div class="">
+                <!-- <div class="">
                     <img v-if="titleData[0]" :src="`/image/cms_image/${titleData[0].image}`" alt="" width="100"
                         height="40">
-                </div>
+                </div> -->
 
                 <div class="header-action">
 
