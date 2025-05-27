@@ -91,7 +91,7 @@ class AdminController extends Controller
             'product_name' => $request->product_name,
             'product_label' => $request->product_label,
             'product_price' => $request->product_price,
-            'quantity' => $request->product_price,
+            'quantity' => $request->quantity,
             'description' => $request->description,
             'label_category' => $request->label_category,
             'date_released' => Carbon::now()->format('Y-m-d')
