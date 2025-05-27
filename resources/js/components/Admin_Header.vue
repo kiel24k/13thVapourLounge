@@ -107,13 +107,7 @@ onMounted(() => {
 })
 
 const items = [
-    {
-        label: 'Profile',
-        icon: 'pi pi-user',
-        command: () => {
-            router.push('/admin-profile')
-        }
-    },
+
     {
         label: 'Logout',
         icon: 'pi pi-sign-out',
