@@ -186,9 +186,10 @@ onMounted(() => {
 <style scoped>
 #form-modal {
     position: fixed;
+    top:0;
     width: 100%;
     height: 100%;
-    z-index: 999;
+    z-index: 9999 ;
     background: rgb(240, 235, 235, 0.5);
     backdrop-filter: blur(5px);
     display: grid;

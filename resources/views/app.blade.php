@@ -24,12 +24,16 @@
     }
 
     * {
-        font-family:font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+        font-family: font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
         font-size: 14px;
     }
 
     body {
-        background: rgb(242,249,255);
+        background: rgb(242, 249, 255);
+    }
+
+    .p-popover {
+        z-index: 99;
     }
 </style>
 
