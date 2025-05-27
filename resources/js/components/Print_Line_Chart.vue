@@ -74,7 +74,7 @@ const closeModal = () => {
     justify-content: center;
     align-items: center;
     align-content: center;
-    overflow-x:scroll ;
+   
  
 
 }
@@ -82,7 +82,8 @@ const closeModal = () => {
 .main {
     padding: 10px;
     background: white;
-    height: auto;
+    height: 50rem;
+     overflow:scroll ;
       
 }
 
