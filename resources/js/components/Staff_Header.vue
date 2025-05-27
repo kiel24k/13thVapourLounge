@@ -71,13 +71,6 @@ onMounted(() => {
 
 const items = [
     {
-        label: 'Profile',
-        icon: 'pi pi-user',
-        command: () => {
-           router.push('/staff-profile')
-        }
-    },
-    {
         label: 'Logout',
         icon: 'pi pi-sign-out',
         command: () => {
@@ -105,9 +98,7 @@ const posBtn = () => {
                 <div class="burger">
                     <img src="/public/image/burder-menu1.png" alt="" width="40px" height="40px" @click="openSidebar" />
                 </div>
-                <div class="">
-                    <img v-if="titleData[0]" :src="`/image/cms_image/${titleData[0].image}`" alt="" width="100" height="40">
-                </div>
+              
 
                 <div class="header-action">
                     <Button severity="contrast" icon="pi pi-warehouse" raised label="POS" @click="posBtn" />

@@ -32,9 +32,9 @@
         background: rgb(242, 249, 255);
     }
 
-    .p-popover {
-        z-index: 99;
-    }
+ :root {
+  --p-popover-z-index: 99;
+}
 </style>
 
 </html>

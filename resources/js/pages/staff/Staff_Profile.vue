@@ -189,21 +189,21 @@ onMounted(async () => {
                             <div class="row">
                                 <div class="col-sm m-2">
                                     <label for="">First Name</label>
-                                    <input type="text" class="form-control" v-model="userData.first_name">
+                                    <input type="text" class="form-control" v-model="userData.first_name" disabled>
                                 </div>
                                 <div class="col-sm m-2">
                                     <label for="">Middle Name</label>
-                                    <input type="text" class="form-control" v-model="userData.middle_name">
+                                    <input type="text" class="form-control" v-model="userData.middle_name" disabled>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm m-2">
                                     <label for="">Last Name</label>
-                                    <input type="text" class="form-control" v-model="userData.last_name">
+                                    <input type="text" class="form-control" v-model="userData.last_name" disabled>
                                 </div>
                                 <div class="col-sm m-2">
                                     <label for="">Email</label>
-                                    <input type="text" class="form-control" v-model="userData.email">
+                                    <input type="text" class="form-control" v-model="userData.email" disabled>
                                 </div>
                             </div>
                             <!-- <div class="row">

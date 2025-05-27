@@ -98,33 +98,32 @@ onMounted(() => {
     <nav>
         <div class="row">
             <div class="col nav-main">
-                
+
                 <div class="title" v-if="titleData[0]">
                     <router-link :to="{ name: 'home-dashboard' }" href="" class="nav-link">
                         <img :src="`/image/cms_image/${titleData[0].image}`" width="120" height="60">
                         <h4>{{ titleData[0].caption }}</h4>
                     </router-link>
-                    
+
                 </div>
                 <div class="header-action">
-                    <router-link :to="{ name: 'my-profile' }">
-                        <img src="/public/image/370076_account_avatar_client_male_person_icon.png" alt="" width="30">
-                        <!-- {{ user.first_name }} {{ user.last_name }} -->
-                        My Profile
-                    </router-link>
                     <router-link :to="{ name: 'my-pending-order' }">
                         <img src="/public/image/order-icon2.png" width="30" alt="">
                         Order
                     </router-link>
                     {{ cart }}
-                    <router-link :to="{ name: 'client-cart' }" >
+                    <router-link :to="{ name: 'client-cart' }">
                         <img src="/public/image/cart1-icon.png" alt="" width="30">
                         cart
                     </router-link>
                     <!-- <b v-if="cartTotal">{{ cartTotal }}</b>
                     <b v-else>{{ cartMountedValue }}</b> -->
-                    <SplitButton icon="pi pi-user" dropdownIcon="pi pi-chevron-down" severity="secondary" @click="save"
-                        :model="items" />
+                    <router-link :to="{ name: 'my-profile' }">
+                        <SplitButton icon="pi pi-user" dropdownIcon="pi pi-chevron-down" severity="secondary"
+                            @click="save" :model="items" />
+                    </router-link>
+
+
                 </div>
 
             </div>
@@ -168,11 +167,11 @@ nav {
     color: rgb(102, 76, 76);
     text-transform: capitalize;
 }
-.nav-link{
+
+.nav-link {
     display: flex;
     align-items: center;
-    gap:10px;
-    color:rgb(200, 168, 108);
+    gap: 10px;
+    color: rgb(200, 168, 108);
 }
-
 </style>
