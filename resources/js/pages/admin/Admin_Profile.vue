@@ -164,7 +164,7 @@ onMounted(async () => {
 
                             <div class="figure_action">
                                 <FileUpload mode="basic" @select="onFileSelect" customUpload auto severity="secondary"
-                                    class="p-button-outlined" />
+                                    class="p-button-outlined" accept="image/*" />
                                 <Button label="Discard" icon="pi pi-save" severity="secondary" class="m-2"
                                     @click="discard()" v-if="src != null" />
 
