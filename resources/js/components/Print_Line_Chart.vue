@@ -74,23 +74,29 @@ const closeModal = () => {
     justify-content: center;
     align-items: center;
     align-content: center;
+   
+ 
 
 }
 
 .main {
     padding: 10px;
     background: white;
-    height: auto;
+    height: 50rem;
+     overflow:scroll ;
+      
 }
 
 figure {
     display: grid;
     justify-content: center;
+    
 }
 
 figcaption {
     display: grid;
     text-align: center;
+    
 }
 
 .modal_action {
