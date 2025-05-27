@@ -175,7 +175,7 @@ const tableQuantity = (event, data) => {
 
 const reserveBtn = (data) => {
     posTableData.value = data
-   if (itemSection.value.length <= 0) {
+    if (itemSection.value.length <= 0) {
         Swal.fire("Fill Order first!");
     } else if (itemSection.value.length > 0) {
         isAdminReserveModal.value = true
@@ -231,8 +231,8 @@ const closeReserve = () => {
 
 const reserveHistory = (data) => {
     itemSection.value = JSON.parse(data.product)
-    quantityTotal.value = data.overall_quantity
-    overAllTotal.value = data.overall_total
+    quantityTotal.value = data.overall_total
+    overAllTotal.value = data.overall_quantity
     selectedCustomer.value = null
     console.log(data.name);
 
@@ -303,7 +303,7 @@ onMounted(() => {
                         <h2>{{ !quantityTotal ? "0" : quantityTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
                         </h2>
                         <!-- <Button severity="danger" label="Reserve" icon="pi pi-briefcase" @click="reserve" /> -->
-
+                        {{ itemSection }}
                         <Button label="Reserve" severity="danger" icon="pi pi-inbox" @click="reserveBtn(itemSection)" />
 
 
@@ -311,7 +311,7 @@ onMounted(() => {
                     <div class="">
                         <span>Grand Total</span>
                         <h2>P{{ !overAllTotal ? "0" : overAllTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                        }}.00</h2>
+                            }}.00</h2>
 
                         <Button severity="primary" label="Cash" icon="pi pi-money-bill" @click="cashBtn"
                             :disabled="overAllTotal === 0" />
@@ -342,7 +342,7 @@ onMounted(() => {
                             <Button :label="data.quantity" rounded raised severity="warn" />
                         </div> -->
                         <div class="text-center mt-2">
-                            <img :src="`storage/product_image/${data.image}`" width="100" alt="">
+                            <img :src="`image/product_image/${data.image}`" width="100" alt="">
                         </div>
                         <div class="">
                             <h4>{{ data.product_label }}</h4>
